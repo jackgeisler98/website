@@ -305,7 +305,7 @@ footer,
 
 .footer-inner {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding-block: 22px;
 }
@@ -317,15 +317,6 @@ footer p {
 footer:not(.site-footer) {
     text-align: center;
     padding: 22px;
-}
-
-.footer-quiet {
-    color: var(--muted);
-    text-decoration: none;
-}
-
-.footer-quiet:hover {
-    color: var(--cream-200);
 }
 
 /* ---------- Responsive ---------- */
