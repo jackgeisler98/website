@@ -1,15 +1,1836 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculus III</title>
+    <title>Calculus III | Study Notes | Jack Geisler</title>
+    <meta name="description" content="Study notes for Calculus III: vectors, vector functions, partial derivatives, multiple integrals and vector calculus.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css?v=7">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']],
+                tags: 'none'
+            },
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
 </head>
-<body style="font-family:Inter,system-ui,sans-serif;background:#f7f1e3;color:#1c2333;margin:0;">
-    <a class="back-link" href="math_index.html" style="display:inline-block;margin:16px 0 0 16px;font-family:Inter,system-ui,sans-serif;font-size:0.95rem;font-weight:600;color:#1d3461;text-decoration:none;">&larr; Math</a>
-    <main style="max-width:760px;margin:0 auto;padding:32px 24px;">
-        <h1 style="font-family:Georgia,serif;color:#0f1f3d;">Calculus III</h1>
-        <p>Notes coming soon.</p>
+
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../index.html">Jack Geisler</a>
+            <nav aria-label="Main">
+                <ul>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../projects.html">Projects</a></li>
+                    <li><a href="../articles.html">Articles</a></li>
+                    <li><a href="../math/math_index.html">Math</a></li>
+                    <li><a href="../physics/physics_index.html">Physics</a></li>
+                    <li><a href="https://chat.jackgeisler.com">Chat</a></li>
+                    <li><a class="nav-cta" href="../resmue.html">Resume</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="notes-page">
+
+        <a class="back-link" href="math_index.html">&larr; Math</a>
+
+        <header class="notes-intro">
+            <p class="eyebrow">Math &middot; Study Notes</p>
+            <h1>Calculus III: Multivariable &amp; Vector Calculus</h1>
+            <p class="lede-dark">Calculus in two and three dimensions: vectors and the geometry of space, curves and motion, partial derivatives and optimisation, multiple integrals in any coordinate system, and the vector-calculus theorems (Green, Stokes, Divergence) that are the mathematical language of electromagnetism and fluid flow.</p>
+            <div class="textbooks">
+                <p><strong>Based on:</strong></p>
+                <ul>
+                    <li><em>Calculus: Early Transcendentals</em>, James Stewart (with Clegg &amp; Watson), 9th ed. &mdash; Chapters 12&ndash;16</li>
+                    <li><em>Calculus Volume 3</em>, Gilbert Strang &amp; Edwin Herman, OpenStax (free online) &mdash; Chapters 2&ndash;6</li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="notes-layout">
+
+            <nav class="toc" aria-label="Contents">
+                <p>Contents</p>
+                <ol>
+                    <li><a href="#ch12">Vectors &amp; the geometry of space</a>
+                        <ol>
+                            <li><a href="#vectors">3D coordinates &amp; vectors</a></li>
+                            <li><a href="#dot">Dot product &amp; projections</a></li>
+                            <li><a href="#cross">Cross &amp; triple products</a></li>
+                            <li><a href="#lines-planes">Lines &amp; planes</a></li>
+                            <li><a href="#quadrics">Cylinders &amp; quadric surfaces</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch13">Vector functions</a>
+                        <ol>
+                            <li><a href="#space-curves">Space curves</a></li>
+                            <li><a href="#vf-calculus">Derivatives &amp; integrals</a></li>
+                            <li><a href="#arc-length">Arc length, curvature, TNB</a></li>
+                            <li><a href="#motion">Velocity &amp; acceleration</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch14">Partial derivatives</a>
+                        <ol>
+                            <li><a href="#multivar-functions">Functions, level sets, limits</a></li>
+                            <li><a href="#partials">Partial derivatives</a></li>
+                            <li><a href="#tangent-planes">Tangent planes &amp; linearisation</a></li>
+                            <li><a href="#chain-rule">The chain rule</a></li>
+                            <li><a href="#gradient">Directional derivatives &amp; gradient</a></li>
+                            <li><a href="#extrema">Maxima &amp; minima</a></li>
+                            <li><a href="#lagrange">Lagrange multipliers</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch15">Multiple integrals</a>
+                        <ol>
+                            <li><a href="#double-rect">Double integrals over rectangles</a></li>
+                            <li><a href="#double-general">General regions</a></li>
+                            <li><a href="#polar">Polar coordinates</a></li>
+                            <li><a href="#applications">Mass, moments, surface area</a></li>
+                            <li><a href="#triple">Triple integrals</a></li>
+                            <li><a href="#cyl-sph">Cylindrical &amp; spherical</a></li>
+                            <li><a href="#jacobians">Change of variables</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch16">Vector calculus</a>
+                        <ol>
+                            <li><a href="#vector-fields">Vector fields</a></li>
+                            <li><a href="#line-integrals">Line integrals</a></li>
+                            <li><a href="#ftc-line">Conservative fields</a></li>
+                            <li><a href="#green">Green's theorem</a></li>
+                            <li><a href="#curl-div">Curl &amp; divergence</a></li>
+                            <li><a href="#param-surfaces">Parametric surfaces</a></li>
+                            <li><a href="#surface-integrals">Surface integrals &amp; flux</a></li>
+                            <li><a href="#stokes">Stokes' theorem</a></li>
+                            <li><a href="#divergence-thm">Divergence theorem</a></li>
+                            <li><a href="#big-picture">The big picture</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#formula-sheet">Formula sheet</a></li>
+                </ol>
+            </nav>
+
+            <article class="notes">
+
+                <section id="ch12">
+                    <h2>1. Vectors &amp; the geometry of space</h2>
+                    <p class="ref">Stewart Ch. 12 &middot; OpenStax Vol. 3 Ch. 2</p>
+
+                    <p>Single-variable calculus lives on a line; almost everything physical lives in space. This chapter builds the toolkit for describing space: points, arrows (vectors) and the two products that turn geometry into algebra. The <strong>dot product</strong> measures how much two directions agree (giving angles, projections and work); the <strong>cross product</strong> builds a new direction perpendicular to two others (giving normals, areas and torque). With those two operations, lines and planes become one-line equations, and every later chapter is built on them.</p>
+
+                    <h3 id="vectors">1.1 Three-dimensional coordinates &amp; vectors</h3>
+
+                    <p>A point in space is an ordered triple \((x, y, z)\) in a right-handed coordinate system: if the fingers of your right hand curl from the positive \(x\)-axis toward the positive \(y\)-axis, your thumb points along the positive \(z\)-axis. The three coordinate planes (\(xy\), \(yz\), \(xz\)) divide space into eight octants.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Distance and spheres</p>
+                        \[ |P_1P_2| = \sqrt{(x_2-x_1)^2 + (y_2-y_1)^2 + (z_2-z_1)^2} \]
+                        \[ (x-h)^2 + (y-k)^2 + (z-l)^2 = r^2 \quad \text{(sphere, centre } (h,k,l),\ \text{radius } r) \]
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Vector)</p>
+                        <p>A <strong>vector</strong> is a quantity with magnitude and direction, written in components as \(\mathbf{a} = \langle a_1, a_2, a_3 \rangle = a_1\mathbf{i} + a_2\mathbf{j} + a_3\mathbf{k}\), where \(\mathbf{i}, \mathbf{j}, \mathbf{k}\) are the unit vectors along the axes. The vector from \(A(x_1,y_1,z_1)\) to \(B(x_2,y_2,z_2)\) is \(\overrightarrow{AB} = \langle x_2-x_1,\ y_2-y_1,\ z_2-z_1\rangle\). Its <strong>magnitude</strong> (length) is \(|\mathbf{a}| = \sqrt{a_1^2+a_2^2+a_3^2}\), and the <strong>unit vector</strong> in its direction is \(\hat{\mathbf{a}} = \mathbf{a}/|\mathbf{a}|\) (for \(\mathbf{a}\neq\mathbf{0}\)).</p>
+                    </div>
+
+                    <p>A vector has no fixed location: \(\langle 1,2,3\rangle\) drawn from the origin and drawn from \((5,5,5)\) is the same vector. Addition and scalar multiplication are componentwise, and they obey the familiar rules: \(\mathbf{a}+\mathbf{b}=\mathbf{b}+\mathbf{a}\), \((\mathbf{a}+\mathbf{b})+\mathbf{c} = \mathbf{a}+(\mathbf{b}+\mathbf{c})\), \(c(\mathbf{a}+\mathbf{b}) = c\mathbf{a}+c\mathbf{b}\), and so on. Geometrically, \(\mathbf{a}+\mathbf{b}\) is the diagonal of the parallelogram spanned by \(\mathbf{a}\) and \(\mathbf{b}\) (tip-to-tail rule), and \(c\mathbf{a}\) stretches \(\mathbf{a}\) by \(|c|\), reversing it if \(c \lt 0\).</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>To find the centre and radius of a sphere given as \(x^2+y^2+z^2 + Dx + Ey + Fz + G = 0\), complete the square in each variable separately. If the right-hand side comes out negative the equation has no points; if zero, it is a single point.</p>
+                    </div>
+
+                    <h3 id="dot">1.2 The dot product &amp; projections</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Dot product)</p>
+                        <p>\(\mathbf{a}\cdot\mathbf{b} = a_1b_1 + a_2b_2 + a_3b_3\). The result is a <em>scalar</em>. It is commutative, distributes over addition, and \(\mathbf{a}\cdot\mathbf{a} = |\mathbf{a}|^2\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Geometric form)</p>
+                        <p>If \(\theta \in [0,\pi]\) is the angle between nonzero vectors \(\mathbf{a}\) and \(\mathbf{b}\), then</p>
+                        \[ \mathbf{a}\cdot\mathbf{b} = |\mathbf{a}|\,|\mathbf{b}|\cos\theta . \]
+                        <p>In particular \(\mathbf{a}\perp\mathbf{b} \iff \mathbf{a}\cdot\mathbf{b} = 0\).</p>
+                    </div>
+
+                    <p><strong>Proof sketch.</strong> The triangle with sides \(\mathbf{a}\), \(\mathbf{b}\) and \(\mathbf{a}-\mathbf{b}\) satisfies the law of cosines: \(|\mathbf{a}-\mathbf{b}|^2 = |\mathbf{a}|^2 + |\mathbf{b}|^2 - 2|\mathbf{a}||\mathbf{b}|\cos\theta\). Expanding the left side algebraically, \(|\mathbf{a}-\mathbf{b}|^2 = (\mathbf{a}-\mathbf{b})\cdot(\mathbf{a}-\mathbf{b}) = |\mathbf{a}|^2 - 2\,\mathbf{a}\cdot\mathbf{b} + |\mathbf{b}|^2\). Comparing the two expressions gives the result. \(\square\)</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Projections</p>
+                        \[ \operatorname{comp}_{\mathbf{a}}\mathbf{b} = \frac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}|} \qquad \operatorname{proj}_{\mathbf{a}}\mathbf{b} = \frac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}|^2}\,\mathbf{a} \]
+                        <p>The scalar component is a signed length; the projection is the vector "shadow" of \(\mathbf{b}\) on the line of \(\mathbf{a}\). The remainder \(\mathbf{b} - \operatorname{proj}_{\mathbf{a}}\mathbf{b}\) is orthogonal to \(\mathbf{a}\).</p>
+                    </div>
+
+                    <p><strong>Direction cosines.</strong> The angles \(\alpha, \beta, \gamma\) that \(\mathbf{a}\) makes with the axes satisfy \(\cos\alpha = a_1/|\mathbf{a}|\), etc., so \(\hat{\mathbf{a}} = \langle\cos\alpha,\cos\beta,\cos\gamma\rangle\) and \(\cos^2\alpha+\cos^2\beta+\cos^2\gamma = 1\).</p>
+
+                    <p><strong>Physics link.</strong> The work done by a constant force \(\mathbf{F}\) over a straight displacement \(\mathbf{D}\) is \(W = \mathbf{F}\cdot\mathbf{D}\): only the component of force along the motion does work. This becomes the line integral \(\int_C \mathbf{F}\cdot d\mathbf{r}\) in Chapter 5.</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(\operatorname{proj}_{\mathbf{a}}\mathbf{b}\) divides by \(|\mathbf{a}|^2\), not \(|\mathbf{a}|\), because it multiplies the scalar component by the <em>unit</em> vector \(\mathbf{a}/|\mathbf{a}|\). Also, \(\operatorname{proj}_{\mathbf{a}}\mathbf{b} \neq \operatorname{proj}_{\mathbf{b}}\mathbf{a}\) in general.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.1</p>
+                        <p>Let \(\mathbf{u} = \langle 2,-1,2\rangle\) and \(\mathbf{v} = \langle 1,3,-1\rangle\). Find the angle between them, \(\operatorname{comp}_{\mathbf{u}}\mathbf{v}\), and \(\operatorname{proj}_{\mathbf{u}}\mathbf{v}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Dot product and lengths:</p>
+                            \[ \mathbf{u}\cdot\mathbf{v} = 2(1) + (-1)(3) + 2(-1) = -3, \qquad |\mathbf{u}| = \sqrt{4+1+4} = 3, \qquad |\mathbf{v}| = \sqrt{1+9+1} = \sqrt{11}. \]
+                            <p>Angle:</p>
+                            \[ \cos\theta = \frac{-3}{3\sqrt{11}} = -\frac{1}{\sqrt{11}} \;\Rightarrow\; \theta = \arccos\!\left(-\tfrac{1}{\sqrt{11}}\right) \approx 107.5^\circ . \]
+                            <p>The angle is obtuse, as the negative dot product predicts. Scalar component and projection:</p>
+                            \[ \operatorname{comp}_{\mathbf{u}}\mathbf{v} = \frac{-3}{3} = -1, \qquad \operatorname{proj}_{\mathbf{u}}\mathbf{v} = \frac{-3}{9}\langle 2,-1,2\rangle = \left\langle -\tfrac{2}{3}, \tfrac{1}{3}, -\tfrac{2}{3}\right\rangle . \]
+                            <p>Check: the projection has length 1 (matching \(|\operatorname{comp}| = 1\)) and points opposite to \(\mathbf{u}\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="cross">1.3 The cross product &amp; triple products</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Cross product)</p>
+                        <p>For \(\mathbf{a},\mathbf{b}\in\mathbb{R}^3\),</p>
+                        \[ \mathbf{a}\times\mathbf{b} = \begin{vmatrix} \mathbf{i} &amp; \mathbf{j} &amp; \mathbf{k} \\ a_1 &amp; a_2 &amp; a_3 \\ b_1 &amp; b_2 &amp; b_3 \end{vmatrix} = \langle a_2b_3 - a_3b_2,\ a_3b_1 - a_1b_3,\ a_1b_2 - a_2b_1 \rangle . \]
+                        <p>The result is a <em>vector</em>, and the cross product is defined only in three dimensions.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Geometry of the cross product)</p>
+                        <p>For nonzero \(\mathbf{a},\mathbf{b}\) with angle \(\theta\in[0,\pi]\):</p>
+                        <ol>
+                            <li>\(\mathbf{a}\times\mathbf{b}\) is orthogonal to both \(\mathbf{a}\) and \(\mathbf{b}\), with direction given by the right-hand rule.</li>
+                            <li>\(|\mathbf{a}\times\mathbf{b}| = |\mathbf{a}|\,|\mathbf{b}|\sin\theta\), the area of the parallelogram spanned by \(\mathbf{a}\) and \(\mathbf{b}\).</li>
+                            <li>\(\mathbf{a}\times\mathbf{b} = \mathbf{0}\) iff \(\mathbf{a}\) and \(\mathbf{b}\) are parallel.</li>
+                        </ol>
+                    </div>
+
+                    <p><strong>Why orthogonal?</strong> \(\mathbf{a}\cdot(\mathbf{a}\times\mathbf{b})\) is the determinant with rows \(\mathbf{a},\mathbf{a},\mathbf{b}\); two equal rows make it zero. <strong>Why that length?</strong> Expanding directly gives Lagrange's identity \(|\mathbf{a}\times\mathbf{b}|^2 = |\mathbf{a}|^2|\mathbf{b}|^2 - (\mathbf{a}\cdot\mathbf{b})^2 = |\mathbf{a}|^2|\mathbf{b}|^2(1-\cos^2\theta)\).</p>
+
+                    <p><strong>Algebraic rules.</strong> \(\mathbf{b}\times\mathbf{a} = -\,\mathbf{a}\times\mathbf{b}\) (anticommutative); \(\mathbf{a}\times(\mathbf{b}+\mathbf{c}) = \mathbf{a}\times\mathbf{b} + \mathbf{a}\times\mathbf{c}\); \(\mathbf{i}\times\mathbf{j} = \mathbf{k}\), \(\mathbf{j}\times\mathbf{k} = \mathbf{i}\), \(\mathbf{k}\times\mathbf{i} = \mathbf{j}\). The cross product is <em>not</em> associative: \((\mathbf{i}\times\mathbf{i})\times\mathbf{j} = \mathbf{0}\) but \(\mathbf{i}\times(\mathbf{i}\times\mathbf{j}) = \mathbf{i}\times\mathbf{k} = -\mathbf{j}\).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Triple products</p>
+                        \[ \mathbf{a}\cdot(\mathbf{b}\times\mathbf{c}) = \begin{vmatrix} a_1 &amp; a_2 &amp; a_3 \\ b_1 &amp; b_2 &amp; b_3 \\ c_1 &amp; c_2 &amp; c_3 \end{vmatrix}, \qquad V_{\text{parallelepiped}} = |\mathbf{a}\cdot(\mathbf{b}\times\mathbf{c})| \]
+                        \[ \mathbf{a}\times(\mathbf{b}\times\mathbf{c}) = \mathbf{b}(\mathbf{a}\cdot\mathbf{c}) - \mathbf{c}(\mathbf{a}\cdot\mathbf{b}) \quad (\text{"BAC} - \text{CAB"}) \]
+                        <p>Three vectors are coplanar iff their scalar triple product is zero.</p>
+                    </div>
+
+                    <p><strong>Physics link.</strong> Torque \(\boldsymbol{\tau} = \mathbf{r}\times\mathbf{F}\), angular momentum \(\mathbf{L} = \mathbf{r}\times\mathbf{p}\), and the magnetic force \(\mathbf{F} = q\,\mathbf{v}\times\mathbf{B}\) are all cross products; the BAC&ndash;CAB rule is used constantly in electrodynamics.</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>The middle (\(\mathbf{j}\)) component of the determinant carries a minus sign: it is \(-(a_1b_3 - a_3b_1)\). Always check your answer by dotting it with \(\mathbf{a}\) and \(\mathbf{b}\); both should give zero.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.2</p>
+                        <p>Find the area of the triangle with vertices \(P(1,0,2)\), \(Q(3,1,0)\), \(R(0,2,1)\), and an equation of the plane through them.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Edge vectors: \(\overrightarrow{PQ} = \langle 2,1,-2\rangle\), \(\overrightarrow{PR} = \langle -1,2,-1\rangle\).</p>
+                            \[ \begin{aligned} \overrightarrow{PQ}\times\overrightarrow{PR} &amp;= \big\langle (1)(-1) - (-2)(2),\ (-2)(-1) - (2)(-1),\ (2)(2) - (1)(-1) \big\rangle \\ &amp;= \langle -1+4,\ 2+2,\ 4+1\rangle = \langle 3, 4, 5\rangle . \end{aligned} \]
+                            <p>Check: \(\langle 3,4,5\rangle\cdot\langle 2,1,-2\rangle = 6+4-10 = 0\) and \(\langle 3,4,5\rangle\cdot\langle -1,2,-1\rangle = -3+8-5 = 0\). Good.</p>
+                            <p>The triangle is half the parallelogram:</p>
+                            \[ A = \tfrac12\sqrt{9+16+25} = \tfrac12\sqrt{50} = \tfrac{5\sqrt2}{2} \approx 3.54 . \]
+                            <p>The cross product is a normal vector, so the plane through \(P\) is</p>
+                            \[ 3(x-1) + 4(y-0) + 5(z-2) = 0 \;\Longrightarrow\; 3x + 4y + 5z = 13 . \]
+                            <p>Check \(Q\): \(9+4+0 = 13\). Check \(R\): \(0+8+5 = 13\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.3</p>
+                        <p>Find the volume of the parallelepiped spanned by \(\mathbf{a} = \langle 1,0,2\rangle\), \(\mathbf{b} = \langle 0,3,1\rangle\), \(\mathbf{c} = \langle 2,1,0\rangle\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Expand the determinant along the first row:</p>
+                            \[ \begin{vmatrix} 1 &amp; 0 &amp; 2 \\ 0 &amp; 3 &amp; 1 \\ 2 &amp; 1 &amp; 0 \end{vmatrix} = 1(3\cdot 0 - 1\cdot 1) - 0(\cdots) + 2(0\cdot 1 - 3\cdot 2) = -1 - 12 = -13 . \]
+                            <p>Volume \(= |-13| = 13\). The negative sign only says that \(\mathbf{a},\mathbf{b},\mathbf{c}\) form a left-handed triple.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="lines-planes">1.4 Lines &amp; planes</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Line)</p>
+                        <p>The line through \(P_0\) (position vector \(\mathbf{r}_0\)) with direction \(\mathbf{v} = \langle a,b,c\rangle\) is</p>
+                        \[ \mathbf{r}(t) = \mathbf{r}_0 + t\mathbf{v} \quad\Longleftrightarrow\quad x = x_0 + at,\ y = y_0 + bt,\ z = z_0 + ct . \]
+                        <p>If \(a,b,c\) are all nonzero, eliminating \(t\) gives the <strong>symmetric equations</strong> \(\dfrac{x-x_0}{a} = \dfrac{y-y_0}{b} = \dfrac{z-z_0}{c}\). The segment from \(\mathbf{r}_0\) to \(\mathbf{r}_1\) is \(\mathbf{r}(t) = (1-t)\mathbf{r}_0 + t\mathbf{r}_1\), \(0\le t\le 1\).</p>
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Plane)</p>
+                        <p>The plane through \(P_0(x_0,y_0,z_0)\) with normal vector \(\mathbf{n} = \langle a,b,c\rangle\) is the set of points \(P\) with \(\mathbf{n}\cdot\overrightarrow{P_0P} = 0\):</p>
+                        \[ a(x-x_0) + b(y-y_0) + c(z-z_0) = 0 \quad\Longleftrightarrow\quad ax + by + cz = d . \]
+                        <p>The coefficients of \(x,y,z\) in a linear equation <em>are</em> a normal vector.</p>
+                    </div>
+
+                    <p>Two lines in space can be parallel, intersecting, or <strong>skew</strong> (neither parallel nor meeting). Two planes are parallel if their normals are parallel; otherwise they meet in a line whose direction is \(\mathbf{n}_1\times\mathbf{n}_2\), and the angle between the planes is the angle between their normals.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Distances</p>
+                        \[ \text{point } (x_1,y_1,z_1) \text{ to plane } ax+by+cz=d: \quad D = \frac{|ax_1+by_1+cz_1-d|}{\sqrt{a^2+b^2+c^2}} \]
+                        \[ \text{point } Q \text{ to line through } P \text{ with direction } \mathbf{v}: \quad D = \frac{|\overrightarrow{PQ}\times\mathbf{v}|}{|\mathbf{v}|} \]
+                        \[ \text{skew lines } \mathbf{r}_1 + t\mathbf{v}_1,\ \mathbf{r}_2 + s\mathbf{v}_2: \quad D = \frac{|(\mathbf{r}_2-\mathbf{r}_1)\cdot(\mathbf{v}_1\times\mathbf{v}_2)|}{|\mathbf{v}_1\times\mathbf{v}_2|} \]
+                    </div>
+
+                    <p><strong>Why the point&ndash;plane formula works.</strong> Pick any point \(P_0\) on the plane. The distance is the length of the projection of \(\overrightarrow{P_0Q}\) onto the normal: \(D = |\overrightarrow{P_0Q}\cdot\mathbf{n}|/|\mathbf{n}|\). Expanding the dot product and using \(ax_0+by_0+cz_0 = d\) gives the formula. The skew-line formula is the same idea, with normal \(\mathbf{v}_1\times\mathbf{v}_2\) to both lines.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.4</p>
+                        <p>Find parametric equations for the line of intersection of the planes \(x+y+z = 3\) and \(2x - y + z = 1\), and the angle between the planes.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Normals: \(\mathbf{n}_1 = \langle 1,1,1\rangle\), \(\mathbf{n}_2 = \langle 2,-1,1\rangle\). The line lies in both planes, so it is perpendicular to both normals:</p>
+                            \[ \mathbf{v} = \mathbf{n}_1\times\mathbf{n}_2 = \langle (1)(1)-(1)(-1),\ (1)(2)-(1)(1),\ (1)(-1)-(1)(2)\rangle = \langle 2, 1, -3\rangle . \]
+                            <p>A point on the line: set \(z=0\). Then \(x+y=3\) and \(2x-y=1\); adding gives \(3x = 4\), so \(x = \tfrac43\), \(y = \tfrac53\). Hence</p>
+                            \[ x = \tfrac43 + 2t, \qquad y = \tfrac53 + t, \qquad z = -3t . \]
+                            <p>Check in plane 2: \(2(\tfrac43+2t) - (\tfrac53+t) + (-3t) = \tfrac83 - \tfrac53 + 4t - t - 3t = 1\). Good.</p>
+                            <p>Angle:</p>
+                            \[ \cos\theta = \frac{|\mathbf{n}_1\cdot\mathbf{n}_2|}{|\mathbf{n}_1||\mathbf{n}_2|} = \frac{|2-1+1|}{\sqrt3\sqrt6} = \frac{2}{3\sqrt2} = \frac{\sqrt2}{3} \;\Rightarrow\; \theta \approx 61.9^\circ . \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.5</p>
+                        <p>Find the distance from \(Q(1,-2,4)\) to the plane \(2x - y + 2z = 1\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ D = \frac{|2(1) - (-2) + 2(4) - 1|}{\sqrt{4+1+4}} = \frac{|2+2+8-1|}{3} = \frac{11}{3} . \]
+                        </details>
+                    </div>
+
+                    <h3 id="quadrics">1.5 Cylinders &amp; quadric surfaces</h3>
+
+                    <p>A <strong>cylinder</strong> is a surface built from all lines parallel to a fixed line through a given plane curve. In practice: if an equation in \(x,y,z\) is missing a variable, the surface is a cylinder parallel to that variable's axis. For example \(y = x^2\) in \(\mathbb{R}^3\) is a parabolic "trough" extending forever in the \(z\)-direction, and \(x^2 + z^2 = 4\) is a circular cylinder of radius 2 around the \(y\)-axis.</p>
+
+                    <p>A <strong>quadric surface</strong> is the graph of a second-degree equation in \(x,y,z\). After translating and rotating, every nondegenerate quadric is one of six standard types. The key tool for recognising and sketching them is <strong>traces</strong>: intersect with the planes \(x=k\), \(y=k\), \(z=k\) and see which conics appear.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Surface</th><th>Standard equation (axis \(z\))</th><th>Traces</th></tr></thead>
+                            <tbody>
+                                <tr><td>Ellipsoid</td><td>\(\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}+\dfrac{z^2}{c^2}=1\)</td><td>All ellipses</td></tr>
+                                <tr><td>Elliptic paraboloid</td><td>\(\dfrac{z}{c} = \dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}\)</td><td>Horizontal: ellipses; vertical: parabolas</td></tr>
+                                <tr><td>Hyperbolic paraboloid (saddle)</td><td>\(\dfrac{z}{c} = \dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}\)</td><td>Horizontal: hyperbolas; vertical: parabolas</td></tr>
+                                <tr><td>Cone</td><td>\(\dfrac{z^2}{c^2} = \dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}\)</td><td>Horizontal: ellipses; vertical through axis: line pairs</td></tr>
+                                <tr><td>Hyperboloid of one sheet</td><td>\(\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}-\dfrac{z^2}{c^2}=1\)</td><td>Horizontal: ellipses (never empty); vertical: hyperbolas</td></tr>
+                                <tr><td>Hyperboloid of two sheets</td><td>\(-\dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}+\dfrac{z^2}{c^2}=1\)</td><td>Horizontal: ellipses for \(|z|\gt c\), empty for \(|z|\lt c\); vertical: hyperbolas</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Count minus signs once the equation is in "\(=1\)" form: none is an ellipsoid, one is a hyperboloid of one sheet, two is a hyperboloid of two sheets. The variable with the odd sign out is the axis. If one variable appears only to the first power, it is a paraboloid with that variable as its axis.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.6</p>
+                        <p>Identify the surface \(x^2 + 4y^2 - z^2 - 2x + 8y + 1 = 0\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Complete the square in \(x\) and in \(y\):</p>
+                            \[ \begin{aligned} (x^2 - 2x + 1) - 1 + 4(y^2 + 2y + 1) - 4 - z^2 + 1 &amp;= 0 \\ (x-1)^2 + 4(y+1)^2 - z^2 &amp;= 4 \\ \frac{(x-1)^2}{4} + \frac{(y+1)^2}{1} - \frac{z^2}{4} &amp;= 1 . \end{aligned} \]
+                            <p>One minus sign, on \(z\): a <strong>hyperboloid of one sheet</strong> with axis parallel to the \(z\)-axis, centred at \((1,-1,0)\). Its narrowest horizontal trace (at \(z=0\)) is the ellipse with semi-axes 2 and 1.</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Find the unit vector in the direction of \(\langle 3,-6,2\rangle\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(|\mathbf{v}| = \sqrt{9+36+4} = 7\), so \(\hat{\mathbf{v}} = \langle \tfrac37, -\tfrac67, \tfrac27\rangle\).</p>
+                                </details>
+                            </li>
+                            <li>A constant force \(\mathbf{F} = \langle 4,1,-2\rangle\) N moves an object in a straight line from the origin to \((3,2,5)\) m. Find the work done.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(W = \mathbf{F}\cdot\mathbf{D} = \langle 4,1,-2\rangle\cdot\langle 3,2,5\rangle = 12 + 2 - 10 = 4\) J.</p>
+                                </details>
+                            </li>
+                            <li>Find the plane through \((2,1,-1)\) parallel to \(3x - y + 4z = 7\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Same normal \(\langle 3,-1,4\rangle\): \(3(x-2) - (y-1) + 4(z+1) = 0\), i.e. \(3x - y + 4z = 1\).</p>
+                                </details>
+                            </li>
+                            <li>Show that the lines \(\mathbf{r}_1 = \langle 1,2,0\rangle + t\langle 1,-1,2\rangle\) and \(\mathbf{r}_2 = \langle 3,0,5\rangle + s\langle 2,1,1\rangle\) are skew, and find the distance between them.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Directions are not parallel. Equating components: \(1+t = 3+2s\), \(2-t = s\), \(2t = 5+s\). The first two give \(t = 2\), \(s = 0\); then the third reads \(4 = 5\), false. So the lines are skew. Normal to both: \(\langle 1,-1,2\rangle\times\langle 2,1,1\rangle = \langle -3,3,3\rangle\). With \(\mathbf{r}_2 - \mathbf{r}_1 = \langle 2,-2,5\rangle\): \(D = |{-6}-6+15|/\sqrt{27} = 3/(3\sqrt3) = 1/\sqrt3\).</p>
+                                </details>
+                            </li>
+                            <li>Use the triple product to decide whether \(\langle 1,2,3\rangle\), \(\langle 2,0,1\rangle\), \(\langle 0,4,5\rangle\) are coplanar.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\det = 1(0\cdot5 - 1\cdot4) - 2(2\cdot5 - 1\cdot0) + 3(2\cdot4 - 0\cdot0) = -4 - 20 + 24 = 0\). Coplanar (indeed the third is \(2\times\)first \(-\) second).</p>
+                                </details>
+                            </li>
+                            <li>Identify and describe \(z = y^2 - x^2\) and \(4x^2 + y^2 + z^2 = 16\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(z = y^2 - x^2\): hyperbolic paraboloid (saddle) through the origin, opening up along \(y\), down along \(x\). \(x^2/4 + y^2/16 + z^2/16 = 1\): ellipsoid with semi-axes 2, 4, 4 (a sphere squashed along \(x\)).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch13">
+                    <h2>2. Vector functions</h2>
+                    <p class="ref">Stewart Ch. 13 &middot; OpenStax Vol. 3 Ch. 3</p>
+
+                    <p>A vector function \(\mathbf{r}(t)\) is a moving arrow: feed it a time and it returns a position. Its tip traces a curve in space, its derivative is the velocity (tangent to the curve), and its second derivative is acceleration. Because every operation works component by component, the calculus here is just single-variable calculus done three times at once. The new geometric ideas are <strong>arc length</strong> (how far along the curve you are) and <strong>curvature</strong> (how sharply it bends), which let us split acceleration into a part that changes speed and a part that changes direction.</p>
+
+                    <h3 id="space-curves">2.1 Vector functions &amp; space curves</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Vector function)</p>
+                        <p>A vector function is \(\mathbf{r}(t) = \langle f(t), g(t), h(t)\rangle\). Its domain is the set of \(t\) where all three components are defined. Limits are taken componentwise: \(\lim_{t\to a}\mathbf{r}(t) = \langle \lim f, \lim g, \lim h\rangle\) provided each limit exists, and \(\mathbf{r}\) is continuous at \(a\) iff each component is.</p>
+                    </div>
+
+                    <p>The set of points traced out, \(C = \{\mathbf{r}(t)\}\), is a <strong>space curve</strong>, and \(\mathbf{r}\) is a <strong>parametrisation</strong> of it. One curve has infinitely many parametrisations (e.g. \(\mathbf{r}(2t)\) traces the same path twice as fast). The standard example is the <strong>circular helix</strong> \(\mathbf{r}(t) = \langle a\cos t, a\sin t, bt\rangle\), which winds around the cylinder \(x^2+y^2=a^2\), rising \(2\pi b\) per turn.</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>To parametrise the intersection of two surfaces, parametrise the "simpler" one first and substitute into the other. For a cylinder \(x^2 + y^2 = a^2\) use \(x = a\cos t\), \(y = a\sin t\), then solve the other equation for \(z\).</p>
+                    </div>
+
+                    <h3 id="vf-calculus">2.2 Derivatives &amp; integrals of vector functions</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Derivative)</p>
+                        \[ \mathbf{r}'(t) = \lim_{h\to 0}\frac{\mathbf{r}(t+h)-\mathbf{r}(t)}{h} = \langle f'(t), g'(t), h'(t)\rangle . \]
+                        <p>If \(\mathbf{r}'(t)\neq\mathbf{0}\), it is a <strong>tangent vector</strong> to the curve at \(\mathbf{r}(t)\), pointing in the direction of increasing \(t\), and \(\mathbf{T}(t) = \mathbf{r}'(t)/|\mathbf{r}'(t)|\) is the <strong>unit tangent</strong>. A parametrisation with \(\mathbf{r}'\) continuous and never zero is called <strong>smooth</strong>.</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Differentiation rules</p>
+                        \[ \frac{d}{dt}[\mathbf{u}\cdot\mathbf{v}] = \mathbf{u}'\cdot\mathbf{v} + \mathbf{u}\cdot\mathbf{v}' \qquad \frac{d}{dt}[\mathbf{u}\times\mathbf{v}] = \mathbf{u}'\times\mathbf{v} + \mathbf{u}\times\mathbf{v}' \]
+                        \[ \frac{d}{dt}[f(t)\mathbf{u}(t)] = f'\mathbf{u} + f\mathbf{u}' \qquad \frac{d}{dt}[\mathbf{u}(f(t))] = f'(t)\,\mathbf{u}'(f(t)) \]
+                        <p>In the cross-product rule, keep the order of the factors.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Constant length)</p>
+                        <p>If \(|\mathbf{r}(t)|\) is constant, then \(\mathbf{r}'(t)\perp\mathbf{r}(t)\) for all \(t\).</p>
+                        <p><strong>Proof.</strong> \(\mathbf{r}\cdot\mathbf{r} = c^2\). Differentiating, \(2\,\mathbf{r}\cdot\mathbf{r}' = 0\). \(\square\)</p>
+                        <p>This is why, for a particle on a sphere, the velocity is tangent to the sphere, and why \(\mathbf{T}'\perp\mathbf{T}\) (since \(|\mathbf{T}| = 1\)).</p>
+                    </div>
+
+                    <p><strong>Integrals</strong> are also componentwise: \(\int_a^b \mathbf{r}(t)\,dt = \left\langle \int_a^b f, \int_a^b g, \int_a^b h\right\rangle\), and the Fundamental Theorem of Calculus holds: \(\int_a^b \mathbf{r}'(t)\,dt = \mathbf{r}(b) - \mathbf{r}(a)\). An indefinite integral has a <em>vector</em> constant of integration \(\mathbf{C}\).</p>
+
+                    <h3 id="arc-length">2.3 Arc length, curvature &amp; the TNB frame</h3>
+
+                    <div class="box formula">
+                        <p class="box-label">Arc length</p>
+                        \[ L = \int_a^b |\mathbf{r}'(t)|\,dt = \int_a^b \sqrt{f'(t)^2 + g'(t)^2 + h'(t)^2}\,dt, \qquad s(t) = \int_a^t |\mathbf{r}'(u)|\,du, \qquad \frac{ds}{dt} = |\mathbf{r}'(t)| . \]
+                        <p>The formula holds for a smooth curve traversed exactly once as \(t\) runs from \(a\) to \(b\).</p>
+                    </div>
+
+                    <p>Speed is \(ds/dt\): the rate at which arc length accumulates. Arc length is intrinsic to the curve (independent of parametrisation), so it is the natural parameter for describing shape. <strong>Reparametrising by arc length</strong> means solving \(s = s(t)\) for \(t\) and substituting; the resulting \(\mathbf{r}(s)\) has unit speed.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Curvature)</p>
+                        <p>The curvature of a smooth curve is the rate at which the unit tangent turns per unit length travelled:</p>
+                        \[ \kappa = \left|\frac{d\mathbf{T}}{ds}\right| = \frac{|\mathbf{T}'(t)|}{|\mathbf{r}'(t)|} = \frac{|\mathbf{r}'(t)\times\mathbf{r}''(t)|}{|\mathbf{r}'(t)|^3} . \]
+                        <p>For a plane graph \(y = f(x)\): \(\kappa(x) = \dfrac{|f''(x)|}{\left[1 + f'(x)^2\right]^{3/2}}\). A line has \(\kappa = 0\); a circle of radius \(R\) has \(\kappa = 1/R\).</p>
+                    </div>
+
+                    <p><strong>Where the cross-product form comes from.</strong> Write \(\mathbf{r}' = v\mathbf{T}\) with \(v = |\mathbf{r}'|\). Then \(\mathbf{r}'' = v'\mathbf{T} + v\mathbf{T}'\), so \(\mathbf{r}'\times\mathbf{r}'' = v^2\,\mathbf{T}\times\mathbf{T}'\) (since \(\mathbf{T}\times\mathbf{T} = \mathbf{0}\)). Because \(\mathbf{T}\perp\mathbf{T}'\) and \(|\mathbf{T}| = 1\), \(|\mathbf{T}\times\mathbf{T}'| = |\mathbf{T}'|\). So \(|\mathbf{r}'\times\mathbf{r}''| = v^2|\mathbf{T}'| = v^2\cdot\kappa v = \kappa v^3\).</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (TNB frame)</p>
+                        <p>Where \(\mathbf{T}'\neq\mathbf{0}\): the <strong>principal unit normal</strong> \(\mathbf{N} = \mathbf{T}'/|\mathbf{T}'|\) points toward the inside of the bend, and the <strong>binormal</strong> \(\mathbf{B} = \mathbf{T}\times\mathbf{N}\) completes a right-handed orthonormal frame that travels with the particle. \(\mathbf{T}\) and \(\mathbf{N}\) span the <strong>osculating plane</strong> (the plane the curve momentarily lies in), and the <strong>osculating circle</strong> has radius \(1/\kappa\), centred along \(\mathbf{N}\). The <strong>torsion</strong> \(\tau\), defined by \(d\mathbf{B}/ds = -\tau\mathbf{N}\), measures how fast the curve twists out of its osculating plane.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.1</p>
+                        <p>For the helix \(\mathbf{r}(t) = \langle 3\cos t, 3\sin t, 4t\rangle\): find the length of one turn, the arc-length parametrisation, \(\kappa\), \(\mathbf{T}\), \(\mathbf{N}\) and \(\mathbf{B}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \mathbf{r}'(t) = \langle -3\sin t, 3\cos t, 4\rangle, \qquad |\mathbf{r}'(t)| = \sqrt{9\sin^2 t + 9\cos^2 t + 16} = 5 . \]
+                            <p>Length of one turn: \(L = \int_0^{2\pi} 5\,dt = 10\pi\).</p>
+                            <p>Arc length from \(t=0\): \(s = 5t\), so \(t = s/5\) and \(\mathbf{r}(s) = \langle 3\cos(s/5), 3\sin(s/5), 4s/5\rangle\), which has unit speed.</p>
+                            <p>Unit tangent and its derivative:</p>
+                            \[ \mathbf{T} = \left\langle -\tfrac35\sin t, \tfrac35\cos t, \tfrac45\right\rangle, \qquad \mathbf{T}' = \left\langle -\tfrac35\cos t, -\tfrac35\sin t, 0\right\rangle, \qquad |\mathbf{T}'| = \tfrac35 . \]
+                            \[ \kappa = \frac{|\mathbf{T}'|}{|\mathbf{r}'|} = \frac{3/5}{5} = \frac{3}{25}, \qquad \mathbf{N} = \langle -\cos t, -\sin t, 0\rangle . \]
+                            <p>\(\mathbf{N}\) points horizontally toward the helix axis, as expected. Binormal:</p>
+                            \[ \mathbf{B} = \mathbf{T}\times\mathbf{N} = \left\langle 0 - \tfrac45(-\sin t),\ \tfrac45(-\cos t) - 0,\ \tfrac35\sin^2 t + \tfrac35\cos^2 t \right\rangle = \left\langle \tfrac45\sin t, -\tfrac45\cos t, \tfrac35\right\rangle . \]
+                            <p>Check with the general helix formula \(\kappa = a/(a^2+b^2) = 3/25\). The constant curvature makes sense: every point of a helix looks the same.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.2</p>
+                        <p>Find the curvature of \(y = x^2\) at \((0,0)\) and at \((1,1)\), and the radius of the osculating circle at the origin.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f'(x) = 2x\), \(f''(x) = 2\), so \(\kappa(x) = \dfrac{2}{(1+4x^2)^{3/2}}\).</p>
+                            \[ \kappa(0) = 2, \qquad \kappa(1) = \frac{2}{5^{3/2}} = \frac{2}{5\sqrt5} \approx 0.179 . \]
+                            <p>The osculating circle at the origin has radius \(1/\kappa = \tfrac12\) and centre \((0, \tfrac12)\). The parabola is most sharply bent at its vertex and straightens out as \(|x|\) grows.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="motion">2.4 Velocity, acceleration &amp; their components</h3>
+
+                    <div class="box formula">
+                        <p class="box-label">Motion in space</p>
+                        \[ \mathbf{v}(t) = \mathbf{r}'(t), \qquad v = |\mathbf{v}(t)| = \frac{ds}{dt}, \qquad \mathbf{a}(t) = \mathbf{v}'(t) = \mathbf{r}''(t) \]
+                        \[ \mathbf{a} = a_T\,\mathbf{T} + a_N\,\mathbf{N}, \qquad a_T = \frac{dv}{dt} = \frac{\mathbf{r}'\cdot\mathbf{r}''}{|\mathbf{r}'|}, \qquad a_N = \kappa v^2 = \frac{|\mathbf{r}'\times\mathbf{r}''|}{|\mathbf{r}'|} \]
+                    </div>
+
+                    <p><strong>Derivation.</strong> From \(\mathbf{v} = v\mathbf{T}\): \(\mathbf{a} = v'\mathbf{T} + v\mathbf{T}'\). And \(\mathbf{T}' = |\mathbf{T}'|\mathbf{N} = \kappa v\,\mathbf{N}\). So \(\mathbf{a} = v'\mathbf{T} + \kappa v^2\mathbf{N}\). Acceleration always lies in the osculating plane (no \(\mathbf{B}\) component). The tangential part changes speed; the normal part, \(v^2/R\) with \(R = 1/\kappa\), is the familiar centripetal acceleration. Since \(\mathbf{T}\perp\mathbf{N}\), \(|\mathbf{a}|^2 = a_T^2 + a_N^2\), a handy check.</p>
+
+                    <p><strong>Physics link.</strong> Newton's second law \(\mathbf{F} = m\mathbf{a}\) is a vector ODE: integrate \(\mathbf{a}\) once (with initial velocity) to get \(\mathbf{v}\), again (with initial position) to get \(\mathbf{r}\). A central force \(\mathbf{F}\parallel\mathbf{r}\) gives \(\frac{d}{dt}(\mathbf{r}\times\mathbf{v}) = \mathbf{v}\times\mathbf{v} + \mathbf{r}\times\mathbf{a} = \mathbf{0}\), so angular momentum is conserved and the motion is planar &mdash; the first step in deriving Kepler's laws.</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(a_T\) is the derivative of the <em>speed</em> \(|\mathbf{v}|\), not the magnitude of the acceleration. In uniform circular motion speed is constant so \(a_T = 0\), yet \(|\mathbf{a}| = v^2/R \neq 0\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.3</p>
+                        <p>A particle moves along \(\mathbf{r}(t) = \langle t, t^2, t^3\rangle\). At \(t=1\), find \(a_T\), \(a_N\) and \(\kappa\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\mathbf{r}' = \langle 1, 2t, 3t^2\rangle\), \(\mathbf{r}'' = \langle 0, 2, 6t\rangle\). At \(t=1\): \(\mathbf{r}' = \langle 1,2,3\rangle\), \(\mathbf{r}'' = \langle 0,2,6\rangle\), \(|\mathbf{r}'| = \sqrt{14}\).</p>
+                            \[ a_T = \frac{\mathbf{r}'\cdot\mathbf{r}''}{|\mathbf{r}'|} = \frac{0+4+18}{\sqrt{14}} = \frac{22}{\sqrt{14}} \approx 5.88 . \]
+                            \[ \mathbf{r}'\times\mathbf{r}'' = \langle 2\cdot6 - 3\cdot2,\ 3\cdot0 - 1\cdot6,\ 1\cdot2 - 2\cdot0\rangle = \langle 6,-6,2\rangle, \qquad |\mathbf{r}'\times\mathbf{r}''| = \sqrt{76} = 2\sqrt{19} . \]
+                            \[ a_N = \frac{2\sqrt{19}}{\sqrt{14}} \approx 2.33, \qquad \kappa = \frac{2\sqrt{19}}{(\sqrt{14})^3} = \frac{2\sqrt{19}}{14\sqrt{14}} \approx 0.166 . \]
+                            <p>Check: \(a_T^2 + a_N^2 = \tfrac{484}{14} + \tfrac{76}{14} = \tfrac{560}{14} = 40 = |\langle 0,2,6\rangle|^2\). Good.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.4</p>
+                        <p>A ball is launched from ground level at 40 m/s, 30&deg; above horizontal. Ignoring air resistance (\(g = 9.8\) m/s\(^2\)), find its position function, maximum height and range.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Take \(\mathbf{a} = \langle 0, -9.8\rangle\). Initial velocity \(\mathbf{v}_0 = 40\langle\cos30^\circ, \sin 30^\circ\rangle = \langle 20\sqrt3, 20\rangle\), initial position \(\mathbf{0}\). Integrate twice:</p>
+                            \[ \mathbf{v}(t) = \langle 20\sqrt3,\ 20 - 9.8t\rangle, \qquad \mathbf{r}(t) = \langle 20\sqrt3\,t,\ 20t - 4.9t^2\rangle . \]
+                            <p>Max height when \(v_y = 0\): \(t = 20/9.8\) s. Then</p>
+                            \[ y_{\max} = 20\cdot\frac{20}{9.8} - 4.9\left(\frac{20}{9.8}\right)^2 = \frac{400}{9.8} - \frac{200}{9.8} = \frac{200}{9.8} \approx 20.4 \text{ m}. \]
+                            <p>Landing when \(y = 0\), \(t \neq 0\): \(t = 20/4.9 \approx 4.08\) s. Range \(= 20\sqrt3\cdot\dfrac{20}{4.9} = \dfrac{400\sqrt3}{4.9} \approx 141.4\) m.</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Find a vector function for the curve of intersection of the cylinder \(x^2+y^2 = 4\) and the plane \(z = x + y\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\mathbf{r}(t) = \langle 2\cos t, 2\sin t, 2\cos t + 2\sin t\rangle\), \(0\le t\le 2\pi\) (an ellipse).</p>
+                                </details>
+                            </li>
+                            <li>Find \(\mathbf{r}(t)\) if \(\mathbf{r}'(t) = \langle 2t, e^t, \cos t\rangle\) and \(\mathbf{r}(0) = \langle 1,0,2\rangle\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Integrate: \(\langle t^2, e^t, \sin t\rangle + \mathbf{C}\). At 0: \(\langle 0,1,0\rangle + \mathbf{C} = \langle 1,0,2\rangle\), so \(\mathbf{C} = \langle 1,-1,2\rangle\) and \(\mathbf{r}(t) = \langle t^2+1,\ e^t - 1,\ \sin t + 2\rangle\).</p>
+                                </details>
+                            </li>
+                            <li>Find the tangent line to \(\mathbf{r}(t) = \langle e^t, te^t, t^2\rangle\) at \(t = 0\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\mathbf{r}(0) = \langle 1,0,0\rangle\); \(\mathbf{r}'(t) = \langle e^t, (1+t)e^t, 2t\rangle\), so \(\mathbf{r}'(0) = \langle 1,1,0\rangle\). Line: \(x = 1+s,\ y = s,\ z = 0\).</p>
+                                </details>
+                            </li>
+                            <li>Find the length of \(\mathbf{r}(t) = \langle t^2, 2t, \ln t\rangle\) for \(1\le t\le 2\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(|\mathbf{r}'|^2 = 4t^2 + 4 + 1/t^2 = (2t + 1/t)^2\). \(L = \int_1^2 (2t + 1/t)\,dt = [t^2 + \ln t]_1^2 = 3 + \ln 2\).</p>
+                                </details>
+                            </li>
+                            <li>For uniform circular motion \(\mathbf{r}(t) = R\langle\cos\omega t, \sin\omega t\rangle\), show \(\mathbf{a} = -\omega^2\mathbf{r}\), \(a_T = 0\), and \(a_N = v^2/R\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\mathbf{v} = R\omega\langle -\sin\omega t, \cos\omega t\rangle\), speed \(v = R\omega\) (constant, so \(a_T = 0\)). \(\mathbf{a} = -R\omega^2\langle\cos\omega t, \sin\omega t\rangle = -\omega^2\mathbf{r}\), magnitude \(R\omega^2 = v^2/R = a_N\).</p>
+                                </details>
+                            </li>
+                            <li>Find the curvature of \(\mathbf{r}(t) = \langle t, t^2, t^3\rangle\) at \(t = 0\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\mathbf{r}'(0) = \langle 1,0,0\rangle\), \(\mathbf{r}''(0) = \langle 0,2,0\rangle\), cross product \(\langle 0,0,2\rangle\). \(\kappa = 2/1^3 = 2\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch14">
+                    <h2>3. Partial derivatives</h2>
+                    <p class="ref">Stewart Ch. 14 &middot; OpenStax Vol. 3 Ch. 4</p>
+
+                    <p>Now the input is a point and the output is a number: temperature in a room, potential in space, profit as a function of two prices. You can no longer ask for "the" derivative, because there are infinitely many directions to move. The fix is to vary one coordinate at a time (<strong>partial derivatives</strong>), then package all of them into a single vector, the <strong>gradient</strong>, which points uphill and whose dot product with any direction gives the slope in that direction. Near a point, a differentiable function looks like a plane; maxima and minima happen where that plane is flat (or, under a constraint, where the gradient lines up with the constraint's gradient).</p>
+
+                    <h3 id="multivar-functions">3.1 Functions of several variables, level sets, limits</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Function of two or three variables)</p>
+                        <p>A function \(f: D\subseteq\mathbb{R}^2\to\mathbb{R}\) assigns a number \(f(x,y)\) to each point of its domain \(D\). Its <strong>graph</strong> is the surface \(z = f(x,y)\) in \(\mathbb{R}^3\). A <strong>level curve</strong> is \(\{(x,y) : f(x,y) = k\}\); a collection of them is a contour map. For \(f(x,y,z)\), the sets \(f = k\) are <strong>level surfaces</strong>.</p>
+                    </div>
+
+                    <p>Contour maps are how you "see" a function of two variables: closely spaced contours mean steep slopes. In physics, the level surfaces of the electric potential \(V\) are the equipotentials, and we will prove below that the field \(\mathbf{E} = -\nabla V\) crosses them at right angles.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Limit and continuity)</p>
+                        <p>\(\displaystyle\lim_{(x,y)\to(a,b)} f(x,y) = L\) means: for every \(\varepsilon\gt 0\) there is \(\delta\gt 0\) such that \(|f(x,y) - L|\lt\varepsilon\) whenever \((x,y)\in D\) and \(0\lt\sqrt{(x-a)^2+(y-b)^2}\lt\delta\). The function is <strong>continuous</strong> at \((a,b)\) if the limit equals \(f(a,b)\). Polynomials, rational functions (where the denominator is nonzero) and compositions of continuous functions are continuous.</p>
+                    </div>
+
+                    <p>The crucial difference from one variable: \((x,y)\) can approach \((a,b)\) along infinitely many paths, and the limit must be the same along all of them.</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p><strong>To show a limit does not exist:</strong> find two paths (lines \(y = mx\), parabolas \(y = mx^2\), the axes) giving different values. <strong>To show a limit exists:</strong> path tests can never prove it; use the squeeze theorem (bound \(|f - L|\) by something that goes to 0) or switch to polar coordinates, where \(r\to 0\) captures every path at once.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.1</p>
+                        <p>Decide whether each limit exists: (a) \(\displaystyle\lim_{(x,y)\to(0,0)}\frac{xy}{x^2+y^2}\), (b) \(\displaystyle\lim_{(x,y)\to(0,0)}\frac{x^2y}{x^2+y^2}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) Along \(y = mx\) (with \(x\neq 0\)):</p>
+                            \[ \frac{x(mx)}{x^2 + m^2x^2} = \frac{m}{1+m^2}. \]
+                            <p>This depends on \(m\) (0 along the \(x\)-axis, \(\tfrac12\) along \(y = x\)), so the limit does not exist.</p>
+                            <p>(b) Since \(x^2 \le x^2 + y^2\), we have \(\dfrac{x^2}{x^2+y^2}\le 1\), so</p>
+                            \[ 0 \le \left|\frac{x^2y}{x^2+y^2}\right| \le |y| \to 0 . \]
+                            <p>By the squeeze theorem the limit is \(0\). (In polar form: \(r\cos^2\theta\sin\theta\), bounded by \(r\).)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="partials">3.2 Partial derivatives</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Partial derivative)</p>
+                        \[ f_x(a,b) = \frac{\partial f}{\partial x}(a,b) = \lim_{h\to0}\frac{f(a+h,b) - f(a,b)}{h}, \qquad f_y(a,b) = \lim_{h\to 0}\frac{f(a,b+h)-f(a,b)}{h} . \]
+                        <p>To compute \(f_x\), treat every other variable as a constant and differentiate with respect to \(x\). Geometrically, \(f_x(a,b)\) is the slope of the curve cut from the graph by the plane \(y = b\).</p>
+                    </div>
+
+                    <p><strong>Higher derivatives.</strong> \(f_{xx} = \partial^2 f/\partial x^2\), \(f_{xy} = (f_x)_y = \partial^2 f/\partial y\,\partial x\) (note the order reverses between the two notations), and so on.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Clairaut / equality of mixed partials)</p>
+                        <p>If \(f_{xy}\) and \(f_{yx}\) are both continuous on an open disk containing \((a,b)\), then \(f_{xy}(a,b) = f_{yx}(a,b)\).</p>
+                    </div>
+
+                    <p>Partial differential equations are statements about partial derivatives. The three you will meet constantly in physics are Laplace's equation \(u_{xx} + u_{yy} + u_{zz} = 0\) (electrostatic potential in charge-free space), the heat/diffusion equation \(u_t = \alpha^2 u_{xx}\), and the wave equation \(u_{tt} = c^2u_{xx}\).</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.2</p>
+                        <p>For \(f(x,y) = x^2y^3 + e^{xy}\), find \(f_x\), \(f_y\) and verify \(f_{xy} = f_{yx}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ f_x = 2xy^3 + ye^{xy}, \qquad f_y = 3x^2y^2 + xe^{xy} . \]
+                            <p>Differentiate \(f_x\) with respect to \(y\) (product rule on \(ye^{xy}\)):</p>
+                            \[ f_{xy} = 6xy^2 + e^{xy} + xye^{xy} . \]
+                            <p>Differentiate \(f_y\) with respect to \(x\) (product rule on \(xe^{xy}\)):</p>
+                            \[ f_{yx} = 6xy^2 + e^{xy} + xye^{xy} . \]
+                            <p>They agree, as Clairaut guarantees (everything here is continuous).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="tangent-planes">3.3 Tangent planes, linear approximation &amp; differentiability</h3>
+
+                    <div class="box formula">
+                        <p class="box-label">Tangent plane and linearisation</p>
+                        \[ z - z_0 = f_x(a,b)(x-a) + f_y(a,b)(y-b), \qquad z_0 = f(a,b) \]
+                        \[ L(x,y) = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b) \approx f(x,y) \text{ near } (a,b) \]
+                        \[ dz = f_x\,dx + f_y\,dy \quad \text{(total differential)} \]
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Differentiable)</p>
+                        <p>\(f\) is <strong>differentiable</strong> at \((a,b)\) if \(f(a+\Delta x, b+\Delta y) - f(a,b) = f_x\Delta x + f_y\Delta y + \varepsilon_1\Delta x + \varepsilon_2\Delta y\) with \(\varepsilon_1,\varepsilon_2\to 0\) as \((\Delta x,\Delta y)\to(0,0)\). In words: the tangent plane approximates \(f\) with error that is small compared with the step size.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Sufficient condition)</p>
+                        <p>If \(f_x\) and \(f_y\) exist near \((a,b)\) and are continuous at \((a,b)\), then \(f\) is differentiable at \((a,b)\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Existence of partial derivatives does <em>not</em> imply differentiability, or even continuity. The function \(f = xy/(x^2+y^2)\), \(f(0,0) = 0\), from Example 3.1(a) has \(f_x(0,0) = f_y(0,0) = 0\) (it is zero on both axes) yet is not continuous at the origin.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.3</p>
+                        <p>Find the tangent plane to \(z = \sqrt{20 - x^2 - 7y^2}\) at \((2,1,3)\), and use it to estimate \(f(1.95, 1.08)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Check: \(f(2,1) = \sqrt{20-4-7} = 3\). Partials:</p>
+                            \[ f_x = \frac{-x}{\sqrt{20-x^2-7y^2}}, \quad f_y = \frac{-7y}{\sqrt{20-x^2-7y^2}} \quad\Rightarrow\quad f_x(2,1) = -\tfrac23, \ f_y(2,1) = -\tfrac73 . \]
+                            \[ z = 3 - \tfrac23(x-2) - \tfrac73(y-1) . \]
+                            <p>With \(\Delta x = -0.05\), \(\Delta y = 0.08\):</p>
+                            \[ f(1.95,1.08)\approx 3 - \tfrac23(-0.05) - \tfrac73(0.08) = 3 + 0.0333 - 0.1867 \approx 2.847 . \]
+                            <p>The exact value is \(\sqrt{20 - 3.8025 - 8.1648} = \sqrt{8.0327}\approx 2.834\): a good estimate.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="chain-rule">3.4 The chain rule</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Chain rule)</p>
+                        <p><strong>Case 1.</strong> If \(z = f(x,y)\) is differentiable and \(x = x(t)\), \(y = y(t)\) are differentiable, then</p>
+                        \[ \frac{dz}{dt} = \frac{\partial z}{\partial x}\frac{dx}{dt} + \frac{\partial z}{\partial y}\frac{dy}{dt} = \nabla f\cdot\mathbf{r}'(t). \]
+                        <p><strong>Case 2.</strong> If \(x = x(s,t)\), \(y = y(s,t)\) have partial derivatives, then</p>
+                        \[ \frac{\partial z}{\partial s} = \frac{\partial z}{\partial x}\frac{\partial x}{\partial s} + \frac{\partial z}{\partial y}\frac{\partial y}{\partial s}, \qquad \frac{\partial z}{\partial t} = \frac{\partial z}{\partial x}\frac{\partial x}{\partial t} + \frac{\partial z}{\partial y}\frac{\partial y}{\partial t} . \]
+                        <p>General rule: sum over every path from the dependent variable down to the independent variable in a tree diagram, multiplying derivatives along each path.</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Implicit differentiation</p>
+                        \[ F(x,y) = 0 \;\Rightarrow\; \frac{dy}{dx} = -\frac{F_x}{F_y}, \qquad F(x,y,z) = 0 \;\Rightarrow\; \frac{\partial z}{\partial x} = -\frac{F_x}{F_z}, \quad \frac{\partial z}{\partial y} = -\frac{F_y}{F_z} \]
+                        <p>(valid where the denominator is nonzero; the Implicit Function Theorem guarantees \(z\) is then locally a differentiable function of \(x,y\)). Proof: differentiate \(F(x,y,z(x,y)) = 0\) with respect to \(x\) by the chain rule: \(F_x + F_z\,z_x = 0\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.4</p>
+                        <p>Let \(z = x^2y + y^3\) with \(x = st\), \(y = s + t^2\). Find \(\partial z/\partial s\) and \(\partial z/\partial t\) at \((s,t) = (2,1)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>At \((s,t) = (2,1)\): \(x = 2\), \(y = 3\).</p>
+                            \[ z_x = 2xy = 12, \qquad z_y = x^2 + 3y^2 = 4 + 27 = 31 . \]
+                            \[ x_s = t = 1,\quad y_s = 1,\quad x_t = s = 2,\quad y_t = 2t = 2 . \]
+                            \[ \frac{\partial z}{\partial s} = 12(1) + 31(1) = 43, \qquad \frac{\partial z}{\partial t} = 12(2) + 31(2) = 86 . \]
+                            <p>Check \(\partial z/\partial t\) by substituting first: \(z = s^2t^2(s+t^2) + (s+t^2)^3\), so \(z_t = s^2\big[2t(s+t^2) + 2t^3\big] + 6t(s+t^2)^2\). At \((2,1)\): \(4[6+2] + 6(9) = 32 + 54 = 86\). Good.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="gradient">3.5 Directional derivatives &amp; the gradient</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Directional derivative and gradient)</p>
+                        <p>For a <em>unit</em> vector \(\mathbf{u}\), the directional derivative is \(D_{\mathbf{u}}f(\mathbf{x}) = \lim_{h\to0}\dfrac{f(\mathbf{x}+h\mathbf{u}) - f(\mathbf{x})}{h}\). The <strong>gradient</strong> is the vector of partials:</p>
+                        \[ \nabla f = \langle f_x, f_y, f_z\rangle . \]
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Properties of the gradient)</p>
+                        <p>If \(f\) is differentiable:</p>
+                        <ol>
+                            <li>\(D_{\mathbf{u}}f = \nabla f\cdot\mathbf{u} = |\nabla f|\cos\theta\).</li>
+                            <li>The maximum of \(D_{\mathbf{u}}f\) is \(|\nabla f|\), attained when \(\mathbf{u}\) points along \(\nabla f\); the minimum is \(-|\nabla f|\), along \(-\nabla f\).</li>
+                            <li>\(\nabla f(P)\) is orthogonal to the level set of \(f\) through \(P\) (when \(\nabla f(P)\neq\mathbf{0}\)).</li>
+                        </ol>
+                    </div>
+
+                    <p><strong>Proof of (1).</strong> Let \(g(h) = f(\mathbf{x}+h\mathbf{u})\). Then \(D_{\mathbf{u}}f = g'(0)\), and by the chain rule \(g'(0) = f_x u_1 + f_y u_2 + f_z u_3 = \nabla f\cdot\mathbf{u}\). Part (2) follows because \(\cos\theta\) is largest at \(\theta = 0\).</p>
+
+                    <p><strong>Proof of (3).</strong> Let \(\mathbf{r}(t)\) be any smooth curve lying in the level surface \(f(x,y,z) = k\), with \(\mathbf{r}(t_0) = P\). Then \(f(\mathbf{r}(t)) = k\) for all \(t\). Differentiating with the chain rule,</p>
+                    \[ \nabla f(\mathbf{r}(t))\cdot\mathbf{r}'(t) = 0 . \]
+                    <p>At \(t_0\), \(\nabla f(P)\) is perpendicular to the tangent vector of every curve in the surface through \(P\), i.e. to the whole tangent plane. \(\square\)</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Tangent plane to a level surface \(F(x,y,z) = k\)</p>
+                        \[ F_x(P)(x-x_0) + F_y(P)(y-y_0) + F_z(P)(z-z_0) = 0 \]
+                        <p>The normal line is \(\mathbf{r}(t) = \langle x_0,y_0,z_0\rangle + t\,\nabla F(P)\). (A graph \(z = f(x,y)\) is the level surface \(F = f(x,y) - z = 0\), recovering the earlier formula.)</p>
+                    </div>
+
+                    <p><strong>Physics link.</strong> A conservative force is \(\mathbf{F} = -\nabla U\): it points in the direction of steepest decrease of potential energy and is perpendicular to equipotential surfaces. Heat flows along \(-\nabla T\) (Fourier's law).</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(D_{\mathbf{u}}f = \nabla f\cdot\mathbf{u}\) needs a <em>unit</em> vector. If a direction is given as \(\mathbf{v} = \langle 2,-1,2\rangle\) or as "toward the point Q", normalise first.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.5</p>
+                        <p>Let \(f(x,y,z) = x^2y + yz^3\) and \(P = (1,2,1)\). (a) Find the rate of change of \(f\) at \(P\) in the direction of \(\langle 2,-1,2\rangle\). (b) In which direction does \(f\) increase fastest, and at what rate? (c) Find the tangent plane to the level surface of \(f\) through \(P\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \nabla f = \langle 2xy,\ x^2 + z^3,\ 3yz^2\rangle, \qquad \nabla f(1,2,1) = \langle 4, 2, 6\rangle . \]
+                            <p>(a) \(\mathbf{u} = \tfrac13\langle 2,-1,2\rangle\), so \(D_{\mathbf{u}}f = \tfrac13(8 - 2 + 12) = 6\).</p>
+                            <p>(b) Fastest increase along \(\langle 4,2,6\rangle\) (or the unit vector \(\langle 2,1,3\rangle/\sqrt{14}\)), at rate \(|\nabla f| = \sqrt{16+4+36} = \sqrt{56} = 2\sqrt{14}\approx 7.48\).</p>
+                            <p>(c) \(f(P) = 2 + 2 = 4\), so the level surface is \(x^2y + yz^3 = 4\), with normal \(\langle 4,2,6\rangle\parallel\langle 2,1,3\rangle\):</p>
+                            \[ 2(x-1) + (y-2) + 3(z-1) = 0 \;\Longrightarrow\; 2x + y + 3z = 7 . \]
+                        </details>
+                    </div>
+
+                    <h3 id="extrema">3.6 Maximum &amp; minimum values</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Critical point)</p>
+                        <p>\((a,b)\) is a <strong>critical point</strong> of \(f\) if \(\nabla f(a,b) = \mathbf{0}\) or a partial derivative fails to exist there. If \(f\) has a local extremum at an interior point where its first partials exist, then \(\nabla f = \mathbf{0}\) there (Fermat's theorem in several variables: each one-variable slice must have a horizontal tangent).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Second derivative test)</p>
+                        <p>Suppose the second partials of \(f\) are continuous on a disk centred at \((a,b)\), and \(\nabla f(a,b) = \mathbf{0}\). Let</p>
+                        \[ D = f_{xx}(a,b)\,f_{yy}(a,b) - \big[f_{xy}(a,b)\big]^2 . \]
+                        <ul>
+                            <li>\(D\gt 0\) and \(f_{xx}\gt 0\): local minimum.</li>
+                            <li>\(D\gt 0\) and \(f_{xx}\lt 0\): local maximum.</li>
+                            <li>\(D\lt 0\): saddle point.</li>
+                            <li>\(D = 0\): the test is inconclusive.</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Why it works (sketch).</strong> Near a critical point, the second-order Taylor expansion is \(f \approx f(a,b) + \tfrac12\left(f_{xx}h^2 + 2f_{xy}hk + f_{yy}k^2\right)\). Completing the square, the quadratic form equals \(\tfrac{1}{2f_{xx}}\left[(f_{xx}h + f_{xy}k)^2 + D\,k^2\right]\). If \(D\gt0\), the bracket is positive for every nonzero \((h,k)\), so the sign is that of \(f_{xx}\). If \(D \lt 0\), the form takes both signs. \(D\) is the determinant of the <strong>Hessian matrix</strong>, whose eigenvalues are the principal curvatures; this generalises to \(n\) variables.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Extreme value theorem) and the closed-region method</p>
+                        <p>A continuous function on a <strong>closed and bounded</strong> set in \(\mathbb{R}^2\) attains an absolute maximum and minimum. To find them: (1) evaluate \(f\) at critical points in the interior; (2) find the extreme values of \(f\) on the boundary (parametrise it, or use Lagrange multipliers); (3) the largest and smallest of all these values win.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.6</p>
+                        <p>Find and classify the critical points of \(f(x,y) = x^3 - 6xy + 3y^2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ f_x = 3x^2 - 6y = 0, \qquad f_y = -6x + 6y = 0 . \]
+                            <p>The second equation gives \(y = x\); substituting, \(3x^2 - 6x = 3x(x-2) = 0\), so the critical points are \((0,0)\) and \((2,2)\).</p>
+                            \[ f_{xx} = 6x, \quad f_{yy} = 6, \quad f_{xy} = -6, \qquad D = 36x - 36 . \]
+                            <ul>
+                                <li>\((0,0)\): \(D = -36\lt 0\), a <strong>saddle point</strong>.</li>
+                                <li>\((2,2)\): \(D = 36\gt0\), \(f_{xx} = 12\gt 0\), a <strong>local minimum</strong> with value \(f(2,2) = 8 - 24 + 12 = -4\).</li>
+                            </ul>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.7</p>
+                        <p>Find the absolute extrema of \(f(x,y) = x^2 + 2y^2 - 2x\) on the closed disk \(x^2 + y^2\le 4\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Interior.</strong> \(f_x = 2x - 2 = 0\), \(f_y = 4y = 0\) gives \((1,0)\), inside the disk, with \(f(1,0) = -1\).</p>
+                            <p><strong>Boundary.</strong> On \(x^2+y^2 = 4\), substitute \(y^2 = 4 - x^2\) for \(-2\le x\le 2\):</p>
+                            \[ g(x) = x^2 + 2(4 - x^2) - 2x = -x^2 - 2x + 8 . \]
+                            <p>\(g'(x) = -2x - 2 = 0\) at \(x = -1\): \(g(-1) = 9\), at the points \((-1,\pm\sqrt3)\). Endpoints: \(g(2) = 0\) at \((2,0)\); \(g(-2) = 8\) at \((-2,0)\).</p>
+                            <p><strong>Compare</strong> \(\{-1, 9, 0, 8\}\): absolute maximum \(9\) at \((-1,\pm\sqrt3)\); absolute minimum \(-1\) at \((1,0)\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="lagrange">3.7 Lagrange multipliers</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Method of Lagrange multipliers)</p>
+                        <p>Let \(f\) and \(g\) have continuous first partial derivatives. If \(f\) restricted to the constraint surface \(g(x,y,z) = k\) has a local extremum at \(P\), and \(\nabla g(P)\neq\mathbf{0}\), then there is a number \(\lambda\) with</p>
+                        \[ \nabla f(P) = \lambda\,\nabla g(P) . \]
+                        <p>With two constraints \(g = k\), \(h = c\): \(\nabla f = \lambda\nabla g + \mu\nabla h\).</p>
+                    </div>
+
+                    <p><strong>Why.</strong> Let \(\mathbf{r}(t)\) be any curve in the constraint surface through \(P\). Then \(f(\mathbf{r}(t))\) has an extremum at \(t_0\), so \(\nabla f(P)\cdot\mathbf{r}'(t_0) = 0\). Thus \(\nabla f(P)\) is perpendicular to the constraint surface, just as \(\nabla g(P)\) is (Section 3.5). Two vectors normal to the same surface are parallel. In 2D: at an extremum, the level curve of \(f\) is tangent to the constraint curve.</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>You get \(n + 1\) equations (the components of \(\nabla f = \lambda\nabla g\), plus \(g = k\)) in \(n + 1\) unknowns. A reliable strategy is to solve each component equation for \(\lambda\) and set them equal, or divide equations to eliminate \(\lambda\) &mdash; but watch for cases where you divide by zero. The method finds candidates; evaluate \(f\) at all of them and compare. (In mechanics, \(\lambda\) is the constraint force; in economics, a shadow price: \(\lambda = df_{\text{opt}}/dk\).)</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.8</p>
+                        <p>Find the extreme values of \(f(x,y) = 3x + 4y\) on the circle \(x^2 + y^2 = 25\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \langle 3, 4\rangle = \lambda\langle 2x, 2y\rangle \;\Rightarrow\; x = \frac{3}{2\lambda},\ y = \frac{4}{2\lambda} \quad (\lambda\neq 0 \text{ since } \nabla f\neq\mathbf{0}). \]
+                            <p>Substitute into the constraint: \(\dfrac{9 + 16}{4\lambda^2} = 25\), so \(\lambda^2 = \tfrac14\), \(\lambda = \pm\tfrac12\). Points: \((3,4)\) and \((-3,-4)\).</p>
+                            <p>\(f(3,4) = 25\) (maximum), \(f(-3,-4) = -25\) (minimum). Geometrically, \(3x+4y\) is \(5\times\) the component of the position vector along \(\langle 3,4\rangle/5\), maximised when the point lies in that direction.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.9</p>
+                        <p>A box with edges \(x,y,z\gt 0\) must satisfy \(x + 2y + 3z = 18\). Maximise its volume.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f = xyz\), \(g = x + 2y + 3z\). \(\nabla f = \lambda\nabla g\):</p>
+                            \[ yz = \lambda, \qquad xz = 2\lambda, \qquad xy = 3\lambda . \]
+                            <p>Dividing the second by the first (all variables positive): \(x/y = 2\), so \(x = 2y\). Dividing the third by the first: \(x/z = 3\), so \(x = 3z\). Then \(x + 2y + 3z = x + x + x = 18\), giving \(x = 6\), \(y = 3\), \(z = 2\), and \(V = 36\).</p>
+                            <p>This is the maximum: on the boundary of the allowed region (some edge \(\to 0\)) the volume tends to 0, and the volume is positive inside, so the single interior candidate is the maximum.</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Show that \(\displaystyle\lim_{(x,y)\to(0,0)}\frac{x^2-y^2}{x^2+y^2}\) does not exist.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Along the \(x\)-axis (\(y=0\)): value \(1\). Along the \(y\)-axis (\(x = 0\)): value \(-1\). Different, so no limit.</p>
+                                </details>
+                            </li>
+                            <li>Show that \(u(x,y) = \ln(x^2+y^2)\) satisfies Laplace's equation \(u_{xx} + u_{yy} = 0\) away from the origin. (Up to a constant, this is the potential of an infinite line charge.)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(u_x = \dfrac{2x}{x^2+y^2}\), \(u_{xx} = \dfrac{2(x^2+y^2) - 4x^2}{(x^2+y^2)^2} = \dfrac{2y^2 - 2x^2}{(x^2+y^2)^2}\). By symmetry \(u_{yy} = \dfrac{2x^2-2y^2}{(x^2+y^2)^2}\). The sum is 0.</p>
+                                </details>
+                            </li>
+                            <li>Find the directional derivative of \(f(x,y) = xe^y\) at \((2,0)\) in the direction toward \((5,4)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\nabla f = \langle e^y, xe^y\rangle = \langle 1, 2\rangle\) at \((2,0)\). Direction \(\langle 3,4\rangle\), unit \(\langle \tfrac35,\tfrac45\rangle\). \(D_{\mathbf{u}}f = \tfrac35 + \tfrac85 = \tfrac{11}{5}\).</p>
+                                </details>
+                            </li>
+                            <li>Find and classify the critical points of \(f(x,y) = 2x^3 + y^2 - 6xy\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(f_x = 6x^2 - 6y = 0\Rightarrow y = x^2\); \(f_y = 2y - 6x = 0\Rightarrow y = 3x\). So \(x^2 = 3x\): points \((0,0)\), \((3,9)\). \(D = (12x)(2) - 36 = 24x - 36\). At \((0,0)\): \(D = -36\), saddle. At \((3,9)\): \(D = 36\gt0\), \(f_{xx} = 36\gt 0\), local min, \(f = 54 + 81 - 162 = -27\).</p>
+                                </details>
+                            </li>
+                            <li>Use Lagrange multipliers to find the point on the plane \(x + 2y + 2z = 9\) closest to the origin.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Minimise \(x^2+y^2+z^2\): \(2x = \lambda\), \(2y = 2\lambda\), \(2z = 2\lambda\), so \(y = z = 2x\). Then \(x + 4x + 4x = 9\Rightarrow x = 1\). Point \((1,2,2)\), distance 3 (agrees with \(|{-9}|/\sqrt{1+4+4} = 3\)).</p>
+                                </details>
+                            </li>
+                            <li>Two resistors in parallel satisfy \(1/R = 1/R_1 + 1/R_2\). If \(R_1 = 100\pm1\ \Omega\) and \(R_2 = 400\pm 4\ \Omega\), use differentials to estimate the maximum error in \(R\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(R = 80\ \Omega\). Differentiating implicitly, \(-R^{-2}dR = -R_1^{-2}dR_1 - R_2^{-2}dR_2\), so \(dR = (R/R_1)^2dR_1 + (R/R_2)^2 dR_2 = 0.64\,dR_1 + 0.04\,dR_2\). Max error \(\approx 0.64(1) + 0.04(4) = 0.8\ \Omega\) (1%).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch15">
+                    <h2>4. Multiple integrals</h2>
+                    <p class="ref">Stewart Ch. 15 &middot; OpenStax Vol. 3 Ch. 5</p>
+
+                    <p>A single integral adds up \(f(x)\,dx\) along a line. A double integral adds up \(f(x,y)\,dA\) over a region in the plane, and a triple integral adds up \(f\,dV\) over a solid. The interpretation depends on what \(f\) is: height (giving volume), density (giving mass or charge), or 1 (giving area or volume). In practice, every multiple integral is computed as a stack of ordinary integrals (<strong>iterated integrals</strong>), and the real skill is describing the region with the right limits &mdash; often in a coordinate system (polar, cylindrical, spherical, or a custom one) that matches the region's symmetry. When you change coordinates, the area or volume element picks up a scaling factor, the <strong>Jacobian</strong>.</p>
+
+                    <h3 id="double-rect">4.1 Double integrals over rectangles</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Double integral)</p>
+                        <p>Partition the rectangle \(R = [a,b]\times[c,d]\) into small subrectangles \(R_{ij}\) of area \(\Delta A\), pick a sample point \((x_{ij}^*, y_{ij}^*)\) in each, and define</p>
+                        \[ \iint_R f(x,y)\,dA = \lim_{m,n\to\infty}\sum_{i=1}^m\sum_{j=1}^n f(x_{ij}^*,y_{ij}^*)\,\Delta A \]
+                        <p>when the limit exists. If \(f\ge 0\), this is the volume of the solid between the graph of \(f\) and \(R\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Fubini)</p>
+                        <p>If \(f\) is continuous on \(R = [a,b]\times[c,d]\), then</p>
+                        \[ \iint_R f\,dA = \int_a^b\!\!\int_c^d f(x,y)\,dy\,dx = \int_c^d\!\!\int_a^b f(x,y)\,dx\,dy . \]
+                        <p>(It holds more generally for bounded \(f\) whose discontinuities lie on finitely many smooth curves.) For a product, \(\iint_R g(x)h(y)\,dA = \left(\int_a^b g\right)\left(\int_c^d h\right)\).</p>
+                    </div>
+
+                    <p>The <strong>average value</strong> of \(f\) over \(R\) is \(f_{\text{avg}} = \dfrac{1}{A(R)}\iint_R f\,dA\).</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.1</p>
+                        <p>Evaluate \(\displaystyle\iint_R y\sin(xy)\,dA\) where \(R = [1,2]\times[0,\pi/2]\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Integrating in \(y\) first would need integration by parts. Integrating in \(x\) first is immediate, since \(y\) is the derivative of \(xy\) with respect to \(x\):</p>
+                            \[ \int_1^2 y\sin(xy)\,dx = \Big[-\cos(xy)\Big]_{x=1}^{x=2} = \cos y - \cos 2y . \]
+                            \[ \int_0^{\pi/2}(\cos y - \cos 2y)\,dy = \Big[\sin y - \tfrac12\sin 2y\Big]_0^{\pi/2} = (1 - 0) - 0 = 1 . \]
+                        </details>
+                    </div>
+
+                    <h3 id="double-general">4.2 Double integrals over general regions</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Type I and Type II regions)</p>
+                        <p><strong>Type I</strong> (vertically simple): \(D = \{a\le x\le b,\ g_1(x)\le y\le g_2(x)\}\), so \(\iint_D f\,dA = \int_a^b\int_{g_1(x)}^{g_2(x)} f\,dy\,dx\).</p>
+                        <p><strong>Type II</strong> (horizontally simple): \(D = \{c\le y\le d,\ h_1(y)\le x\le h_2(y)\}\), so \(\iint_D f\,dA = \int_c^d\int_{h_1(y)}^{h_2(y)} f\,dx\,dy\).</p>
+                    </div>
+
+                    <p>Properties: linearity; \(\iint_D 1\,dA = A(D)\); additivity over regions that overlap only on boundaries; if \(f\le g\) then \(\iint f\le\iint g\).</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p><strong>Always sketch the region.</strong> For a Type I description, draw a vertical arrow through the region: where it enters is the lower \(y\)-limit, where it leaves is the upper. The outer limits must be constants. If the inner integral has no elementary antiderivative (e.g. \(e^{y^2}\), \(\sin(x^2)\)), try reversing the order.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>When reversing the order you cannot just swap the limits. Reconstruct the region from the original limits, sketch it, then describe it the other way. The outer limits of the new integral must be numbers, never variables.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.2</p>
+                        <p>Evaluate \(\displaystyle\iint_D xy\,dA\) where \(D\) is the region between \(y = x^2\) and \(y = 2x\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The curves meet where \(x^2 = 2x\), i.e. \(x = 0, 2\). For \(0\lt x\lt 2\), \(x^2\lt 2x\), so \(D = \{0\le x\le2,\ x^2\le y\le 2x\}\).</p>
+                            \[ \begin{aligned} \int_0^2\!\!\int_{x^2}^{2x} xy\,dy\,dx &amp;= \int_0^2 x\left[\frac{y^2}{2}\right]_{x^2}^{2x}dx = \frac12\int_0^2 x\left(4x^2 - x^4\right)dx \\ &amp;= \frac12\int_0^2\left(4x^3 - x^5\right)dx = \frac12\left[x^4 - \frac{x^6}{6}\right]_0^2 = \frac12\left(16 - \frac{32}{3}\right) = \frac83 . \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.3</p>
+                        <p>Evaluate \(\displaystyle\int_0^4\!\!\int_{\sqrt x}^{2}\cos(y^3)\,dy\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\cos(y^3)\) has no elementary antiderivative, so reverse the order. The region is \(0\le x\le 4\), \(\sqrt x\le y\le 2\): bounded by the curve \(y = \sqrt x\) (i.e. \(x = y^2\)), the line \(y=2\) and the \(y\)-axis. Described horizontally: \(0\le y\le 2\), \(0\le x\le y^2\).</p>
+                            \[ \int_0^2\!\!\int_0^{y^2}\cos(y^3)\,dx\,dy = \int_0^2 y^2\cos(y^3)\,dy = \left[\tfrac13\sin(y^3)\right]_0^2 = \tfrac13\sin 8 \approx 0.330 . \]
+                        </details>
+                    </div>
+
+                    <h3 id="polar">4.3 Double integrals in polar coordinates</h3>
+
+                    <div class="box formula">
+                        <p class="box-label">Polar coordinates</p>
+                        \[ x = r\cos\theta,\quad y = r\sin\theta,\quad r^2 = x^2+y^2, \qquad dA = r\,dr\,d\theta \]
+                        \[ \iint_D f(x,y)\,dA = \int_\alpha^\beta\!\!\int_{h_1(\theta)}^{h_2(\theta)} f(r\cos\theta, r\sin\theta)\,r\,dr\,d\theta \]
+                    </div>
+
+                    <p><strong>Where the extra \(r\) comes from.</strong> A small "polar rectangle" between radii \(r\) and \(r + \Delta r\) and angles \(\theta\) and \(\theta+\Delta\theta\) is nearly a rectangle with sides \(\Delta r\) (radial) and \(r\,\Delta\theta\) (an arc). Its area is \(\approx r\,\Delta r\,\Delta\theta\). Further from the origin, the same \(\Delta\theta\) sweeps a longer arc.</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Forgetting the factor \(r\) is the single most common error in this chapter. A quick check: \(\int_0^{2\pi}\int_0^a r\,dr\,d\theta = \pi a^2\), the area of a disk. Without the \(r\) you would get \(2\pi a\), which has the wrong units.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.4</p>
+                        <p>Find the volume of the solid under \(z = 4 - x^2 - y^2\) and above the \(xy\)-plane.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The paraboloid meets \(z=0\) on the circle \(x^2+y^2 = 4\), so \(D\) is the disk \(r\le 2\). In polar, \(z = 4 - r^2\):</p>
+                            \[ V = \int_0^{2\pi}\!\!\int_0^2 (4 - r^2)\,r\,dr\,d\theta = 2\pi\left[2r^2 - \frac{r^4}{4}\right]_0^2 = 2\pi(8 - 4) = 8\pi . \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.5 (the Gaussian integral)</p>
+                        <p>Show that \(\displaystyle\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt\pi\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(e^{-x^2}\) has no elementary antiderivative, but squaring the integral turns it into a double integral over the whole plane, which is easy in polar coordinates. Let \(I = \int_{-\infty}^\infty e^{-x^2}dx\). Then</p>
+                            \[ \begin{aligned} I^2 &amp;= \int_{-\infty}^\infty e^{-x^2}dx\int_{-\infty}^\infty e^{-y^2}dy = \iint_{\mathbb{R}^2} e^{-(x^2+y^2)}\,dA \\ &amp;= \int_0^{2\pi}\!\!\int_0^\infty e^{-r^2}\,r\,dr\,d\theta = 2\pi\left[-\tfrac12 e^{-r^2}\right]_0^\infty = 2\pi\cdot\tfrac12 = \pi . \end{aligned} \]
+                            <p>Since \(I\gt 0\), \(I = \sqrt\pi\). (Here the \(r\) in \(dA\) is exactly what makes the integral doable. This result underlies the normal distribution and countless physics calculations.)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="applications">4.4 Applications: mass, moments, centre of mass, surface area</h3>
+
+                    <div class="box formula">
+                        <p class="box-label">Lamina with density \(\delta(x,y)\)</p>
+                        \[ m = \iint_D \delta\,dA, \qquad M_y = \iint_D x\,\delta\,dA, \qquad M_x = \iint_D y\,\delta\,dA, \qquad (\bar x,\bar y) = \left(\frac{M_y}{m}, \frac{M_x}{m}\right) \]
+                        \[ I_x = \iint_D y^2\delta\,dA, \qquad I_y = \iint_D x^2\delta\,dA, \qquad I_0 = \iint_D (x^2+y^2)\,\delta\,dA = I_x + I_y \]
+                        <p>(Note the crossed labels: \(M_y\), the moment about the \(y\)-axis, measures \(x\)-distances.) The same formulas with \(\delta\) a charge density give total charge and dipole moments.</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Surface area of a graph \(z = f(x,y)\) over \(D\)</p>
+                        \[ A(S) = \iint_D\sqrt{1 + f_x^2 + f_y^2}\;dA \]
+                        <p>Reason: a patch \(\Delta x\times\Delta y\) of \(D\) lifts to a parallelogram on the tangent plane spanned by \(\langle\Delta x, 0, f_x\Delta x\rangle\) and \(\langle 0,\Delta y, f_y\Delta y\rangle\); their cross product \(\langle -f_x, -f_y, 1\rangle\Delta x\Delta y\) has length \(\sqrt{1+f_x^2+f_y^2}\,\Delta x\Delta y\). (This is a special case of Section 5.6.)</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.6</p>
+                        <p>A lamina occupies the quarter-disk \(x^2+y^2\le 4\), \(x,y\ge0\), with density \(\delta = x + y\). Find its mass and centre of mass.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>In polar, \(\delta = r(\cos\theta + \sin\theta)\), with \(0\le r\le 2\), \(0\le\theta\le\pi/2\).</p>
+                            \[ m = \int_0^{\pi/2}\!\!\int_0^2 r(\cos\theta+\sin\theta)\,r\,dr\,d\theta = \left(\int_0^2 r^2\,dr\right)\left(\int_0^{\pi/2}(\cos\theta+\sin\theta)\,d\theta\right) = \frac83\cdot 2 = \frac{16}{3} . \]
+                            \[ \begin{aligned} M_y &amp;= \int_0^{\pi/2}\!\!\int_0^2 (r\cos\theta)\,r(\cos\theta+\sin\theta)\,r\,dr\,d\theta = \left(\int_0^2 r^3dr\right)\left(\int_0^{\pi/2}(\cos^2\theta + \sin\theta\cos\theta)\,d\theta\right) \\ &amp;= 4\left(\frac\pi4 + \frac12\right) = \pi + 2 . \end{aligned} \]
+                            <p>So \(\bar x = \dfrac{\pi+2}{16/3} = \dfrac{3(\pi+2)}{16}\approx 0.964\). The region and density are symmetric under \(x\leftrightarrow y\), so \(\bar y = \bar x\). (For uniform density the centroid would be at \(8/(3\pi)\approx 0.849\); the density grows away from the origin, pulling the centre of mass outward.)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.7</p>
+                        <p>Find the area of the part of the paraboloid \(z = 4 - x^2 - y^2\) that lies above the \(xy\)-plane.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f_x = -2x\), \(f_y = -2y\), so \(\sqrt{1 + 4x^2 + 4y^2} = \sqrt{1 + 4r^2}\). The region is \(r\le 2\).</p>
+                            \[ A = \int_0^{2\pi}\!\!\int_0^2\sqrt{1+4r^2}\,r\,dr\,d\theta = 2\pi\left[\frac{(1+4r^2)^{3/2}}{12}\right]_0^2 = \frac{\pi}{6}\left(17\sqrt{17} - 1\right)\approx 36.2 . \]
+                            <p>(Substitution \(u = 1 + 4r^2\), \(du = 8r\,dr\), so \(\int\sqrt u\,\tfrac{du}{8} = \tfrac{1}{12}u^{3/2}\).)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="triple">4.5 Triple integrals</h3>
+
+                    <p>Triple integrals are defined by Riemann sums over boxes, and Fubini's theorem again lets us evaluate them as iterated integrals in any of six orders. For a general solid, the most common description is "Type 1": \(E = \{(x,y)\in D,\ u_1(x,y)\le z\le u_2(x,y)\}\), giving</p>
+                    \[ \iiint_E f\,dV = \iint_D\left[\int_{u_1(x,y)}^{u_2(x,y)} f(x,y,z)\,dz\right]dA , \]
+                    <p>where \(D\) is the shadow (projection) of \(E\) on the \(xy\)-plane. Analogous descriptions project onto the \(yz\)- or \(xz\)-plane. Volume is \(V = \iiint_E 1\,dV\), mass \(m = \iiint_E\delta\,dV\), centre of mass \(\bar x = \frac1m\iiint x\,\delta\,dV\) etc., and moment of inertia about the \(z\)-axis \(I_z = \iiint (x^2+y^2)\,\delta\,dV\).</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Set up a triple integral in two stages: (1) find the bottom and top surfaces in \(z\) (inner limits); (2) find the shadow \(D\) and describe it as a 2D region (outer limits). The shadow's boundary is usually where the top and bottom surfaces meet, or where the top meets a coordinate plane.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.8</p>
+                        <p>Use a triple integral to find the volume of the tetrahedron bounded by the coordinate planes and \(2x + 3y + z = 6\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Bottom \(z = 0\), top \(z = 6 - 2x - 3y\). The shadow is the triangle in the \(xy\)-plane cut off by \(2x + 3y = 6\): \(0\le x\le 3\), \(0\le y\le (6-2x)/3\).</p>
+                            \[ V = \int_0^3\!\!\int_0^{(6-2x)/3}\!\!\int_0^{6-2x-3y}dz\,dy\,dx = \int_0^3\!\!\int_0^{(6-2x)/3}(6-2x-3y)\,dy\,dx . \]
+                            <p>Inner integral, writing \(c = 6 - 2x\) and upper limit \(c/3\):</p>
+                            \[ \left[cy - \tfrac32 y^2\right]_0^{c/3} = \frac{c^2}{3} - \frac{c^2}{6} = \frac{c^2}{6} . \]
+                            <p>Outer: \(\displaystyle\int_0^3\frac{(6-2x)^2}{6}dx\). With \(u = 6-2x\), \(dx = -du/2\): \(\displaystyle\int_0^6\frac{u^2}{12}du = \frac{216}{36} = 6\).</p>
+                            <p>Check: a tetrahedron with legs 3, 2, 6 along the axes has volume \(\tfrac16\cdot3\cdot2\cdot6 = 6\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="cyl-sph">4.6 Cylindrical &amp; spherical coordinates</h3>
+
+                    <div class="box formula">
+                        <p class="box-label">Cylindrical \((r,\theta,z)\)</p>
+                        \[ x = r\cos\theta,\quad y = r\sin\theta,\quad z = z, \qquad dV = r\,dz\,dr\,d\theta \]
+                        <p>Use when the solid has an axis of symmetry: cylinders, paraboloids \(z = x^2+y^2\), cones \(z = \sqrt{x^2+y^2}\) (i.e. \(z = r\)).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Spherical \((\rho,\theta,\phi)\)</p>
+                        \[ x = \rho\sin\phi\cos\theta,\quad y = \rho\sin\phi\sin\theta,\quad z = \rho\cos\phi, \qquad \rho^2 = x^2+y^2+z^2 \]
+                        \[ dV = \rho^2\sin\phi\;d\rho\,d\phi\,d\theta, \qquad \rho\ge 0,\ 0\le\phi\le\pi,\ 0\le\theta\le 2\pi \]
+                        <p>\(\phi\) is the angle down from the positive \(z\)-axis. Use when the solid is bounded by spheres \(\rho = a\) and cones \(\phi = c\).</p>
+                    </div>
+
+                    <p><strong>Where \(\rho^2\sin\phi\) comes from.</strong> A small spherical "box" has edges \(\Delta\rho\) (radial), \(\rho\,\Delta\phi\) (along a meridian, a circle of radius \(\rho\)) and \(\rho\sin\phi\,\Delta\theta\) (along a circle of latitude, whose radius is the distance to the \(z\)-axis, \(\rho\sin\phi\)). Their product is \(\rho^2\sin\phi\,\Delta\rho\,\Delta\phi\,\Delta\theta\).</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Physics books usually swap the names: \(\theta\) for the polar angle from the \(z\)-axis and \(\phi\) for the azimuth, and write \(dV = r^2\sin\theta\,dr\,d\theta\,d\phi\). The geometry is identical; always check which convention a source uses before copying a formula (especially for gradient, divergence and curl in spherical coordinates).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.9</p>
+                        <p>A solid is bounded below by \(z = x^2 + y^2\) and above by \(z = 4\), with density \(\delta = \sqrt{x^2+y^2}\). Find its mass.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>In cylindrical coordinates: \(r^2\le z\le 4\); the shadow is \(r\le 2\); \(\delta = r\).</p>
+                            \[ m = \int_0^{2\pi}\!\!\int_0^2\!\!\int_{r^2}^4 r\cdot r\,dz\,dr\,d\theta = 2\pi\int_0^2 r^2(4 - r^2)\,dr = 2\pi\left[\frac{4r^3}{3} - \frac{r^5}{5}\right]_0^2 = 2\pi\left(\frac{32}{3} - \frac{32}{5}\right) = \frac{128\pi}{15} . \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.10</p>
+                        <p>Find the volume of the "ice-cream cone" inside the sphere \(x^2+y^2+z^2 = 4\) and above the cone \(z = \sqrt{x^2+y^2}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The sphere is \(\rho = 2\). The cone \(z = r\) makes a \(45^\circ\) angle with the \(z\)-axis: \(\phi = \pi/4\). So \(0\le\rho\le 2\), \(0\le\phi\le\pi/4\), \(0\le\theta\le 2\pi\).</p>
+                            \[ V = \int_0^{2\pi}\!\!\int_0^{\pi/4}\!\!\int_0^2\rho^2\sin\phi\,d\rho\,d\phi\,d\theta = 2\pi\cdot\Big[-\cos\phi\Big]_0^{\pi/4}\cdot\frac{8}{3} = 2\pi\left(1 - \frac{\sqrt2}{2}\right)\frac83 = \frac{8\pi}{3}\left(2 - \sqrt2\right)\approx 4.91 . \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.11</p>
+                        <p>Show that a uniform solid ball of mass \(M\) and radius \(a\) has moment of inertia \(I_z = \tfrac25 Ma^2\) about a diameter.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let the constant density be \(\delta\). The distance squared to the \(z\)-axis is \(x^2+y^2 = \rho^2\sin^2\phi\).</p>
+                            \[ \begin{aligned} I_z &amp;= \delta\int_0^{2\pi}\!\!\int_0^\pi\!\!\int_0^a (\rho^2\sin^2\phi)\,\rho^2\sin\phi\,d\rho\,d\phi\,d\theta = \delta\cdot 2\pi\cdot\frac{a^5}{5}\int_0^\pi\sin^3\phi\,d\phi . \end{aligned} \]
+                            <p>With \(\sin^3\phi = (1-\cos^2\phi)\sin\phi\) and \(u = \cos\phi\): \(\int_0^\pi\sin^3\phi\,d\phi = \int_{-1}^1(1-u^2)\,du = \tfrac43\). So \(I_z = \dfrac{8\pi\delta a^5}{15}\).</p>
+                            <p>Since \(M = \tfrac43\pi a^3\delta\): \(\dfrac{I_z}{M} = \dfrac{8\pi a^5/15}{4\pi a^3/3} = \dfrac{2}{5}a^2\). \(\square\)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="jacobians">4.7 Change of variables &amp; Jacobians</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Jacobian)</p>
+                        <p>For a transformation \(T(u,v) = (x(u,v), y(u,v))\), the Jacobian is</p>
+                        \[ \frac{\partial(x,y)}{\partial(u,v)} = \begin{vmatrix} \partial x/\partial u &amp; \partial x/\partial v \\ \partial y/\partial u &amp; \partial y/\partial v \end{vmatrix} = x_u y_v - x_v y_u , \]
+                        <p>and similarly a \(3\times3\) determinant for \(\partial(x,y,z)/\partial(u,v,w)\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Change of variables)</p>
+                        <p>Let \(T\) be a \(C^1\) transformation whose Jacobian is nonzero, mapping a region \(S\) in the \(uv\)-plane one-to-one onto \(R\) in the \(xy\)-plane (except perhaps on the boundary). If \(f\) is continuous on \(R\), then</p>
+                        \[ \iint_R f(x,y)\,dA = \iint_S f\big(x(u,v), y(u,v)\big)\left|\frac{\partial(x,y)}{\partial(u,v)}\right|du\,dv . \]
+                    </div>
+
+                    <p><strong>Why the absolute Jacobian.</strong> A tiny rectangle \(\Delta u\times\Delta v\) maps to (approximately) the parallelogram spanned by \(\mathbf{r}_u\Delta u\) and \(\mathbf{r}_v\Delta v\), where \(\mathbf{r}_u = \langle x_u, y_u\rangle\). Its area is \(|\mathbf{r}_u\times\mathbf{r}_v|\,\Delta u\,\Delta v = |x_uy_v - x_vy_u|\,\Delta u\,\Delta v\). For polar coordinates, \(\partial(x,y)/\partial(r,\theta) = \cos\theta\cdot r\cos\theta - (-r\sin\theta)\sin\theta = r\), recovering \(dA = r\,dr\,d\theta\); the spherical Jacobian works out to \(\rho^2\sin\phi\) in the same way. A useful fact: \(\dfrac{\partial(u,v)}{\partial(x,y)} = 1\Big/\dfrac{\partial(x,y)}{\partial(u,v)}\), so you can compute whichever is easier.</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Choose \(u, v\) so the boundary curves become \(u = \) const and \(v = \) const (the region becomes a rectangle), or so the integrand simplifies. Pairs of parallel lines \(ax + by = c_1, c_2\) suggest \(u = ax + by\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.12</p>
+                        <p>Evaluate \(\displaystyle\iint_R (x+y)\,e^{x-y}\,dA\), where \(R\) is the parallelogram bounded by \(x+y = 0\), \(x + y = 2\), \(x - y = 0\), \(x - y = 3\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let \(u = x + y\), \(v = x - y\). Then \(R\) becomes the rectangle \(0\le u\le 2\), \(0\le v\le 3\). Solving: \(x = \tfrac{u+v}{2}\), \(y = \tfrac{u-v}{2}\).</p>
+                            \[ \frac{\partial(x,y)}{\partial(u,v)} = \begin{vmatrix}\tfrac12 &amp; \tfrac12 \\ \tfrac12 &amp; -\tfrac12\end{vmatrix} = -\tfrac14 - \tfrac14 = -\tfrac12, \qquad \left|\frac{\partial(x,y)}{\partial(u,v)}\right| = \frac12 . \]
+                            \[ \iint_R (x+y)e^{x-y}\,dA = \int_0^2\!\!\int_0^3 u\,e^v\cdot\tfrac12\,dv\,du = \frac12\left(\int_0^2 u\,du\right)\left(\int_0^3 e^v dv\right) = \frac12\cdot 2\cdot(e^3 - 1) = e^3 - 1 . \]
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Evaluate \(\iint_D (x+y)\,dA\), where \(D\) is the triangle with vertices \((0,0)\), \((1,0)\), \((1,1)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(D = \{0\le x\le1,\ 0\le y\le x\}\). \(\int_0^1\left[xy + \tfrac{y^2}{2}\right]_0^x dx = \int_0^1\tfrac32x^2\,dx = \tfrac12\).</p>
+                                </details>
+                            </li>
+                            <li>Evaluate \(\displaystyle\int_0^1\!\!\int_{x^2}^1 x^3\sin(y^3)\,dy\,dx\) by reversing the order.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Region: \(0\le y\le 1\), \(0\le x\le\sqrt y\). \(\int_0^1\sin(y^3)\left[\tfrac{x^4}{4}\right]_0^{\sqrt y}dy = \tfrac14\int_0^1 y^2\sin(y^3)\,dy = \tfrac{1}{12}(1 - \cos 1)\approx 0.0383\).</p>
+                                </details>
+                            </li>
+                            <li>Evaluate \(\iint_D \dfrac{1}{1+x^2+y^2}\,dA\) over the unit disk.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\int_0^{2\pi}\int_0^1\frac{r}{1+r^2}dr\,d\theta = 2\pi\cdot\tfrac12\ln(1+r^2)\Big|_0^1 = \pi\ln 2\).</p>
+                                </details>
+                            </li>
+                            <li>Find the volume of the solid inside the cylinder \(x^2+y^2 = 4\), above \(z = 0\) and below \(z = 5 + y\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\int_0^{2\pi}\int_0^2 (5 + r\sin\theta)\,r\,dr\,d\theta\). The \(\sin\theta\) term integrates to 0 over a full turn, leaving \(5\cdot 2\pi\cdot 2 = 20\pi\). (The plane tilts symmetrically about the axis; note \(5 + y\gt 0\) on the disk.)</p>
+                                </details>
+                            </li>
+                            <li>A ball of radius \(R\) carries charge density \(\rho_c = \rho_0(1 - r/R)\), where \(r\) is the distance from the centre. Find the total charge.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(Q = \int_0^{2\pi}\int_0^\pi\int_0^R\rho_0(1 - \rho/R)\rho^2\sin\phi\,d\rho\,d\phi\,d\theta = 4\pi\rho_0\left(\tfrac{R^3}{3} - \tfrac{R^3}{4}\right) = \tfrac{\pi\rho_0R^3}{3}\).</p>
+                                </details>
+                            </li>
+                            <li>Use \(x = au\), \(y = bv\) to show the ellipse \(x^2/a^2 + y^2/b^2\le 1\) has area \(\pi ab\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Jacobian \(\begin{vmatrix} a &amp; 0\\ 0 &amp; b\end{vmatrix} = ab\). The ellipse maps from the unit disk \(u^2+v^2\le1\), so area \(= \iint_{\text{disk}} ab\,du\,dv = ab\cdot\pi\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch16">
+                    <h2>5. Vector calculus</h2>
+                    <p class="ref">Stewart Ch. 16 &middot; OpenStax Vol. 3 Ch. 6</p>
+
+                    <p>This chapter is where the course pays off for a physicist. A <strong>vector field</strong> attaches an arrow to every point of space: a force, a velocity, an electric or magnetic field. Two kinds of question dominate. <em>Along a curve:</em> how much does the field push along the path (work, circulation)? That is a <strong>line integral</strong>. <em>Through a surface:</em> how much of the field passes through it (flux)? That is a <strong>surface integral</strong>. The local, derivative versions of these ideas are <strong>curl</strong> (circulation per unit area) and <strong>divergence</strong> (outflow per unit volume). The great theorems of Green, Stokes and Gauss say that adding up a derivative over a region equals adding up the field over the region's boundary &mdash; the Fundamental Theorem of Calculus, promoted to higher dimensions. Maxwell's equations are exactly these theorems applied to \(\mathbf{E}\) and \(\mathbf{B}\).</p>
+
+                    <h3 id="vector-fields">5.1 Vector fields</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Vector field)</p>
+                        <p>A vector field on \(D\subseteq\mathbb{R}^3\) is a function \(\mathbf{F}(x,y,z) = \langle P, Q, R\rangle\) assigning a vector to each point of \(D\). It is <strong>continuous</strong> (or \(C^1\)) if its component functions are. A field of the form \(\mathbf{F} = \nabla f\) is a <strong>gradient field</strong>, and \(f\) is a <strong>potential function</strong> for it; such an \(\mathbf{F}\) is called <strong>conservative</strong>.</p>
+                    </div>
+
+                    <p>Key examples:</p>
+                    <ul>
+                        <li><strong>Rotation:</strong> \(\mathbf{F} = \langle -y, x\rangle\) circles the origin counter-clockwise, with speed growing with distance (a rigidly rotating disc's velocity field).</li>
+                        <li><strong>Radial / inverse-square:</strong> \(\mathbf{F} = \dfrac{c\,\mathbf{r}}{|\mathbf{r}|^3}\) with \(\mathbf{r} = \langle x,y,z\rangle\), magnitude \(|c|/|\mathbf{r}|^2\). With \(c = q/(4\pi\varepsilon_0)\) this is the Coulomb field of a point charge; with \(c = -GMm\) it is Newtonian gravity. It is conservative: \(\mathbf{F} = \nabla\big(-c/|\mathbf{r}|\big)\).</li>
+                        <li><strong>Gradient fields</strong> \(\nabla f\) are everywhere perpendicular to the level sets of \(f\) (Section 3.5).</li>
+                    </ul>
+                    <p>A <strong>flow line</strong> (streamline, field line) is a curve \(\mathbf{r}(t)\) with \(\mathbf{r}'(t) = \mathbf{F}(\mathbf{r}(t))\): it is everywhere tangent to the field.</p>
+
+                    <h3 id="line-integrals">5.2 Line integrals</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Line integrals)</p>
+                        <p>Let \(C\) be a smooth curve given by \(\mathbf{r}(t)\), \(a\le t\le b\).</p>
+                        <p><strong>Of a scalar function</strong> (with respect to arc length):</p>
+                        \[ \int_C f\,ds = \int_a^b f(\mathbf{r}(t))\,|\mathbf{r}'(t)|\,dt . \]
+                        <p><strong>Of a vector field</strong> (work, circulation):</p>
+                        \[ \int_C\mathbf{F}\cdot d\mathbf{r} = \int_a^b\mathbf{F}(\mathbf{r}(t))\cdot\mathbf{r}'(t)\,dt = \int_C\mathbf{F}\cdot\mathbf{T}\,ds = \int_C P\,dx + Q\,dy + R\,dz . \]
+                        <p>For a piecewise-smooth curve, add the integrals over the pieces. If \(C\) is closed, write \(\oint_C\).</p>
+                    </div>
+
+                    <p>Both integrals are independent of the parametrisation chosen, as long as it traces \(C\) once. The difference is orientation: \(\int_{-C} f\,ds = \int_C f\,ds\) (arc length is positive either way), but \(\int_{-C}\mathbf{F}\cdot d\mathbf{r} = -\int_C\mathbf{F}\cdot d\mathbf{r}\) (walking the other way, the field helps instead of hinders). Interpretations: \(\int_C f\,ds\) with \(f\) a linear density is the mass of a wire; \(\int_C \mathbf{F}\cdot d\mathbf{r}\) is the work done by force \(\mathbf{F}\) on a particle moving along \(C\); around a closed loop it is the <strong>circulation</strong> (in EM: \(\oint\mathbf{E}\cdot d\mathbf{r}\) is the EMF).</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Recipe: (1) parametrise \(C\) in the correct direction; (2) substitute \(x(t), y(t), z(t)\) into the field; (3) compute \(\mathbf{r}'(t)\); (4) dot and integrate. Standard parametrisations: segment \((1-t)\mathbf{r}_0 + t\mathbf{r}_1\); circle \(\langle a\cos t, a\sin t\rangle\) (counter-clockwise); graph \(y = g(x)\) as \(\langle t, g(t)\rangle\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.1</p>
+                        <p>Evaluate \(\displaystyle\int_C (x^2 + y^2 + z)\,ds\), where \(C\) is one turn of the helix \(\mathbf{r}(t) = \langle\cos t, \sin t, t\rangle\), \(0\le t\le2\pi\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\mathbf{r}'(t) = \langle -\sin t, \cos t, 1\rangle\), so \(|\mathbf{r}'(t)| = \sqrt{2}\). On the curve, \(x^2 + y^2 + z = 1 + t\).</p>
+                            \[ \int_0^{2\pi}(1 + t)\sqrt2\,dt = \sqrt2\left[t + \frac{t^2}{2}\right]_0^{2\pi} = \sqrt2\,(2\pi + 2\pi^2) = 2\sqrt2\,\pi(1+\pi)\approx 36.8 . \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.2</p>
+                        <p>Let \(\mathbf{F} = \langle y^2, x\rangle\). Compute the work done moving from \((0,0)\) to \((1,1)\) along (a) the line \(y = x\) and (b) the parabola \(y = x^2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(\mathbf{r} = \langle t,t\rangle\), \(\mathbf{r}' = \langle1,1\rangle\), \(\mathbf{F}(\mathbf{r}(t)) = \langle t^2, t\rangle\):</p>
+                            \[ \int_0^1 (t^2 + t)\,dt = \frac13 + \frac12 = \frac56 . \]
+                            <p>(b) \(\mathbf{r} = \langle t, t^2\rangle\), \(\mathbf{r}' = \langle 1, 2t\rangle\), \(\mathbf{F}(\mathbf{r}(t)) = \langle t^4, t\rangle\):</p>
+                            \[ \int_0^1 (t^4 + 2t^2)\,dt = \frac15 + \frac23 = \frac{13}{15} . \]
+                            <p>Different answers for the same endpoints: the work is path-dependent, so \(\mathbf{F}\) is <em>not</em> conservative. (Consistent with the test in the next section: \(P_y = 2y\neq 1 = Q_x\).)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ftc-line">5.3 The fundamental theorem for line integrals &amp; conservative fields</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Fundamental theorem for line integrals)</p>
+                        <p>Let \(C\) be a smooth curve \(\mathbf{r}(t)\), \(a\le t\le b\), and let \(f\) be differentiable with \(\nabla f\) continuous on \(C\). Then</p>
+                        \[ \int_C\nabla f\cdot d\mathbf{r} = f(\mathbf{r}(b)) - f(\mathbf{r}(a)) . \]
+                    </div>
+
+                    <p><strong>Proof.</strong> By the chain rule, \(\dfrac{d}{dt}f(\mathbf{r}(t)) = \nabla f(\mathbf{r}(t))\cdot\mathbf{r}'(t)\). So the line integral is \(\int_a^b\frac{d}{dt}f(\mathbf{r}(t))\,dt\), and the ordinary FTC finishes it. \(\square\)</p>
+
+                    <p><strong>Consequences.</strong> For a conservative field, the line integral depends only on the endpoints (<strong>path independence</strong>), and \(\oint_C\mathbf{F}\cdot d\mathbf{r} = 0\) for every closed curve. Conversely, on an open connected region, a continuous field whose line integrals are path-independent is conservative (define \(f(\mathbf{x}) = \int_{\mathbf{x}_0}^{\mathbf{x}}\mathbf{F}\cdot d\mathbf{r}\) along any path).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Test for a conservative field)</p>
+                        <p><strong>Necessary:</strong> if \(\mathbf{F} = \langle P,Q\rangle\) is conservative with \(C^1\) components, then \(\partial P/\partial y = \partial Q/\partial x\). In 3D: \(\operatorname{curl}\mathbf{F} = \mathbf{0}\).</p>
+                        <p><strong>Sufficient:</strong> if \(P, Q\) have continuous first partials on an open, <strong>simply connected</strong> region \(D\) (connected, with no holes: every closed loop can be shrunk to a point within \(D\)), and \(P_y = Q_x\) throughout \(D\), then \(\mathbf{F}\) is conservative on \(D\). In 3D: \(\operatorname{curl}\mathbf{F} = \mathbf{0}\) on a simply connected domain (for example all of \(\mathbb{R}^3\)) implies conservative.</p>
+                    </div>
+
+                    <p>The necessary direction is just Clairaut: if \(P = f_x\) and \(Q = f_y\), then \(P_y = f_{xy} = f_{yx} = Q_x\). Example 5.6 below shows why simple connectivity cannot be dropped.</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (finding a potential)</p>
+                        <p>Integrate \(P\) with respect to \(x\), adding an unknown function of the remaining variables: \(f = \int P\,dx + g(y,z)\). Differentiate with respect to \(y\), compare with \(Q\) to find \(g_y\), integrate, and repeat with \(z\). Always check by differentiating your final \(f\).</p>
+                    </div>
+
+                    <p><strong>Physics link (energy conservation).</strong> If \(\mathbf{F} = -\nabla U\), the work from \(A\) to \(B\) is \(U(A) - U(B)\). By the work&ndash;energy theorem it also equals \(K(B) - K(A)\). Hence \(K + U\) is the same at \(A\) and \(B\): that is why such forces are called "conservative". In electrostatics, \(\mathbf{E} = -\nabla V\) and \(\int_A^B\mathbf{E}\cdot d\mathbf{r} = V(A) - V(B)\), the potential difference.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.3</p>
+                        <p>Show \(\mathbf{F} = \langle 2xy,\ x^2 + z^2,\ 2yz + 1\rangle\) is conservative, find a potential, and compute \(\int_C\mathbf{F}\cdot d\mathbf{r}\) for any path \(C\) from \((1,0,2)\) to \((2,1,1)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Curl</strong> (\(P = 2xy\), \(Q = x^2+z^2\), \(R = 2yz + 1\)):</p>
+                            \[ \operatorname{curl}\mathbf{F} = \langle R_y - Q_z,\ P_z - R_x,\ Q_x - P_y\rangle = \langle 2z - 2z,\ 0 - 0,\ 2x - 2x\rangle = \mathbf{0} . \]
+                            <p>The domain is \(\mathbb{R}^3\) (simply connected), so \(\mathbf{F}\) is conservative.</p>
+                            <p><strong>Potential.</strong> \(f = \int 2xy\,dx = x^2y + g(y,z)\). Then \(f_y = x^2 + g_y = x^2 + z^2\), so \(g_y = z^2\) and \(g = yz^2 + h(z)\). Then \(f_z = 2yz + h'(z) = 2yz + 1\), so \(h(z) = z\). Hence</p>
+                            \[ f(x,y,z) = x^2y + yz^2 + z . \]
+                            <p><strong>Integral.</strong> \(f(2,1,1) = 4 + 1 + 1 = 6\) and \(f(1,0,2) = 0 + 0 + 2 = 2\), so \(\int_C\mathbf{F}\cdot d\mathbf{r} = 6 - 2 = 4\) for every path.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="green">5.4 Green's theorem</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Green)</p>
+                        <p>Let \(C\) be a positively oriented (counter-clockwise: region on your left), piecewise-smooth, simple closed curve in the plane, and \(D\) the region it bounds. If \(P\) and \(Q\) have continuous first partial derivatives on an open region containing \(D\), then</p>
+                        \[ \oint_C P\,dx + Q\,dy = \iint_D\left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right)dA . \]
+                    </div>
+
+                    <p><strong>Proof for a rectangle</strong> \(D = [a,b]\times[c,d]\). It suffices to show \(\oint_C P\,dx = -\iint_D P_y\,dA\) (the \(Q\) part is identical with the roles of \(x\) and \(y\) swapped). By Fubini and the FTC,</p>
+                    \[ -\iint_D\frac{\partial P}{\partial y}\,dA = -\int_a^b\big[P(x,d) - P(x,c)\big]\,dx . \]
+                    <p>Now go around the boundary counter-clockwise. On the bottom edge (\(y = c\), \(x\) from \(a\) to \(b\)) we get \(\int_a^b P(x,c)\,dx\). On the top edge (\(y = d\), \(x\) from \(b\) back to \(a\)) we get \(-\int_a^b P(x,d)\,dx\). On the vertical edges \(x\) is constant, so \(dx = 0\) and \(\int P\,dx = 0\). The total matches. \(\square\)</p>
+                    <p>Any reasonable region can be cut into small rectangles (or Type I/II pieces). The line integrals over shared interior edges are traversed in opposite directions and cancel, leaving only the outer boundary: this <strong>cancellation of interior boundaries</strong> is the engine behind every theorem in this chapter.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Consequences of Green's theorem</p>
+                        \[ A(D) = \oint_C x\,dy = -\oint_C y\,dx = \frac12\oint_C x\,dy - y\,dx \]
+                        \[ \text{Circulation form: } \oint_C\mathbf{F}\cdot\mathbf{T}\,ds = \iint_D(\operatorname{curl}\mathbf{F})\cdot\mathbf{k}\,dA \qquad \text{Flux form: } \oint_C\mathbf{F}\cdot\mathbf{n}\,ds = \iint_D\operatorname{div}\mathbf{F}\,dA \]
+                        <p>(\(\mathbf{n}\) is the outward unit normal to \(C\).) For a region with holes, the boundary consists of the outer curve counter-clockwise and each inner curve <em>clockwise</em>, so the region always stays on your left.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Green's theorem needs \(P, Q\) to be \(C^1\) on the <em>whole</em> region \(D\), not just on \(C\). If the field blows up at a point inside \(C\) (like \(\langle -y, x\rangle/(x^2+y^2)\) at the origin), you cannot apply it directly; cut out the bad point with a small circle first.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.4</p>
+                        <p>Evaluate \(\displaystyle\oint_C xy^2\,dx + (x^2y + 2x)\,dy\) around the unit circle, counter-clockwise, using Green's theorem; then check directly.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(P = xy^2\), \(Q = x^2y + 2x\): \(Q_x - P_y = (2xy + 2) - 2xy = 2\). So</p>
+                            \[ \oint_C = \iint_D 2\,dA = 2\cdot\pi(1)^2 = 2\pi . \]
+                            <p><strong>Direct check.</strong> \(x = \cos t\), \(y = \sin t\), \(dx = -\sin t\,dt\), \(dy = \cos t\,dt\):</p>
+                            \[ \int_0^{2\pi}\Big[-\cos t\sin^3 t + \cos^3 t\sin t + 2\cos^2 t\Big]dt . \]
+                            <p>The first two terms integrate to zero over a full period (they are the derivatives of the periodic functions \(-\frac14\sin^4 t\) and \(-\frac14\cos^4 t\)), and \(\int_0^{2\pi}2\cos^2 t\,dt = 2\pi\). Both methods agree.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.5</p>
+                        <p>Use Green's theorem to find the area of the ellipse \(x = a\cos t\), \(y = b\sin t\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ A = \frac12\oint_C x\,dy - y\,dx = \frac12\int_0^{2\pi}\big[(a\cos t)(b\cos t) - (b\sin t)(-a\sin t)\big]dt = \frac12\int_0^{2\pi}ab\,dt = \pi ab . \]
+                            <p>(This is the principle of the planimeter: tracing the boundary measures the enclosed area.)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.6 (why "simply connected" matters)</p>
+                        <p>Let \(\mathbf{F} = \dfrac{\langle -y, x\rangle}{x^2+y^2}\) on \(\mathbb{R}^2\setminus\{(0,0)\}\). Show \(Q_x = P_y\) everywhere on the domain, yet \(\oint_C\mathbf{F}\cdot d\mathbf{r} = 2\pi\) around the unit circle.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(P = -y/(x^2+y^2)\), \(Q = x/(x^2+y^2)\). By the quotient rule:</p>
+                            \[ Q_x = \frac{(x^2+y^2) - 2x^2}{(x^2+y^2)^2} = \frac{y^2 - x^2}{(x^2+y^2)^2}, \qquad P_y = \frac{-(x^2+y^2) + 2y^2}{(x^2+y^2)^2} = \frac{y^2 - x^2}{(x^2+y^2)^2} . \]
+                            <p>Equal. But on the unit circle, \(\mathbf{F} = \langle -\sin t, \cos t\rangle = \mathbf{r}'(t)\), so</p>
+                            \[ \oint_C\mathbf{F}\cdot d\mathbf{r} = \int_0^{2\pi}(\sin^2 t + \cos^2 t)\,dt = 2\pi\neq 0 . \]
+                            <p>So \(\mathbf{F}\) is not conservative on the punctured plane. There is no contradiction: the domain has a hole, so the sufficient test does not apply, and Green's theorem cannot be used on the disk because \(\mathbf{F}\) is undefined at the origin. Locally \(\mathbf{F} = \nabla\theta\) (the polar angle), but \(\theta\) cannot be defined continuously all the way around. In fact, by Green's theorem on the region between \(C\) and any other loop around the origin, <em>every</em> counter-clockwise loop around the origin gives \(2\pi\).</p>
+                            <p><strong>Physics:</strong> this is (up to the factor \(\mu_0 I/2\pi\)) the magnetic field of a long straight wire along the \(z\)-axis. It is curl-free outside the wire, yet \(\oint\mathbf{B}\cdot d\mathbf{r} = \mu_0 I\) around any loop enclosing it &mdash; Ampère's law.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="curl-div">5.5 Curl &amp; divergence</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Curl and divergence)</p>
+                        <p>With the operator \(\nabla = \left\langle\dfrac{\partial}{\partial x}, \dfrac{\partial}{\partial y}, \dfrac{\partial}{\partial z}\right\rangle\) and \(\mathbf{F} = \langle P,Q,R\rangle\):</p>
+                        \[ \operatorname{curl}\mathbf{F} = \nabla\times\mathbf{F} = \begin{vmatrix}\mathbf{i} &amp; \mathbf{j} &amp; \mathbf{k}\\ \partial_x &amp; \partial_y &amp; \partial_z \\ P &amp; Q &amp; R\end{vmatrix} = \left\langle R_y - Q_z,\ P_z - R_x,\ Q_x - P_y\right\rangle \]
+                        \[ \operatorname{div}\mathbf{F} = \nabla\cdot\mathbf{F} = P_x + Q_y + R_z, \qquad \nabla^2 f = \nabla\cdot\nabla f = f_{xx} + f_{yy} + f_{zz} \text{ (Laplacian)} \]
+                    </div>
+
+                    <p><strong>Physical meaning.</strong> Think of \(\mathbf{F}\) as a fluid velocity.</p>
+                    <ul>
+                        <li><strong>Divergence</strong> is the net outflow per unit volume at a point: \(\operatorname{div}\mathbf{F}(P) = \lim\limits_{V\to0}\frac{1}{V}\iint_{S}\mathbf{F}\cdot\mathbf{n}\,dS\) over small closed surfaces around \(P\). Positive means a source, negative a sink, zero means incompressible.</li>
+                        <li><strong>Curl</strong> measures local rotation: \(\mathbf{n}\cdot\operatorname{curl}\mathbf{F}(P) = \lim\limits_{a\to0}\frac{1}{\pi a^2}\oint_{C_a}\mathbf{F}\cdot d\mathbf{r}\) for small circles \(C_a\) around \(P\) perpendicular to \(\mathbf{n}\). A tiny paddle wheel spins fastest when its axle is along \(\operatorname{curl}\mathbf{F}\), with angular velocity \(\tfrac12|\operatorname{curl}\mathbf{F}|\). For rigid rotation \(\mathbf{v} = \boldsymbol\omega\times\mathbf{r}\), \(\operatorname{curl}\mathbf{v} = 2\boldsymbol\omega\).</li>
+                    </ul>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Two vanishing identities)</p>
+                        <p>If \(f\) has continuous second partials and \(\mathbf{F}\) has continuous second partials, then</p>
+                        \[ \nabla\times(\nabla f) = \mathbf{0}, \qquad \nabla\cdot(\nabla\times\mathbf{F}) = 0 . \]
+                    </div>
+
+                    <p><strong>Proof.</strong> With \(\mathbf{F} = \nabla f = \langle f_x, f_y, f_z\rangle\), the curl formula gives</p>
+                    \[ \nabla\times\nabla f = \langle f_{zy} - f_{yz},\ f_{xz} - f_{zx},\ f_{yx} - f_{xy}\rangle = \mathbf{0} \]
+                    <p>by Clairaut's theorem. Similarly</p>
+                    \[ \nabla\cdot(\nabla\times\mathbf{F}) = (R_y - Q_z)_x + (P_z - R_x)_y + (Q_x - P_y)_z = R_{yx} - Q_{zx} + P_{zy} - R_{xy} + Q_{xz} - P_{yz} = 0 , \]
+                    <p>since the terms cancel in pairs. \(\square\)</p>
+
+                    <p>So a gradient field is curl-free (irrotational), and a curl field is divergence-free (solenoidal). On simply connected (respectively, suitably simple) domains the converses hold: curl-free fields have scalar potentials, and divergence-free fields have vector potentials \(\mathbf{F} = \nabla\times\mathbf{A}\). In EM: \(\nabla\cdot\mathbf{B} = 0\) is what lets us write \(\mathbf{B} = \nabla\times\mathbf{A}\), and in electrostatics \(\nabla\times\mathbf{E} = \mathbf{0}\) is what lets us write \(\mathbf{E} = -\nabla V\).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Product rules (all follow from the ordinary product rule)</p>
+                        \[ \nabla\cdot(f\mathbf{F}) = f\,\nabla\cdot\mathbf{F} + \mathbf{F}\cdot\nabla f \qquad \nabla\times(f\mathbf{F}) = f\,\nabla\times\mathbf{F} + \nabla f\times\mathbf{F} \]
+                        \[ \nabla\cdot(\mathbf{F}\times\mathbf{G}) = \mathbf{G}\cdot(\nabla\times\mathbf{F}) - \mathbf{F}\cdot(\nabla\times\mathbf{G}) \qquad \nabla\times(\nabla\times\mathbf{F}) = \nabla(\nabla\cdot\mathbf{F}) - \nabla^2\mathbf{F} \]
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Curl is only defined for 3D fields (for a 2D field \(\langle P, Q\rangle\), treat it as \(\langle P,Q,0\rangle\); the curl is then \((Q_x - P_y)\mathbf{k}\)). Divergence produces a scalar, curl a vector; "div of a scalar" or "grad of a vector field" (in this course) are meaningless, which is a useful sanity check on any identity.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.7</p>
+                        <p>(a) For \(\mathbf{F} = \langle x^2y,\ yz^2,\ xz\rangle\), find \(\operatorname{div}\mathbf{F}\) and \(\operatorname{curl}\mathbf{F}\), and verify \(\operatorname{div}(\operatorname{curl}\mathbf{F}) = 0\). (b) Show the inverse-square field \(\mathbf{F} = \mathbf{r}/|\mathbf{r}|^3\) has zero divergence away from the origin.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(P = x^2y\), \(Q = yz^2\), \(R = xz\).</p>
+                            \[ \operatorname{div}\mathbf{F} = 2xy + z^2 + x . \]
+                            \[ \operatorname{curl}\mathbf{F} = \langle R_y - Q_z,\ P_z - R_x,\ Q_x - P_y\rangle = \langle 0 - 2yz,\ 0 - z,\ 0 - x^2\rangle = \langle -2yz, -z, -x^2\rangle . \]
+                            \[ \operatorname{div}(\operatorname{curl}\mathbf{F}) = \partial_x(-2yz) + \partial_y(-z) + \partial_z(-x^2) = 0 + 0 + 0 = 0 . \]
+                            <p>(b) Let \(\rho = |\mathbf{r}| = \sqrt{x^2+y^2+z^2}\), so \(\partial\rho/\partial x = x/\rho\). Then</p>
+                            \[ \frac{\partial}{\partial x}\left(\frac{x}{\rho^3}\right) = \frac{1}{\rho^3} - \frac{3x}{\rho^4}\cdot\frac{x}{\rho} = \frac{1}{\rho^3} - \frac{3x^2}{\rho^5} . \]
+                            <p>Adding the analogous \(y\) and \(z\) terms:</p>
+                            \[ \nabla\cdot\mathbf{F} = \frac{3}{\rho^3} - \frac{3(x^2+y^2+z^2)}{\rho^5} = \frac{3}{\rho^3} - \frac{3}{\rho^3} = 0 \quad (\rho\neq 0). \]
+                            <p>The Coulomb field has no sources except at the charge itself &mdash; which will make Gauss's law work (Section 5.9).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="param-surfaces">5.6 Parametric surfaces &amp; their areas</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Parametric surface)</p>
+                        <p>A parametric surface is the image of a vector function of two variables, \(\mathbf{r}(u,v) = \langle x(u,v), y(u,v), z(u,v)\rangle\), \((u,v)\in D\). The partial derivatives \(\mathbf{r}_u\), \(\mathbf{r}_v\) are tangent to the surface, so</p>
+                        \[ \mathbf{N} = \mathbf{r}_u\times\mathbf{r}_v \]
+                        <p>is a normal vector. The surface is <strong>smooth</strong> if \(\mathbf{r}_u\times\mathbf{r}_v\neq\mathbf{0}\) (on the interior of \(D\)).</p>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Surface</th><th>Parametrisation</th><th>\(|\mathbf{r}_u\times\mathbf{r}_v|\)</th></tr></thead>
+                            <tbody>
+                                <tr><td>Graph \(z = g(x,y)\)</td><td>\(\langle x, y, g(x,y)\rangle\)</td><td>\(\sqrt{1 + g_x^2 + g_y^2}\)</td></tr>
+                                <tr><td>Sphere \(\rho = a\)</td><td>\(\langle a\sin\phi\cos\theta,\ a\sin\phi\sin\theta,\ a\cos\phi\rangle\)</td><td>\(a^2\sin\phi\)</td></tr>
+                                <tr><td>Cylinder \(x^2+y^2=a^2\)</td><td>\(\langle a\cos\theta,\ a\sin\theta,\ z\rangle\)</td><td>\(a\)</td></tr>
+                                <tr><td>Cone \(z = \sqrt{x^2+y^2}\)</td><td>\(\langle r\cos\theta,\ r\sin\theta,\ r\rangle\)</td><td>\(\sqrt2\,r\)</td></tr>
+                                <tr><td>Plane through \(P_0\) spanned by \(\mathbf{a},\mathbf{b}\)</td><td>\(\mathbf{r}_0 + u\mathbf{a} + v\mathbf{b}\)</td><td>\(|\mathbf{a}\times\mathbf{b}|\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Surface area</p>
+                        \[ A(S) = \iint_D|\mathbf{r}_u\times\mathbf{r}_v|\,dA, \qquad dS = |\mathbf{r}_u\times\mathbf{r}_v|\,du\,dv \]
+                        <p>(Same reasoning as the Jacobian: a small \(\Delta u\times\Delta v\) patch maps to a parallelogram spanned by \(\mathbf{r}_u\Delta u\) and \(\mathbf{r}_v\Delta v\).)</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.8</p>
+                        <p>Using the spherical parametrisation, compute \(\mathbf{r}_\phi\times\mathbf{r}_\theta\) for the sphere of radius \(a\), and show its area is \(4\pi a^2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \mathbf{r}_\phi = \langle a\cos\phi\cos\theta,\ a\cos\phi\sin\theta,\ -a\sin\phi\rangle, \qquad \mathbf{r}_\theta = \langle -a\sin\phi\sin\theta,\ a\sin\phi\cos\theta,\ 0\rangle . \]
+                            <p>Components of the cross product:</p>
+                            \[ \begin{aligned} x&amp;:\ (a\cos\phi\sin\theta)(0) - (-a\sin\phi)(a\sin\phi\cos\theta) = a^2\sin^2\phi\cos\theta \\ y&amp;:\ (-a\sin\phi)(-a\sin\phi\sin\theta) - (a\cos\phi\cos\theta)(0) = a^2\sin^2\phi\sin\theta \\ z&amp;:\ (a\cos\phi\cos\theta)(a\sin\phi\cos\theta) - (a\cos\phi\sin\theta)(-a\sin\phi\sin\theta) = a^2\sin\phi\cos\phi \end{aligned} \]
+                            \[ \mathbf{r}_\phi\times\mathbf{r}_\theta = a^2\sin\phi\,\langle\sin\phi\cos\theta,\ \sin\phi\sin\theta,\ \cos\phi\rangle = a\sin\phi\;\mathbf{r}(\phi,\theta) . \]
+                            <p>It points radially outward (since \(\sin\phi\ge0\)) with length \(a^2\sin\phi\). Area:</p>
+                            \[ A = \int_0^{2\pi}\!\!\int_0^\pi a^2\sin\phi\,d\phi\,d\theta = a^2\cdot 2\cdot 2\pi = 4\pi a^2 . \]
+                        </details>
+                    </div>
+
+                    <h3 id="surface-integrals">5.7 Surface integrals &amp; flux</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Surface integral of a scalar function)</p>
+                        \[ \iint_S f\,dS = \iint_D f(\mathbf{r}(u,v))\,|\mathbf{r}_u\times\mathbf{r}_v|\,dA . \]
+                        <p>For a graph \(z = g(x,y)\): \(\iint_S f\,dS = \iint_D f(x,y,g(x,y))\sqrt{1 + g_x^2 + g_y^2}\,dA\). Uses: mass of a shell, total charge on a surface, average value over a surface.</p>
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Orientation and flux)</p>
+                        <p>A surface is <strong>orientable</strong> if a continuous choice of unit normal \(\mathbf{n}\) exists over the whole surface (a M&ouml;bius strip is not orientable). Closed surfaces are oriented <strong>outward</strong> by convention (many texts mark an integral over a closed surface with a circled double-integral sign; these notes just write \(\iint_S\) and say "closed"). The <strong>flux</strong> of \(\mathbf{F}\) across the oriented surface \(S\) is</p>
+                        \[ \iint_S\mathbf{F}\cdot d\mathbf{S} = \iint_S\mathbf{F}\cdot\mathbf{n}\,dS = \iint_D\mathbf{F}(\mathbf{r}(u,v))\cdot(\mathbf{r}_u\times\mathbf{r}_v)\,dA , \]
+                        <p>where the last form requires \(\mathbf{r}_u\times\mathbf{r}_v\) to point in the chosen direction (otherwise negate it). For a graph \(z = g(x,y)\) oriented upward, \(\mathbf{r}_x\times\mathbf{r}_y = \langle -g_x, -g_y, 1\rangle\), so</p>
+                        \[ \iint_S\mathbf{F}\cdot d\mathbf{S} = \iint_D\left(-P\,g_x - Q\,g_y + R\right)dA . \]
+                    </div>
+
+                    <p>If \(\mathbf{F}\) is a fluid velocity, flux is the volume of fluid crossing \(S\) per unit time. In EM, \(\iint\mathbf{E}\cdot d\mathbf{S}\) is the electric flux and \(\iint\mathbf{B}\cdot d\mathbf{S}\) the magnetic flux whose rate of change drives Faraday's law. Note the neat cancellation: \(|\mathbf{r}_u\times\mathbf{r}_v|\) in \(dS\) cancels the normalisation of \(\mathbf{n}\), so you never need to compute a square root for a flux integral.</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Orientation errors flip the sign of a flux. After computing \(\mathbf{r}_u\times\mathbf{r}_v\), test it at one convenient point: does it point the way the problem asks (up, outward, away from the axis)? If not, swap the order of the cross product.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.9</p>
+                        <p>Evaluate \(\iint_S z\,dS\) over the upper hemisphere \(x^2+y^2+z^2 = a^2\), \(z\ge 0\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Spherical parametrisation with \(0\le\phi\le\pi/2\): \(z = a\cos\phi\), \(dS = a^2\sin\phi\,d\phi\,d\theta\).</p>
+                            \[ \iint_S z\,dS = \int_0^{2\pi}\!\!\int_0^{\pi/2}a\cos\phi\cdot a^2\sin\phi\,d\phi\,d\theta = 2\pi a^3\left[\tfrac12\sin^2\phi\right]_0^{\pi/2} = \pi a^3 . \]
+                            <p>Dividing by the area \(2\pi a^2\): the average height on the hemisphere is \(a/2\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.10 (flux of a point charge)</p>
+                        <p>Compute the outward flux of \(\mathbf{E} = \dfrac{q}{4\pi\varepsilon_0}\dfrac{\mathbf{r}}{|\mathbf{r}|^3}\) through the sphere \(|\mathbf{r}| = a\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>On the sphere the outward unit normal is \(\mathbf{n} = \mathbf{r}/a\), and \(|\mathbf{r}| = a\), so</p>
+                            \[ \mathbf{E}\cdot\mathbf{n} = \frac{q}{4\pi\varepsilon_0}\frac{\mathbf{r}\cdot\mathbf{r}}{a^3\cdot a} = \frac{q}{4\pi\varepsilon_0 a^2}, \]
+                            <p>a constant. Hence the flux is this constant times the area:</p>
+                            \[ \iint_S\mathbf{E}\cdot d\mathbf{S} = \frac{q}{4\pi\varepsilon_0a^2}\cdot 4\pi a^2 = \frac{q}{\varepsilon_0} . \]
+                            <p>The radius cancels: the \(1/a^2\) decay of the field exactly balances the \(a^2\) growth of the area. This is Gauss's law for a sphere; Section 5.9 extends it to any closed surface.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.11</p>
+                        <p>Find the upward flux of \(\mathbf{F} = \langle y, x, z\rangle\) through the paraboloid \(z = 4 - x^2 - y^2\), \(z\ge0\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(g = 4 - x^2 - y^2\), \(g_x = -2x\), \(g_y = -2y\). Upward normal \(\langle -g_x, -g_y, 1\rangle = \langle 2x, 2y, 1\rangle\).</p>
+                            \[ \mathbf{F}\cdot\langle 2x,2y,1\rangle = 2xy + 2xy + z = 4xy + 4 - x^2 - y^2 . \]
+                            <p>Over the disk \(r\le 2\) in polar coordinates, \(4xy = 4r^2\cos\theta\sin\theta\) integrates to zero over \(0\le\theta\le2\pi\). What remains:</p>
+                            \[ \int_0^{2\pi}\!\!\int_0^2(4 - r^2)\,r\,dr\,d\theta = 8\pi \]
+                            <p>(the same integral as Example 4.4). We will confirm this with the Divergence Theorem in Example 5.14.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="stokes">5.8 Stokes' theorem</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Stokes)</p>
+                        <p>Let \(S\) be an oriented, piecewise-smooth surface bounded by a simple, closed, piecewise-smooth curve \(C\) with <strong>positive orientation</strong> (walking along \(C\) with your head in the direction of \(\mathbf{n}\), the surface is on your left). If \(\mathbf{F}\) has continuous partial derivatives on an open region containing \(S\), then</p>
+                        \[ \oint_C\mathbf{F}\cdot d\mathbf{r} = \iint_S(\nabla\times\mathbf{F})\cdot d\mathbf{S} . \]
+                    </div>
+
+                    <p><strong>Meaning.</strong> Circulation around the edge equals the total "microscopic circulation" (curl) through the surface. As with Green's theorem, chop \(S\) into tiny patches; the circulation around each is \(\approx(\nabla\times\mathbf{F})\cdot\mathbf{n}\,\Delta S\), and the line integrals over shared edges cancel, leaving only the outer boundary. Green's theorem is the special case where \(S\) is a flat region in the \(xy\)-plane with \(\mathbf{n} = \mathbf{k}\).</p>
+
+                    <p><strong>Surface independence.</strong> The right side depends only on the boundary curve: any two surfaces with the same oriented boundary give the same flux of a curl. So you may replace a complicated surface by a simple one (often a flat disk) with the same edge. And if \(S\) is closed (no boundary), \(\iint_S(\nabla\times\mathbf{F})\cdot d\mathbf{S} = 0\).</p>
+
+                    <p><strong>Physics link.</strong> Faraday's law \(\oint_C\mathbf{E}\cdot d\mathbf{r} = -\frac{d}{dt}\iint_S\mathbf{B}\cdot d\mathbf{S}\) becomes, by Stokes, \(\iint_S\left(\nabla\times\mathbf{E} + \partial_t\mathbf{B}\right)\cdot d\mathbf{S} = 0\) for every surface, hence \(\nabla\times\mathbf{E} = -\partial\mathbf{B}/\partial t\). Ampère's law \(\oint\mathbf{B}\cdot d\mathbf{r} = \mu_0 I_{\text{enc}} = \mu_0\iint\mathbf{J}\cdot d\mathbf{S}\) becomes \(\nabla\times\mathbf{B} = \mu_0\mathbf{J}\) the same way.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.12</p>
+                        <p>Verify Stokes' theorem for \(\mathbf{F} = \langle -y, x, xz\rangle\) on the paraboloid \(z = 4 - x^2 - y^2\), \(z\ge0\), oriented upward.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Line integral.</strong> The boundary is the circle \(x^2+y^2 = 4\), \(z = 0\); upward orientation means counter-clockwise viewed from above: \(\mathbf{r} = \langle 2\cos t, 2\sin t, 0\rangle\). Then \(\mathbf{F} = \langle -2\sin t, 2\cos t, 0\rangle\) and \(\mathbf{r}' = \langle -2\sin t, 2\cos t, 0\rangle\):</p>
+                            \[ \oint_C\mathbf{F}\cdot d\mathbf{r} = \int_0^{2\pi}(4\sin^2 t + 4\cos^2 t)\,dt = 8\pi . \]
+                            <p><strong>Surface integral.</strong></p>
+                            \[ \nabla\times\mathbf{F} = \langle R_y - Q_z,\ P_z - R_x,\ Q_x - P_y\rangle = \langle 0 - 0,\ 0 - z,\ 1 - (-1)\rangle = \langle 0, -z, 2\rangle . \]
+                            <p>With the upward normal \(\langle 2x, 2y, 1\rangle\) from Example 5.11: \((\nabla\times\mathbf{F})\cdot\langle 2x,2y,1\rangle = -2yz + 2 = -2y(4 - x^2 - y^2) + 2\). The first term is odd in \(y\) over the symmetric disk, so it integrates to 0, leaving</p>
+                            \[ \iint_D 2\,dA = 2\cdot\pi(2)^2 = 8\pi . \]
+                            <p>Both sides equal \(8\pi\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.13</p>
+                        <p>Let \(C\) be the curve where the plane \(y + z = 3\) cuts the cylinder \(x^2+y^2 = 1\), oriented counter-clockwise when viewed from above. Use Stokes' theorem to evaluate \(\oint_C\mathbf{F}\cdot d\mathbf{r}\) for \(\mathbf{F} = \langle 2z, x, y^2\rangle\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Take \(S\) to be the flat elliptical piece of the plane inside the cylinder, oriented upward. As a graph \(z = 3 - y\) over the unit disk \(D\), the upward normal is \(\langle -g_x, -g_y, 1\rangle = \langle 0, 1, 1\rangle\).</p>
+                            \[ \nabla\times\mathbf{F} = \langle R_y - Q_z,\ P_z - R_x,\ Q_x - P_y\rangle = \langle 2y - 0,\ 2 - 0,\ 1 - 0\rangle = \langle 2y, 2, 1\rangle . \]
+                            \[ \oint_C\mathbf{F}\cdot d\mathbf{r} = \iint_D\langle 2y,2,1\rangle\cdot\langle 0,1,1\rangle\,dA = \iint_D 3\,dA = 3\pi . \]
+                            <p><strong>Direct check.</strong> \(\mathbf{r} = \langle\cos t, \sin t, 3 - \sin t\rangle\), \(\mathbf{r}' = \langle -\sin t, \cos t, -\cos t\rangle\), \(\mathbf{F} = \langle 6 - 2\sin t,\ \cos t,\ \sin^2 t\rangle\):</p>
+                            \[ \mathbf{F}\cdot\mathbf{r}' = -6\sin t + 2\sin^2 t + \cos^2 t - \sin^2 t\cos t . \]
+                            <p>Over \([0,2\pi]\): \(0 + 2\pi + \pi - 0 = 3\pi\). Agreed.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="divergence-thm">5.9 The Divergence theorem</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Divergence / Gauss)</p>
+                        <p>Let \(E\) be a simple solid region whose boundary surface \(S\) is piecewise smooth and oriented outward. If \(\mathbf{F}\) has continuous partial derivatives on an open region containing \(E\), then</p>
+                        \[ \iint_S\mathbf{F}\cdot d\mathbf{S} = \iiint_E\nabla\cdot\mathbf{F}\,dV . \]
+                    </div>
+
+                    <p><strong>Proof sketch.</strong> For a small box \([x, x+\Delta x]\times[y,y+\Delta y]\times[z,z+\Delta z]\), the outward flux through the two faces perpendicular to \(x\) is \(\approx\big[P(x+\Delta x,\cdot) - P(x,\cdot)\big]\Delta y\Delta z\approx P_x\,\Delta V\); likewise \(Q_y\,\Delta V\) and \(R_z\,\Delta V\) from the other pairs. So the flux out of each little box is \(\approx(\nabla\cdot\mathbf{F})\,\Delta V\). Fill \(E\) with boxes: each interior face is shared by two boxes with opposite outward normals, so those fluxes cancel, leaving only the flux through \(S\). (A rigorous proof for a "type 1" region proves \(\iint R\,\mathbf{k}\cdot\mathbf{n}\,dS = \iiint R_z\,dV\) using the FTC in \(z\), exactly as in Green's theorem.)</p>
+
+                    <p><strong>Regions with holes.</strong> If \(E\) lies between an outer surface \(S_2\) and an inner surface \(S_1\), the theorem still holds with \(S_1\) oriented <em>toward</em> the hole (outward from \(E\)). Hence: if \(\nabla\cdot\mathbf{F} = 0\) in \(E\), the outward flux through \(S_2\) equals the outward flux through \(S_1\) (each with its normal pointing away from the hole).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Application (Gauss's law)</p>
+                        <p>Let \(S\) be any closed surface enclosing the origin, and \(\mathbf{E}\) the field of a point charge \(q\) at the origin. Choose a small sphere \(S_1\) around the origin inside \(S\). Between them, \(\nabla\cdot\mathbf{E} = 0\) (Example 5.7b), so the flux through \(S\) equals the flux through \(S_1\), which is \(q/\varepsilon_0\) (Example 5.10). If \(S\) does not enclose the charge, \(\nabla\cdot\mathbf{E} = 0\) throughout the inside and the flux is 0. By superposition, for any charge distribution,</p>
+                        \[ \iint_S\mathbf{E}\cdot d\mathbf{S} = \frac{Q_{\text{enc}}}{\varepsilon_0} = \frac{1}{\varepsilon_0}\iiint_E\rho\,dV \quad\Longrightarrow\quad \iiint_E\left(\nabla\cdot\mathbf{E} - \frac{\rho}{\varepsilon_0}\right)dV = 0 \text{ for every } E \quad\Longrightarrow\quad \nabla\cdot\mathbf{E} = \frac{\rho}{\varepsilon_0} . \]
+                    </div>
+
+                    <p>The same move &mdash; "integral law for every region, so the integrands match" &mdash; turns the conservation of charge \(\frac{d}{dt}\iiint\rho\,dV = -\iint\mathbf{J}\cdot d\mathbf{S}\) into the <strong>continuity equation</strong> \(\partial\rho/\partial t + \nabla\cdot\mathbf{J} = 0\).</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Use the Divergence theorem when the surface is <em>closed</em> and \(\nabla\cdot\mathbf{F}\) is simpler than \(\mathbf{F}\) (often a constant or a function of \(\rho\)). If the surface is open (say a paraboloid cap), close it off with a flat lid, apply the theorem, and subtract the flux through the lid.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.14</p>
+                        <p>Confirm the answer to Example 5.11 using the Divergence theorem.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Close the paraboloid with the disk \(S_0\): \(z = 0\), \(x^2+y^2\le4\), oriented downward (\(\mathbf{n} = -\mathbf{k}\)), so together they bound the solid \(E\) under the paraboloid. \(\nabla\cdot\langle y, x, z\rangle = 0 + 0 + 1 = 1\), so</p>
+                            \[ \iint_{S\cup S_0}\mathbf{F}\cdot d\mathbf{S} = \iiint_E 1\,dV = \text{vol}(E) = 8\pi \quad\text{(Example 4.4)} . \]
+                            <p>On the lid, \(\mathbf{F}\cdot(-\mathbf{k}) = -z = 0\), so the lid contributes nothing, and the flux through the paraboloid is \(8\pi\), as found directly.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.15</p>
+                        <p>Find the outward flux of \(\mathbf{F} = \langle x^3, y^3, z^3\rangle\) through the sphere \(x^2+y^2+z^2 = a^2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>A direct surface integral would be messy. Instead, \(\nabla\cdot\mathbf{F} = 3x^2 + 3y^2 + 3z^2 = 3\rho^2\):</p>
+                            \[ \iint_S\mathbf{F}\cdot d\mathbf{S} = \int_0^{2\pi}\!\!\int_0^\pi\!\!\int_0^a 3\rho^2\cdot\rho^2\sin\phi\,d\rho\,d\phi\,d\theta = 3\cdot\frac{a^5}{5}\cdot 2\cdot 2\pi = \frac{12\pi a^5}{5} . \]
+                        </details>
+                    </div>
+
+                    <h3 id="big-picture">5.10 The big picture: one theorem in many guises</h3>
+
+                    <p>Every major theorem of the course has the same shape: <em>the integral of a derivative over a region equals the integral of the original function over the boundary of the region</em>, with the boundary carrying the induced orientation.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Theorem</th><th>Region (dimension)</th><th>Statement</th></tr></thead>
+                            <tbody>
+                                <tr><td>Fundamental theorem of calculus</td><td>Interval \([a,b]\) (1)</td><td>\(\int_a^b F'(x)\,dx = F(b) - F(a)\)</td></tr>
+                                <tr><td>Fundamental theorem for line integrals</td><td>Curve \(C\) (1)</td><td>\(\int_C\nabla f\cdot d\mathbf{r} = f(B) - f(A)\)</td></tr>
+                                <tr><td>Green</td><td>Plane region \(D\) (2)</td><td>\(\iint_D(Q_x - P_y)\,dA = \oint_{\partial D}P\,dx + Q\,dy\)</td></tr>
+                                <tr><td>Stokes</td><td>Surface \(S\) (2)</td><td>\(\iint_S(\nabla\times\mathbf{F})\cdot d\mathbf{S} = \oint_{\partial S}\mathbf{F}\cdot d\mathbf{r}\)</td></tr>
+                                <tr><td>Divergence (Gauss)</td><td>Solid \(E\) (3)</td><td>\(\iiint_E\nabla\cdot\mathbf{F}\,dV = \iint_{\partial E}\mathbf{F}\cdot d\mathbf{S}\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>In the language of differential forms, all five are the single <strong>generalised Stokes theorem</strong> \(\int_\Omega d\omega = \int_{\partial\Omega}\omega\). The derivatives grad, curl, div are the three faces of the one operator \(d\), and the identities \(\nabla\times\nabla f = \mathbf{0}\), \(\nabla\cdot(\nabla\times\mathbf{F}) = 0\) are both the statement \(d(d\omega) = 0\), mirroring the geometric fact that <em>the boundary of a boundary is empty</em> (a closed surface has no edge, so the flux of any curl through it is zero).</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Maxwell equation</th><th>Integral form</th><th>Differential form</th><th>Theorem used</th></tr></thead>
+                            <tbody>
+                                <tr><td>Gauss (electric)</td><td>\(\iint\mathbf{E}\cdot d\mathbf{S} = Q_{\text{enc}}/\varepsilon_0\)</td><td>\(\nabla\cdot\mathbf{E} = \rho/\varepsilon_0\)</td><td>Divergence</td></tr>
+                                <tr><td>Gauss (magnetic)</td><td>\(\iint\mathbf{B}\cdot d\mathbf{S} = 0\)</td><td>\(\nabla\cdot\mathbf{B} = 0\)</td><td>Divergence</td></tr>
+                                <tr><td>Faraday</td><td>\(\oint\mathbf{E}\cdot d\mathbf{r} = -\frac{d}{dt}\iint\mathbf{B}\cdot d\mathbf{S}\)</td><td>\(\nabla\times\mathbf{E} = -\partial_t\mathbf{B}\)</td><td>Stokes</td></tr>
+                                <tr><td>Amp&egrave;re&ndash;Maxwell</td><td>\(\oint\mathbf{B}\cdot d\mathbf{r} = \mu_0 I_{\text{enc}} + \mu_0\varepsilon_0\frac{d}{dt}\iint\mathbf{E}\cdot d\mathbf{S}\)</td><td>\(\nabla\times\mathbf{B} = \mu_0\mathbf{J} + \mu_0\varepsilon_0\partial_t\mathbf{E}\)</td><td>Stokes</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (which tool?)</p>
+                        <ul>
+                            <li>Line integral of a field with zero curl on a simply connected domain: find a potential (FTLI).</li>
+                            <li>Closed plane curve: Green. Closed space curve: Stokes (pick the easiest spanning surface).</li>
+                            <li>Flux of a curl through an open surface: Stokes (replace by a line integral, or by a simpler surface with the same boundary).</li>
+                            <li>Flux through a closed surface: Divergence theorem. Through an open surface with a messy field: close it, then subtract the lid.</li>
+                            <li>Field singular inside the region: excise a small sphere or circle around the singularity.</li>
+                        </ul>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Evaluate \(\int_C y\,ds\) where \(C\) is the segment from \((0,0)\) to \((3,4)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\mathbf{r} = \langle 3t, 4t\rangle\), \(|\mathbf{r}'| = 5\). \(\int_0^1 4t\cdot 5\,dt = 10\).</p>
+                                </details>
+                            </li>
+                            <li>Show \(\mathbf{F} = \langle e^y + 2x,\ xe^y - 2y\rangle\) is conservative, find a potential, and evaluate \(\int_C\mathbf{F}\cdot d\mathbf{r}\) from \((0,0)\) to \((1,\ln 2)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(P_y = e^y = Q_x\) on \(\mathbb{R}^2\). \(f = xe^y + x^2 + g(y)\); \(f_y = xe^y + g' = xe^y - 2y\Rightarrow g = -y^2\). So \(f = xe^y + x^2 - y^2\), and the integral is \(f(1,\ln2) - f(0,0) = 2 + 1 - (\ln 2)^2 = 3 - (\ln2)^2\approx 2.52\).</p>
+                                </details>
+                            </li>
+                            <li>Use Green's theorem to evaluate \(\oint_C (x - y)\,dx + (x + y)\,dy\) counter-clockwise around the boundary of the square \([0,2]\times[0,2]\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(Q_x - P_y = 1 - (-1) = 2\); area 4; integral \(= 8\).</p>
+                                </details>
+                            </li>
+                            <li>Is there a vector field \(\mathbf{G}\) with \(\nabla\times\mathbf{G} = \langle x, y, z\rangle\)?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>No. Any curl has zero divergence, but \(\nabla\cdot\langle x,y,z\rangle = 3\neq0\).</p>
+                                </details>
+                            </li>
+                            <li>Use the Divergence theorem to find the outward flux of \(\mathbf{F} = \langle x, y, z\rangle\) through the surface of the unit cube \([0,1]^3\). Then check one face directly.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\nabla\cdot\mathbf{F} = 3\), volume 1, flux \(= 3\). Directly: on the face \(x = 1\), \(\mathbf{n} = \mathbf{i}\), \(\mathbf{F}\cdot\mathbf{n} = 1\), flux 1; on \(x = 0\), \(\mathbf{F}\cdot(-\mathbf{i}) = -x = 0\). By symmetry the three "far" faces give 1 each: total 3.</p>
+                                </details>
+                            </li>
+                            <li>Let \(S\) be the upper unit hemisphere, oriented outward, and \(\mathbf{F} = \langle -y, x, e^{xz}\rangle\). Use Stokes' theorem to find \(\iint_S(\nabla\times\mathbf{F})\cdot d\mathbf{S}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>The boundary is the unit circle in \(z = 0\), counter-clockwise from above: \(\mathbf{r} = \langle\cos t, \sin t, 0\rangle\). There \(\mathbf{F} = \langle -\sin t, \cos t, 1\rangle\), \(\mathbf{r}' = \langle -\sin t, \cos t, 0\rangle\), dot product 1. Answer: \(2\pi\). (The awkward \(e^{xz}\) never needs to be differentiated.)</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="formula-sheet">
+                    <h2>Formula sheet</h2>
+                    <p class="ref">Summary of Chapters 1&ndash;5</p>
+
+                    <h3>Vectors, lines &amp; planes</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Dot product</td><td>\(\mathbf{a}\cdot\mathbf{b} = a_1b_1 + a_2b_2 + a_3b_3 = |\mathbf{a}||\mathbf{b}|\cos\theta\)</td></tr>
+                                <tr><td>Projection</td><td>\(\operatorname{comp}_{\mathbf{a}}\mathbf{b} = \dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}|}\), \(\ \operatorname{proj}_{\mathbf{a}}\mathbf{b} = \dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}|^2}\mathbf{a}\)</td></tr>
+                                <tr><td>Cross product</td><td>\(\mathbf{a}\times\mathbf{b} = \langle a_2b_3 - a_3b_2,\ a_3b_1 - a_1b_3,\ a_1b_2 - a_2b_1\rangle\), \(\ |\mathbf{a}\times\mathbf{b}| = |\mathbf{a}||\mathbf{b}|\sin\theta\)</td></tr>
+                                <tr><td>Triple products</td><td>\(V = |\mathbf{a}\cdot(\mathbf{b}\times\mathbf{c})|\); \(\ \mathbf{a}\times(\mathbf{b}\times\mathbf{c}) = \mathbf{b}(\mathbf{a}\cdot\mathbf{c}) - \mathbf{c}(\mathbf{a}\cdot\mathbf{b})\)</td></tr>
+                                <tr><td>Line</td><td>\(\mathbf{r}(t) = \mathbf{r}_0 + t\mathbf{v}\)</td></tr>
+                                <tr><td>Plane</td><td>\(\mathbf{n}\cdot(\mathbf{r} - \mathbf{r}_0) = 0\), i.e. \(ax + by + cz = d\)</td></tr>
+                                <tr><td>Point&ndash;plane distance</td><td>\(D = \dfrac{|ax_1 + by_1 + cz_1 - d|}{\sqrt{a^2+b^2+c^2}}\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Curves &amp; motion</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Arc length</td><td>\(L = \int_a^b|\mathbf{r}'(t)|\,dt\), \(\ ds/dt = |\mathbf{r}'(t)|\)</td></tr>
+                                <tr><td>Unit tangent, normal, binormal</td><td>\(\mathbf{T} = \dfrac{\mathbf{r}'}{|\mathbf{r}'|}\), \(\ \mathbf{N} = \dfrac{\mathbf{T}'}{|\mathbf{T}'|}\), \(\ \mathbf{B} = \mathbf{T}\times\mathbf{N}\)</td></tr>
+                                <tr><td>Curvature</td><td>\(\kappa = \dfrac{|\mathbf{T}'|}{|\mathbf{r}'|} = \dfrac{|\mathbf{r}'\times\mathbf{r}''|}{|\mathbf{r}'|^3}\); \(\ y = f(x)\): \(\kappa = \dfrac{|f''|}{(1+f'^2)^{3/2}}\)</td></tr>
+                                <tr><td>Acceleration components</td><td>\(\mathbf{a} = a_T\mathbf{T} + a_N\mathbf{N}\), \(\ a_T = \dfrac{\mathbf{r}'\cdot\mathbf{r}''}{|\mathbf{r}'|}\), \(\ a_N = \kappa v^2 = \dfrac{|\mathbf{r}'\times\mathbf{r}''|}{|\mathbf{r}'|}\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Partial derivatives</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Linearisation</td><td>\(L(x,y) = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)\)</td></tr>
+                                <tr><td>Chain rule</td><td>\(\dfrac{dz}{dt} = f_x\dfrac{dx}{dt} + f_y\dfrac{dy}{dt} = \nabla f\cdot\mathbf{r}'(t)\)</td></tr>
+                                <tr><td>Implicit differentiation</td><td>\(\dfrac{\partial z}{\partial x} = -\dfrac{F_x}{F_z}\), \(\ \dfrac{\partial z}{\partial y} = -\dfrac{F_y}{F_z}\)</td></tr>
+                                <tr><td>Directional derivative</td><td>\(D_{\mathbf{u}}f = \nabla f\cdot\mathbf{u}\) (\(|\mathbf{u}| = 1\)); max value \(|\nabla f|\) along \(\nabla f\)</td></tr>
+                                <tr><td>Tangent plane to \(F = k\)</td><td>\(\nabla F(P)\cdot\langle x - x_0, y - y_0, z - z_0\rangle = 0\)</td></tr>
+                                <tr><td>Second derivative test</td><td>\(D = f_{xx}f_{yy} - f_{xy}^2\): \(D\gt0, f_{xx}\gt0\) min; \(D\gt0, f_{xx}\lt0\) max; \(D\lt0\) saddle</td></tr>
+                                <tr><td>Lagrange multipliers</td><td>\(\nabla f = \lambda\nabla g\), \(g = k\) (two constraints: \(\nabla f = \lambda\nabla g + \mu\nabla h\))</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Coordinate systems &amp; integration elements</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>System</th><th>Conversion</th><th>Element</th></tr></thead>
+                            <tbody>
+                                <tr><td>Polar \((r,\theta)\)</td><td>\(x = r\cos\theta\), \(y = r\sin\theta\), \(r^2 = x^2+y^2\), \(\tan\theta = y/x\)</td><td>\(dA = r\,dr\,d\theta\)</td></tr>
+                                <tr><td>Cylindrical \((r,\theta,z)\)</td><td>\(x = r\cos\theta\), \(y = r\sin\theta\), \(z = z\)</td><td>\(dV = r\,dz\,dr\,d\theta\)</td></tr>
+                                <tr><td>Spherical \((\rho,\theta,\phi)\)</td><td>\(x = \rho\sin\phi\cos\theta\), \(y = \rho\sin\phi\sin\theta\), \(z = \rho\cos\phi\), \(\rho^2 = x^2+y^2+z^2\), \(\cos\phi = z/\rho\)</td><td>\(dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta\)</td></tr>
+                                <tr><td>General \((u,v)\)</td><td>\(x = x(u,v)\), \(y = y(u,v)\)</td><td>\(dA = \left|\dfrac{\partial(x,y)}{\partial(u,v)}\right|du\,dv\)</td></tr>
+                                <tr><td>General \((u,v,w)\)</td><td>\(x, y, z\) functions of \(u,v,w\)</td><td>\(dV = \left|\dfrac{\partial(x,y,z)}{\partial(u,v,w)}\right|du\,dv\,dw\)</td></tr>
+                                <tr><td>Graph surface \(z = g(x,y)\)</td><td>\(\mathbf{r} = \langle x, y, g\rangle\)</td><td>\(dS = \sqrt{1 + g_x^2 + g_y^2}\,dA\); \(\ d\mathbf{S} = \langle -g_x, -g_y, 1\rangle\,dA\) (up)</td></tr>
+                                <tr><td>Parametric surface</td><td>\(\mathbf{r}(u,v)\)</td><td>\(dS = |\mathbf{r}_u\times\mathbf{r}_v|\,du\,dv\); \(\ d\mathbf{S} = (\mathbf{r}_u\times\mathbf{r}_v)\,du\,dv\)</td></tr>
+                                <tr><td>Sphere of radius \(a\)</td><td>\(\rho = a\)</td><td>\(dS = a^2\sin\phi\,d\phi\,d\theta\), \(\ \mathbf{n} = \mathbf{r}/a\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Applications of integrals</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Quantity</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Mass</td><td>\(m = \iint_D\delta\,dA\) or \(\iiint_E\delta\,dV\)</td></tr>
+                                <tr><td>Centre of mass</td><td>\(\bar x = \frac1m\iint x\,\delta\,dA\), \(\ \bar y = \frac1m\iint y\,\delta\,dA\) (add \(\bar z\) in 3D)</td></tr>
+                                <tr><td>Moment of inertia</td><td>\(I_z = \iiint(x^2+y^2)\,\delta\,dV\); \(I_0 = \iint(x^2+y^2)\,\delta\,dA\) for a lamina</td></tr>
+                                <tr><td>Average value</td><td>\(f_{\text{avg}} = \frac{1}{A(D)}\iint_D f\,dA\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Vector calculus</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Gradient</td><td>\(\nabla f = \langle f_x, f_y, f_z\rangle\)</td></tr>
+                                <tr><td>Divergence</td><td>\(\nabla\cdot\mathbf{F} = P_x + Q_y + R_z\)</td></tr>
+                                <tr><td>Curl</td><td>\(\nabla\times\mathbf{F} = \langle R_y - Q_z,\ P_z - R_x,\ Q_x - P_y\rangle\)</td></tr>
+                                <tr><td>Laplacian</td><td>\(\nabla^2 f = \nabla\cdot\nabla f = f_{xx} + f_{yy} + f_{zz}\)</td></tr>
+                                <tr><td>Scalar line integral</td><td>\(\int_C f\,ds = \int_a^b f(\mathbf{r}(t))\,|\mathbf{r}'(t)|\,dt\)</td></tr>
+                                <tr><td>Work / circulation</td><td>\(\int_C\mathbf{F}\cdot d\mathbf{r} = \int_a^b\mathbf{F}(\mathbf{r}(t))\cdot\mathbf{r}'(t)\,dt\)</td></tr>
+                                <tr><td>Fundamental theorem for line integrals</td><td>\(\int_C\nabla f\cdot d\mathbf{r} = f(\mathbf{r}(b)) - f(\mathbf{r}(a))\)</td></tr>
+                                <tr><td>Conservative test</td><td>\(P_y = Q_x\) (2D) or \(\nabla\times\mathbf{F} = \mathbf{0}\) (3D), on a simply connected domain</td></tr>
+                                <tr><td>Green</td><td>\(\oint_C P\,dx + Q\,dy = \iint_D(Q_x - P_y)\,dA\); area \(= \frac12\oint x\,dy - y\,dx\)</td></tr>
+                                <tr><td>Scalar surface integral</td><td>\(\iint_S f\,dS = \iint_D f(\mathbf{r}(u,v))\,|\mathbf{r}_u\times\mathbf{r}_v|\,dA\)</td></tr>
+                                <tr><td>Flux</td><td>\(\iint_S\mathbf{F}\cdot d\mathbf{S} = \iint_D\mathbf{F}\cdot(\mathbf{r}_u\times\mathbf{r}_v)\,dA\)</td></tr>
+                                <tr><td>Stokes</td><td>\(\oint_{\partial S}\mathbf{F}\cdot d\mathbf{r} = \iint_S(\nabla\times\mathbf{F})\cdot d\mathbf{S}\)</td></tr>
+                                <tr><td>Divergence (Gauss)</td><td>\(\iint_{\partial E}\mathbf{F}\cdot d\mathbf{S} = \iiint_E\nabla\cdot\mathbf{F}\,dV\) (closed surface, outward)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Grad, div, curl identities</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Identity</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Curl of a gradient</td><td>\(\nabla\times(\nabla f) = \mathbf{0}\)</td></tr>
+                                <tr><td>Divergence of a curl</td><td>\(\nabla\cdot(\nabla\times\mathbf{F}) = 0\)</td></tr>
+                                <tr><td>Gradient of a product</td><td>\(\nabla(fg) = f\nabla g + g\nabla f\)</td></tr>
+                                <tr><td>Divergence of \(f\mathbf{F}\)</td><td>\(\nabla\cdot(f\mathbf{F}) = f\,\nabla\cdot\mathbf{F} + \mathbf{F}\cdot\nabla f\)</td></tr>
+                                <tr><td>Curl of \(f\mathbf{F}\)</td><td>\(\nabla\times(f\mathbf{F}) = f\,\nabla\times\mathbf{F} + \nabla f\times\mathbf{F}\)</td></tr>
+                                <tr><td>Divergence of a cross product</td><td>\(\nabla\cdot(\mathbf{F}\times\mathbf{G}) = \mathbf{G}\cdot(\nabla\times\mathbf{F}) - \mathbf{F}\cdot(\nabla\times\mathbf{G})\)</td></tr>
+                                <tr><td>Curl of a curl</td><td>\(\nabla\times(\nabla\times\mathbf{F}) = \nabla(\nabla\cdot\mathbf{F}) - \nabla^2\mathbf{F}\)</td></tr>
+                                <tr><td>Inverse-square field</td><td>\(\nabla\cdot\dfrac{\mathbf{r}}{|\mathbf{r}|^3} = 0\) and \(\nabla\times\dfrac{\mathbf{r}}{|\mathbf{r}|^3} = \mathbf{0}\) for \(\mathbf{r}\neq\mathbf{0}\); \(\ \dfrac{\mathbf{r}}{|\mathbf{r}|^3} = -\nabla\dfrac{1}{|\mathbf{r}|}\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </article>
+        </div>
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 Jack Geisler</p>
+        </div>
+    </footer>
+
 </body>
+
 </html>

@@ -1,20 +1,2044 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
-
-    <title>Calculs Index</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculus I | Study Notes | Jack Geisler</title>
+    <meta name="description" content="Study notes for Calculus I: functions, limits, derivatives, applications of differentiation, and integrals.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css?v=7">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']],
+                tags: 'none'
+            },
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
 </head>
-<body>
-    <a class="back-link" href="../math_index.html" style="display:inline-block;margin:16px 0 0 16px;font-family:Inter,system-ui,sans-serif;font-size:0.95rem;font-weight:600;color:#1d3461;text-decoration:none;">&larr; Math</a>
-    <header>
-        <h1>CALCULUS INDEX</h1>
-    </header>   
 
-    <main>
-        <li><a href="limits.html">Limits</a></li>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../../index.html">Jack Geisler</a>
+            <nav aria-label="Main">
+                <ul>
+                    <li><a href="../../about.html">About</a></li>
+                    <li><a href="../../projects.html">Projects</a></li>
+                    <li><a href="../../articles.html">Articles</a></li>
+                    <li><a href="../../math/math_index.html">Math</a></li>
+                    <li><a href="../../physics/physics_index.html">Physics</a></li>
+                    <li><a href="https://chat.jackgeisler.com">Chat</a></li>
+                    <li><a class="nav-cta" href="../../resmue.html">Resume</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="notes-page">
+
+        <a class="back-link" href="../../math/math_index.html">&larr; Math</a>
+
+        <header class="notes-intro">
+            <p class="eyebrow">Math &middot; Study Notes</p>
+            <h1>Calculus I</h1>
+            <p class="lede-dark">Single-variable differential and integral calculus: limits make &ldquo;instantaneous&rdquo; precise, derivatives measure rates of change, and integrals accumulate them. The Fundamental Theorem ties the two halves together, and almost every equation in physics and circuit theory is written in this language.</p>
+            <div class="textbooks">
+                <p><strong>Based on:</strong></p>
+                <ul>
+                    <li><em>Calculus: Early Transcendentals</em>, James Stewart (with Clegg &amp; Watson), 9th ed.</li>
+                    <li><em>Calculus Volume 1</em>, Gilbert Strang &amp; Edwin &ldquo;Jed&rdquo; Herman, OpenStax (free online)</li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="notes-layout">
+
+            <nav class="toc" aria-label="Contents">
+                <p>Contents</p>
+                <ol>
+                    <li><a href="#ch-functions">Functions &amp; models</a>
+                        <ol>
+                            <li><a href="#fn-basics">Functions and their types</a></li>
+                            <li><a href="#fn-transform">Transformations</a></li>
+                            <li><a href="#fn-inverse">Inverse functions</a></li>
+                            <li><a href="#fn-explog">Exponentials &amp; logarithms</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-limits">Limits &amp; continuity</a>
+                        <ol>
+                            <li><a href="#lim-idea">Tangents, velocity, limits</a></li>
+                            <li><a href="#lim-laws">Limit laws &amp; techniques</a></li>
+                            <li><a href="#lim-onesided">One-sided &amp; infinite limits</a></li>
+                            <li><a href="#lim-precise">Precise (&epsilon;&ndash;&delta;) definition</a></li>
+                            <li><a href="#lim-continuity">Continuity &amp; the IVT</a></li>
+                            <li><a href="#lim-infinity">Limits at infinity</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-derivative">The derivative</a>
+                        <ol>
+                            <li><a href="#der-definition">Derivative at a point</a></li>
+                            <li><a href="#der-function">Derivative as a function</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-rules">Differentiation rules</a>
+                        <ol>
+                            <li><a href="#rul-basic">Power, product, quotient</a></li>
+                            <li><a href="#rul-trig">Trig derivatives</a></li>
+                            <li><a href="#rul-chain">Chain rule</a></li>
+                            <li><a href="#rul-implicit">Implicit differentiation</a></li>
+                            <li><a href="#rul-explog">Exp, log, inverse trig</a></li>
+                            <li><a href="#rul-logdiff">Logarithmic differentiation</a></li>
+                            <li><a href="#rul-related">Related rates</a></li>
+                            <li><a href="#rul-linear">Linear approximation</a></li>
+                            <li><a href="#rul-hyperbolic">Hyperbolic functions</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-applications">Applications of derivatives</a>
+                        <ol>
+                            <li><a href="#app-extrema">Maxima &amp; minima</a></li>
+                            <li><a href="#app-mvt">Mean Value Theorem</a></li>
+                            <li><a href="#app-shape">Derivatives &amp; shape</a></li>
+                            <li><a href="#app-lhopital">L&rsquo;H&ocirc;pital&rsquo;s rule</a></li>
+                            <li><a href="#app-sketch">Curve sketching</a></li>
+                            <li><a href="#app-optimization">Optimization</a></li>
+                            <li><a href="#app-newton">Newton&rsquo;s method</a></li>
+                            <li><a href="#app-antideriv">Antiderivatives</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-integrals">Integrals</a>
+                        <ol>
+                            <li><a href="#int-area">Area &amp; Riemann sums</a></li>
+                            <li><a href="#int-definite">The definite integral</a></li>
+                            <li><a href="#int-ftc">Fundamental Theorem</a></li>
+                            <li><a href="#int-indefinite">Indefinite integrals &amp; net change</a></li>
+                            <li><a href="#int-substitution">Substitution</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-area">Bridge: area between curves</a></li>
+                    <li><a href="#formula-sheet">Formula sheet</a></li>
+                </ol>
+            </nav>
+
+            <article class="notes">
+
+                <section id="ch-functions">
+                    <h2>1. Functions &amp; models</h2>
+                    <p class="ref">Stewart Ch. 1 &middot; OpenStax Vol. 1 Ch. 1</p>
+
+                    <p>Calculus is the study of how quantities change, and the objects that change are <em>functions</em>. Before taking limits or derivatives you need to be fluent with the standard families of functions, how their graphs move when you modify the formula, how to undo a function (inverses), and the two functions that dominate physics and engineering: the exponential and the logarithm. This chapter is review, but gaps here are the most common source of errors later, so it is worth getting it airtight.</p>
+
+                    <h3 id="fn-basics">1.1 Functions and their types</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Function)</p>
+                        <p>A <strong>function</strong> \(f\) from a set \(D\) to a set \(E\) is a rule that assigns to <em>each</em> \(x \in D\) <em>exactly one</em> value \(f(x) \in E\). The set \(D\) is the <strong>domain</strong>; the set of values actually produced, \(\{f(x) : x \in D\}\), is the <strong>range</strong>. If a formula is given without a stated domain, the domain is understood to be every real \(x\) for which the formula makes sense (no division by zero, no even roots of negatives, no logs of non-positive numbers).</p>
+                    </div>
+
+                    <p>A curve in the \(xy\)-plane is the graph of a function of \(x\) exactly when every vertical line hits it at most once (the <strong>vertical line test</strong>). A circle fails; the top semicircle \(y = \sqrt{1 - x^2}\) passes.</p>
+
+                    <p>The families you will meet constantly:</p>
+                    <ul>
+                        <li><strong>Polynomials</strong>: \(P(x) = a_n x^n + \dots + a_1 x + a_0\), domain \(\mathbb{R}\). Degree 1 is linear (constant slope), degree 2 quadratic (parabola), degree 3 cubic.</li>
+                        <li><strong>Power functions</strong>: \(x^a\). For \(a = 1/n\) these are roots; for \(a = -1\) the reciprocal \(1/x\).</li>
+                        <li><strong>Rational functions</strong>: \(P(x)/Q(x)\) with \(P, Q\) polynomials; domain excludes zeros of \(Q\).</li>
+                        <li><strong>Algebraic functions</strong>: anything built from polynomials with \(+, -, \times, \div\) and roots, e.g. \(\sqrt{x^2+1}/(x-2)\).</li>
+                        <li><strong>Trigonometric functions</strong>: \(\sin, \cos, \tan, \csc, \sec, \cot\), always with angles in <em>radians</em> in calculus.</li>
+                        <li><strong>Exponential and logarithmic functions</strong>: \(b^x\) and \(\log_b x\) (Section 1.4).</li>
+                        <li><strong>Piecewise functions</strong>, including \(|x|\), which equals \(x\) for \(x \ge 0\) and \(-x\) for \(x \lt 0\).</li>
+                    </ul>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Symmetry)</p>
+                        <p>\(f\) is <strong>even</strong> if \(f(-x) = f(x)\) for all \(x\) in its domain (graph symmetric about the \(y\)-axis; e.g. \(x^2, \cos x, |x|\)). \(f\) is <strong>odd</strong> if \(f(-x) = -f(x)\) (graph symmetric about the origin; e.g. \(x^3, \sin x, 1/x\)). Most functions are neither.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Symmetry is a labour-saver later: the integral of an odd function over \([-a, a]\) is zero, and the Fourier series of an even signal contains only cosines. Get in the habit of checking \(f(-x)\) whenever you see a new function.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.1</p>
+                        <p>Find the domain of \(f(x) = \dfrac{\sqrt{4 - x}}{x^2 - 1}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Two restrictions. The square root needs \(4 - x \ge 0\), i.e. \(x \le 4\). The denominator must be nonzero: \(x^2 - 1 = (x-1)(x+1) \ne 0\), so \(x \ne \pm 1\). Combining,</p>
+                            \[ D = (-\infty, -1) \cup (-1, 1) \cup (1, 4]. \]
+                            <p>Note \(x = 4\) is included (the numerator is \(0\), which is fine).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.2</p>
+                        <p>Classify \(g(x) = x^2 \sin x\) and \(h(x) = x + \cos x\) as even, odd, or neither.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(g(-x) = (-x)^2 \sin(-x) = x^2 (-\sin x) = -g(x)\), so \(g\) is <strong>odd</strong> (even &times; odd = odd).</p>
+                            <p>\(h(-x) = -x + \cos x\). This is neither \(h(x) = x + \cos x\) nor \(-h(x) = -x - \cos x\). To prove it, one counterexample suffices: \(h(\pi) = \pi - 1\) but \(h(-\pi) = -\pi - 1\), which is not \(\pm(\pi - 1)\). So \(h\) is <strong>neither</strong>. (Careful: a single point can mislead &mdash; at \(x = \pi/2\) the values \(\pm\pi/2\) happen to look odd.)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="fn-transform">1.2 Transformations and composition</h3>
+
+                    <p>Starting from a known graph \(y = f(x)\), you can produce a whole family of graphs by editing the formula. With \(c \gt 0\):</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Transformations)</p>
+                        <ul>
+                            <li>\(y = f(x) + c\): shift <strong>up</strong> by \(c\); \(y = f(x) - c\): down.</li>
+                            <li>\(y = f(x - c)\): shift <strong>right</strong> by \(c\); \(y = f(x + c)\): left.</li>
+                            <li>\(y = c\,f(x)\): stretch vertically by \(c\) (compress if \(0 \lt c \lt 1\)).</li>
+                            <li>\(y = f(cx)\): compress horizontally by \(c\) (stretch if \(0 \lt c \lt 1\)).</li>
+                            <li>\(y = -f(x)\): reflect in the \(x\)-axis; \(y = f(-x)\): reflect in the \(y\)-axis.</li>
+                        </ul>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Changes <em>inside</em> the function act on \(x\) and go the &ldquo;opposite&rdquo; way: \(f(x - 3)\) moves the graph 3 units <em>right</em>, and \(f(2x)\) makes it <em>narrower</em>. The reason: \(f(x-3)\) reaches the value \(f(0)\) when \(x = 3\). Also, order matters for combined inside changes: \(f(2x - 6) = f(2(x - 3))\) is a compression by 2 followed by a shift of 3, not 6.</p>
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Composition)</p>
+                        <p>The <strong>composite</strong> \(f \circ g\) is \((f \circ g)(x) = f(g(x))\), defined for those \(x\) in the domain of \(g\) with \(g(x)\) in the domain of \(f\). In general \(f \circ g \ne g \circ f\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.3</p>
+                        <p>Describe how to obtain \(y = -2\sqrt{x + 1} + 3\) from \(y = \sqrt{x}\), and give its domain and range.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Working from the inside out: (1) \(\sqrt{x+1}\) shifts \(\sqrt{x}\) left by 1; (2) \(2\sqrt{x+1}\) stretches vertically by 2; (3) \(-2\sqrt{x+1}\) reflects in the \(x\)-axis; (4) adding 3 shifts up by 3.</p>
+                            <p>Domain: \(x + 1 \ge 0 \Rightarrow x \ge -1\). Since \(\sqrt{x+1}\) takes every value in \([0, \infty)\), \(-2\sqrt{x+1}\) takes every value in \((-\infty, 0]\), so the range is \((-\infty, 3]\). The graph starts at \((-1, 3)\) and falls.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.4</p>
+                        <p>Let \(f(x) = \sqrt{x}\) and \(g(x) = 5 - x^2\). Find \(f \circ g\) and \(g \circ f\) with their domains.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\((f \circ g)(x) = \sqrt{5 - x^2}\), which needs \(5 - x^2 \ge 0\): domain \([-\sqrt 5, \sqrt 5]\).</p>
+                            <p>\((g \circ f)(x) = 5 - (\sqrt{x})^2 = 5 - x\). The simplified formula looks defined everywhere, but \(x\) must first be in the domain of \(f\): domain \([0, \infty)\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="fn-inverse">1.3 Inverse functions</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (One-to-one and inverse)</p>
+                        <p>\(f\) is <strong>one-to-one</strong> if it never takes the same value twice: \(x_1 \ne x_2 \Rightarrow f(x_1) \ne f(x_2)\). Graphically, every <em>horizontal</em> line meets the graph at most once. A one-to-one \(f\) with domain \(A\) and range \(B\) has an <strong>inverse</strong> \(f^{-1}\) with domain \(B\) and range \(A\), defined by</p>
+                        \[ f^{-1}(y) = x \iff f(x) = y. \]
+                        <p>Equivalently, the <strong>cancellation equations</strong> hold: \(f^{-1}(f(x)) = x\) for \(x \in A\) and \(f(f^{-1}(y)) = y\) for \(y \in B\).</p>
+                    </div>
+
+                    <p>The graph of \(f^{-1}\) is the reflection of the graph of \(f\) in the line \(y = x\), because \((a, b)\) is on one graph exactly when \((b, a)\) is on the other. Note \(f^{-1}(x)\) does <em>not</em> mean \(1/f(x)\).</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (Finding an inverse)</p>
+                        <p>Write \(y = f(x)\), solve for \(x\) in terms of \(y\), then swap the letter names to write \(f^{-1}(x)\). Always state the domain of the inverse: it is the range of the original.</p>
+                    </div>
+
+                    <p><strong>Inverse trigonometric functions.</strong> The trig functions are periodic, so not one-to-one; we restrict them to a principal interval first:</p>
+                    <ul>
+                        <li>\(\arcsin x = \sin^{-1} x\): domain \([-1, 1]\), range \([-\pi/2, \pi/2]\).</li>
+                        <li>\(\arccos x = \cos^{-1} x\): domain \([-1, 1]\), range \([0, \pi]\).</li>
+                        <li>\(\arctan x = \tan^{-1} x\): domain \(\mathbb{R}\), range \((-\pi/2, \pi/2)\), with horizontal asymptotes \(y = \pm \pi/2\).</li>
+                    </ul>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(\arcsin(\sin x) = x\) only for \(x \in [-\pi/2, \pi/2]\). For example \(\arcsin(\sin(5\pi/6)) = \arcsin(1/2) = \pi/6\), not \(5\pi/6\). The output of an inverse trig function must lie in its principal range.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.5</p>
+                        <p>Find the inverse of \(f(x) = \dfrac{2x + 1}{x - 3}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Set \(y = \dfrac{2x+1}{x-3}\) and solve for \(x\):</p>
+                            \[ \begin{aligned} y(x - 3) &amp;= 2x + 1 \\ yx - 3y &amp;= 2x + 1 \\ yx - 2x &amp;= 3y + 1 \\ x(y - 2) &amp;= 3y + 1 \\ x &amp;= \frac{3y + 1}{y - 2}. \end{aligned} \]
+                            <p>So \(f^{-1}(x) = \dfrac{3x + 1}{x - 2}\), with domain \(x \ne 2\). This matches: \(f\) has horizontal asymptote \(y = 2\), so \(2\) is not in its range. Check: \(f(0) = -1/3\), and \(f^{-1}(-1/3) = (-1 + 1)/(-1/3 - 2) = 0\). &#10003;</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.6</p>
+                        <p>Simplify \(\cos(\arcsin x)\) for \(-1 \le x \le 1\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let \(\theta = \arcsin x\), so \(\sin\theta = x\) and \(\theta \in [-\pi/2, \pi/2]\). On that interval \(\cos\theta \ge 0\), so from \(\sin^2\theta + \cos^2\theta = 1\),</p>
+                            \[ \cos(\arcsin x) = \cos\theta = +\sqrt{1 - \sin^2\theta} = \sqrt{1 - x^2}. \]
+                            <p>(A right-triangle sketch with opposite side \(x\), hypotenuse 1 gives the same answer for \(x \gt 0\); the sign argument covers negative \(x\).) This identity reappears when we differentiate \(\arcsin x\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="fn-explog">1.4 Exponential and logarithmic functions</h3>
+
+                    <p>For \(b \gt 0\), the exponential \(b^x\) is defined for all real \(x\) (for irrational \(x\), as the limit of \(b^r\) over rationals \(r \to x\)). It satisfies the <strong>laws of exponents</strong>:</p>
+                    \[ b^{x+y} = b^x b^y, \qquad b^{x-y} = \frac{b^x}{b^y}, \qquad (b^x)^y = b^{xy}, \qquad (ab)^x = a^x b^x. \]
+                    <p>If \(b \gt 1\), \(b^x\) increases from \(0\) (as \(x \to -\infty\)) to \(\infty\); if \(0 \lt b \lt 1\) it decreases. Either way the range is \((0, \infty)\).</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (The number \(e\))</p>
+                        <p>Among all exponentials \(b^x\), exactly one has tangent line of slope exactly 1 at \(x = 0\). Its base is called \(e \approx 2.71828\). Equivalently, \(e = \lim_{n \to \infty}(1 + 1/n)^n\). This choice makes the derivative of \(e^x\) equal to itself (Chapter 4), which is why \(e\) is the natural base.</p>
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Logarithm)</p>
+                        <p>For \(b \gt 0,\ b \ne 1\), \(\log_b\) is the inverse of \(b^x\): \(\log_b x = y \iff b^y = x\), for \(x \gt 0\). The <strong>natural logarithm</strong> is \(\ln x = \log_e x\). Cancellation: \(\ln(e^x) = x\) for all \(x\), \(e^{\ln x} = x\) for \(x \gt 0\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Log laws, \(x, y \gt 0\))</p>
+                        \[ \ln(xy) = \ln x + \ln y, \qquad \ln\frac{x}{y} = \ln x - \ln y, \qquad \ln(x^r) = r\ln x, \qquad \log_b x = \frac{\ln x}{\ln b}. \]
+                        <p>Also \(b^x = e^{x \ln b}\), which converts any exponential to base \(e\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(\ln(x + y) \ne \ln x + \ln y\) and \(\ln x \cdot \ln y \ne \ln(xy)\). Logs turn <em>products</em> into sums, nothing else. Likewise \((\ln x)^2 \ne \ln(x^2) = 2\ln x\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.7</p>
+                        <p>Solve \(e^{2x} - 5e^x + 6 = 0\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Since \(e^{2x} = (e^x)^2\), substitute \(u = e^x \gt 0\):</p>
+                            \[ u^2 - 5u + 6 = 0 \;\Rightarrow\; (u - 2)(u - 3) = 0 \;\Rightarrow\; u = 2 \text{ or } u = 3. \]
+                            <p>Both are positive, so both are allowed: \(e^x = 2 \Rightarrow x = \ln 2\), and \(e^x = 3 \Rightarrow x = \ln 3\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.8 (RC discharge)</p>
+                        <p>A capacitor discharging through a resistor has voltage \(V(t) = V_0 e^{-t/\tau}\), where \(\tau = RC\). How long until the voltage falls to 10% of \(V_0\)? With \(R = 4.7\ \text{k}\Omega\) and \(C = 2\ \mu\text{F}\), give a number.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Set \(V(t) = 0.1 V_0\):</p>
+                            \[ e^{-t/\tau} = 0.1 \;\Rightarrow\; -\frac{t}{\tau} = \ln 0.1 = -\ln 10 \;\Rightarrow\; t = \tau \ln 10 \approx 2.303\,\tau. \]
+                            <p>Here \(\tau = (4.7 \times 10^3)(2 \times 10^{-6}) = 9.4 \times 10^{-3}\ \text{s}\), so \(t \approx 2.303 \times 9.4\ \text{ms} \approx 21.6\ \text{ms}\).</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Find the domain of \(g(x) = \ln(x^2 - 9)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Need \(x^2 - 9 \gt 0\), i.e. \(|x| \gt 3\): \((-\infty, -3) \cup (3, \infty)\).</p>
+                                </details>
+                            </li>
+                            <li>Is \(f(x) = x^3 - x\) even, odd, or neither?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(f(-x) = -x^3 + x = -(x^3 - x) = -f(x)\): odd.</p>
+                                </details>
+                            </li>
+                            <li>Find the inverse of \(f(x) = e^{3x - 1}\) and state its domain.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(y = e^{3x-1} \Rightarrow \ln y = 3x - 1 \Rightarrow x = (1 + \ln y)/3\). So \(f^{-1}(x) = \dfrac{1 + \ln x}{3}\), domain \(x \gt 0\) (the range of \(f\)).</p>
+                                </details>
+                            </li>
+                            <li>Solve \(\log_2 x + \log_2(x - 2) = 3\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\log_2[x(x-2)] = 3 \Rightarrow x^2 - 2x = 8 \Rightarrow (x - 4)(x + 2) = 0\). Reject \(x = -2\) (log of a negative). Answer: \(x = 4\).</p>
+                                </details>
+                            </li>
+                            <li>Simplify \(\tan(\arccos x)\) for \(x \in [-1, 1],\ x \ne 0\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>With \(\theta = \arccos x \in [0, \pi]\), \(\sin\theta \ge 0\) so \(\sin\theta = \sqrt{1 - x^2}\). Then \(\tan\theta = \sqrt{1 - x^2}/x\).</p>
+                                </details>
+                            </li>
+                            <li>Carbon-14 has a half-life of 5730 years. Using \(N(t) = N_0 e^{-kt}\), find \(k\) and the fraction remaining after 2000 years.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(e^{-5730k} = 1/2 \Rightarrow k = \ln 2/5730 \approx 1.21 \times 10^{-4}\ \text{yr}^{-1}\). Fraction: \(e^{-2000k} = 2^{-2000/5730} \approx 2^{-0.349} \approx 0.785\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-limits">
+                    <h2>2. Limits &amp; continuity</h2>
+                    <p class="ref">Stewart Ch. 2 &middot; OpenStax Vol. 1 Ch. 2</p>
+
+                    <p>A limit describes what a function's output is <em>heading toward</em> as its input approaches some value, regardless of what happens (or fails to happen) exactly at that value. That is precisely the tool needed to talk about instantaneous velocity or the slope of a curve at a single point, where the naive formula &ldquo;change over change&rdquo; becomes \(0/0\). Derivatives and integrals are both defined as limits, so everything in this course rests on this chapter. Limits also show up directly in physics and engineering: the ideal point charge, the steady-state response of a circuit (\(t \to \infty\)), and the &ldquo;small-angle&rdquo; approximation \(\sin\theta \approx \theta\) are all limit statements.</p>
+
+                    <h3 id="lim-idea">2.1 The tangent and velocity problems; the idea of a limit</h3>
+
+                    <p><strong>Velocity problem.</strong> If \(s(t)\) is position, the average velocity over \([t, t + h]\) is \(\dfrac{s(t + h) - s(t)}{h}\). Shrinking \(h\) gives better and better estimates of the instantaneous velocity at time \(t\), but we cannot set \(h = 0\) directly. <strong>Tangent problem.</strong> Geometrically the same quotient is the slope of a <em>secant</em> line through two points on the graph; as the second point slides toward the first, the secants approach the <em>tangent</em> line. Both problems ask for the value a quantity approaches.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Limit, informal)</p>
+                        <p>We write \(\displaystyle \lim_{x \to a} f(x) = L\) and say &ldquo;the limit of \(f(x)\) as \(x\) approaches \(a\) is \(L\)&rdquo; if we can make \(f(x)\) as close to \(L\) as we like by taking \(x\) sufficiently close to \(a\), <em>but not equal to</em> \(a\). The value \(f(a)\), if it even exists, plays no role.</p>
+                    </div>
+
+                    <p>Some basic limits to keep in mind: \(\lim_{x\to a} c = c\), \(\lim_{x \to a} x = a\), \(\lim_{x \to a} x^2 = a^2\), and the important non-obvious one \(\lim_{x \to 0} \dfrac{\sin x}{x} = 1\) (proved in 2.2). Numerical tables can <em>suggest</em> a limit but never prove one: \(\sin(\pi/x)\) equals \(0\) at every \(x = 1/n\), yet \(\lim_{x \to 0}\sin(\pi/x)\) does not exist because the function oscillates between \(-1\) and \(1\) infinitely often near 0.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.1</p>
+                        <p>A ball is dropped from a tall tower; it has fallen \(s(t) = 4.9t^2\) metres after \(t\) seconds. Find its instantaneous velocity at \(t = 2\ \text{s}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Average velocity over \([2, 2 + h]\), with \(h \ne 0\):</p>
+                            \[ \begin{aligned} \frac{s(2+h) - s(2)}{h} &amp;= \frac{4.9(4 + 4h + h^2) - 4.9(4)}{h} \\ &amp;= \frac{4.9(4h + h^2)}{h} = 4.9(4 + h). \end{aligned} \]
+                            <p>Cancelling \(h\) is legal because \(h \ne 0\). As \(h \to 0\) this approaches \(4.9 \times 4 = 19.6\). The instantaneous velocity is \(19.6\ \text{m/s}\) (downward).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="lim-laws">2.2 Limit laws and computational techniques</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Limit laws)</p>
+                        <p>Suppose \(\lim_{x\to a} f(x) = L\) and \(\lim_{x\to a} g(x) = M\) both exist (finite) and \(c\) is a constant. Then</p>
+                        \[ \begin{aligned} \lim_{x\to a}[f(x) \pm g(x)] &amp;= L \pm M, &amp; \lim_{x\to a}[c f(x)] &amp;= cL, \\ \lim_{x\to a}[f(x) g(x)] &amp;= LM, &amp; \lim_{x\to a}\frac{f(x)}{g(x)} &amp;= \frac{L}{M} \ \text{ if } M \ne 0, \\ \lim_{x\to a}[f(x)]^n &amp;= L^n, &amp; \lim_{x\to a}\sqrt[n]{f(x)} &amp;= \sqrt[n]{L} \ \text{ (}L \gt 0\text{ if } n \text{ even).} \end{aligned} \]
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Direct substitution)</p>
+                        <p>If \(f\) is a polynomial, a rational function, or more generally any function continuous at \(a\) (Section 2.5), and \(a\) is in its domain, then \(\lim_{x\to a} f(x) = f(a)\).</p>
+                    </div>
+
+                    <p>When substitution gives the indeterminate form \(0/0\), the limit can be anything; you have to do algebra first. The standard moves are: <strong>factor and cancel</strong>, <strong>multiply by a conjugate</strong> (for square roots), <strong>combine fractions</strong>, or use a known trig limit. These work because of a key fact: if \(f(x) = g(x)\) for all \(x\) near \(a\) except possibly at \(a\), then \(f\) and \(g\) have the same limit at \(a\).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Squeeze theorem)</p>
+                        <p>If \(g(x) \le f(x) \le h(x)\) for all \(x\) near \(a\) (except possibly at \(a\)) and \(\lim_{x\to a} g(x) = \lim_{x\to a} h(x) = L\), then \(\lim_{x\to a} f(x) = L\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Two trig limits; \(\theta\) in radians)</p>
+                        \[ \lim_{\theta \to 0}\frac{\sin\theta}{\theta} = 1, \qquad \lim_{\theta\to 0}\frac{1 - \cos\theta}{\theta} = 0. \]
+                        <p><strong>Proof sketch.</strong> For \(0 \lt \theta \lt \pi/2\), draw the unit circle. The triangle with vertices \((0,0), (1,0), (\cos\theta, \sin\theta)\) sits inside the circular sector of angle \(\theta\), which sits inside the right triangle with legs \(1\) and \(\tan\theta\). Comparing areas,</p>
+                        \[ \tfrac12 \sin\theta \;\lt\; \tfrac12\theta \;\lt\; \tfrac12\tan\theta. \]
+                        <p>Divide by \(\tfrac12\sin\theta \gt 0\) and take reciprocals (which flips inequalities): \(\cos\theta \lt \dfrac{\sin\theta}{\theta} \lt 1\). Since \(\cos\theta \to 1\), the squeeze theorem gives the first limit for \(\theta \to 0^+\); since \(\sin\theta/\theta\) is even, the left side follows. For the second,</p>
+                        \[ \frac{1 - \cos\theta}{\theta} = \frac{1 - \cos^2\theta}{\theta(1 + \cos\theta)} = \frac{\sin\theta}{\theta}\cdot\frac{\sin\theta}{1 + \cos\theta} \to 1 \cdot \frac{0}{2} = 0. \]
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Getting \(0/0\) on substitution does <em>not</em> mean the limit is 0, 1, or undefined. It means &ldquo;more work needed&rdquo;. Conversely, a form like \(5/0\) is <em>not</em> indeterminate: it signals a vertical asymptote (the limit is \(\pm\infty\) or does not exist). And the limit laws require the individual limits to exist: \(\lim x \sin(1/x)\) cannot be split as \(\lim x \cdot \lim \sin(1/x)\) because the second factor has no limit.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.2 (Factor and cancel)</p>
+                        <p>Evaluate \(\displaystyle \lim_{x\to 3}\frac{x^2 - 9}{x^2 - x - 6}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Substitution gives \(0/0\). Factor: \(x^2 - 9 = (x-3)(x+3)\) and \(x^2 - x - 6 = (x-3)(x+2)\). For \(x \ne 3\),</p>
+                            \[ \frac{x^2 - 9}{x^2 - x - 6} = \frac{x + 3}{x + 2} \quad\Rightarrow\quad \lim_{x\to 3}\frac{x+3}{x+2} = \frac{6}{5}. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.3 (Conjugate)</p>
+                        <p>Evaluate \(\displaystyle \lim_{h\to 0}\frac{\sqrt{9 + h} - 3}{h}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Multiply top and bottom by the conjugate \(\sqrt{9+h} + 3\):</p>
+                            \[ \begin{aligned} \frac{\sqrt{9+h} - 3}{h}\cdot\frac{\sqrt{9+h} + 3}{\sqrt{9+h} + 3} &amp;= \frac{(9 + h) - 9}{h(\sqrt{9+h} + 3)} \\ &amp;= \frac{1}{\sqrt{9+h} + 3} \;\xrightarrow{h\to 0}\; \frac{1}{3 + 3} = \frac16. \end{aligned} \]
+                            <p>(Preview: this is the slope of \(\sqrt{x}\) at \(x = 9\), and indeed \(\frac{1}{2\sqrt 9} = \frac16\).)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.4 (Squeeze)</p>
+                        <p>Show \(\displaystyle\lim_{x\to 0} x^2\sin\!\left(\frac1x\right) = 0\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>For \(x \ne 0\), \(-1 \le \sin(1/x) \le 1\). Multiplying by \(x^2 \ge 0\) preserves the inequalities:</p>
+                            \[ -x^2 \le x^2\sin(1/x) \le x^2. \]
+                            <p>Both bounds tend to 0 as \(x \to 0\), so by the squeeze theorem the limit is \(0\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.5 (Trig limit)</p>
+                        <p>Evaluate \(\displaystyle\lim_{x\to 0}\frac{\sin 5x}{3x}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Arrange the argument of sine to match the denominator. Let \(u = 5x\); \(u \to 0\) as \(x \to 0\):</p>
+                            \[ \frac{\sin 5x}{3x} = \frac{5}{3}\cdot\frac{\sin 5x}{5x} = \frac53\cdot\frac{\sin u}{u} \to \frac53\cdot 1 = \frac53. \]
+                        </details>
+                    </div>
+
+                    <h3 id="lim-onesided">2.3 One-sided limits and infinite limits</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (One-sided limits)</p>
+                        <p>\(\lim_{x\to a^-} f(x) = L\) means \(f(x) \to L\) as \(x\) approaches \(a\) from the left (\(x \lt a\)); \(\lim_{x\to a^+} f(x) = L\) means from the right (\(x \gt a\)).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem</p>
+                        \[ \lim_{x\to a} f(x) = L \iff \lim_{x\to a^-} f(x) = L \ \text{ and } \ \lim_{x\to a^+} f(x) = L. \]
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Infinite limit, vertical asymptote)</p>
+                        <p>\(\lim_{x\to a} f(x) = \infty\) means \(f(x)\) can be made arbitrarily large by taking \(x\) close enough to \(a\) (\(x \ne a\)); similarly for \(-\infty\) and for one-sided versions. The line \(x = a\) is a <strong>vertical asymptote</strong> if at least one of the one-sided limits at \(a\) is \(\pm\infty\). Writing &ldquo;\(= \infty\)&rdquo; describes <em>how</em> the limit fails to exist; \(\infty\) is not a number.</p>
+                    </div>
+
+                    <p>Classic examples: \(\lim_{x\to 0^+}\frac1x = \infty\), \(\lim_{x\to 0^-}\frac1x = -\infty\) (so \(\lim_{x\to0}\frac1x\) does not exist, not even as \(\infty\)), \(\lim_{x\to 0^+}\ln x = -\infty\), and \(\lim_{x\to(\pi/2)^-}\tan x = \infty\).</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (Sign analysis for \(c/0\))</p>
+                        <p>When substitution gives a nonzero number over 0, the answer is \(\pm\infty\) on each side. Find the sign by plugging in a number slightly to the left and slightly to the right of \(a\): only the sign matters.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.6</p>
+                        <p>Find \(\lim_{x\to 0^-}\dfrac{|x|}{x}\), \(\lim_{x\to 0^+}\dfrac{|x|}{x}\), and decide whether \(\lim_{x\to0}\dfrac{|x|}{x}\) exists.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>For \(x \lt 0\), \(|x| = -x\) so \(|x|/x = -1\); for \(x \gt 0\), \(|x|/x = 1\). Hence the left limit is \(-1\), the right limit is \(1\). They differ, so the two-sided limit does not exist. (This is the <em>signum</em> function, a jump discontinuity &mdash; essentially an ideal comparator.)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.7</p>
+                        <p>Find the one-sided limits of \(f(x) = \dfrac{x + 1}{x - 2}\) at \(x = 2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Substitution gives \(3/0\): an asymptote. For \(x\) slightly greater than 2 (say 2.01), numerator \(\approx 3 \gt 0\), denominator small positive, so \(f \to +\infty\). For \(x\) slightly less than 2, the denominator is small negative, so \(f \to -\infty\):</p>
+                            \[ \lim_{x\to 2^+} f(x) = \infty, \qquad \lim_{x\to 2^-} f(x) = -\infty. \]
+                            <p>\(x = 2\) is a vertical asymptote.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="lim-precise">2.4 The precise (&epsilon;&ndash;&delta;) definition</h3>
+
+                    <p>&ldquo;Arbitrarily close&rdquo; and &ldquo;sufficiently close&rdquo; are made exact by a challenge&ndash;response game. A skeptic names any output tolerance \(\varepsilon \gt 0\). You must answer with an input tolerance \(\delta \gt 0\) such that every \(x\) within \(\delta\) of \(a\) (other than \(a\) itself) produces \(f(x)\) within \(\varepsilon\) of \(L\). If you can always answer, no matter how small \(\varepsilon\), the limit is \(L\). An engineer will recognise this as a tolerance specification: to guarantee the output stays within spec \(\pm\varepsilon\), how tightly must the input be controlled?</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Limit, precise)</p>
+                        <p>Let \(f\) be defined on an open interval around \(a\), except possibly at \(a\). Then \(\lim_{x\to a} f(x) = L\) means: for every \(\varepsilon \gt 0\) there is a \(\delta \gt 0\) such that</p>
+                        \[ 0 \lt |x - a| \lt \delta \quad\Longrightarrow\quad |f(x) - L| \lt \varepsilon. \]
+                        <p>The condition \(0 \lt |x - a|\) is exactly the &ldquo;\(x \ne a\)&rdquo; clause. For one-sided limits use \(a \lt x \lt a + \delta\) or \(a - \delta \lt x \lt a\). For \(\lim_{x\to a} f(x) = \infty\): for every \(M \gt 0\) there is \(\delta \gt 0\) with \(0 \lt |x - a| \lt \delta \Rightarrow f(x) \gt M\).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (How to write an &epsilon;&ndash;&delta; proof)</p>
+                        <p>Two stages. <em>Scratch work</em>: start from \(|f(x) - L|\) and manipulate it until it is bounded by (constant) \(\times |x - a|\); that tells you what \(\delta\) to choose. <em>Proof</em>: state &ldquo;Given \(\varepsilon \gt 0\), let \(\delta = \dots\)&rdquo;, then show that \(0 \lt |x - a| \lt \delta\) forces \(|f(x) - L| \lt \varepsilon\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.8</p>
+                        <p>Prove \(\lim_{x\to 3}(4x - 1) = 11\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><em>Scratch:</em> \(|(4x - 1) - 11| = |4x - 12| = 4|x - 3|\). We want this \(\lt \varepsilon\), i.e. \(|x - 3| \lt \varepsilon/4\).</p>
+                            <p><em>Proof:</em> Given \(\varepsilon \gt 0\), choose \(\delta = \varepsilon/4\). If \(0 \lt |x - 3| \lt \delta\), then</p>
+                            \[ |(4x - 1) - 11| = 4|x - 3| \lt 4\delta = \varepsilon. \]
+                            <p>So the limit is 11. Note \(\delta\) is proportional to \(\varepsilon\) with factor \(1/\text{slope}\): a steeper function needs tighter input control.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.9</p>
+                        <p>Prove \(\lim_{x\to 3} x^2 = 9\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><em>Scratch:</em> \(|x^2 - 9| = |x - 3|\,|x + 3|\). The factor \(|x + 3|\) varies, so bound it: if we insist \(\delta \le 1\), then \(|x - 3| \lt 1\) means \(2 \lt x \lt 4\), so \(|x + 3| \lt 7\). Then \(|x^2 - 9| \lt 7|x - 3|\), which is \(\lt \varepsilon\) provided \(|x - 3| \lt \varepsilon/7\).</p>
+                            <p><em>Proof:</em> Given \(\varepsilon \gt 0\), let \(\delta = \min\{1, \varepsilon/7\}\). If \(0 \lt |x - 3| \lt \delta\), then \(|x - 3| \lt 1\) gives \(|x + 3| \lt 7\), and \(|x - 3| \lt \varepsilon/7\), so</p>
+                            \[ |x^2 - 9| = |x - 3|\,|x + 3| \lt \frac{\varepsilon}{7}\cdot 7 = \varepsilon. \]
+                        </details>
+                    </div>
+
+                    <h3 id="lim-continuity">2.5 Continuity and the Intermediate Value Theorem</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Continuity)</p>
+                        <p>\(f\) is <strong>continuous at \(a\)</strong> if \(\lim_{x\to a} f(x) = f(a)\). This packs in three requirements: (1) \(f(a)\) is defined, (2) \(\lim_{x\to a} f(x)\) exists, (3) the two are equal. \(f\) is continuous <em>from the right</em> at \(a\) if \(\lim_{x\to a^+}f(x) = f(a)\) (similarly from the left), and continuous <em>on an interval</em> if continuous at every point of it (using one-sided continuity at closed endpoints).</p>
+                    </div>
+
+                    <p>Discontinuities come in types: <strong>removable</strong> (the limit exists but differs from \(f(a)\) or \(f(a)\) is undefined, e.g. \((x^2-9)/(x-3)\) at 3), <strong>jump</strong> (one-sided limits exist but differ, e.g. \(|x|/x\) at 0, or a step input \(u(t)\)), <strong>infinite</strong> (a vertical asymptote), and <strong>oscillating</strong> (e.g. \(\sin(1/x)\) at 0).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Continuous functions)</p>
+                        <p>Polynomials, rational functions, roots, trig and inverse trig functions, exponentials and logarithms are continuous at every point of their domains. Sums, differences, products, constant multiples, and quotients (where the denominator \(\ne 0\)) of continuous functions are continuous. If \(g\) is continuous at \(a\) and \(f\) is continuous at \(g(a)\), then \(f \circ g\) is continuous at \(a\). More generally, if \(\lim_{x\to a} g(x) = b\) and \(f\) is continuous at \(b\), then</p>
+                        \[ \lim_{x\to a} f(g(x)) = f\Big(\lim_{x\to a} g(x)\Big) = f(b). \]
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Intermediate Value Theorem)</p>
+                        <p>Suppose \(f\) is continuous on the <em>closed</em> interval \([a, b]\) and \(N\) is any number strictly between \(f(a)\) and \(f(b)\) (with \(f(a) \ne f(b)\)). Then there exists \(c \in (a, b)\) with \(f(c) = N\).</p>
+                    </div>
+
+                    <p>The most-used consequence: if \(f\) is continuous on \([a, b]\) and \(f(a)\), \(f(b)\) have opposite signs, then \(f\) has a root in \((a, b)\). Repeatedly halving the interval and keeping the half with a sign change is the <strong>bisection method</strong>, a robust (if slow) root finder used in numerical solvers. The IVT says nothing about <em>how many</em> roots, and it fails without continuity (\(1/x\) changes sign on \([-1, 1]\) but has no root).</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.10</p>
+                        <p>Find the value of \(c\) making \(f(x) = \begin{cases} cx + 1, &amp; x \lt 2 \\ x^2 - c, &amp; x \ge 2\end{cases}\) continuous everywhere.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Each piece is a polynomial, so the only question is \(x = 2\). Left limit: \(2c + 1\). Right limit and \(f(2)\): \(4 - c\). Set them equal:</p>
+                            \[ 2c + 1 = 4 - c \;\Rightarrow\; 3c = 3 \;\Rightarrow\; c = 1. \]
+                            <p>Check: with \(c = 1\), both pieces give 3 at \(x = 2\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.11</p>
+                        <p>Show that \(x^3 + x - 1 = 0\) has a solution in \((0, 1)\), and narrow it down to an interval of length \(1/4\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f(x) = x^3 + x - 1\) is a polynomial, hence continuous on \([0, 1]\). \(f(0) = -1 \lt 0\) and \(f(1) = 1 \gt 0\), so by the IVT (with \(N = 0\)) there is a root in \((0, 1)\).</p>
+                            <p>Bisect: \(f(0.5) = 0.125 + 0.5 - 1 = -0.375 \lt 0\), so the root is in \((0.5, 1)\). \(f(0.75) = 0.421875 + 0.75 - 1 = 0.171875 \gt 0\), so the root is in \((0.5, 0.75)\). (It is about \(0.6823\).)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="lim-infinity">2.6 Limits at infinity and horizontal asymptotes</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Limit at infinity)</p>
+                        <p>\(\lim_{x\to\infty} f(x) = L\) means \(f(x)\) can be made as close to \(L\) as we like by taking \(x\) sufficiently large. Precisely: for every \(\varepsilon \gt 0\) there is \(N\) such that \(x \gt N \Rightarrow |f(x) - L| \lt \varepsilon\). Similarly for \(x \to -\infty\). If either limit equals \(L\), the line \(y = L\) is a <strong>horizontal asymptote</strong>.</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Standard limits at infinity)</p>
+                        \[ \lim_{x\to\pm\infty}\frac{1}{x^r} = 0 \ (r \gt 0,\ \text{defined}), \qquad \lim_{x\to-\infty}e^x = 0, \qquad \lim_{x\to\pm\infty}\arctan x = \pm\frac{\pi}{2}. \]
+                        <p>For a rational function \(P/Q\) with leading terms \(a x^n\) and \(b x^m\): if \(n \lt m\) the limit at \(\pm\infty\) is 0; if \(n = m\) it is \(a/b\); if \(n \gt m\) it is \(\pm\infty\) (no horizontal asymptote).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Divide numerator and denominator by the highest power of \(x\) in the <em>denominator</em>. With square roots, remember \(\sqrt{x^2} = |x|\), which is \(-x\) when \(x \to -\infty\). For \(\infty - \infty\) forms with roots, multiply by the conjugate.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.12</p>
+                        <p>Evaluate \(\displaystyle\lim_{x\to\infty}\frac{3x^2 - x}{5x^2 + 2}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Divide by \(x^2\):</p>
+                            \[ \frac{3 - 1/x}{5 + 2/x^2} \;\to\; \frac{3 - 0}{5 + 0} = \frac35. \]
+                            <p>Horizontal asymptote \(y = 3/5\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.13</p>
+                        <p>Find both horizontal asymptotes of \(f(x) = \dfrac{\sqrt{4x^2 + 1}}{x - 1}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Factor \(x^2\) out of the root: \(\sqrt{4x^2 + 1} = \sqrt{x^2}\sqrt{4 + 1/x^2} = |x|\sqrt{4 + 1/x^2}\). Then</p>
+                            \[ f(x) = \frac{|x|\sqrt{4 + 1/x^2}}{x(1 - 1/x)}. \]
+                            <p>As \(x\to\infty\), \(|x|/x = 1\), so \(f \to \sqrt4/1 = 2\). As \(x \to -\infty\), \(|x|/x = -1\), so \(f \to -2\). Asymptotes: \(y = 2\) and \(y = -2\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.14 (\(\infty - \infty\))</p>
+                        <p>Evaluate \(\displaystyle\lim_{x\to\infty}\left(\sqrt{x^2 + 6x} - x\right)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Multiply and divide by the conjugate:</p>
+                            \[ \begin{aligned} \sqrt{x^2 + 6x} - x &amp;= \frac{(x^2 + 6x) - x^2}{\sqrt{x^2 + 6x} + x} = \frac{6x}{\sqrt{x^2 + 6x} + x} \\ &amp;= \frac{6}{\sqrt{1 + 6/x} + 1} \;\to\; \frac{6}{1 + 1} = 3 \end{aligned} \]
+                            <p>(dividing top and bottom by \(x \gt 0\)). The answer is 3, not 0: the two terms grow together but their difference settles down.</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>\(\displaystyle\lim_{x\to -2}\frac{x^3 + 8}{x + 2}\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(x^3 + 8 = (x + 2)(x^2 - 2x + 4)\), so the limit is \(4 + 4 + 4 = 12\).</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\lim_{x\to 0}\frac{1 - \cos x}{x^2}\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Multiply by \((1 + \cos x)\): \(\dfrac{\sin^2 x}{x^2(1 + \cos x)} = \left(\dfrac{\sin x}{x}\right)^2\dfrac{1}{1 + \cos x} \to 1\cdot\tfrac12 = \tfrac12\).</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\lim_{x\to 4}\frac{\frac1x - \frac14}{x - 4}\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\frac1x - \frac14 = \frac{4 - x}{4x}\), so the quotient is \(\frac{-(x-4)}{4x(x-4)} = -\frac{1}{4x} \to -\frac{1}{16}\).</p>
+                                </details>
+                            </li>
+                            <li>Find \(k\) so that \(f(x) = kx^2\) for \(x \le 2\) and \(f(x) = 3x + k\) for \(x \gt 2\) is continuous.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Match at 2: \(4k = 6 + k \Rightarrow k = 2\).</p>
+                                </details>
+                            </li>
+                            <li>Find \(\lim_{x\to\infty}\) and \(\lim_{x\to-\infty}\) of \(\dfrac{2e^x - 3e^{-x}}{e^x + e^{-x}}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>As \(x\to\infty\) divide by \(e^x\): \(\frac{2 - 3e^{-2x}}{1 + e^{-2x}} \to 2\). As \(x \to -\infty\) divide by \(e^{-x}\): \(\frac{2e^{2x} - 3}{e^{2x} + 1} \to -3\).</p>
+                                </details>
+                            </li>
+                            <li>Give an \(\varepsilon\)&ndash;\(\delta\) proof that \(\lim_{x\to 1}(5 - 2x) = 3\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(|(5 - 2x) - 3| = |2 - 2x| = 2|x - 1|\). Given \(\varepsilon \gt 0\), take \(\delta = \varepsilon/2\); then \(0 \lt |x-1| \lt \delta \Rightarrow 2|x - 1| \lt \varepsilon\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-derivative">
+                    <h2>3. The derivative</h2>
+                    <p class="ref">Stewart Ch. 2 &middot; OpenStax Vol. 1 Ch. 3</p>
+
+                    <p>The derivative is the limit that answers the tangent and velocity problems of Section 2.1. It is the <em>instantaneous rate of change</em> of one quantity with respect to another: velocity is the derivative of position, current is the derivative of charge (\(i = dq/dt\)), the voltage across an inductor is proportional to the derivative of current (\(v = L\,di/dt\)). Stewart introduces it at the end of the limits chapter; OpenStax opens its derivatives chapter with it. Here we build the definition and the basic theory; Chapter 4 develops the rules that let you avoid computing limits every time.</p>
+
+                    <h3 id="der-definition">3.1 The derivative at a point</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Derivative at a point)</p>
+                        <p>The <strong>derivative of \(f\) at \(a\)</strong> is</p>
+                        \[ f'(a) = \lim_{h\to 0}\frac{f(a + h) - f(a)}{h} = \lim_{x\to a}\frac{f(x) - f(a)}{x - a}, \]
+                        <p>provided the limit exists (the two forms are the same limit with \(x = a + h\)). If it exists, \(f\) is <strong>differentiable at \(a\)</strong>.</p>
+                    </div>
+
+                    <p>Interpretations of \(f'(a)\):</p>
+                    <ul>
+                        <li><strong>Geometric:</strong> the slope of the tangent line to \(y = f(x)\) at \((a, f(a))\). The tangent line is \(y = f(a) + f'(a)(x - a)\).</li>
+                        <li><strong>Rate of change:</strong> the instantaneous rate of change of \(y = f(x)\) with respect to \(x\) at \(x = a\). Units are (units of \(y\)) per (unit of \(x\)).</li>
+                        <li><strong>Physical:</strong> if \(s(t)\) is position, \(s'(t)\) is velocity; if \(q(t)\) is charge through a cross-section, \(q'(t)\) is current.</li>
+                    </ul>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>For definition problems, the algebra always follows the same arc: expand \(f(a + h)\), subtract \(f(a)\) and watch the constant terms cancel, factor an \(h\) out of what remains, cancel it against the denominator, then set \(h = 0\). If no \(h\) factors out, you have an algebra error (or the function is not differentiable there).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.1</p>
+                        <p>Use the definition to find \(f'(2)\) for \(f(x) = x^2 - 3x\), and write the tangent line at \(x = 2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f(2) = 4 - 6 = -2\). Then</p>
+                            \[ \begin{aligned} f'(2) &amp;= \lim_{h\to 0}\frac{(2+h)^2 - 3(2 + h) - (-2)}{h} \\ &amp;= \lim_{h\to 0}\frac{4 + 4h + h^2 - 6 - 3h + 2}{h} \\ &amp;= \lim_{h\to 0}\frac{h + h^2}{h} = \lim_{h\to 0}(1 + h) = 1. \end{aligned} \]
+                            <p>Tangent line: \(y = -2 + 1\cdot(x - 2)\), i.e. \(y = x - 4\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.2</p>
+                        <p>Find \(f'(3)\) for \(f(x) = 1/x\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \begin{aligned} f'(3) &amp;= \lim_{h\to 0}\frac{1}{h}\left(\frac{1}{3 + h} - \frac13\right) = \lim_{h\to 0}\frac{1}{h}\cdot\frac{3 - (3 + h)}{3(3 + h)} \\ &amp;= \lim_{h\to 0}\frac{-h}{3h(3 + h)} = \lim_{h\to 0}\frac{-1}{3(3 + h)} = -\frac19. \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <h3 id="der-function">3.2 The derivative as a function</h3>
+
+                    <p>Letting the point vary gives a new function \(f'\), whose value at each \(x\) is the slope of \(f\) there:</p>
+                    \[ f'(x) = \lim_{h\to 0}\frac{f(x + h) - f(x)}{h}. \]
+                    <p>Common notations: \(f'(x) = y' = \dfrac{dy}{dx} = \dfrac{df}{dx} = \dfrac{d}{dx}f(x) = Df(x)\). The Leibniz form \(dy/dx\) is a single symbol (not yet a fraction), but it behaves like one in useful ways, as the chain rule and substitution will show. To evaluate at a point write \(\left.\dfrac{dy}{dx}\right|_{x=a}\).</p>
+
+                    <p><strong>Reading graphs.</strong> Where \(f\) rises, \(f' \gt 0\); where it falls, \(f' \lt 0\); at a smooth peak or valley, \(f' = 0\). Sketching \(f'\) from a graph of \(f\) by estimating slopes is excellent practice.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Differentiable implies continuous)</p>
+                        <p>If \(f\) is differentiable at \(a\), then \(f\) is continuous at \(a\).</p>
+                        <p><strong>Proof.</strong> For \(x \ne a\), write \(f(x) - f(a) = \dfrac{f(x) - f(a)}{x - a}\cdot(x - a)\). Taking \(x \to a\) and using the product law,</p>
+                        \[ \lim_{x\to a}[f(x) - f(a)] = f'(a)\cdot 0 = 0, \]
+                        <p>so \(\lim_{x\to a}f(x) = f(a)\). &#8718;</p>
+                    </div>
+
+                    <p>The converse is false. A function can fail to be differentiable at \(a\) in three ways: a <strong>corner or cusp</strong> (left and right slopes differ, as for \(|x|\) at 0), a <strong>discontinuity</strong> (by the theorem), or a <strong>vertical tangent</strong> (the slope blows up, as for \(\sqrt[3]{x}\) at 0).</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Higher derivatives)</p>
+                        <p>The derivative of \(f'\) is the <strong>second derivative</strong> \(f'' = \dfrac{d^2y}{dx^2}\); continuing gives \(f''', f^{(4)}, \dots, f^{(n)} = \dfrac{d^ny}{dx^n}\). For motion, \(v = s'\) and acceleration \(a = v' = s''\); the third derivative is called <em>jerk</em>, and limiting it matters in elevator and motion-control design.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(f'(a)\) is the derivative evaluated at \(a\), not the derivative of the number \(f(a)\) (which would be 0). Always differentiate first, then substitute.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.3</p>
+                        <p>Find \(f'(x)\) from the definition for \(f(x) = \sqrt{x}\), and state the domain of \(f'\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \begin{aligned} f'(x) &amp;= \lim_{h\to 0}\frac{\sqrt{x + h} - \sqrt{x}}{h}\cdot\frac{\sqrt{x + h} + \sqrt{x}}{\sqrt{x + h} + \sqrt{x}} = \lim_{h\to 0}\frac{(x + h) - x}{h(\sqrt{x+h} + \sqrt x)} \\ &amp;= \lim_{h\to 0}\frac{1}{\sqrt{x+h} + \sqrt x} = \frac{1}{2\sqrt x}. \end{aligned} \]
+                            <p>\(f\) is defined on \([0, \infty)\) but \(f'\) only on \((0, \infty)\): at \(x = 0\) the graph has a vertical tangent.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.4</p>
+                        <p>Find \(f'(x)\) from the definition for \(f(x) = \dfrac{1 - x}{2 + x}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Combine the difference over a common denominator:</p>
+                            \[ f(x+h) - f(x) = \frac{(1 - x - h)(2 + x) - (1 - x)(2 + x + h)}{(2 + x + h)(2 + x)}. \]
+                            <p>Expand the numerator by grouping: \((1 - x - h)(2 + x) = (1 - x)(2 + x) - h(2 + x)\) and \((1 - x)(2 + x + h) = (1 - x)(2 + x) + h(1 - x)\). Subtracting, the numerator is \(-h(2 + x) - h(1 - x) = -3h\). Therefore</p>
+                            \[ f'(x) = \lim_{h\to 0}\frac{-3h}{h(2 + x + h)(2 + x)} = \frac{-3}{(2 + x)^2}, \quad x \ne -2. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.5</p>
+                        <p>Show that \(f(x) = |x|\) is not differentiable at 0.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The difference quotient at 0 is \(\dfrac{|0 + h| - 0}{h} = \dfrac{|h|}{h}\). From Example 2.6, its right limit is \(1\) and its left limit is \(-1\). Since they differ, \(f'(0)\) does not exist. Geometrically, there is a corner. (Note \(|x|\) <em>is</em> continuous at 0, illustrating that continuity does not imply differentiability.)</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Use the definition to find \(f'(1)\) for \(f(x) = x^3\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\frac{(1+h)^3 - 1}{h} = \frac{3h + 3h^2 + h^3}{h} = 3 + 3h + h^2 \to 3\).</p>
+                                </details>
+                            </li>
+                            <li>Use the definition to find \(f'(x)\) for \(f(x) = 2x^2 + x\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(f(x+h) - f(x) = 4xh + 2h^2 + h\); divide by \(h\): \(4x + 2h + 1 \to 4x + 1\).</p>
+                                </details>
+                            </li>
+                            <li>Use the definition to find \(g'(x)\) for \(g(x) = 1/\sqrt{x}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\frac1h\left(\frac{1}{\sqrt{x+h}} - \frac{1}{\sqrt x}\right) = \frac{\sqrt x - \sqrt{x+h}}{h\sqrt x\sqrt{x+h}}\). Multiply by the conjugate: \(\frac{-1}{\sqrt x\sqrt{x+h}(\sqrt x + \sqrt{x+h})} \to \frac{-1}{x\cdot 2\sqrt x} = -\frac{1}{2x^{3/2}}\).</p>
+                                </details>
+                            </li>
+                            <li>Recognise \(\displaystyle\lim_{h\to 0}\frac{(2 + h)^5 - 32}{h}\) as a derivative and evaluate it.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>It is \(f'(2)\) for \(f(x) = x^5\). Using the power rule (next chapter), \(5\cdot 2^4 = 80\).</p>
+                                </details>
+                            </li>
+                            <li>Where is \(f(x) = |x^2 - 4|\) not differentiable?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>At \(x = \pm 2\), where \(x^2 - 4\) changes sign and the graph has corners (slopes \(\pm 4\) on either side of \(x = 2\), for example).</p>
+                                </details>
+                            </li>
+                            <li>The charge passing a point in a wire is \(q(t) = 3t^2 + 2t\) mC (\(t\) in seconds). Using the definition, find the current at \(t = 1\ \text{s}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\frac{q(1+h) - q(1)}{h} = \frac{3(2h + h^2) + 2h}{h} = 8 + 3h \to 8\). Current \(= 8\ \text{mA}\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-rules">
+                    <h2>4. Differentiation rules</h2>
+                    <p class="ref">Stewart Ch. 3 &middot; OpenStax Vol. 1 Ch. 3 (hyperbolic functions: OpenStax Vol. 1 Ch. 6)</p>
+
+                    <p>Computing every derivative from the limit definition would be unbearable. Instead we prove a small number of rules once &mdash; for powers, sums, products, quotients, compositions, and the basic transcendental functions &mdash; and then any function built from these pieces can be differentiated mechanically. The chain rule is the most important of them, and it powers the later techniques in this chapter: implicit differentiation, logarithmic differentiation, related rates. The chapter ends with linear approximation, the idea behind every &ldquo;small-signal&rdquo; model in electronics.</p>
+
+                    <h3 id="rul-basic">4.1 Power, sum, product and quotient rules</h3>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Basic rules)</p>
+                        \[ \frac{d}{dx}c = 0, \qquad \frac{d}{dx}x^n = n x^{n-1}\ (n \text{ any real}), \qquad \frac{d}{dx}[c f] = c f', \qquad \frac{d}{dx}[f \pm g] = f' \pm g', \qquad \frac{d}{dx}e^x = e^x. \]
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Proof sketch (Power rule, positive integer \(n\))</p>
+                        <p>By the binomial theorem, \((x + h)^n = x^n + n x^{n-1}h + \binom{n}{2}x^{n-2}h^2 + \dots + h^n\). Subtracting \(x^n\) and dividing by \(h\):</p>
+                        \[ \frac{(x+h)^n - x^n}{h} = n x^{n-1} + \binom n2 x^{n-2}h + \dots + h^{n-1} \;\xrightarrow{h\to0}\; n x^{n-1}. \]
+                        <p>Every term after the first still contains a factor of \(h\). The rule for general real \(n\) follows later from logarithmic differentiation (Section 4.6).</p>
+                        <p><strong>Exponential.</strong> \(\dfrac{e^{x+h} - e^x}{h} = e^x\cdot\dfrac{e^h - 1}{h}\). The second factor tends to the slope of \(e^x\) at 0, which is 1 by the very definition of \(e\) (Section 1.4). So \((e^x)' = e^x\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Product and quotient rules)</p>
+                        <p>If \(f\) and \(g\) are differentiable at \(x\), then</p>
+                        \[ (fg)' = f'g + fg', \qquad \left(\frac fg\right)' = \frac{f'g - fg'}{g^2} \quad (g(x) \ne 0). \]
+                        <p><strong>Proof (product).</strong> Add and subtract \(f(x+h)g(x)\) in the numerator:</p>
+                        \[ \begin{aligned} \frac{f(x+h)g(x+h) - f(x)g(x)}{h} &amp;= f(x + h)\,\frac{g(x+h) - g(x)}{h} + g(x)\,\frac{f(x+h) - f(x)}{h}. \end{aligned} \]
+                        <p>As \(h\to0\), \(f(x+h) \to f(x)\) (differentiable functions are continuous), giving \(f g' + g f'\). The quotient rule follows by applying the product rule to \(f = (f/g)\cdot g\) and solving for \((f/g)'\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\((fg)' \ne f'g'\) and \((f/g)' \ne f'/g'\). For the quotient rule, the order in the numerator matters because of the minus sign; a mnemonic is &ldquo;low d-high minus high d-low, over low squared&rdquo;. Before reaching for the quotient rule, check whether simplifying first is easier: \(\frac{x^3 + 1}{x}\) is just \(x^2 + x^{-1}\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.1</p>
+                        <p>Differentiate \(y = 3x^4 - \dfrac{2}{x^3} + 5\sqrt{x} - 7\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Rewrite with exponents: \(y = 3x^4 - 2x^{-3} + 5x^{1/2} - 7\). Then term by term,</p>
+                            \[ y' = 12x^3 + 6x^{-4} + \tfrac52 x^{-1/2} = 12x^3 + \frac{6}{x^4} + \frac{5}{2\sqrt x}. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.2</p>
+                        <p>Differentiate (a) \(f(x) = (x^2 + 1)e^x\), (b) \(g(x) = \dfrac{x^2 - 1}{x^2 + 1}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) Product rule: \(f'(x) = 2x\,e^x + (x^2 + 1)e^x = e^x(x^2 + 2x + 1) = e^x(x + 1)^2\). Note \(f' \ge 0\) everywhere, so \(f\) is never decreasing.</p>
+                            <p>(b) Quotient rule:</p>
+                            \[ g'(x) = \frac{(2x)(x^2 + 1) - (x^2 - 1)(2x)}{(x^2+1)^2} = \frac{2x^3 + 2x - 2x^3 + 2x}{(x^2 + 1)^2} = \frac{4x}{(x^2 + 1)^2}. \]
+                        </details>
+                    </div>
+
+                    <h3 id="rul-trig">4.2 Derivatives of trigonometric functions</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (\(\frac{d}{dx}\sin x = \cos x\))</p>
+                        <p><strong>Proof.</strong> Using \(\sin(x + h) = \sin x\cos h + \cos x \sin h\),</p>
+                        \[ \begin{aligned} \frac{\sin(x + h) - \sin x}{h} &amp;= \sin x\cdot\frac{\cos h - 1}{h} + \cos x\cdot\frac{\sin h}{h} \\ &amp;\xrightarrow{h \to 0}\; \sin x\cdot 0 + \cos x \cdot 1 = \cos x, \end{aligned} \]
+                        <p>by the two trig limits of Section 2.2. The same method with \(\cos(x+h) = \cos x\cos h - \sin x \sin h\) gives \((\cos x)' = -\sin x\). The others follow from the quotient rule. This is the reason calculus insists on radians: in degrees, \(\sin h/h \to \pi/180\) and every formula picks up that ugly factor.</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Trig derivatives)</p>
+                        \[ \begin{aligned} (\sin x)' &amp;= \cos x, &amp; (\cos x)' &amp;= -\sin x, &amp; (\tan x)' &amp;= \sec^2 x, \\ (\csc x)' &amp;= -\csc x\cot x, &amp; (\sec x)' &amp;= \sec x\tan x, &amp; (\cot x)' &amp;= -\csc^2 x. \end{aligned} \]
+                        <p>Pattern: the &ldquo;co-&rdquo; functions get a minus sign.</p>
+                    </div>
+
+                    <p><strong>Physics connection.</strong> Since \((\sin t)'' = -\sin t\) and \((\cos t)'' = -\cos t\), the functions \(x(t) = A\cos(\omega t) + B\sin(\omega t)\) satisfy \(x'' = -\omega^2 x\): the equation of simple harmonic motion (mass on a spring, LC circuit). Differentiation shifts a sinusoid's phase by \(90^\circ\), which is why current through a capacitor leads its voltage.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.3</p>
+                        <p>Derive \((\tan x)' = \sec^2 x\), then find all \(x\) where \(f(x) = x + 2\sin x\) has a horizontal tangent.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ (\tan x)' = \left(\frac{\sin x}{\cos x}\right)' = \frac{\cos x\cos x - \sin x(-\sin x)}{\cos^2 x} = \frac{\cos^2 x + \sin^2 x}{\cos^2 x} = \frac{1}{\cos^2 x} = \sec^2 x. \]
+                            <p>For \(f\): \(f'(x) = 1 + 2\cos x = 0 \Rightarrow \cos x = -\tfrac12\), so \(x = \tfrac{2\pi}{3} + 2\pi n\) or \(x = \tfrac{4\pi}{3} + 2\pi n\), \(n \in \mathbb Z\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="rul-chain">4.3 The chain rule</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Chain rule)</p>
+                        <p>If \(g\) is differentiable at \(x\) and \(f\) is differentiable at \(g(x)\), then \(F = f\circ g\) is differentiable at \(x\) and</p>
+                        \[ F'(x) = f'(g(x))\cdot g'(x). \qquad\text{In Leibniz form, with } y = f(u),\ u = g(x): \quad \frac{dy}{dx} = \frac{dy}{du}\cdot\frac{du}{dx}. \]
+                        <p><strong>Proof idea.</strong> Write \(\Delta u = g(x + \Delta x) - g(x)\) and \(\Delta y = f(u + \Delta u) - f(u)\). Then \(\dfrac{\Delta y}{\Delta x} = \dfrac{\Delta y}{\Delta u}\cdot\dfrac{\Delta u}{\Delta x}\), and as \(\Delta x \to 0\) also \(\Delta u \to 0\) (continuity of \(g\)), so the right side tends to \(f'(u)g'(x)\). The gap: \(\Delta u\) might be zero for some small \(\Delta x\). A careful proof avoids dividing by \(\Delta u\) by writing \(\Delta y = [f'(u) + \eta]\Delta u\) with \(\eta \to 0\).</p>
+                    </div>
+
+                    <p>Interpretation: rates multiply. If \(y\) changes 3 times as fast as \(u\), and \(u\) changes 2 times as fast as \(x\), then \(y\) changes 6 times as fast as \(x\). Operationally: <em>differentiate the outer function, leaving the inside alone, then multiply by the derivative of the inside.</em> Repeat for nested layers.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Common chain-rule forms, \(u = g(x)\))</p>
+                        \[ \frac{d}{dx}u^n = n u^{n-1}u', \qquad \frac{d}{dx}e^{u} = e^{u}u', \qquad \frac{d}{dx}\sin u = \cos u\cdot u', \qquad \frac{d}{dx}b^x = \frac{d}{dx}e^{x\ln b} = b^x\ln b. \]
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Forgetting the inner derivative: \(\frac{d}{dx}\sin(3x) = 3\cos(3x)\), not \(\cos(3x)\). Also keep the inside unchanged in the outer derivative: \(\frac{d}{dx}(x^2+1)^5 = 5(x^2 + 1)^4\cdot 2x\), not \(5(2x)^4\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.4</p>
+                        <p>Differentiate (a) \((3x^2 + 1)^5\), (b) \(e^{-x^2}\), (c) \(\sqrt{1 + \cos^2 x}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) Outer \(u^5\), inner \(u = 3x^2 + 1\): \(5(3x^2 + 1)^4\cdot 6x = 30x(3x^2 + 1)^4\).</p>
+                            <p>(b) Outer \(e^u\), inner \(-x^2\): \(e^{-x^2}\cdot(-2x) = -2x e^{-x^2}\).</p>
+                            <p>(c) Three layers: \(\sqrt{\ \cdot\ }\), then \(1 + (\cdot)^2\), then \(\cos x\):</p>
+                            \[ \frac{d}{dx}(1 + \cos^2 x)^{1/2} = \frac12(1 + \cos^2 x)^{-1/2}\cdot 2\cos x\cdot(-\sin x) = \frac{-\sin x\cos x}{\sqrt{1 + \cos^2 x}}. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.5 (Capacitor current)</p>
+                        <p>The voltage across a capacitor \(C\) is \(v(t) = V_0\sin(\omega t + \phi)\). Find the current \(i = C\,dv/dt\) and its amplitude.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The inner function is \(\omega t + \phi\) with derivative \(\omega\):</p>
+                            \[ i(t) = C V_0\omega\cos(\omega t + \phi) = \omega C V_0\sin\!\left(\omega t + \phi + \tfrac{\pi}{2}\right). \]
+                            <p>Amplitude \(\omega C V_0\), leading the voltage by \(\pi/2\). The ratio of amplitudes \(V_0/(\omega C V_0) = 1/(\omega C)\) is the capacitive reactance &mdash; the chain rule's factor \(\omega\) is where the frequency dependence comes from.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="rul-implicit">4.4 Implicit differentiation</h3>
+
+                    <p>Many curves are given by an equation \(F(x, y) = 0\) that is not (or not easily) solved for \(y\). If the curve is locally the graph of some differentiable \(y(x)\), we can differentiate both sides of the equation with respect to \(x\), treating \(y\) as a function of \(x\) &mdash; so every \(y\)-term picks up a factor \(y'\) by the chain rule &mdash; and then solve for \(y'\).</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>\(\frac{d}{dx}(y^3) = 3y^2 y'\), \(\frac{d}{dx}(xy) = y + xy'\) (product rule!), \(\frac{d}{dx}\sin y = \cos y\cdot y'\). After differentiating, collect all \(y'\) terms on one side and factor.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.6</p>
+                        <p>Find the tangent line to the circle \(x^2 + y^2 = 25\) at \((3, -4)\), and find \(y''\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Differentiate: \(2x + 2y y' = 0 \Rightarrow y' = -x/y\). At \((3, -4)\): \(y' = -3/(-4) = 3/4\). Tangent: \(y + 4 = \tfrac34(x - 3)\), i.e. \(y = \tfrac34 x - \tfrac{25}{4}\). (Check: the radius to \((3,-4)\) has slope \(-4/3\), perpendicular to \(3/4\). &#10003;)</p>
+                            <p>Second derivative, by the quotient rule on \(-x/y\):</p>
+                            \[ y'' = -\frac{1\cdot y - x y'}{y^2} = -\frac{y - x(-x/y)}{y^2} = -\frac{y^2 + x^2}{y^3} = -\frac{25}{y^3}. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.7</p>
+                        <p>Find \(dy/dx\) at \((1, 2)\) on the curve \(x^2 y + y^3 = 10\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Check the point: \(1\cdot 2 + 8 = 10\). &#10003; Differentiate (product rule on \(x^2y\)):</p>
+                            \[ 2xy + x^2 y' + 3y^2 y' = 0 \;\Rightarrow\; y'(x^2 + 3y^2) = -2xy \;\Rightarrow\; y' = \frac{-2xy}{x^2 + 3y^2}. \]
+                            <p>At \((1, 2)\): \(y' = -4/(1 + 12) = -4/13\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="rul-explog">4.5 Derivatives of logarithmic, exponential and inverse trig functions</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Derivative of an inverse function)</p>
+                        <p>If \(f\) is differentiable and one-to-one with inverse \(g = f^{-1}\), and \(f'(g(b)) \ne 0\), then \(g\) is differentiable at \(b\) and</p>
+                        \[ g'(b) = \frac{1}{f'(g(b))}, \qquad\text{i.e.}\qquad \frac{dx}{dy} = \frac{1}{dy/dx}. \]
+                        <p>(Differentiate \(f(g(x)) = x\) with the chain rule.) The inverse's graph is a reflection in \(y = x\), so slopes become reciprocals.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Derivations</p>
+                        <p><strong>\(\ln x\):</strong> let \(y = \ln x\), so \(e^y = x\). Differentiate implicitly: \(e^y y' = 1 \Rightarrow y' = 1/e^y = 1/x\). For \(x \lt 0\), \(\ln|x| = \ln(-x)\) has derivative \(\frac{-1}{-x} = \frac1x\), so \(\frac{d}{dx}\ln|x| = \frac1x\) for all \(x \ne 0\).</p>
+                        <p><strong>\(\arcsin x\):</strong> let \(y = \arcsin x\), so \(\sin y = x\) with \(y \in [-\pi/2, \pi/2]\). Then \(\cos y\cdot y' = 1\), and by Example 1.6 \(\cos y = \sqrt{1 - x^2}\), so \(y' = 1/\sqrt{1 - x^2}\) for \(|x| \lt 1\).</p>
+                        <p><strong>\(\arctan x\):</strong> \(\tan y = x \Rightarrow \sec^2 y\cdot y' = 1 \Rightarrow y' = \frac{1}{1 + \tan^2 y} = \frac{1}{1 + x^2}\).</p>
+                        <p><strong>The number \(e\) as a limit:</strong> the derivative of \(\ln x\) at 1 is 1, so \(\lim_{h\to0}\frac{\ln(1+h)}{h} = \lim_{h\to0}\ln(1 + h)^{1/h} = 1\). Exponentiating (\(e^x\) is continuous), \(\lim_{h\to 0}(1 + h)^{1/h} = e\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula</p>
+                        \[ \begin{aligned} (e^x)' &amp;= e^x, &amp; (b^x)' &amp;= b^x\ln b, &amp; (\ln|x|)' &amp;= \frac1x, &amp; (\log_b x)' &amp;= \frac{1}{x\ln b}, \\ (\arcsin x)' &amp;= \frac{1}{\sqrt{1 - x^2}}, &amp; (\arccos x)' &amp;= \frac{-1}{\sqrt{1 - x^2}}, &amp; (\arctan x)' &amp;= \frac{1}{1 + x^2}. \end{aligned} \]
+                        <p>With the chain rule: \((\ln u)' = u'/u\), \((e^u)' = e^u u'\), \((\arctan u)' = u'/(1 + u^2)\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.8</p>
+                        <p>Differentiate (a) \(\ln(x^2 + 1)\), (b) \(e^{3x}\sin 2x\), (c) \(x^2\arctan x\), (d) \(10^{\sqrt x}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(\dfrac{2x}{x^2 + 1}\).</p>
+                            <p>(b) Product + chain: \(3e^{3x}\sin 2x + e^{3x}\cdot 2\cos 2x = e^{3x}(3\sin 2x + 2\cos 2x)\).</p>
+                            <p>(c) \(2x\arctan x + \dfrac{x^2}{1 + x^2}\).</p>
+                            <p>(d) \(10^{\sqrt x}\ln 10\cdot\dfrac{1}{2\sqrt x}\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.9</p>
+                        <p>Let \(f(x) = x^3 + x + 1\). Find \((f^{-1})'(3)\) without finding a formula for \(f^{-1}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f'(x) = 3x^2 + 1 \gt 0\), so \(f\) is increasing and one-to-one. We need the \(a\) with \(f(a) = 3\): by inspection \(a = 1\) (\(1 + 1 + 1 = 3\)). Then \(f'(1) = 4\) and</p>
+                            \[ (f^{-1})'(3) = \frac{1}{f'(1)} = \frac14. \]
+                        </details>
+                    </div>
+
+                    <h3 id="rul-logdiff">4.6 Logarithmic differentiation</h3>
+
+                    <p>For messy products, quotients and powers, or for a variable base raised to a variable exponent, take \(\ln|\cdot|\) of both sides first. Logs turn products into sums and exponents into factors, then implicit differentiation finishes the job: \(\frac{d}{dx}\ln|y| = y'/y\).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">General power rule (proof)</p>
+                        <p>For \(y = x^n\) with any real \(n\) and \(x \gt 0\): \(\ln y = n\ln x \Rightarrow y'/y = n/x \Rightarrow y' = n x^n/x = n x^{n-1}\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>For \(x^x\), neither the power rule (\(x\cdot x^{x-1}\)) nor the exponential rule (\(x^x\ln x\)) is correct: both base and exponent vary. Use logs, or write \(x^x = e^{x\ln x}\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.10</p>
+                        <p>Differentiate \(y = x^x\) for \(x \gt 0\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \ln y = x\ln x \;\Rightarrow\; \frac{y'}{y} = \ln x + x\cdot\frac1x = \ln x + 1 \;\Rightarrow\; y' = x^x(\ln x + 1). \]
+                            <p>(Horizontal tangent where \(\ln x = -1\), at \(x = 1/e\).)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.11</p>
+                        <p>Differentiate \(y = \dfrac{x^3\sqrt{x^2 + 1}}{(2x + 3)^4}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Take logs (of absolute values) and expand:</p>
+                            \[ \ln|y| = 3\ln|x| + \tfrac12\ln(x^2 + 1) - 4\ln|2x + 3|. \]
+                            <p>Differentiate:</p>
+                            \[ \frac{y'}{y} = \frac3x + \frac{x}{x^2 + 1} - \frac{8}{2x + 3} \;\Rightarrow\; y' = \frac{x^3\sqrt{x^2 + 1}}{(2x + 3)^4}\left(\frac3x + \frac{x}{x^2 + 1} - \frac{8}{2x + 3}\right). \]
+                        </details>
+                    </div>
+
+                    <h3 id="rul-related">4.7 Related rates</h3>
+
+                    <p>When several quantities are linked by an equation and all change with time, differentiating the equation with respect to \(t\) links their rates. Given some rates, you can solve for an unknown one.</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (Strategy)</p>
+                        <p>(1) Draw a picture; name every changing quantity as a function of \(t\). (2) List given rates and the rate wanted, with units and signs (decreasing means negative). (3) Write an equation relating the quantities, valid at <em>all</em> times. (4) Differentiate with respect to \(t\) (chain rule). (5) Only now substitute the numbers for the specific instant. Substituting before differentiating is the classic error: it freezes a variable into a constant.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.12</p>
+                        <p>A spherical balloon is inflated at \(50\ \text{cm}^3/\text{s}\). How fast is the radius growing when \(r = 10\ \text{cm}\)?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(V = \tfrac43\pi r^3\). Differentiate: \(\dfrac{dV}{dt} = 4\pi r^2\dfrac{dr}{dt}\). Substitute \(dV/dt = 50\), \(r = 10\):</p>
+                            \[ 50 = 4\pi(100)\frac{dr}{dt} \;\Rightarrow\; \frac{dr}{dt} = \frac{50}{400\pi} = \frac{1}{8\pi} \approx 0.0398\ \text{cm/s}. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.13</p>
+                        <p>Two cars leave an intersection; car A drives east at 60 km/h, car B north at 80 km/h. How fast is the distance between them changing when A is 3 km east and B is 4 km north?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let \(x\) = A's distance east, \(y\) = B's distance north, \(z\) = distance between them. Then \(z^2 = x^2 + y^2\) at all times. Differentiate:</p>
+                            \[ 2z\frac{dz}{dt} = 2x\frac{dx}{dt} + 2y\frac{dy}{dt}. \]
+                            <p>At the instant: \(x = 3, y = 4, z = 5\), \(x' = 60, y' = 80\): \(5z' = 180 + 320 = 500\), so \(z' = 100\ \text{km/h}\). (Here the answer is the same at every instant: after \(t\) hours the separation is \(\sqrt{(60t)^2 + (80t)^2} = 100t\).)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.14 (Parallel resistors)</p>
+                        <p>Resistors \(R_1, R_2\) in parallel give \(\frac1R = \frac1{R_1} + \frac1{R_2}\). If \(R_1\) is increasing at \(0.3\ \Omega/\text{s}\) and \(R_2\) is decreasing at \(0.2\ \Omega/\text{s}\), how fast is \(R\) changing when \(R_1 = 60\ \Omega\) and \(R_2 = 30\ \Omega\)?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>At the instant, \(\frac1R = \frac1{60} + \frac1{30} = \frac{3}{60}\), so \(R = 20\ \Omega\). Differentiate the relation:</p>
+                            \[ -\frac{R'}{R^2} = -\frac{R_1'}{R_1^2} - \frac{R_2'}{R_2^2} \;\Rightarrow\; R' = R^2\left(\frac{R_1'}{R_1^2} + \frac{R_2'}{R_2^2}\right). \]
+                            <p>Substitute \(R_1' = 0.3\), \(R_2' = -0.2\):</p>
+                            \[ R' = 400\left(\frac{0.3}{3600} - \frac{0.2}{900}\right) = 400\cdot\frac{0.3 - 0.8}{3600} = -\frac{200}{3600} = -\frac1{18} \approx -0.0556\ \Omega/\text{s}. \]
+                            <p>The equivalent resistance is decreasing.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="rul-linear">4.8 Linear approximation and differentials</h3>
+
+                    <p>Zoom in far enough on a differentiable curve and it looks like its tangent line. Replacing \(f\) by that line near \(a\) is the <strong>linearization</strong>; it is the first-order Taylor approximation and the mathematical basis of small-signal analysis, small-angle approximations, and error propagation.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Linearization and differentials)</p>
+                        <p>The <strong>linearization</strong> of \(f\) at \(a\) is \(L(x) = f(a) + f'(a)(x - a)\), and \(f(x) \approx L(x)\) for \(x\) near \(a\). With \(y = f(x)\), the <strong>differential</strong> \(dx\) is an independent variable (a small change in \(x\)) and \(dy = f'(x)\,dx\). Then \(dy\) approximates the actual change \(\Delta y = f(x + dx) - f(x)\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Standard small-\(x\) approximations)</p>
+                        \[ \sin x \approx x, \qquad \tan x \approx x, \qquad \cos x \approx 1\ \ (\text{to second order } 1 - \tfrac{x^2}{2}), \qquad e^x \approx 1 + x, \qquad \ln(1 + x) \approx x, \qquad (1 + x)^k \approx 1 + kx. \]
+                        <p>Relative error propagation: if \(y = Cx^k\), then \(\dfrac{dy}{y} = k\,\dfrac{dx}{x}\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.15</p>
+                        <p>Use a linear approximation to estimate \(\sqrt{4.05}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Take \(f(x) = \sqrt x\), \(a = 4\): \(f(4) = 2\), \(f'(4) = \frac{1}{2\sqrt4} = \frac14\). So \(L(x) = 2 + \frac14(x - 4)\) and</p>
+                            \[ \sqrt{4.05} \approx 2 + \tfrac14(0.05) = 2.0125. \]
+                            <p>The true value is \(2.01246\dots\); the error is about \(4\times10^{-5}\). The tangent lies above the concave-down curve, so the estimate is slightly high.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.16 (Error propagation)</p>
+                        <p>The radius of a ball bearing is measured as \(10\ \text{mm}\) with a possible error of \(\pm 0.1\ \text{mm}\). Estimate the maximum error in the computed volume, and the relative error.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(V = \tfrac43\pi r^3 \Rightarrow dV = 4\pi r^2\,dr = 4\pi(100)(0.1) = 40\pi \approx 126\ \text{mm}^3\). Relative error: \(\dfrac{dV}{V} = 3\dfrac{dr}{r} = 3(0.01) = 3\%\). A 1% error in the radius becomes a 3% error in the volume.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="rul-hyperbolic">4.9 Hyperbolic functions (brief)</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition</p>
+                        \[ \sinh x = \frac{e^x - e^{-x}}{2}, \qquad \cosh x = \frac{e^x + e^{-x}}{2}, \qquad \tanh x = \frac{\sinh x}{\cosh x}, \]
+                        <p>with \(\operatorname{sech}, \operatorname{csch}, \coth\) the reciprocals. \(\cosh\) is even, \(\sinh\) and \(\tanh\) are odd; \(\tanh x \to \pm 1\) as \(x \to \pm\infty\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula</p>
+                        \[ \cosh^2 x - \sinh^2 x = 1, \qquad (\sinh x)' = \cosh x, \qquad (\cosh x)' = \sinh x, \qquad (\tanh x)' = \operatorname{sech}^2 x, \]
+                        \[ \sinh^{-1}x = \ln\!\left(x + \sqrt{x^2 + 1}\right), \qquad (\sinh^{-1}x)' = \frac{1}{\sqrt{1 + x^2}}, \qquad (\tanh^{-1} x)' = \frac{1}{1 - x^2}\ (|x| \lt 1). \]
+                    </div>
+
+                    <p>The identity says \((\cosh t, \sinh t)\) lies on the hyperbola \(x^2 - y^2 = 1\), just as \((\cos t, \sin t)\) lies on the unit circle; note that no minus sign appears in \((\cosh x)' = \sinh x\). They appear in hanging cables (the catenary \(y = a\cosh(x/a)\)), lossy transmission lines, special relativity (rapidity), and \(\tanh\) is a standard neural-network activation.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.17</p>
+                        <p>Verify \(\cosh^2 x - \sinh^2 x = 1\) and \((\tanh x)' = \operatorname{sech}^2 x\); then differentiate \(\cosh(3x^2)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \cosh^2 x - \sinh^2 x = \frac{e^{2x} + 2 + e^{-2x}}{4} - \frac{e^{2x} - 2 + e^{-2x}}{4} = \frac44 = 1. \]
+                            <p>Quotient rule: \((\tanh x)' = \dfrac{\cosh x\cosh x - \sinh x\sinh x}{\cosh^2 x} = \dfrac{1}{\cosh^2 x} = \operatorname{sech}^2 x\).</p>
+                            <p>Chain rule: \(\frac{d}{dx}\cosh(3x^2) = 6x\sinh(3x^2)\).</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Differentiate \(x^3 e^{-2x}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(3x^2e^{-2x} - 2x^3e^{-2x} = x^2e^{-2x}(3 - 2x)\).</p>
+                                </details>
+                            </li>
+                            <li>Differentiate \(\sin^3(4x)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(3\sin^2(4x)\cdot\cos(4x)\cdot 4 = 12\sin^2(4x)\cos(4x)\).</p>
+                                </details>
+                            </li>
+                            <li>Show that \(\frac{d}{dx}\ln|\sec x + \tan x| = \sec x\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\dfrac{\sec x\tan x + \sec^2 x}{\sec x + \tan x} = \dfrac{\sec x(\tan x + \sec x)}{\sec x + \tan x} = \sec x\).</p>
+                                </details>
+                            </li>
+                            <li>Differentiate \(\arctan(\sqrt x)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\dfrac{1}{1 + x}\cdot\dfrac{1}{2\sqrt x} = \dfrac{1}{2\sqrt x(1 + x)}\).</p>
+                                </details>
+                            </li>
+                            <li>Find \(dy/dx\) at \((0, 1)\) for \(xy + e^y = e\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(y + xy' + e^y y' = 0 \Rightarrow y' = -\dfrac{y}{x + e^y}\). At \((0,1)\): \(-1/e\).</p>
+                                </details>
+                            </li>
+                            <li>Differentiate \(y = (\sin x)^x\) on an interval where \(\sin x \gt 0\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\ln y = x\ln\sin x \Rightarrow y'/y = \ln\sin x + x\cot x\), so \(y' = (\sin x)^x(\ln\sin x + x\cot x)\).</p>
+                                </details>
+                            </li>
+                            <li>Ripples spread in a pond; the radius grows at 3 cm/s. How fast is the enclosed area growing when \(r = 10\ \text{cm}\)?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(A = \pi r^2 \Rightarrow A' = 2\pi r r' = 2\pi(10)(3) = 60\pi \approx 188\ \text{cm}^2/\text{s}\).</p>
+                                </details>
+                            </li>
+                            <li>Use linear approximation to estimate \(\sqrt[3]{8.12}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(f(x) = x^{1/3}\), \(f'(8) = \frac13 8^{-2/3} = \frac1{12}\). \(\sqrt[3]{8.12} \approx 2 + \frac{0.12}{12} = 2.01\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-applications">
+                    <h2>5. Applications of differentiation</h2>
+                    <p class="ref">Stewart Ch. 4 &middot; OpenStax Vol. 1 Ch. 4</p>
+
+                    <p>The derivative tells you, point by point, whether a function is rising or falling and how its slope is changing. Collect that information and you know the shape of the graph: where it peaks, where it bottoms out, where it bends. That turns into a general method for optimization (the best design, the least cost, the maximum power), a tool for evaluating awkward limits (L'H&ocirc;pital), a fast root-finding algorithm (Newton), and finally the reverse question &mdash; given the derivative, what was the function? &mdash; which leads into integration. The Mean Value Theorem is the quiet theoretical engine behind most of these results.</p>
+
+                    <h3 id="app-extrema">5.1 Maximum and minimum values</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Extreme values)</p>
+                        <p>\(f(c)\) is an <strong>absolute (global) maximum</strong> of \(f\) on domain \(D\) if \(f(c) \ge f(x)\) for all \(x \in D\); a <strong>local maximum</strong> if \(f(c) \ge f(x)\) for all \(x\) in some open interval around \(c\). Minima are defined with \(\le\). A number \(c\) in the domain is a <strong>critical number</strong> of \(f\) if \(f'(c) = 0\) or \(f'(c)\) does not exist.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Extreme Value Theorem)</p>
+                        <p>If \(f\) is continuous on a <em>closed, bounded</em> interval \([a, b]\), then \(f\) attains an absolute maximum and an absolute minimum on \([a, b]\). (Both hypotheses matter: \(1/x\) on \((0, 1]\) has no maximum; \(x\) on \((0,1)\) has neither.)</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Fermat)</p>
+                        <p>If \(f\) has a local maximum or minimum at \(c\) and \(f'(c)\) exists, then \(f'(c) = 0.\)</p>
+                        <p><strong>Proof sketch (local max).</strong> Near \(c\), \(f(c + h) - f(c) \le 0\). For \(h \gt 0\) the difference quotient is \(\le 0\), so the right-hand limit \(f'(c) \le 0\); for \(h \lt 0\) it is \(\ge 0\), so \(f'(c) \ge 0\). Hence \(f'(c) = 0\). &#8718;</p>
+                        <p>The converse fails: \(f(x) = x^3\) has \(f'(0) = 0\) but no extremum at 0. Critical numbers are <em>candidates</em>, not guarantees.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (Closed Interval Method)</p>
+                        <p>To find the absolute extrema of a continuous \(f\) on \([a, b]\): (1) find the critical numbers in \((a, b)\); (2) evaluate \(f\) at them and at the endpoints \(a\), \(b\); (3) the largest value is the absolute max, the smallest the absolute min. No derivative tests needed.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.1</p>
+                        <p>Find the absolute extrema of \(f(x) = x^3 - 3x^2 + 1\) on \([-\tfrac12, 4]\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f'(x) = 3x^2 - 6x = 3x(x - 2)\), so the critical numbers are \(0\) and \(2\), both in the interval. Evaluate:</p>
+                            \[ f(-\tfrac12) = -\tfrac18 - \tfrac34 + 1 = \tfrac18, \quad f(0) = 1, \quad f(2) = 8 - 12 + 1 = -3, \quad f(4) = 64 - 48 + 1 = 17. \]
+                            <p>Absolute maximum \(17\) at \(x = 4\) (an endpoint); absolute minimum \(-3\) at \(x = 2\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.2</p>
+                        <p>Find the critical numbers of \(f(x) = x^{3/5}(4 - x)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Expand: \(f(x) = 4x^{3/5} - x^{8/5}\). Then</p>
+                            \[ f'(x) = \tfrac{12}{5}x^{-2/5} - \tfrac85 x^{3/5} = \tfrac45 x^{-2/5}\left(3 - 2x\right) = \frac{4(3 - 2x)}{5x^{2/5}}. \]
+                            <p>\(f'(x) = 0\) at \(x = \tfrac32\); \(f'(x)\) does not exist at \(x = 0\) (which is in the domain of \(f\)). Critical numbers: \(0\) and \(\tfrac32\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="app-mvt">5.2 The Mean Value Theorem</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Rolle)</p>
+                        <p>If \(f\) is continuous on \([a, b]\), differentiable on \((a, b)\), and \(f(a) = f(b)\), then there is \(c \in (a, b)\) with \(f'(c) = 0\).</p>
+                        <p><strong>Why.</strong> If \(f\) is constant, any \(c\) works. Otherwise \(f\) goes above or below \(f(a)\) somewhere; by the EVT it has an absolute max or min at some interior point \(c\), and by Fermat \(f'(c) = 0\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Mean Value Theorem)</p>
+                        <p>If \(f\) is continuous on \([a, b]\) and differentiable on \((a, b)\), then there is \(c \in (a, b)\) with</p>
+                        \[ f'(c) = \frac{f(b) - f(a)}{b - a}. \]
+                        <p><strong>Proof.</strong> Subtract the secant line: \(h(x) = f(x) - \left[f(a) + \frac{f(b) - f(a)}{b - a}(x - a)\right]\). Then \(h(a) = h(b) = 0\), and \(h\) satisfies Rolle's hypotheses, so \(h'(c) = 0\) for some \(c\), i.e. \(f'(c) = \frac{f(b) - f(a)}{b - a}\). &#8718;</p>
+                        <p>Geometrically: somewhere the tangent is parallel to the secant. Physically: at some instant the instantaneous velocity equals the average velocity.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Corollaries</p>
+                        <p>(1) If \(f'(x) = 0\) for all \(x\) in an interval, \(f\) is constant there. (Apply MVT to any two points.) (2) If \(f'(x) = g'(x)\) on an interval, then \(f - g\) is constant: \(f(x) = g(x) + C\). This is why antiderivatives carry a &ldquo;\(+C\)&rdquo;. (3) If \(f' \gt 0\) on an interval, \(f\) is increasing there.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.3</p>
+                        <p>Find all numbers \(c\) satisfying the MVT for \(f(x) = x^3 - x\) on \([0, 2]\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f\) is a polynomial, so the hypotheses hold. Slope of secant: \(\frac{f(2) - f(0)}{2 - 0} = \frac{6 - 0}{2} = 3\). Solve \(f'(c) = 3c^2 - 1 = 3\): \(c^2 = \tfrac43\), \(c = \pm\tfrac{2}{\sqrt3}\). Only \(c = \tfrac{2}{\sqrt 3} \approx 1.155\) lies in \((0, 2)\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.4</p>
+                        <p>Show that \(2x + \cos x = 0\) has exactly one real solution.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><em>Existence:</em> \(f(x) = 2x + \cos x\) is continuous; \(f(-1) = -2 + \cos 1 \approx -1.46 \lt 0\) and \(f(0) = 1 \gt 0\). By the IVT there is a root in \((-1, 0)\).</p>
+                            <p><em>Uniqueness:</em> suppose there were two roots \(a \lt b\). Then \(f(a) = f(b) = 0\), and Rolle gives \(c\) with \(f'(c) = 0\). But \(f'(x) = 2 - \sin x \ge 1 \gt 0\) for all \(x\). Contradiction; so the root is unique.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.5</p>
+                        <p>A toll system records a car entering a highway at 2:00 pm and exiting 150 km away at 3:20 pm. Prove the driver exceeded 110 km/h at some moment.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Average speed: \(150\ \text{km} / (4/3\ \text{h}) = 112.5\ \text{km/h}\). Position is a differentiable function of time, so by the MVT the instantaneous speed equalled \(112.5\ \text{km/h}\) at some instant.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="app-shape">5.3 How derivatives shape a graph</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Increasing/decreasing and first derivative test)</p>
+                        <p>On an interval: if \(f' \gt 0\), \(f\) is increasing; if \(f' \lt 0\), decreasing. Let \(c\) be a critical number of a continuous \(f\). If \(f'\) changes from \(+\) to \(-\) at \(c\), \(f\) has a local max at \(c\); from \(-\) to \(+\), a local min; if \(f'\) does not change sign, no local extremum.</p>
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Concavity, inflection point)</p>
+                        <p>\(f\) is <strong>concave up</strong> on an interval if its graph lies above all its tangent lines there (slopes increasing), <strong>concave down</strong> if it lies below them. An <strong>inflection point</strong> is a point on the graph where \(f\) is continuous and the concavity changes.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Concavity test and second derivative test)</p>
+                        <p>If \(f'' \gt 0\) on an interval, \(f\) is concave up there; if \(f'' \lt 0\), concave down. <strong>Second derivative test:</strong> suppose \(f''\) is continuous near \(c\) and \(f'(c) = 0\). If \(f''(c) \gt 0\), \(f\) has a local min at \(c\); if \(f''(c) \lt 0\), a local max. If \(f''(c) = 0\), the test is inconclusive (use the first derivative test).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(f''(c) = 0\) does not make \(c\) an inflection point: \(x^4\) has \(f''(0) = 0\) but is concave up on both sides. The concavity must actually change. Similarly, \(f'(c) = 0\) does not make \(c\) an extremum.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.6</p>
+                        <p>For \(f(x) = x^4 - 4x^3\), find the intervals of increase/decrease, local extrema, concavity, and inflection points.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f'(x) = 4x^3 - 12x^2 = 4x^2(x - 3)\). Critical numbers \(0, 3\). Since \(4x^2 \ge 0\), the sign of \(f'\) is the sign of \(x - 3\): negative on \((-\infty, 0)\) and \((0, 3)\), positive on \((3, \infty)\). So \(f\) is decreasing on \((-\infty, 3]\) and increasing on \([3, \infty)\). Local (and absolute) min \(f(3) = 81 - 108 = -27\). At \(x = 0\), \(f'\) does not change sign: no extremum.</p>
+                            <p>\(f''(x) = 12x^2 - 24x = 12x(x - 2)\). Sign: \(+\) on \((-\infty, 0)\), \(-\) on \((0, 2)\), \(+\) on \((2, \infty)\). Concave up, down, up; inflection points at \((0, 0)\) and \((2, 16 - 32) = (2, -16)\).</p>
+                            <p>Second derivative test at 3: \(f''(3) = 36 \gt 0\), confirming a min. At 0, \(f''(0) = 0\): the test says nothing, and indeed 0 is a flat inflection point.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="app-lhopital">5.4 Indeterminate forms and L'H&ocirc;pital's rule</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (L'H&ocirc;pital's rule)</p>
+                        <p>Suppose \(f\) and \(g\) are differentiable near \(a\) (except possibly at \(a\)), \(g'(x) \ne 0\) near \(a\), and either \(\lim f = \lim g = 0\) or \(\lim f = \pm\infty,\ \lim g = \pm\infty\). Then</p>
+                        \[ \lim_{x\to a}\frac{f(x)}{g(x)} = \lim_{x\to a}\frac{f'(x)}{g'(x)}, \]
+                        <p>provided the limit on the right exists (or is \(\pm\infty\)). The same holds for one-sided limits and for \(a = \pm\infty\).</p>
+                        <p><strong>Idea (simple case).</strong> If \(f(a) = g(a) = 0\) and \(f', g'\) are continuous with \(g'(a) \ne 0\), then near \(a\), \(f(x) \approx f'(a)(x - a)\) and \(g(x) \approx g'(a)(x - a)\) by linear approximation, so \(f/g \approx f'(a)/g'(a)\). The general proof uses Cauchy's version of the MVT.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (Other indeterminate forms)</p>
+                        <ul>
+                            <li>\(0\cdot\infty\): rewrite \(fg = \dfrac{f}{1/g}\) to get \(0/0\) or \(\infty/\infty\).</li>
+                            <li>\(\infty - \infty\): combine into one fraction, or factor.</li>
+                            <li>\(1^\infty,\ 0^0,\ \infty^0\): let \(y = f^g\), compute \(\lim \ln y = \lim g\ln f\) (a \(0\cdot\infty\) form), then the answer is \(e^{\text{that limit}}\).</li>
+                        </ul>
+                        <p>Growth ranking as \(x \to \infty\): \(\ln x \ll x^p \ll e^{x}\) for any \(p \gt 0\). Exponentials beat powers beat logs.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>(1) Apply the rule only to \(0/0\) or \(\infty/\infty\): \(\lim_{x\to0}\frac{x + 1}{x + 2} = \frac12\), but blindly differentiating gives 1. (2) Differentiate numerator and denominator <em>separately</em>; this is not the quotient rule. (3) Don't use it to prove \(\sin x/x \to 1\): that limit was needed to find \((\sin x)'\) in the first place, so the argument is circular.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.7</p>
+                        <p>Evaluate \(\displaystyle\lim_{x\to0}\frac{e^x - 1 - x}{x^2}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Form \(0/0\). Apply the rule, check again, apply again:</p>
+                            \[ \lim_{x\to0}\frac{e^x - 1 - x}{x^2} \overset{0/0}{=} \lim_{x\to0}\frac{e^x - 1}{2x} \overset{0/0}{=} \lim_{x\to 0}\frac{e^x}{2} = \frac12. \]
+                            <p>(Consistent with \(e^x \approx 1 + x + \tfrac{x^2}{2}\) &mdash; a preview of Taylor series.)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.8</p>
+                        <p>Evaluate (a) \(\lim_{x\to0^+}x\ln x\), (b) \(\lim_{x\to\infty}\left(1 + \frac3x\right)^x\), (c) \(\lim_{x\to\infty}\frac{x^3}{e^x}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) Form \(0\cdot(-\infty)\). Rewrite as \(\dfrac{\ln x}{1/x}\) (\(-\infty/\infty\)): \(\lim\dfrac{1/x}{-1/x^2} = \lim(-x) = 0\).</p>
+                            <p>(b) Form \(1^\infty\). Let \(y = (1 + 3/x)^x\), so \(\ln y = x\ln(1 + 3/x) = \dfrac{\ln(1 + 3/x)}{1/x}\), a \(0/0\) form. L'H&ocirc;pital:</p>
+                            \[ \lim_{x\to\infty}\frac{\frac{1}{1 + 3/x}\cdot\left(-\frac{3}{x^2}\right)}{-\frac{1}{x^2}} = \lim_{x\to\infty}\frac{3}{1 + 3/x} = 3. \]
+                            <p>So \(\ln y \to 3\) and \(y \to e^3\). (This is the continuous-compounding limit.)</p>
+                            <p>(c) \(\infty/\infty\) three times: \(\frac{3x^2}{e^x} \to \frac{6x}{e^x} \to \frac{6}{e^x} \to 0\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="app-sketch">5.5 Curve sketching</h3>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (Checklist)</p>
+                        <ol>
+                            <li><strong>Domain.</strong></li>
+                            <li><strong>Intercepts</strong> (\(y\)-intercept \(f(0)\); \(x\)-intercepts where \(f = 0\), if easy).</li>
+                            <li><strong>Symmetry</strong> (even/odd/periodic).</li>
+                            <li><strong>Asymptotes</strong>: vertical (where the function blows up), horizontal (limits at \(\pm\infty\)), slant (if \(f(x) - (mx + b) \to 0\); for rational functions with degree of numerator one more than denominator, use long division).</li>
+                            <li><strong>Intervals of increase/decrease</strong> from the sign of \(f'\); <strong>local extrema</strong>.</li>
+                            <li><strong>Concavity and inflection points</strong> from the sign of \(f''\).</li>
+                            <li>Plot key points and assemble.</li>
+                        </ol>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.9</p>
+                        <p>Sketch \(f(x) = \dfrac{x^2}{x - 1}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Domain:</strong> \(x \ne 1\). <strong>Intercepts:</strong> only \((0, 0)\). <strong>Symmetry:</strong> none.</p>
+                            <p><strong>Asymptotes:</strong> as \(x\to1^+\), \(f \to +\infty\); as \(x \to 1^-\), \(f\to-\infty\): vertical asymptote \(x = 1\). Long division: \(\dfrac{x^2}{x - 1} = x + 1 + \dfrac{1}{x - 1}\), and \(\frac{1}{x-1}\to 0\) as \(x \to\pm\infty\), so \(y = x + 1\) is a slant asymptote (no horizontal asymptote).</p>
+                            <p><strong>First derivative</strong> (easiest from the divided form): \(f'(x) = 1 - \dfrac{1}{(x-1)^2} = \dfrac{(x - 1)^2 - 1}{(x-1)^2} = \dfrac{x(x - 2)}{(x - 1)^2}\). Critical numbers \(0, 2\). Signs: \(+\) on \((-\infty, 0)\), \(-\) on \((0,1)\) and \((1, 2)\), \(+\) on \((2, \infty)\). Local max \(f(0) = 0\); local min \(f(2) = 4\).</p>
+                            <p><strong>Second derivative:</strong> \(f''(x) = \dfrac{2}{(x - 1)^3}\): negative for \(x \lt 1\) (concave down), positive for \(x \gt 1\) (concave up). No inflection point (concavity changes only across the asymptote, where \(f\) is undefined).</p>
+                            <p><strong>Picture:</strong> on the left branch the curve rises along the slant asymptote to a peak at the origin, then plunges to \(-\infty\) at \(x = 1\); on the right branch it comes down from \(+\infty\), bottoms out at \((2, 4)\), then rises, approaching \(y = x + 1\) from above.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="app-optimization">5.6 Optimization problems</h3>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (Strategy)</p>
+                        <p>(1) Understand the problem; draw a diagram. (2) Name the quantity \(Q\) to optimize and write it as a formula. (3) Use the constraints to reduce \(Q\) to a function of <em>one</em> variable, and find that variable's allowed domain. (4) Find critical numbers. (5) Justify that you have the absolute max/min: closed interval method, or the first derivative test (if there is only one critical number and it is a local extremum on an interval, it is the absolute one). (6) Answer the question that was asked, with units.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.10</p>
+                        <p>An open-top tray is made from a \(16 \times 10\) cm sheet by cutting equal squares of side \(x\) from each corner and folding up the sides. What \(x\) maximizes the volume?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The base is \((16 - 2x)\times(10 - 2x)\) and the height \(x\), with \(0 \le x \le 5\):</p>
+                            \[ V(x) = x(16 - 2x)(10 - 2x) = 4x^3 - 52x^2 + 160x. \]
+                            \[ V'(x) = 12x^2 - 104x + 160 = 4(3x^2 - 26x + 40) = 4(3x - 20)(x - 2). \]
+                            <p>Critical numbers \(x = 2\) and \(x = 20/3\); only \(x = 2\) is in \([0, 5]\). Closed interval method: \(V(0) = V(5) = 0\), \(V(2) = 2\cdot12\cdot6 = 144\). Maximum volume \(144\ \text{cm}^3\) at \(x = 2\ \text{cm}\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.11 (Maximum power transfer)</p>
+                        <p>A source with EMF \(V\) and internal resistance \(R_s\) drives a load \(R_L\). The load power is \(P(R_L) = \dfrac{V^2 R_L}{(R_s + R_L)^2}\). Find the \(R_L \gt 0\) that maximizes \(P\), and \(P_{\max}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Quotient rule, then factor out \((R_s + R_L)\):</p>
+                            \[ \frac{dP}{dR_L} = V^2\,\frac{(R_s + R_L)^2 - R_L\cdot 2(R_s + R_L)}{(R_s + R_L)^4} = V^2\,\frac{(R_s + R_L) - 2R_L}{(R_s + R_L)^3} = \frac{V^2(R_s - R_L)}{(R_s + R_L)^3}. \]
+                            <p>This is positive for \(R_L \lt R_s\) and negative for \(R_L \gt R_s\), so by the first derivative test \(R_L = R_s\) gives the absolute maximum on \((0, \infty)\):</p>
+                            \[ P_{\max} = \frac{V^2 R_s}{(2R_s)^2} = \frac{V^2}{4R_s}. \]
+                            <p>This is the maximum power transfer theorem (matched load). Note efficiency at this point is only 50%.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.12</p>
+                        <p>Find the point on the curve \(y = \sqrt{x}\) closest to \((3, 0)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Minimizing distance is equivalent to minimizing its square (which avoids a root). For a point \((x, \sqrt x)\), \(x \ge 0\):</p>
+                            \[ D(x) = (x - 3)^2 + (\sqrt x - 0)^2 = (x - 3)^2 + x, \qquad D'(x) = 2(x - 3) + 1 = 2x - 5. \]
+                            <p>\(D' = 0\) at \(x = 5/2\); \(D'' = 2 \gt 0\), and \(D\) is a parabola, so this is the absolute min. Closest point \(\left(\tfrac52, \sqrt{5/2}\right)\), at distance \(\sqrt{\tfrac14 + \tfrac52} = \tfrac{\sqrt{11}}{2} \approx 1.66\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="app-newton">5.7 Newton's method</h3>
+
+                    <p>To solve \(f(x) = 0\), start with a guess \(x_0\), replace \(f\) by its tangent line at \(x_n\), and take the tangent line's root as the next guess. Setting \(0 = f(x_n) + f'(x_n)(x - x_n)\) and solving:</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Newton iteration)</p>
+                        \[ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}, \qquad f'(x_n) \ne 0. \]
+                    </div>
+
+                    <p>Near a simple root, convergence is <em>quadratic</em>: the number of correct digits roughly doubles each step. It can fail if \(f'(x_n) \approx 0\) (the tangent shoots far away), if the starting guess is poor (oscillation or convergence to a different root), or near a multiple root (convergence slows to linear). Circuit simulators like SPICE use multivariable Newton iteration to solve nonlinear node equations at each time step.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.13</p>
+                        <p>Use Newton's method with \(x_0 = 1\) to approximate \(\sqrt 2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Solve \(f(x) = x^2 - 2 = 0\): \(x_{n+1} = x_n - \dfrac{x_n^2 - 2}{2x_n} = \dfrac12\left(x_n + \dfrac{2}{x_n}\right)\) (the ancient Babylonian method).</p>
+                            \[ x_1 = 1.5, \quad x_2 = 1.41\overline{6}, \quad x_3 = 1.4142157, \quad x_4 = 1.41421356237. \]
+                            <p>\(x_4\) is correct to 11 decimal places.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.14</p>
+                        <p>Solve \(\cos x = x\) to six decimal places.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let \(f(x) = \cos x - x\), \(f'(x) = -\sin x - 1\). Then \(x_{n+1} = x_n + \dfrac{\cos x_n - x_n}{\sin x_n + 1}\). The graphs of \(\cos x\) and \(x\) cross between 0 and 1; start at \(x_0 = 1\):</p>
+                            \[ x_1 \approx 0.750364, \quad x_2 \approx 0.739113, \quad x_3 \approx 0.739085, \quad x_4 \approx 0.739085. \]
+                            <p>Root \(\approx 0.739085\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="app-antideriv">5.8 Antiderivatives</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Antiderivative)</p>
+                        <p>\(F\) is an <strong>antiderivative</strong> of \(f\) on an interval \(I\) if \(F'(x) = f(x)\) for all \(x \in I\). By the MVT corollary, if \(F\) is one antiderivative then the most general one on \(I\) is \(F(x) + C\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Antiderivative table)</p>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Function</th><th>General antiderivative</th></tr></thead>
+                                <tbody>
+                                    <tr><td>\(x^n,\ n \ne -1\)</td><td>\(\dfrac{x^{n+1}}{n+1} + C\)</td></tr>
+                                    <tr><td>\(1/x\)</td><td>\(\ln|x| + C\)</td></tr>
+                                    <tr><td>\(e^x\)</td><td>\(e^x + C\)</td></tr>
+                                    <tr><td>\(b^x\)</td><td>\(\dfrac{b^x}{\ln b} + C\)</td></tr>
+                                    <tr><td>\(\cos x\), \(\sin x\)</td><td>\(\sin x + C\), \(-\cos x + C\)</td></tr>
+                                    <tr><td>\(\sec^2 x\), \(\sec x\tan x\)</td><td>\(\tan x + C\), \(\sec x + C\)</td></tr>
+                                    <tr><td>\(\dfrac{1}{\sqrt{1 - x^2}}\), \(\dfrac{1}{1 + x^2}\)</td><td>\(\arcsin x + C\), \(\arctan x + C\)</td></tr>
+                                    <tr><td>\(\cosh x\), \(\sinh x\)</td><td>\(\sinh x + C\), \(\cosh x + C\)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <p>An <strong>initial value problem</strong> gives a derivative together with enough values (initial conditions) to pin down the constants. Motion problems are the prototype: from \(a(t)\), antidifferentiate to get \(v(t)\), use \(v(0)\); antidifferentiate again to get \(s(t)\), use \(s(0)\). This is the simplest case of solving a differential equation.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.15</p>
+                        <p>Find \(f\) given \(f''(x) = 6x + 4\), \(f'(0) = -2\), \(f(0) = 1\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f'(x) = 3x^2 + 4x + C_1\); \(f'(0) = C_1 = -2\). Then \(f(x) = x^3 + 2x^2 - 2x + C_2\); \(f(0) = C_2 = 1\). So \(f(x) = x^3 + 2x^2 - 2x + 1\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.16</p>
+                        <p>A stone is thrown upward at \(15\ \text{m/s}\) from the edge of a cliff \(20\ \text{m}\) above the beach. Using \(g = 9.8\ \text{m/s}^2\), find its maximum height and when it hits the beach.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Take up as positive, beach at \(s = 0\). \(a(t) = -9.8\), so \(v(t) = -9.8t + C_1\) with \(v(0) = 15\): \(v(t) = -9.8t + 15\). Then \(s(t) = -4.9t^2 + 15t + C_2\) with \(s(0) = 20\): \(s(t) = -4.9t^2 + 15t + 20\).</p>
+                            <p>Max height when \(v = 0\): \(t = 15/9.8 \approx 1.53\ \text{s}\), \(s = 20 + \dfrac{15^2}{2(9.8)} \approx 20 + 11.48 = 31.5\ \text{m}\).</p>
+                            <p>Hits the beach when \(s = 0\): \(4.9t^2 - 15t - 20 = 0\), so \(t = \dfrac{15 + \sqrt{225 + 392}}{9.8} = \dfrac{15 + \sqrt{617}}{9.8} \approx \dfrac{15 + 24.84}{9.8} \approx 4.07\ \text{s}\) (rejecting the negative root).</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Find the absolute extrema of \(f(x) = x - 2\sin x\) on \([0, \pi]\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(f' = 1 - 2\cos x = 0 \Rightarrow x = \pi/3\). \(f(0) = 0\), \(f(\pi/3) = \pi/3 - \sqrt3 \approx -0.685\), \(f(\pi) = \pi\). Max \(\pi\) at \(x = \pi\); min \(\pi/3 - \sqrt3\) at \(x = \pi/3\).</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\lim_{x\to0}\frac{x - \sin x}{x^3}\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>L'H&ocirc;pital three times: \(\frac{1 - \cos x}{3x^2} \to \frac{\sin x}{6x} \to \frac{\cos x}{6} \to \frac16\).</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\lim_{x\to0^+}x^x\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\ln y = x\ln x \to 0\) (Example 5.8a), so \(y \to e^0 = 1\).</p>
+                                </details>
+                            </li>
+                            <li>For \(f(x) = xe^{-x}\), find intervals of increase/decrease, extrema, concavity, inflection points and asymptotes.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(f' = e^{-x}(1 - x)\): increasing on \((-\infty, 1]\), decreasing on \([1, \infty)\), max \(f(1) = 1/e\). \(f'' = e^{-x}(x - 2)\): concave down on \((-\infty, 2)\), up on \((2, \infty)\), inflection \((2, 2e^{-2})\). \(f \to 0\) as \(x\to\infty\) (horizontal asymptote \(y = 0\)); \(f\to-\infty\) as \(x \to -\infty\).</p>
+                                </details>
+                            </li>
+                            <li>Find positive \(x, y\) with \(x + y = 30\) maximizing \(x^2y\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(P = x^2(30 - x)\), \(P' = 60x - 3x^2 = 3x(20 - x)\). On \([0,30]\): \(P(0) = P(30) = 0\), \(P(20) = 4000\). So \(x = 20, y = 10\).</p>
+                                </details>
+                            </li>
+                            <li>Do two steps of Newton's method for \(x^3 - 5 = 0\) from \(x_0 = 2\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(x_{n+1} = x_n - \frac{x_n^3 - 5}{3x_n^2}\). \(x_1 = 2 - \frac{3}{12} = 1.75\); \(x_2 = 1.75 - \frac{0.359375}{9.1875} \approx 1.71088\). (True: \(\sqrt[3]5 \approx 1.70998\).)</p>
+                                </details>
+                            </li>
+                            <li>Find \(f\) if \(f'(x) = 3\sqrt x - \dfrac2x\) (\(x \gt 0\)) and \(f(1) = 5\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(f(x) = 2x^{3/2} - 2\ln x + C\); \(f(1) = 2 + C = 5 \Rightarrow C = 3\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-integrals">
+                    <h2>6. Integrals</h2>
+                    <p class="ref">Stewart Ch. 5 &middot; OpenStax Vol. 1 Ch. 5</p>
+
+                    <p>Differentiation breaks a quantity into its instantaneous rate; integration does the reverse, adding up infinitely many tiny contributions to recover a total. Area under a curve, distance from velocity, charge from current, work from force, energy from power: all are &ldquo;rate times small interval, summed&rdquo;. The definite integral is defined as a limit of such sums (Riemann sums). The <strong>Fundamental Theorem of Calculus</strong> then reveals the astonishing link: these limits of sums can be computed by antidifferentiation. That is why the same subject contains both tangents and areas.</p>
+
+                    <h3 id="int-area">6.1 Area, distance and Riemann sums</h3>
+
+                    <p>To find the area under \(y = f(x) \ge 0\) from \(a\) to \(b\), divide \([a, b]\) into \(n\) subintervals of width \(\Delta x = (b - a)/n\), with endpoints \(x_i = a + i\Delta x\). On each strip build a rectangle whose height is \(f\) at a <em>sample point</em> \(x_i^*\) in that strip. The total rectangle area \(\sum f(x_i^*)\Delta x\) approximates the area, and the approximation improves as \(n \to \infty\). Choosing right endpoints, left endpoints or midpoints gives \(R_n\), \(L_n\), \(M_n\). The same construction computes distance from a velocity: on each short time interval, distance \(\approx\) velocity \(\times\) time.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Sigma notation and sums)</p>
+                        \[ \sum_{i=1}^{n}c = nc, \qquad \sum_{i=1}^n i = \frac{n(n+1)}{2}, \qquad \sum_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6}, \qquad \sum_{i=1}^n i^3 = \left[\frac{n(n+1)}{2}\right]^2. \]
+                        <p>Sums are linear: \(\sum(ca_i + b_i) = c\sum a_i + \sum b_i\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.1</p>
+                        <p>Estimate the area under \(f(x) = x^2\) on \([0, 2]\) using \(n = 4\) with left endpoints, right endpoints and midpoints.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\Delta x = 0.5\); grid points \(0, 0.5, 1, 1.5, 2\).</p>
+                            \[ \begin{aligned} L_4 &amp;= 0.5\,[0^2 + 0.5^2 + 1^2 + 1.5^2] = 0.5(0 + 0.25 + 1 + 2.25) = 1.75, \\ R_4 &amp;= 0.5\,[0.5^2 + 1^2 + 1.5^2 + 2^2] = 0.5(7.5) = 3.75, \\ M_4 &amp;= 0.5\,[0.25^2 + 0.75^2 + 1.25^2 + 1.75^2] = 0.5(5.25) = 2.625. \end{aligned} \]
+                            <p>Since \(f\) is increasing, \(L_n\) underestimates and \(R_n\) overestimates. The exact answer (next example) is \(8/3 \approx 2.667\); the midpoint rule is far better than either endpoint rule.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.2</p>
+                        <p>Compute the exact area under \(y = x^2\) on \([0, 2]\) as \(\lim_{n\to\infty}R_n\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\Delta x = 2/n\), \(x_i = 2i/n\), \(f(x_i) = 4i^2/n^2\). Then</p>
+                            \[ \begin{aligned} R_n &amp;= \sum_{i=1}^n\frac{4i^2}{n^2}\cdot\frac2n = \frac{8}{n^3}\sum_{i=1}^n i^2 = \frac{8}{n^3}\cdot\frac{n(n+1)(2n+1)}{6} \\ &amp;= \frac{8}{6}\cdot\frac{n+1}{n}\cdot\frac{2n+1}{n} = \frac43\left(1 + \frac1n\right)\left(2 + \frac1n\right) \;\xrightarrow{n\to\infty}\; \frac43\cdot 2 = \frac83. \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <h3 id="int-definite">6.2 The definite integral</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Definite integral)</p>
+                        <p>Let \(f\) be defined on \([a, b]\), \(\Delta x = (b - a)/n\), \(x_i = a + i\Delta x\), and \(x_i^* \in [x_{i-1}, x_i]\) any sample points. The <strong>definite integral</strong> of \(f\) from \(a\) to \(b\) is</p>
+                        \[ \int_a^b f(x)\,dx = \lim_{n\to\infty}\sum_{i=1}^n f(x_i^*)\,\Delta x, \]
+                        <p>provided the limit exists and is the same for every choice of sample points. Then \(f\) is <strong>integrable</strong> on \([a, b]\). Every continuous function on \([a, b]\) is integrable, and so is any bounded function with finitely many jump discontinuities.</p>
+                    </div>
+
+                    <p>The integral is a <em>number</em>; the \(x\) is a dummy variable (\(\int_a^b f(x)\,dx = \int_a^b f(t)\,dt\)). The symbol \(\int\) is an elongated S for &ldquo;sum&rdquo; and \(dx\) is the descendant of \(\Delta x\). If \(f\) takes both signs, the integral is the <strong>net signed area</strong>: area above the \(x\)-axis minus area below.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Properties)</p>
+                        \[ \begin{aligned} &amp;\int_a^b [c f(x) \pm g(x)]\,dx = c\int_a^b f\,dx \pm \int_a^b g\,dx, \qquad \int_a^b c\,dx = c(b - a), \\ &amp;\int_a^a f\,dx = 0, \qquad \int_b^a f\,dx = -\int_a^b f\,dx, \qquad \int_a^c f\,dx + \int_c^b f\,dx = \int_a^b f\,dx, \\ &amp;f \le g \text{ on } [a,b] \Rightarrow \int_a^b f \le \int_a^b g, \qquad m \le f \le M \Rightarrow m(b - a) \le \int_a^b f \le M(b - a). \end{aligned} \]
+                        <p>Symmetry: if \(f\) is odd, \(\int_{-a}^a f = 0\); if even, \(\int_{-a}^a f = 2\int_0^a f\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.3</p>
+                        <p>Evaluate using geometry or symmetry: (a) \(\int_{-2}^2\sqrt{4 - x^2}\,dx\), (b) \(\int_0^3(x - 1)\,dx\), (c) \(\int_{-1}^1 x^3\cos x\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(y = \sqrt{4 - x^2}\) is the upper half of the circle of radius 2. Area \(= \tfrac12\pi(2)^2 = 2\pi\).</p>
+                            <p>(b) The line is below the axis on \([0, 1]\) (triangle of area \(\tfrac12\cdot1\cdot1 = \tfrac12\)) and above on \([1, 3]\) (triangle \(\tfrac12\cdot2\cdot2 = 2\)). Net: \(2 - \tfrac12 = \tfrac32\).</p>
+                            <p>(c) \((-x)^3\cos(-x) = -x^3\cos x\): odd integrand on a symmetric interval, so the integral is \(0\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="int-ftc">6.3 The Fundamental Theorem of Calculus</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (FTC, Part 1)</p>
+                        <p>If \(f\) is continuous on \([a, b]\), then \(g(x) = \displaystyle\int_a^x f(t)\,dt\) is continuous on \([a, b]\), differentiable on \((a, b)\), and</p>
+                        \[ g'(x) = f(x). \]
+                        <p><strong>Proof sketch.</strong> For small \(h \gt 0\), \(g(x + h) - g(x) = \int_x^{x+h}f(t)\,dt\), the area of a thin strip. If \(m_h\) and \(M_h\) are the min and max of \(f\) on \([x, x + h]\), then \(m_h h \le \int_x^{x+h}f \le M_h h\), so</p>
+                        \[ m_h \le \frac{g(x + h) - g(x)}{h} \le M_h. \]
+                        <p>As \(h \to 0\), both \(m_h\) and \(M_h\) tend to \(f(x)\) by continuity, and the squeeze theorem gives \(g'(x) = f(x)\). (Similarly for \(h \lt 0\).) In words: <em>the rate at which accumulated area grows equals the height of the curve at the moving edge.</em></p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (FTC, Part 2)</p>
+                        <p>If \(f\) is continuous on \([a, b]\) and \(F\) is <em>any</em> antiderivative of \(f\) (\(F' = f\)), then</p>
+                        \[ \int_a^b f(x)\,dx = F(b) - F(a) = \Big[F(x)\Big]_a^b. \]
+                        <p><strong>Proof.</strong> By Part 1, \(g(x) = \int_a^x f\) is an antiderivative of \(f\), so \(F = g + C\) (MVT corollary). Then \(F(b) - F(a) = g(b) - g(a) = \int_a^b f - 0\). &#8718;</p>
+                    </div>
+
+                    <p>Together: differentiation and integration are inverse processes. Part 1 says \(\frac{d}{dx}\int_a^x f = f\) (integrate then differentiate: back where you started); Part 2 says \(\int_a^b F' = F(b) - F(a)\) (differentiate then integrate: back up to a constant). With the chain rule, Part 1 generalizes to variable limits:</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Leibniz rule for variable limits)</p>
+                        \[ \frac{d}{dx}\int_{a}^{u(x)}f(t)\,dt = f(u(x))\,u'(x), \qquad \frac{d}{dx}\int_{v(x)}^{u(x)}f(t)\,dt = f(u(x))\,u'(x) - f(v(x))\,v'(x). \]
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Average value) and Mean Value Theorem for integrals</p>
+                        <p>The average value of \(f\) on \([a, b]\) is \(f_{\text{ave}} = \dfrac{1}{b - a}\displaystyle\int_a^b f(x)\,dx\). If \(f\) is continuous, there is \(c \in [a, b]\) with \(f(c) = f_{\text{ave}}\). (Apply the derivative MVT to \(g(x) = \int_a^x f\).) In EE, the DC component of a periodic signal is exactly its average over one period.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>FTC2 needs \(f\) continuous on the <em>whole</em> interval. &ldquo;\(\int_{-1}^1\frac{1}{x^2}dx = \left[-\frac1x\right]_{-1}^1 = -2\)&rdquo; is nonsense: a positive integrand cannot have a negative integral. The integrand blows up at 0, so this is an improper integral (Calculus II), and in fact it diverges.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.4</p>
+                        <p>Evaluate (a) \(\displaystyle\int_1^4\left(2x - \frac{3}{\sqrt x}\right)dx\), (b) \(\displaystyle\int_0^{\pi/2}\cos x\,dx\), (c) \(\displaystyle\int_0^1\frac{dx}{1 + x^2}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) An antiderivative of \(2x - 3x^{-1/2}\) is \(x^2 - 6x^{1/2}\):</p>
+                            \[ \Big[x^2 - 6\sqrt x\Big]_1^4 = (16 - 12) - (1 - 6) = 4 - (-5) = 9. \]
+                            <p>(b) \(\big[\sin x\big]_0^{\pi/2} = 1 - 0 = 1\).</p>
+                            <p>(c) \(\big[\arctan x\big]_0^1 = \frac\pi4 - 0 = \frac\pi4\). (A way to compute \(\pi\) by integration!)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.5</p>
+                        <p>Differentiate (a) \(\displaystyle g(x) = \int_2^x\sqrt{1 + t^3}\,dt\), (b) \(\displaystyle h(x) = \int_0^{x^3}e^{-t^2}\,dt\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) FTC1 directly: \(g'(x) = \sqrt{1 + x^3}\). No antiderivative needed (and none exists in elementary form).</p>
+                            <p>(b) Upper limit \(u = x^3\): \(h'(x) = e^{-(x^3)^2}\cdot 3x^2 = 3x^2e^{-x^6}\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.6 (Average of a rectified sine)</p>
+                        <p>A full-wave rectifier outputs \(v(t) = V_0|\sin\omega t|\), whose period is \(\pi/\omega\). Find its average (DC) value.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Over one period \([0, \pi/\omega]\), \(\sin\omega t \ge 0\). Using the antiderivative \(-\frac{1}{\omega}\cos\omega t\) (check by differentiating):</p>
+                            \[ v_{\text{ave}} = \frac{\omega}{\pi}\int_0^{\pi/\omega}V_0\sin\omega t\,dt = \frac{\omega V_0}{\pi}\left[-\frac{\cos\omega t}{\omega}\right]_0^{\pi/\omega} = \frac{V_0}{\pi}\big(-\cos\pi + \cos 0\big) = \frac{2V_0}{\pi} \approx 0.637\,V_0. \]
+                        </details>
+                    </div>
+
+                    <h3 id="int-indefinite">6.4 Indefinite integrals and the Net Change Theorem</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Indefinite integral)</p>
+                        <p>\(\displaystyle\int f(x)\,dx = F(x) + C\) means \(F'(x) = f(x)\): the indefinite integral is the family of all antiderivatives (a function plus constant), while the definite integral \(\int_a^b f\) is a number. Every entry in the antiderivative table of Section 5.8 can be read as an indefinite integral, and any proposed answer can be checked by differentiating.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Net Change)</p>
+                        <p>The integral of a rate of change is the net change:</p>
+                        \[ \int_a^b F'(x)\,dx = F(b) - F(a). \]
+                        <p>Examples: \(\int_{t_1}^{t_2}v(t)\,dt\) = displacement; \(\int_{t_1}^{t_2}|v(t)|\,dt\) = total distance; \(\int_{t_1}^{t_2}i(t)\,dt\) = net charge transferred; \(\int_{t_1}^{t_2}P(t)\,dt\) = energy; \(\int_a^b F(x)\,dx\) = work done by a force along a line.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Displacement and distance differ whenever the velocity changes sign. For distance, find where \(v = 0\), split the interval there, and add the absolute values of the pieces.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.7</p>
+                        <p>A particle moves with \(v(t) = t^2 - 2t - 3\) (m/s). Find its displacement and total distance travelled over \(0 \le t \le 4\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Antiderivative: \(s(t) = \tfrac{t^3}{3} - t^2 - 3t\). Displacement:</p>
+                            \[ \int_0^4 v\,dt = \frac{64}{3} - 16 - 12 = \frac{64 - 84}{3} = -\frac{20}{3}\ \text{m}. \]
+                            <p>\(v(t) = (t - 3)(t + 1)\) is negative on \([0, 3)\) and positive on \((3, 4]\). Split:</p>
+                            \[ \int_0^3 v\,dt = 9 - 9 - 9 = -9, \qquad \int_3^4 v\,dt = -\frac{20}{3} - (-9) = \frac73. \]
+                            <p>Total distance \(= 9 + \tfrac73 = \tfrac{34}{3} \approx 11.3\ \text{m}\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.8</p>
+                        <p>Find \(\displaystyle\int\left(\sec^2 x - \frac{4}{x} + 5e^x\right)dx\) and \(\displaystyle\int\frac{x^2 + \sqrt x}{x}\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Term by term: \(\tan x - 4\ln|x| + 5e^x + C\).</p>
+                            <p>Simplify first: \(\frac{x^2 + x^{1/2}}{x} = x + x^{-1/2}\). Then \(\int = \tfrac{x^2}{2} + 2\sqrt x + C\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="int-substitution">6.5 The substitution rule</h3>
+
+                    <p>Substitution is the chain rule run backwards. Since \(\frac{d}{dx}F(g(x)) = F'(g(x))\,g'(x)\), any integrand of the form \(f(g(x))\,g'(x)\) integrates to \(F(g(x))\). The Leibniz notation makes this mechanical: set \(u = g(x)\), then \(du = g'(x)\,dx\).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Substitution rule)</p>
+                        <p>If \(u = g(x)\) is differentiable with range an interval \(I\) and \(f\) is continuous on \(I\), then</p>
+                        \[ \int f(g(x))\,g'(x)\,dx = \int f(u)\,du. \]
+                        <p>For definite integrals (with \(g'\) continuous on \([a, b]\)), change the limits too:</p>
+                        \[ \int_a^b f(g(x))\,g'(x)\,dx = \int_{g(a)}^{g(b)}f(u)\,du. \]
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip (Choosing \(u\))</p>
+                        <p>Look for a function whose derivative also appears (up to a constant factor) as a factor of the integrand: the inside of a power, root, exponential or trig function, or a denominator whose derivative is the numerator. After substituting, <em>no \(x\) may remain</em>; if one does, solve \(u = g(x)\) for \(x\) and replace it, or try a different \(u\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>In a definite integral, either change the limits to \(u\)-values or substitute back to \(x\) before evaluating, never a mixture of the two. And you cannot pull a non-constant factor in: \(\int e^{x^2}dx\) is not \(e^{x^2}/(2x)\) (differentiate to check: it fails).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.9</p>
+                        <p>Find (a) \(\int x(x^2 + 1)^4\,dx\), (b) \(\int\tan x\,dx\), (c) \(\int x\sqrt{x - 1}\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(u = x^2 + 1\), \(du = 2x\,dx\), so \(x\,dx = \tfrac12du\):</p>
+                            \[ \int x(x^2+1)^4\,dx = \frac12\int u^4\,du = \frac{u^5}{10} + C = \frac{(x^2 + 1)^5}{10} + C. \]
+                            <p>(b) \(\tan x = \frac{\sin x}{\cos x}\); let \(u = \cos x\), \(du = -\sin x\,dx\):</p>
+                            \[ \int\frac{\sin x}{\cos x}dx = -\int\frac{du}{u} = -\ln|u| + C = -\ln|\cos x| + C = \ln|\sec x| + C. \]
+                            <p>(c) \(u = x - 1\), \(du = dx\), and the leftover \(x = u + 1\):</p>
+                            \[ \int(u + 1)u^{1/2}\,du = \int(u^{3/2} + u^{1/2})\,du = \frac25 u^{5/2} + \frac23u^{3/2} + C = \frac25(x - 1)^{5/2} + \frac23(x - 1)^{3/2} + C. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.10</p>
+                        <p>Evaluate (a) \(\displaystyle\int_0^1 x e^{-x^2}\,dx\), (b) \(\displaystyle\int_1^e\frac{\ln x}{x}\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(u = -x^2\), \(du = -2x\,dx\); limits \(x = 0 \to u = 0\), \(x = 1 \to u = -1\):</p>
+                            \[ \int_0^1 xe^{-x^2}dx = -\frac12\int_0^{-1}e^u\,du = \frac12\int_{-1}^0 e^u\,du = \frac12\left(1 - e^{-1}\right) \approx 0.316. \]
+                            <p>(b) \(u = \ln x\), \(du = dx/x\); limits \(u = 0\) to \(u = 1\): \(\displaystyle\int_0^1 u\,du = \tfrac12\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.11 (Charge from current)</p>
+                        <p>The current into a capacitor is \(i(t) = 2e^{-t/3}\) mA (\(t\) in s). How much charge flows in during the first 3 seconds?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Net change: \(Q = \int_0^3 i\,dt\). With \(u = -t/3\), \(du = -dt/3\), so \(\int e^{-t/3}dt = -3e^{-t/3} + C\):</p>
+                            \[ Q = \Big[-6e^{-t/3}\Big]_0^3 = -6e^{-1} + 6 = 6(1 - e^{-1}) \approx 3.79\ \text{mC}. \]
+                            <p>As \(t \to \infty\) the total approaches 6 mC: after one time constant, \(1 - e^{-1} \approx 63\%\) of the final charge has arrived.</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>\(\displaystyle\int_0^2(3x^2 - 4x + 1)\,dx\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\big[x^3 - 2x^2 + x\big]_0^2 = 8 - 8 + 2 = 2\).</p>
+                                </details>
+                            </li>
+                            <li>Find \(\dfrac{d}{dx}\displaystyle\int_x^{x^2}\ln t\,dt\) for \(x \gt 1\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\ln(x^2)\cdot 2x - \ln x\cdot 1 = 4x\ln x - \ln x = (4x - 1)\ln x\).</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\int\sin^3 x\cos x\,dx\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(u = \sin x\): \(\int u^3du = \frac{\sin^4 x}{4} + C\).</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\int_0^{\pi/4}\sec^2 x\tan x\,dx\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(u = \tan x\), \(du = \sec^2x\,dx\), limits \(0 \to 1\): \(\int_0^1u\,du = \frac12\).</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\int\frac{e^x}{1 + e^{2x}}\,dx\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(u = e^x\), \(du = e^x dx\): \(\int\frac{du}{1 + u^2} = \arctan(e^x) + C\).</p>
+                                </details>
+                            </li>
+                            <li>Find the average value of \(f(x) = x^2\) on \([0, 3]\) and a \(c\) where \(f(c)\) equals it.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\frac13\int_0^3x^2dx = \frac13\cdot 9 = 3\). \(c^2 = 3 \Rightarrow c = \sqrt 3 \in [0, 3]\).</p>
+                                </details>
+                            </li>
+                            <li>Express \(\displaystyle\lim_{n\to\infty}\sum_{i=1}^n\frac1n\sqrt{1 + \frac in}\) as a definite integral and evaluate it.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Right Riemann sum with \(\Delta x = 1/n\), \(x_i = i/n\) on \([0, 1]\): \(\int_0^1\sqrt{1 + x}\,dx = \left[\tfrac23(1 + x)^{3/2}\right]_0^1 = \tfrac23(2\sqrt2 - 1) \approx 1.219\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-area">
+                    <h2>7. Bridge: area between curves</h2>
+                    <p class="ref">Stewart Ch. 6 &middot; OpenStax Vol. 1 Ch. 6</p>
+
+                    <p>The first application of integration in Calculus II, and a natural place to end: slice the region between two curves into thin vertical strips, each of height (top curve) &minus; (bottom curve) and width \(dx\), and add them up. The same &ldquo;slice, approximate, sum, take the limit&rdquo; pattern produces volumes, arc lengths, work, centres of mass and probabilities in the next course.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (Area between curves)</p>
+                        <p>If \(f\) and \(g\) are continuous on \([a, b]\):</p>
+                        \[ A = \int_a^b |f(x) - g(x)|\,dx, \qquad\text{which is } \int_a^b[f(x) - g(x)]\,dx \text{ when } f \ge g. \]
+                        <p>For regions bounded by curves \(x = f(y)\) (right) and \(x = g(y)\) (left), slice horizontally: \(A = \int_c^d[f(y) - g(y)]\,dy\).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Sketch first. Find the intersection points (they are often the limits). Decide which curve is on top on each sub-interval &mdash; if the curves cross, split the integral there. If the &ldquo;top&rdquo; or &ldquo;bottom&rdquo; boundary changes formula partway across, try slicing in the other direction.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.1</p>
+                        <p>Find the area enclosed by \(y = x^2\) and \(y = x + 2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Intersections: \(x^2 = x + 2 \Rightarrow (x - 2)(x + 1) = 0 \Rightarrow x = -1, 2\). Between them the line is on top (test \(x = 0\): \(2 \gt 0\)).</p>
+                            \[ A = \int_{-1}^{2}(x + 2 - x^2)\,dx = \left[\frac{x^2}{2} + 2x - \frac{x^3}{3}\right]_{-1}^{2} = \left(2 + 4 - \frac83\right) - \left(\frac12 - 2 + \frac13\right) = \frac{10}{3} + \frac76 = \frac92. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.2</p>
+                        <p>Find the area of the region bounded by \(y = \sqrt x\), \(y = x - 2\), and the \(x\)-axis.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Sketch: the region lies between the \(x\)-axis and \(\sqrt x\), cut off on the right by the line, which meets the axis at \(x = 2\) and meets \(\sqrt x\) at \(x = 4\) (\(\sqrt4 = 2 = 4 - 2\)). Slicing vertically, the bottom boundary changes at \(x = 2\), so two integrals are needed. Slicing <em>horizontally</em> is cleaner: for \(0 \le y \le 2\), the left boundary is \(x = y^2\) and the right is \(x = y + 2\):</p>
+                            \[ A = \int_0^2\big[(y + 2) - y^2\big]dy = \left[\frac{y^2}{2} + 2y - \frac{y^3}{3}\right]_0^2 = 2 + 4 - \frac83 = \frac{10}{3}. \]
+                            <p>Check vertically: \(\int_0^4\sqrt x\,dx - \int_2^4(x - 2)\,dx = \frac{16}{3} - 2 = \frac{10}{3}\). &#10003;</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.3</p>
+                        <p>Find the area between \(y = \sin x\) and \(y = \cos x\) for \(0 \le x \le \pi/2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>They cross at \(x = \pi/4\). \(\cos \ge \sin\) on \([0, \pi/4]\) and \(\sin \ge \cos\) on \([\pi/4, \pi/2]\):</p>
+                            \[ \begin{aligned} A &amp;= \int_0^{\pi/4}(\cos x - \sin x)\,dx + \int_{\pi/4}^{\pi/2}(\sin x - \cos x)\,dx \\ &amp;= \Big[\sin x + \cos x\Big]_0^{\pi/4} + \Big[-\cos x - \sin x\Big]_{\pi/4}^{\pi/2} \\ &amp;= (\sqrt2 - 1) + (-1 + \sqrt2) = 2\sqrt2 - 2 \approx 0.828. \end{aligned} \]
+                            <p>Without splitting you would get \(\int_0^{\pi/2}(\cos x - \sin x)\,dx = 0\): signed areas cancel.</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Area between \(y = x\) and \(y = x^3\) for \(0 \le x \le 1\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(x \ge x^3\) there: \(\int_0^1(x - x^3)dx = \frac12 - \frac14 = \frac14\).</p>
+                                </details>
+                            </li>
+                            <li>Area between \(y = e^x\) and \(y = x\) for \(0 \le x \le 1\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\int_0^1(e^x - x)dx = (e - 1) - \frac12 = e - \frac32 \approx 1.218\).</p>
+                                </details>
+                            </li>
+                            <li>Area enclosed by \(y = 4 - x^2\) and \(y = x^2 - 4\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Intersect at \(x = \pm2\): \(\int_{-2}^2(8 - 2x^2)dx = 32 - \frac{32}{3} = \frac{64}{3}\).</p>
+                                </details>
+                            </li>
+                            <li>Area enclosed by \(x = y^2 - 2y\) and the \(y\)-axis.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(y^2 - 2y = 0\) at \(y = 0, 2\); between, the curve is left of \(x = 0\). \(\int_0^2[0 - (y^2 - 2y)]dy = 4 - \frac83 = \frac43\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="formula-sheet">
+                    <h2>Formula sheet</h2>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Log laws</td><td>\(\ln(xy) = \ln x + \ln y\), \(\ln(x^r) = r\ln x\), \(\log_b x = \frac{\ln x}{\ln b}\), \(b^x = e^{x\ln b}\)</td></tr>
+                                <tr><td>Trig limits</td><td>\(\lim_{\theta\to0}\frac{\sin\theta}{\theta} = 1\), \(\lim_{\theta\to0}\frac{1 - \cos\theta}{\theta} = 0\)</td></tr>
+                                <tr><td>\(e\) as a limit</td><td>\(e = \lim_{n\to\infty}(1 + \frac1n)^n = \lim_{h\to0}(1 + h)^{1/h}\)</td></tr>
+                                <tr><td>Precise limit</td><td>\(\forall\varepsilon \gt 0\ \exists\delta \gt 0:\ 0 \lt |x - a| \lt \delta \Rightarrow |f(x) - L| \lt \varepsilon\)</td></tr>
+                                <tr><td>Continuity at \(a\)</td><td>\(\lim_{x\to a}f(x) = f(a)\)</td></tr>
+                                <tr><td>Derivative</td><td>\(f'(x) = \lim_{h\to0}\frac{f(x + h) - f(x)}{h}\)</td></tr>
+                                <tr><td>Tangent line / linearization</td><td>\(L(x) = f(a) + f'(a)(x - a)\); \(dy = f'(x)\,dx\)</td></tr>
+                                <tr><td>Power, exp, log</td><td>\((x^n)' = nx^{n-1}\), \((e^x)' = e^x\), \((b^x)' = b^x\ln b\), \((\ln|x|)' = \frac1x\), \((\log_b x)' = \frac{1}{x\ln b}\)</td></tr>
+                                <tr><td>Product / quotient</td><td>\((fg)' = f'g + fg'\), \(\left(\frac fg\right)' = \frac{f'g - fg'}{g^2}\)</td></tr>
+                                <tr><td>Chain rule</td><td>\((f(g(x)))' = f'(g(x))\,g'(x)\); \(\frac{dy}{dx} = \frac{dy}{du}\frac{du}{dx}\)</td></tr>
+                                <tr><td>Trig derivatives</td><td>\((\sin x)' = \cos x\), \((\cos x)' = -\sin x\), \((\tan x)' = \sec^2x\), \((\sec x)' = \sec x\tan x\), \((\csc x)' = -\csc x\cot x\), \((\cot x)' = -\csc^2 x\)</td></tr>
+                                <tr><td>Inverse trig</td><td>\((\arcsin x)' = \frac{1}{\sqrt{1 - x^2}}\), \((\arccos x)' = -\frac{1}{\sqrt{1 - x^2}}\), \((\arctan x)' = \frac{1}{1 + x^2}\)</td></tr>
+                                <tr><td>Inverse function</td><td>\((f^{-1})'(b) = \frac{1}{f'(a)}\) where \(f(a) = b\)</td></tr>
+                                <tr><td>Hyperbolic</td><td>\(\cosh^2x - \sinh^2x = 1\), \((\sinh x)' = \cosh x\), \((\cosh x)' = \sinh x\), \((\tanh x)' = \operatorname{sech}^2x\)</td></tr>
+                                <tr><td>Mean Value Theorem</td><td>\(f'(c) = \frac{f(b) - f(a)}{b - a}\) for some \(c \in (a, b)\)</td></tr>
+                                <tr><td>Second derivative test</td><td>\(f'(c) = 0\): \(f''(c) \gt 0\) min, \(f''(c) \lt 0\) max, \(= 0\) inconclusive</td></tr>
+                                <tr><td>L'H&ocirc;pital</td><td>\(\lim\frac fg = \lim\frac{f'}{g'}\) for \(\frac00\) or \(\frac\infty\infty\)</td></tr>
+                                <tr><td>Newton's method</td><td>\(x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}\)</td></tr>
+                                <tr><td>Sums</td><td>\(\sum i = \frac{n(n+1)}{2}\), \(\sum i^2 = \frac{n(n+1)(2n+1)}{6}\), \(\sum i^3 = \left[\frac{n(n+1)}{2}\right]^2\)</td></tr>
+                                <tr><td>Definite integral</td><td>\(\int_a^bf\,dx = \lim_{n\to\infty}\sum_{i=1}^nf(x_i^*)\Delta x\), \(\Delta x = \frac{b - a}{n}\)</td></tr>
+                                <tr><td>FTC 1</td><td>\(\frac{d}{dx}\int_a^{u(x)}f(t)\,dt = f(u(x))\,u'(x)\)</td></tr>
+                                <tr><td>FTC 2 / net change</td><td>\(\int_a^bF'(x)\,dx = F(b) - F(a)\)</td></tr>
+                                <tr><td>Average value</td><td>\(f_{\text{ave}} = \frac{1}{b - a}\int_a^bf(x)\,dx\)</td></tr>
+                                <tr><td>Basic integrals</td><td>\(\int x^n dx = \frac{x^{n+1}}{n+1} + C\ (n \ne -1)\), \(\int\frac{dx}{x} = \ln|x| + C\), \(\int e^xdx = e^x + C\), \(\int\frac{dx}{1 + x^2} = \arctan x + C\)</td></tr>
+                                <tr><td>Trig integrals</td><td>\(\int\sin x\,dx = -\cos x + C\), \(\int\cos x\,dx = \sin x + C\), \(\int\sec^2x\,dx = \tan x + C\), \(\int\tan x\,dx = \ln|\sec x| + C\)</td></tr>
+                                <tr><td>Substitution</td><td>\(\int_a^bf(g(x))g'(x)\,dx = \int_{g(a)}^{g(b)}f(u)\,du\)</td></tr>
+                                <tr><td>Area between curves</td><td>\(A = \int_a^b[\text{top} - \text{bottom}]\,dx = \int_c^d[\text{right} - \text{left}]\,dy\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </article>
+        </div>
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 Jack Geisler</p>
+        </div>
+    </footer>
+
 </body>
+
 </html>

@@ -650,6 +650,271 @@ main.projects-page {
     }
 }
 
+/* ---------- Back link ---------- */
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--navy-700);
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: var(--gold);
+}
+
+/* ---------- Study notes (math / physics) ---------- */
+main.notes-page {
+    max-width: 1180px;
+    padding-top: 40px;
+}
+
+.notes-intro {
+    background: none;
+    color: var(--ink);
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--cream-200);
+}
+
+.notes-intro h1 {
+    color: var(--navy-900);
+    padding: 0;
+    margin: 0 0 10px;
+    font-size: clamp(2rem, 4vw, 2.7rem);
+}
+
+.notes-intro .lede-dark {
+    margin: 0 0 14px;
+    color: var(--muted);
+    max-width: 70ch;
+}
+
+.textbooks {
+    margin: 0;
+    padding: 14px 18px;
+    background: var(--cream-50);
+    border: 1px solid var(--cream-200);
+    border-radius: var(--radius);
+    font-size: 0.93rem;
+}
+
+.textbooks p {
+    margin: 0 0 4px;
+}
+
+.textbooks ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.notes-layout {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+}
+
+.toc {
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 20px);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    font-size: 0.9rem;
+    padding-right: 8px;
+}
+
+.toc p {
+    margin: 0 0 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.toc ol {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.toc ol ol {
+    padding-left: 14px;
+    margin: 2px 0 6px;
+    font-size: 0.85rem;
+}
+
+.toc li {
+    margin: 3px 0;
+}
+
+.toc a {
+    text-decoration: none;
+    color: var(--navy-700);
+}
+
+.toc a:hover {
+    color: var(--gold);
+}
+
+.notes {
+    min-width: 0;
+}
+
+.notes > section {
+    margin-bottom: 56px;
+    scroll-margin-top: 20px;
+}
+
+.notes h2 {
+    font-size: 1.8rem;
+    margin: 0 0 6px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--navy-700);
+}
+
+.notes h3 {
+    font-size: 1.3rem;
+    margin: 32px 0 10px;
+    scroll-margin-top: 20px;
+}
+
+.notes h4 {
+    font-family: var(--sans);
+    font-size: 1rem;
+    margin: 22px 0 8px;
+    color: var(--navy-700);
+}
+
+.notes .ref {
+    margin: 0 0 18px;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.notes p,
+.notes li {
+    max-width: 78ch;
+}
+
+.notes table {
+    border-collapse: collapse;
+    margin: 12px 0 18px;
+    font-size: 0.95rem;
+}
+
+.notes th,
+.notes td {
+    border: 1px solid var(--cream-200);
+    padding: 6px 12px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.notes th {
+    background: var(--cream-50);
+    color: var(--navy-900);
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.box {
+    margin: 18px 0;
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--cream-200);
+    border-left: 4px solid var(--navy-500);
+    background: var(--cream-50);
+    overflow-x: auto;
+}
+
+.box > :last-child {
+    margin-bottom: 0;
+}
+
+.box-label {
+    margin: 0 0 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--navy-500);
+}
+
+.box.def { border-left-color: var(--navy-700); }
+.box.def .box-label { color: var(--navy-700); }
+
+.box.thm { border-left-color: var(--gold); background: #fbf5e6; }
+.box.thm .box-label { color: #8a6424; }
+
+.box.formula { border-left-color: var(--navy-900); text-align: center; }
+.box.formula .box-label { text-align: left; color: var(--navy-900); }
+
+.box.tip { border-left-color: #4f7a5a; }
+.box.tip .box-label { color: #3d6247; }
+
+.box.warn { border-left-color: #a4483b; }
+.box.warn .box-label { color: #8a3a2f; }
+
+.example {
+    margin: 18px 0;
+    padding: 14px 18px;
+    border: 1px solid var(--cream-200);
+    border-radius: 8px;
+    background: #fff;
+    overflow-x: auto;
+}
+
+.example .box-label {
+    color: var(--gold);
+}
+
+details.solution {
+    margin-top: 10px;
+    border-top: 1px dashed var(--cream-200);
+    padding-top: 8px;
+}
+
+details.solution summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--navy-700);
+    font-size: 0.93rem;
+}
+
+details.solution[open] summary {
+    margin-bottom: 8px;
+}
+
+.practice ol > li {
+    margin-bottom: 14px;
+}
+
+mjx-container[display="true"] {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+}
+
+@media (max-width: 900px) {
+    .notes-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .toc {
+        position: static;
+        max-height: none;
+        background: var(--cream-50);
+        border: 1px solid var(--cream-200);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+    }
+}
+
 /* ---------- Footer ---------- */
 footer,
 .site-footer {

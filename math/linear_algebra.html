@@ -1,15 +1,1906 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Algebra</title>
+    <title>Linear Algebra | Study Notes | Jack Geisler</title>
+    <meta name="description" content="Study notes for Linear Algebra: elimination, vector spaces, orthogonality, determinants, eigenvalues, the SVD, and complex matrices for quantum mechanics.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css?v=7">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']],
+                tags: 'none'
+            },
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
 </head>
-<body style="font-family:Inter,system-ui,sans-serif;background:#f7f1e3;color:#1c2333;margin:0;">
-    <a class="back-link" href="math_index.html" style="display:inline-block;margin:16px 0 0 16px;font-family:Inter,system-ui,sans-serif;font-size:0.95rem;font-weight:600;color:#1d3461;text-decoration:none;">&larr; Math</a>
-    <main style="max-width:760px;margin:0 auto;padding:32px 24px;">
-        <h1 style="font-family:Georgia,serif;color:#0f1f3d;">Linear Algebra</h1>
-        <p>Notes coming soon.</p>
+
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../index.html">Jack Geisler</a>
+            <nav aria-label="Main">
+                <ul>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../projects.html">Projects</a></li>
+                    <li><a href="../articles.html">Articles</a></li>
+                    <li><a href="../math/math_index.html">Math</a></li>
+                    <li><a href="../physics/physics_index.html">Physics</a></li>
+                    <li><a href="https://chat.jackgeisler.com">Chat</a></li>
+                    <li><a class="nav-cta" href="../resmue.html">Resume</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="notes-page">
+
+        <a class="back-link" href="math_index.html">&larr; Math</a>
+
+        <header class="notes-intro">
+            <p class="eyebrow">Math &middot; Study Notes</p>
+            <h1>Linear Algebra</h1>
+            <p class="lede-dark">The mathematics of vectors, matrices and linear maps: how to solve \(A\mathbf{x}=\mathbf{b}\), what the four fundamental subspaces tell you about any matrix, and how projections, eigenvalues and the SVD expose a matrix's structure. It is the working language of circuit analysis, signal processing, data fitting and, above all, quantum mechanics, where states are vectors and observables are Hermitian matrices.</p>
+            <div class="textbooks">
+                <p><strong>Based on:</strong></p>
+                <ul>
+                    <li><em>Introduction to Linear Algebra</em>, Gilbert Strang, 6th edition (primary)</li>
+                    <li><em>Linear Algebra and Its Applications</em>, David C. Lay, Steven R. Lay &amp; Judi J. McDonald (secondary)</li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="notes-layout">
+
+            <nav class="toc" aria-label="Contents">
+                <p>Contents</p>
+                <ol>
+                    <li><a href="#ch-vectors">Vectors and matrices</a>
+                        <ol>
+                            <li><a href="#vec-combos">Linear combinations</a></li>
+                            <li><a href="#vec-dot">Dot product, length, angle</a></li>
+                            <li><a href="#vec-matrices">Matrices as transformations</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-elimination">Solving linear equations</a>
+                        <ol>
+                            <li><a href="#elim-pictures">Row and column pictures</a></li>
+                            <li><a href="#elim-process">Gaussian elimination</a></li>
+                            <li><a href="#elim-matrices">Elimination matrices</a></li>
+                            <li><a href="#elim-inverse">Inverse matrices</a></li>
+                            <li><a href="#elim-lu">LU factorization</a></li>
+                            <li><a href="#elim-transpose">Transposes and permutations</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-spaces">Vector spaces and subspaces</a>
+                        <ol>
+                            <li><a href="#sp-subspaces">Spaces and column space</a></li>
+                            <li><a href="#sp-nullspace">Nullspace and RREF</a></li>
+                            <li><a href="#sp-complete">Rank and the complete solution</a></li>
+                            <li><a href="#sp-basis">Independence, basis, dimension</a></li>
+                            <li><a href="#sp-four">The four fundamental subspaces</a></li>
+                            <li><a href="#sp-transform">Linear transformations</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-orthogonality">Orthogonality</a>
+                        <ol>
+                            <li><a href="#orth-subspaces">Orthogonal subspaces</a></li>
+                            <li><a href="#orth-projection">Projections</a></li>
+                            <li><a href="#orth-leastsq">Least squares</a></li>
+                            <li><a href="#orth-gs">Orthonormal bases, Gram&ndash;Schmidt</a></li>
+                            <li><a href="#orth-qr">QR factorization</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-determinants">Determinants</a>
+                        <ol>
+                            <li><a href="#det-properties">Defining properties</a></li>
+                            <li><a href="#det-formulas">Formulas and cofactors</a></li>
+                            <li><a href="#det-apps">Cramer, inverses, volumes</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-eigen">Eigenvalues and eigenvectors</a>
+                        <ol>
+                            <li><a href="#eig-basics">The eigenvalue problem</a></li>
+                            <li><a href="#eig-diag">Diagonalization</a></li>
+                            <li><a href="#eig-powers">Powers and difference equations</a></li>
+                            <li><a href="#eig-ode">Differential equations</a></li>
+                            <li><a href="#eig-symmetric">Symmetric matrices</a></li>
+                            <li><a href="#eig-posdef">Positive definite matrices</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-svd">Singular value decomposition</a>
+                        <ol>
+                            <li><a href="#svd-def">The SVD</a></li>
+                            <li><a href="#svd-geometry">Geometry of the SVD</a></li>
+                            <li><a href="#svd-lowrank">Low-rank approximation</a></li>
+                            <li><a href="#svd-pinv">The pseudoinverse</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-complex">Complex vectors and matrices</a>
+                        <ol>
+                            <li><a href="#cx-vectors">Inner products over \(\mathbb{C}\)</a></li>
+                            <li><a href="#cx-hermitian">Hermitian matrices</a></li>
+                            <li><a href="#cx-unitary">Unitary matrices</a></li>
+                            <li><a href="#cx-quantum">Quantum mechanics connection</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#formula-sheet">Formula sheet</a></li>
+                </ol>
+            </nav>
+
+            <article class="notes">
+
+                <section id="ch-vectors">
+                    <h2>1. Vectors and matrices</h2>
+                    <p class="ref">Strang Ch. 1 &middot; Lay Ch. 1</p>
+
+                    <p>A vector is an arrow, a list of numbers, and a point all at once; linear algebra is the art of switching between those views. The two operations that define the subject are <em>scaling</em> a vector and <em>adding</em> vectors. Everything else &mdash; matrices, subspaces, eigenvalues &mdash; is built from asking what you can reach with those two operations. A matrix is best thought of not as a grid of numbers but as a machine that takes a vector and returns a combination of its own columns.</p>
+
+                    <h3 id="vec-combos">1.1 Vectors and linear combinations</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (vector, linear combination)</p>
+                        <p>A vector in \(\mathbb{R}^n\) is an ordered list \(\mathbf{v} = (v_1, \dots, v_n)\), written as a column. Vectors add componentwise and scale componentwise: \((\mathbf{v}+\mathbf{w})_i = v_i + w_i\), \((c\mathbf{v})_i = c\,v_i\).</p>
+                        <p>A <strong>linear combination</strong> of \(\mathbf{v}_1, \dots, \mathbf{v}_k\) is any vector \(c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + \cdots + c_k\mathbf{v}_k\) with scalars \(c_i\). The set of <em>all</em> such combinations is the <strong>span</strong> of the vectors.</p>
+                    </div>
+
+                    <p>Geometrically, the combinations of one nonzero vector fill a line through the origin. The combinations of two vectors that do not lie on a common line fill a plane through the origin. Three vectors in \(\mathbb{R}^3\) fill all of space &mdash; unless the third already lies in the plane of the first two. That "unless" is the seed of the ideas of <em>independence</em> and <em>dimension</em> in Chapter 3.</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Every question of the form "can \(\mathbf{b}\) be written as a combination of these vectors?" is secretly the linear system \(A\mathbf{x} = \mathbf{b}\), where the vectors are the columns of \(A\) and \(\mathbf{x}\) holds the unknown coefficients. Learn to see that translation instantly.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.1</p>
+                        <p>Is \(\mathbf{b} = (2, 7, 9)\) a linear combination of \(\mathbf{v} = (1, 2, 3)\) and \(\mathbf{w} = (0, 1, 1)\)? What about \(\mathbf{b}' = (2, 7, 8)\)?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>We need \(c\mathbf{v} + d\mathbf{w} = \mathbf{b}\), i.e. three equations in two unknowns:</p>
+                            \[ c = 2, \qquad 2c + d = 7, \qquad 3c + d = 9. \]
+                            <p>The first gives \(c = 2\); the second then gives \(d = 3\). Check the third: \(3(2) + 3 = 9\). ✓ So \(\mathbf{b} = 2\mathbf{v} + 3\mathbf{w}\).</p>
+                            <p>For \(\mathbf{b}'\) the first two equations again force \(c = 2,\ d = 3\), but the third requires \(3(2)+3 = 8\), which is false. So \(\mathbf{b}'\) is <em>not</em> in the span: it lies off the plane through the origin containing \(\mathbf{v}\) and \(\mathbf{w}\).</p>
+                            <p>Geometric check: a normal vector to that plane is \(\mathbf{v}\times\mathbf{w} = (2\cdot1 - 3\cdot1,\; 3\cdot0 - 1\cdot1,\; 1\cdot1 - 2\cdot0) = (-1, -1, 1)\), so the plane is \(-x - y + z = 0\), i.e. \(z = x + y\). Check: \(\mathbf{b}=(2,7,9)\) has \(9 = 2+7\) ✓, while \(\mathbf{b}' = (2,7,8)\) has \(8 \ne 9\). ✗ This agrees with the algebra.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="vec-dot">1.2 Dot product, length and angle</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (dot product, length, unit vector)</p>
+                        <p>The <strong>dot product</strong> of \(\mathbf{v}, \mathbf{w} \in \mathbb{R}^n\) is \(\mathbf{v}\cdot\mathbf{w} = v_1w_1 + \cdots + v_nw_n = \mathbf{v}^{\mathsf T}\mathbf{w}\). The <strong>length</strong> (norm) is \(\|\mathbf{v}\| = \sqrt{\mathbf{v}\cdot\mathbf{v}}\). A <strong>unit vector</strong> has length 1; \(\mathbf{u} = \mathbf{v}/\|\mathbf{v}\|\) is the unit vector in the direction of \(\mathbf{v} \neq \mathbf{0}\). Vectors are <strong>orthogonal</strong> (perpendicular) when \(\mathbf{v}\cdot\mathbf{w} = 0\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (angle)</p>
+                        \[ \cos\theta = \frac{\mathbf{v}\cdot\mathbf{w}}{\|\mathbf{v}\|\,\|\mathbf{w}\|}, \qquad \mathbf{v}, \mathbf{w} \neq \mathbf{0}. \]
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Cauchy&ndash;Schwarz and triangle inequalities)</p>
+                        <p>For all \(\mathbf{v}, \mathbf{w} \in \mathbb{R}^n\):</p>
+                        \[ |\mathbf{v}\cdot\mathbf{w}| \le \|\mathbf{v}\|\,\|\mathbf{w}\|, \qquad \|\mathbf{v} + \mathbf{w}\| \le \|\mathbf{v}\| + \|\mathbf{w}\|. \]
+                        <p>Equality in Cauchy&ndash;Schwarz holds exactly when one vector is a scalar multiple of the other.</p>
+                    </div>
+
+                    <p><strong>Proof sketch.</strong> If \(\mathbf{w} = \mathbf{0}\) there is nothing to prove. Otherwise, for every real \(t\), \(0 \le \|\mathbf{v} - t\mathbf{w}\|^2 = \|\mathbf{v}\|^2 - 2t\,\mathbf{v}\cdot\mathbf{w} + t^2\|\mathbf{w}\|^2\). A quadratic in \(t\) that is never negative has discriminant \(\le 0\): \(4(\mathbf{v}\cdot\mathbf{w})^2 - 4\|\mathbf{v}\|^2\|\mathbf{w}\|^2 \le 0\). For the triangle inequality, expand \(\|\mathbf{v}+\mathbf{w}\|^2 = \|\mathbf{v}\|^2 + 2\mathbf{v}\cdot\mathbf{w} + \|\mathbf{w}\|^2 \le \|\mathbf{v}\|^2 + 2\|\mathbf{v}\|\|\mathbf{w}\| + \|\mathbf{w}\|^2 = (\|\mathbf{v}\| + \|\mathbf{w}\|)^2\). \(\blacksquare\)</p>
+
+                    <p>Cauchy&ndash;Schwarz is what guarantees the cosine formula gives a number in \([-1, 1]\). In quantum mechanics the same inequality (over \(\mathbb{C}\)) is the engine behind the Heisenberg uncertainty relation.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.2</p>
+                        <p>Find the angle between \(\mathbf{v} = (1, 2, 2)\) and \(\mathbf{w} = (2, 0, 1)\), and the unit vector in the direction of \(\mathbf{v}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Dot product: \(\mathbf{v}\cdot\mathbf{w} = 1\cdot2 + 2\cdot0 + 2\cdot1 = 4\).</p>
+                            <p>Lengths: \(\|\mathbf{v}\| = \sqrt{1+4+4} = 3\), \(\|\mathbf{w}\| = \sqrt{4+0+1} = \sqrt5\).</p>
+                            \[ \cos\theta = \frac{4}{3\sqrt5} \approx 0.5963 \quad\Longrightarrow\quad \theta \approx 53.4^\circ. \]
+                            <p>Unit vector: \(\mathbf{u} = \mathbf{v}/3 = \left(\tfrac13, \tfrac23, \tfrac23\right)\); check \(\tfrac19 + \tfrac49 + \tfrac49 = 1\). ✓ Cauchy&ndash;Schwarz is satisfied: \(4 \le 3\sqrt5 \approx 6.71\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(\|\mathbf{v}+\mathbf{w}\|\) is <em>not</em> \(\|\mathbf{v}\| + \|\mathbf{w}\|\) in general, and \(\|\mathbf{v}\|^2\) is the sum of squared components, not the square of the sum. Also, the dot product of two vectors is a scalar; do not write \(\mathbf{v}\mathbf{w}\) for two column vectors &mdash; write \(\mathbf{v}^{\mathsf T}\mathbf{w}\) (a number) or \(\mathbf{v}\mathbf{w}^{\mathsf T}\) (a matrix, the outer product).</p>
+                    </div>
+
+                    <h3 id="vec-matrices">1.3 Matrices and linear transformations</h3>
+
+                    <p>An \(m\times n\) matrix \(A\) multiplies a vector \(\mathbf{x} \in \mathbb{R}^n\) and returns \(A\mathbf{x} \in \mathbb{R}^m\). There are two ways to compute it, and you need both.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (two views of \(A\mathbf{x}\))</p>
+                        <p><strong>Column view:</strong> \(A\mathbf{x}\) is a combination of the columns \(\mathbf{a}_1, \dots, \mathbf{a}_n\) of \(A\), with weights from \(\mathbf{x}\):</p>
+                        \[ A\mathbf{x} = x_1\mathbf{a}_1 + x_2\mathbf{a}_2 + \cdots + x_n\mathbf{a}_n. \]
+                        <p><strong>Row view:</strong> the \(i\)-th entry of \(A\mathbf{x}\) is the dot product of row \(i\) of \(A\) with \(\mathbf{x}\).</p>
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (linear transformation)</p>
+                        <p>A map \(T:\mathbb{R}^n \to \mathbb{R}^m\) is <strong>linear</strong> if \(T(\mathbf{u}+\mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})\) and \(T(c\mathbf{u}) = cT(\mathbf{u})\) for all vectors and scalars. Every linear \(T\) is multiplication by the matrix whose \(j\)-th column is \(T(\mathbf{e}_j)\), where \(\mathbf{e}_j\) is the \(j\)-th standard basis vector.</p>
+                    </div>
+
+                    <p>So to build the matrix of a geometric operation, ask "where do the basis vectors go?" and write the answers as columns. Rotation of the plane by angle \(\theta\) sends \(\mathbf{e}_1 \mapsto (\cos\theta, \sin\theta)\) and \(\mathbf{e}_2 \mapsto (-\sin\theta, \cos\theta)\), giving</p>
+                    \[ R_\theta = \begin{bmatrix} \cos\theta &amp; -\sin\theta \\ \sin\theta &amp; \cos\theta \end{bmatrix}. \]
+                    <p>Matrix multiplication \(AB\) is defined so that it represents the composition "first apply \(B\), then \(A\)": \((AB)\mathbf{x} = A(B\mathbf{x})\). Column \(j\) of \(AB\) is \(A\) times column \(j\) of \(B\). Multiplication is associative but in general <strong>not commutative</strong>.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.3</p>
+                        <p>Compute \(A\mathbf{x}\) both ways for \(A = \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; -1 \\ 0 &amp; 4 \end{bmatrix}\), \(\mathbf{x} = (2, 1)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Rows:</strong> \((1,2)\cdot(2,1) = 4\), \((3,-1)\cdot(2,1) = 5\), \((0,4)\cdot(2,1) = 4\).</p>
+                            <p><strong>Columns:</strong></p>
+                            \[ 2\begin{bmatrix} 1 \\ 3 \\ 0 \end{bmatrix} + 1\begin{bmatrix} 2 \\ -1 \\ 4 \end{bmatrix} = \begin{bmatrix} 4 \\ 5 \\ 4 \end{bmatrix}. \]
+                            <p>Both give \(A\mathbf{x} = (4, 5, 4)\). Note \(A\) maps \(\mathbb{R}^2\) into \(\mathbb{R}^3\); its outputs fill only a plane in \(\mathbb{R}^3\) (the span of the two columns).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.4 (order matters)</p>
+                        <p>Let \(R\) rotate the plane by \(90^\circ\) counter-clockwise and \(F\) reflect across the \(x\)-axis. Find the matrices of "rotate, then reflect" and "reflect, then rotate", and identify each geometrically.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Columns are images of \(\mathbf{e}_1, \mathbf{e}_2\): \(R\mathbf{e}_1 = (0,1)\), \(R\mathbf{e}_2 = (-1, 0)\); \(F\mathbf{e}_1 = (1,0)\), \(F\mathbf{e}_2 = (0,-1)\).</p>
+                            \[ R = \begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix}, \qquad F = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix}. \]
+                            <p>"Rotate, then reflect" is \(FR\) (the first operation sits on the right):</p>
+                            \[ FR = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix}\begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix} = \begin{bmatrix} 0 &amp; -1 \\ -1 &amp; 0 \end{bmatrix}, \]
+                            <p>which sends \((x,y) \mapsto (-y, -x)\): reflection across the line \(y = -x\).</p>
+                            \[ RF = \begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix}\begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix} = \begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}, \]
+                            <p>which sends \((x,y)\mapsto(y,x)\): reflection across \(y = x\). Since \(FR \ne RF\), the order of operations matters.</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Four ways to see the product \(C = AB\) (with \(A\) being \(m\times n\), \(B\) being \(n\times p\)): (1) entry \(c_{ij}\) = row \(i\) of \(A\) &middot; column \(j\) of \(B\); (2) each column of \(C\) is \(A\) times a column of \(B\); (3) each row of \(C\) is a row of \(A\) times \(B\); (4) \(C = \sum_k (\text{column } k \text{ of } A)(\text{row } k \text{ of } B)\), a sum of rank-one outer products. View (4) reappears in the spectral theorem and the SVD.</p>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Find the unit vector in the direction of \((3, 4, 12)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Length \(\sqrt{9+16+144} = \sqrt{169} = 13\), so \(\mathbf{u} = \left(\tfrac{3}{13}, \tfrac{4}{13}, \tfrac{12}{13}\right)\).</p>
+                                </details>
+                            </li>
+                            <li>For which \(c\) are \((1, c, 2)\) and \((3, -1, c)\) perpendicular?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Dot product \(3 - c + 2c = 3 + c = 0\), so \(c = -3\).</p>
+                                </details>
+                            </li>
+                            <li>Prove the parallelogram law \(\|\mathbf{u}+\mathbf{v}\|^2 + \|\mathbf{u}-\mathbf{v}\|^2 = 2\|\mathbf{u}\|^2 + 2\|\mathbf{v}\|^2\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Expand: \(\|\mathbf{u}\pm\mathbf{v}\|^2 = \|\mathbf{u}\|^2 \pm 2\mathbf{u}\cdot\mathbf{v} + \|\mathbf{v}\|^2\). Adding, the cross terms cancel. Geometrically: the squared diagonals of a parallelogram sum to the squared sides.</p>
+                                </details>
+                            </li>
+                            <li>A linear map sends \(\mathbf{e}_1 \mapsto (2,1)\) and \(\mathbf{e}_2 \mapsto (-1,3)\). Find its matrix and the image of \((3,2)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(A = \begin{bmatrix} 2 &amp; -1 \\ 1 &amp; 3 \end{bmatrix}\); \(A(3,2) = 3(2,1) + 2(-1,3) = (4, 9)\).</p>
+                                </details>
+                            </li>
+                            <li>Is \((1, 0, 0)\) a combination of \((1,1,0)\) and \((0,1,1)\)? Describe the span of these two vectors.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(c(1,1,0) + d(0,1,1) = (1,0,0)\) needs \(c = 1\), \(d = 0\) (third component) and \(c + d = 0\): contradiction, so no. The span is the plane with normal \((1,1,0)\times(0,1,1) = (1,-1,1)\), i.e. \(x - y + z = 0\); \((1,0,0)\) gives \(1 \ne 0\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-elimination">
+                    <h2>2. Solving linear equations</h2>
+                    <p class="ref">Strang Ch. 2 &middot; Lay Ch. 1&ndash;2</p>
+
+                    <p>The central problem is \(A\mathbf{x} = \mathbf{b}\) with \(A\) square, \(n\times n\). Elimination is the systematic way to solve it: subtract multiples of equations from one another until the system is triangular, then back-substitute. The surprise is that this humble algorithm, recorded properly, <em>is</em> a matrix factorization \(A = LU\), and that same bookkeeping tells you when an inverse exists.</p>
+
+                    <h3 id="elim-pictures">2.1 Row picture and column picture</h3>
+
+                    <p>Take the system \(2x - y = 1,\ x + y = 5\).</p>
+                    <ul>
+                        <li><strong>Row picture:</strong> each equation is a line in the \(xy\)-plane (a hyperplane in \(\mathbb{R}^n\)). The solution is where they intersect &mdash; here the point \((2, 3)\).</li>
+                        <li><strong>Column picture:</strong> the system asks for the combination of columns that produces the right-hand side:
+                            \[ x\begin{bmatrix} 2 \\ 1 \end{bmatrix} + y\begin{bmatrix} -1 \\ 1 \end{bmatrix} = \begin{bmatrix} 1 \\ 5 \end{bmatrix}, \qquad 2\begin{bmatrix} 2 \\ 1 \end{bmatrix} + 3\begin{bmatrix} -1 \\ 1 \end{bmatrix} = \begin{bmatrix} 1 \\ 5 \end{bmatrix}. \]
+                        </li>
+                    </ul>
+                    <p>The column picture generalizes better. \(A\mathbf{x} = \mathbf{b}\) is solvable exactly when \(\mathbf{b}\) lies in the span of the columns. For an \(n\times n\) matrix there are three possibilities: exactly one solution (the columns span \(\mathbb{R}^n\)), no solution, or infinitely many (the columns are dependent). Never exactly two.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.1 (a circuit as a linear system)</p>
+                        <p>A two-mesh circuit has a 10 V source and a 2 &Omega; resistor in mesh 1, a 3 &Omega; resistor in mesh 2, and a 4 &Omega; resistor shared by both meshes. Write the mesh-current equations and solve for \(i_1, i_2\) (both clockwise).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>KVL around mesh 1: \(2i_1 + 4(i_1 - i_2) = 10\). Around mesh 2 (no source): \(3i_2 + 4(i_2 - i_1) = 0\). In matrix form:</p>
+                            \[ \begin{bmatrix} 6 &amp; -4 \\ -4 &amp; 7 \end{bmatrix}\begin{bmatrix} i_1 \\ i_2 \end{bmatrix} = \begin{bmatrix} 10 \\ 0 \end{bmatrix}. \]
+                            <p>Eliminate: subtract \(\ell_{21} = -4/6 = -\tfrac23\) times row 1 from row 2, i.e. add \(\tfrac23\) of row 1. The new row 2 is \(\left(0,\ 7 - \tfrac83\right) = \left(0, \tfrac{13}{3}\right)\) with right side \(0 + \tfrac{20}{3}\).</p>
+                            <p>Back-substitute: \(i_2 = \dfrac{20/3}{13/3} = \dfrac{20}{13} \approx 1.54\) A, then \(6i_1 = 10 + 4\cdot\tfrac{20}{13} = \tfrac{210}{13}\), so \(i_1 = \tfrac{35}{13} \approx 2.69\) A.</p>
+                            <p>Check row 2: \(-4\cdot\tfrac{35}{13} + 7\cdot\tfrac{20}{13} = \tfrac{-140+140}{13} = 0\). ✓ Note the matrix is symmetric &mdash; resistor networks always give symmetric (and in fact positive definite) mesh matrices; see &sect;6.6.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="elim-process">2.2 Gaussian elimination</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (pivot, multiplier)</p>
+                        <p>Elimination works column by column. The <strong>pivot</strong> is the first nonzero entry in the row doing the elimination. To clear the entry \(a_{ij}\) below pivot \(p\) in column \(j\), subtract \(\ell_{ij} = a_{ij}/p\) times the pivot row from row \(i\). The number \(\ell_{ij}\) is the <strong>multiplier</strong>. The goal is an upper-triangular \(U\); its diagonal entries are the pivots.</p>
+                    </div>
+
+                    <p>Elimination can break down in two ways. <strong>Temporary failure:</strong> a zero appears in a pivot position but a nonzero entry sits below it &mdash; exchange rows and continue. <strong>Permanent failure:</strong> a zero in the pivot position with only zeros below it &mdash; the matrix is singular and there are fewer than \(n\) pivots.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.2</p>
+                        <p>Solve by elimination and back-substitution:</p>
+                        \[ \begin{aligned} x + 2y + z &amp;= 1 \\ 2x + 7y + 4z &amp;= 1 \\ -x + y + 3z &amp;= 0 \end{aligned} \]
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Work with the augmented matrix \([A \mid \mathbf{b}]\). The first pivot is 1.</p>
+                            \[ \left[\begin{array}{ccc|c} 1 &amp; 2 &amp; 1 &amp; 1 \\ 2 &amp; 7 &amp; 4 &amp; 1 \\ -1 &amp; 1 &amp; 3 &amp; 0 \end{array}\right] \xrightarrow[\ell_{31} = -1]{\ell_{21} = 2} \left[\begin{array}{ccc|c} 1 &amp; 2 &amp; 1 &amp; 1 \\ 0 &amp; 3 &amp; 2 &amp; -1 \\ 0 &amp; 3 &amp; 4 &amp; 1 \end{array}\right] \]
+                            <p>(Row 2 minus 2&times;row 1; row 3 minus \((-1)\)&times;row 1, i.e. plus row 1.) The second pivot is 3; clear below it with \(\ell_{32} = 3/3 = 1\):</p>
+                            \[ \left[\begin{array}{ccc|c} 1 &amp; 2 &amp; 1 &amp; 1 \\ 0 &amp; 3 &amp; 2 &amp; -1 \\ 0 &amp; 0 &amp; 2 &amp; 2 \end{array}\right]. \]
+                            <p>Pivots \(1, 3, 2\) &mdash; all nonzero, so the solution is unique. Back-substitute from the bottom:</p>
+                            \[ 2z = 2 \Rightarrow z = 1, \qquad 3y + 2(1) = -1 \Rightarrow y = -1, \qquad x + 2(-1) + 1 = 1 \Rightarrow x = 2. \]
+                            <p>Check in the original third equation: \(-2 + (-1) + 3 = 0\). ✓ So \(\mathbf{x} = (2, -1, 1)\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Apply every row operation to the right-hand side too (that is the point of the augmented matrix), and always use the <em>current</em> pivot row, not the original one. A sign slip in a multiplier propagates through everything below it &mdash; check by substituting into the <em>original</em> equations.</p>
+                    </div>
+
+                    <h3 id="elim-matrices">2.3 Elimination matrices and matrix algebra</h3>
+
+                    <p>Each elimination step is multiplication on the left by an <strong>elimination matrix</strong> \(E_{ij}\): the identity with \(-\ell_{ij}\) in position \((i,j)\). For Example 2.2,</p>
+                    \[ E_{21} = \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ -2 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{bmatrix},\quad E_{31} = \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 \end{bmatrix},\quad E_{32} = \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; -1 &amp; 1 \end{bmatrix}, \qquad E_{32}E_{31}E_{21}A = U. \]
+                    <p>A <strong>row exchange</strong> is multiplication by a permutation matrix \(P_{ij}\) (the identity with rows \(i\) and \(j\) swapped). Multiplying on the <em>left</em> acts on rows; multiplying on the <em>right</em> acts on columns.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Rules of matrix arithmetic</p>
+                        <p>Whenever the shapes allow: \(A(BC) = (AB)C\) (associative), \(A(B + C) = AB + AC\) and \((A+B)C = AC + BC\) (distributive). In general \(AB \ne BA\). Block matrices multiply like ordinary matrices as long as the block shapes are compatible.</p>
+                    </div>
+
+                    <h3 id="elim-inverse">2.4 Inverse matrices</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (inverse)</p>
+                        <p>A square matrix \(A\) is <strong>invertible</strong> if there is a matrix \(A^{-1}\) with \(A^{-1}A = I\) and \(AA^{-1} = I\). For square matrices either equation implies the other, and the inverse is unique.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (properties of inverses)</p>
+                        <ul>
+                            <li>\(A\) is invertible \(\iff\) elimination (with row exchanges allowed) produces \(n\) nonzero pivots \(\iff\) \(A\mathbf{x} = \mathbf{0}\) has only \(\mathbf{x} = \mathbf{0}\) \(\iff\) \(\det A \ne 0\).</li>
+                            <li>If \(A, B\) are invertible then \((AB)^{-1} = B^{-1}A^{-1}\) (reverse order: undo the last operation first).</li>
+                            <li>\((A^{\mathsf T})^{-1} = (A^{-1})^{\mathsf T}\).</li>
+                            <li>For \(2\times2\): \(\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix}^{-1} = \dfrac{1}{ad - bc}\begin{bmatrix} d &amp; -b \\ -c &amp; a \end{bmatrix}\), provided \(ad - bc \ne 0\).</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Why "no nonzero solution of \(A\mathbf{x} = \mathbf{0}\)" matters.</strong> If \(A\mathbf{x} = \mathbf{0}\) with \(\mathbf{x} \ne \mathbf{0}\), then \(A\) cannot be invertible: applying \(A^{-1}\) would give \(\mathbf{x} = A^{-1}\mathbf{0} = \mathbf{0}\), a contradiction. A singular matrix squashes some nonzero direction to zero, and no matrix can un-squash it.</p>
+
+                    <p><strong>Gauss&ndash;Jordan method.</strong> Row-reduce the block matrix \([A \mid I]\) all the way to \([I \mid A^{-1}]\): eliminate below the pivots, then above them, then divide each row by its pivot. This simultaneously solves \(A\mathbf{x}_j = \mathbf{e}_j\) for every column of the identity.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.3</p>
+                        <p>Find \(A^{-1}\) by Gauss&ndash;Jordan for \(A = \begin{bmatrix} 1 &amp; 0 &amp; 2 \\ 2 &amp; 1 &amp; 3 \\ 0 &amp; 1 &amp; 1 \end{bmatrix}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Start from \([A \mid I]\). Row 2 \(-\) 2&times;row 1:</p>
+                            \[ \left[\begin{array}{ccc|ccc} 1 &amp; 0 &amp; 2 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; -1 &amp; -2 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 \end{array}\right] \]
+                            <p>Row 3 \(-\) row 2, then divide row 3 by its pivot 2:</p>
+                            \[ \left[\begin{array}{ccc|ccc} 1 &amp; 0 &amp; 2 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; -1 &amp; -2 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 1 &amp; -\tfrac12 &amp; \tfrac12 \end{array}\right] \]
+                            <p>Now clear above the third pivot: row 2 \(+\) row 3, and row 1 \(-\) 2&times;row 3:</p>
+                            \[ \left[\begin{array}{ccc|ccc} 1 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; -1 \\ 0 &amp; 1 &amp; 0 &amp; -1 &amp; \tfrac12 &amp; \tfrac12 \\ 0 &amp; 0 &amp; 1 &amp; 1 &amp; -\tfrac12 &amp; \tfrac12 \end{array}\right] \quad\Longrightarrow\quad A^{-1} = \begin{bmatrix} -1 &amp; 1 &amp; -1 \\ -1 &amp; \tfrac12 &amp; \tfrac12 \\ 1 &amp; -\tfrac12 &amp; \tfrac12 \end{bmatrix}. \]
+                            <p>Check one row and one column of \(AA^{-1}\): row 1 of \(A\), \((1,0,2)\), dotted with the columns of \(A^{-1}\) gives \(-1+2 = 1\), \(1 - 1 = 0\), \(-1 + 1 = 0\). Row 2, \((2,1,3)\), gives \(-2-1+3 = 0\), \(2 + \tfrac12 - \tfrac32 = 1\), \(-2 + \tfrac12 + \tfrac32 = 0\). ✓ (The pivots were \(1, 1, 2\), so \(\det A = 2\); we will confirm this in Chapter 5.)</p>
+                        </details>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\((AB)^{-1} \ne A^{-1}B^{-1}\) in general, and \((A + B)^{-1} \ne A^{-1} + B^{-1}\) &mdash; the latter has no simple formula at all. Also, in numerical work you almost never compute \(A^{-1}\) explicitly to solve \(A\mathbf{x} = \mathbf{b}\); factor \(A = LU\) and do two triangular solves instead.</p>
+                    </div>
+
+                    <h3 id="elim-lu">2.5 LU factorization</h3>
+
+                    <p>Inverting the elimination steps reverses their order: \(A = E_{21}^{-1}E_{31}^{-1}E_{32}^{-1}U\). The inverse of \(E_{ij}\) just flips the sign of the multiplier, and in this order the product of the inverses has a beautiful property: the multipliers drop into place with no interaction.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (\(A = LU\))</p>
+                        <p>If elimination on a square matrix \(A\) succeeds without row exchanges, then \(A = LU\), where \(U\) is upper triangular with the pivots on its diagonal and \(L\) is lower triangular with 1's on the diagonal and the multiplier \(\ell_{ij}\) in position \((i, j)\) below the diagonal. Splitting out the pivots gives the symmetric-looking form \(A = LDU'\) with \(D = \operatorname{diag}(\text{pivots})\) and \(U'\) unit upper triangular.</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Solving with \(A = LU\)</p>
+                        \[ A\mathbf{x} = \mathbf{b} \iff L\underbrace{(U\mathbf{x})}_{\mathbf{c}} = \mathbf{b}: \qquad \text{solve } L\mathbf{c} = \mathbf{b} \text{ (forward)}, \quad \text{then } U\mathbf{x} = \mathbf{c} \text{ (backward)}. \]
+                        <p>Cost: factoring an \(n\times n\) matrix takes about \(\tfrac13 n^3\) multiplications; each new right-hand side then costs only about \(n^2\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.4</p>
+                        <p>Write down \(A = LU\) for the matrix of Example 2.2 and use it to re-solve \(A\mathbf{x} = (1, 1, 0)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The multipliers were \(\ell_{21} = 2\), \(\ell_{31} = -1\), \(\ell_{32} = 1\), and \(U\) is the final triangular matrix:</p>
+                            \[ \underbrace{\begin{bmatrix} 1 &amp; 2 &amp; 1 \\ 2 &amp; 7 &amp; 4 \\ -1 &amp; 1 &amp; 3 \end{bmatrix}}_{A} = \underbrace{\begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 2 &amp; 1 &amp; 0 \\ -1 &amp; 1 &amp; 1 \end{bmatrix}}_{L}\underbrace{\begin{bmatrix} 1 &amp; 2 &amp; 1 \\ 0 &amp; 3 &amp; 2 \\ 0 &amp; 0 &amp; 2 \end{bmatrix}}_{U}. \]
+                            <p>Check row 3 of \(LU\): \(-1\cdot(1,2,1) + 1\cdot(0,3,2) + 1\cdot(0,0,2) = (-1, 1, 3)\). ✓</p>
+                            <p>Forward solve \(L\mathbf{c} = \mathbf{b}\): \(c_1 = 1\); \(2c_1 + c_2 = 1 \Rightarrow c_2 = -1\); \(-c_1 + c_2 + c_3 = 0 \Rightarrow c_3 = 2\). This \(\mathbf{c} = (1,-1,2)\) is exactly the right-hand side we got after elimination in Example 2.2.</p>
+                            <p>Back solve \(U\mathbf{x} = \mathbf{c}\): \(z = 1\), \(y = -1\), \(x = 2\), as before.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="elim-transpose">2.6 Transposes and permutations</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (transpose, symmetric)</p>
+                        <p>The <strong>transpose</strong> \(A^{\mathsf T}\) has entries \((A^{\mathsf T})_{ij} = a_{ji}\): rows become columns. \(A\) is <strong>symmetric</strong> if \(A^{\mathsf T} = A\). The transpose is characterized by the dot-product identity \((A\mathbf{x})\cdot\mathbf{y} = \mathbf{x}\cdot(A^{\mathsf T}\mathbf{y})\) for all \(\mathbf{x}, \mathbf{y}\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (transpose rules)</p>
+                        <p>\((A + B)^{\mathsf T} = A^{\mathsf T} + B^{\mathsf T}\), \((AB)^{\mathsf T} = B^{\mathsf T}A^{\mathsf T}\), \((A^{-1})^{\mathsf T} = (A^{\mathsf T})^{-1}\). For any \(m \times n\) matrix \(R\), both \(R^{\mathsf T}R\) (\(n\times n\)) and \(RR^{\mathsf T}\) (\(m\times m\)) are symmetric.</p>
+                    </div>
+                    <p><strong>Proof of \((AB)^{\mathsf T} = B^{\mathsf T}A^{\mathsf T}\).</strong> For all \(\mathbf{x}, \mathbf{y}\): \((AB\mathbf{x})\cdot\mathbf{y} = (B\mathbf{x})\cdot(A^{\mathsf T}\mathbf{y}) = \mathbf{x}\cdot(B^{\mathsf T}A^{\mathsf T}\mathbf{y})\). Then \((R^{\mathsf T}R)^{\mathsf T} = R^{\mathsf T}(R^{\mathsf T})^{\mathsf T} = R^{\mathsf T}R\). \(\blacksquare\)</p>
+                    <p>For symmetric \(A = LDU'\) (no row exchanges), uniqueness of the factorization forces \(U' = L^{\mathsf T}\), so \(A = LDL^{\mathsf T}\): symmetry is preserved by elimination.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (permutation matrix)</p>
+                        <p>A <strong>permutation matrix</strong> \(P\) has exactly one 1 in every row and every column, zeros elsewhere: it is the identity with its rows reordered. There are \(n!\) of them, and \(P^{-1} = P^{\mathsf T}\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (\(PA = LU\))</p>
+                        <p>For any invertible \(A\) there is a permutation \(P\) that puts the rows in an order requiring no exchanges during elimination, so \(PA = LU\). In practice software chooses \(P\) by <em>partial pivoting</em>: at each step, swap up the row whose entry in the pivot column is largest in absolute value, which keeps the multipliers \(|\ell_{ij}| \le 1\) and controls round-off.</p>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Solve \(x + y = 3,\ 3x - 2y = 4\), and describe the column picture of your answer.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Row 2 \(-\) 3&times;row 1: \(-5y = -5\), so \(y = 1\), \(x = 2\). Column picture: \(2(1,3) + 1(1,-2) = (3,4)\).</p>
+                                </details>
+                            </li>
+                            <li>Find the \(LU\) factorization of \(\begin{bmatrix} 2 &amp; 3 \\ 6 &amp; 11 \end{bmatrix}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\ell_{21} = 3\); row 2 becomes \((0, 11 - 9) = (0, 2)\). \(L = \begin{bmatrix} 1 &amp; 0 \\ 3 &amp; 1 \end{bmatrix}\), \(U = \begin{bmatrix} 2 &amp; 3 \\ 0 &amp; 2 \end{bmatrix}\).</p>
+                                </details>
+                            </li>
+                            <li>For which \(a\) does elimination fail on \(\begin{bmatrix} 1 &amp; a \\ a &amp; 1 \end{bmatrix}\)? Is the failure temporary or permanent?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Second pivot \(1 - a^2\). It is zero for \(a = \pm1\), and there is no row below to swap in, so the failure is permanent: the matrix is singular (its rows are equal or opposite).</p>
+                                </details>
+                            </li>
+                            <li>Invert \(\begin{bmatrix} 4 &amp; 7 \\ 2 &amp; 4 \end{bmatrix}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(ad - bc = 16 - 14 = 2\), so the inverse is \(\tfrac12\begin{bmatrix} 4 &amp; -7 \\ -2 &amp; 4 \end{bmatrix} = \begin{bmatrix} 2 &amp; -3.5 \\ -1 &amp; 2 \end{bmatrix}\).</p>
+                                </details>
+                            </li>
+                            <li>Prove that \((A^{-1})^{\mathsf T} = (A^{\mathsf T})^{-1}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Transpose \(AA^{-1} = I\): \((A^{-1})^{\mathsf T}A^{\mathsf T} = I^{\mathsf T} = I\). So \((A^{-1})^{\mathsf T}\) is the inverse of \(A^{\mathsf T}\).</p>
+                                </details>
+                            </li>
+                            <li>Elimination on \(A = \begin{bmatrix} 0 &amp; 2 \\ 3 &amp; 1 \end{bmatrix}\) needs a row exchange. Find \(P\), \(L\), \(U\) with \(PA = LU\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(P = \begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}\) gives \(PA = \begin{bmatrix} 3 &amp; 1 \\ 0 &amp; 2 \end{bmatrix}\), already upper triangular, so \(L = I\) and \(U = PA\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-spaces">
+                    <h2>3. Vector spaces and subspaces</h2>
+                    <p class="ref">Strang Ch. 3 (and Ch. 8 for linear transformations) &middot; Lay Ch. 1, 2 and 4</p>
+
+                    <p>Chapter 2 handled square, invertible matrices. Real problems are often rectangular or singular: more equations than unknowns, redundant equations, free parameters. To describe <em>all</em> solutions &mdash; or say precisely why there are none &mdash; we need the language of subspaces. The headline result is that every matrix carries four subspaces whose dimensions are fixed by a single number, the rank.</p>
+
+                    <h3 id="sp-subspaces">3.1 Vector spaces, subspaces and the column space</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (vector space, subspace)</p>
+                        <p>A <strong>vector space</strong> is a set of objects that can be added and multiplied by scalars, obeying the usual rules (associativity, commutativity of addition, a zero vector, additive inverses, distributivity, \(1\mathbf{v} = \mathbf{v}\)). Examples: \(\mathbb{R}^n\), \(\mathbb{C}^n\), the \(m\times n\) matrices, polynomials of degree \(\le d\), continuous functions on \([a,b]\), solutions of a linear homogeneous ODE.</p>
+                        <p>A <strong>subspace</strong> of a vector space is a nonempty subset closed under addition and scalar multiplication: if \(\mathbf{v}, \mathbf{w}\) are in it, so is \(c\mathbf{v} + d\mathbf{w}\). Every subspace contains \(\mathbf{0}\).</p>
+                    </div>
+
+                    <p>The subspaces of \(\mathbb{R}^3\) are: \(\{\mathbf{0}\}\), lines through the origin, planes through the origin, and \(\mathbb{R}^3\) itself. A line or plane that misses the origin is <em>not</em> a subspace.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (column space)</p>
+                        <p>The <strong>column space</strong> \(C(A)\) of an \(m\times n\) matrix is the span of its columns, a subspace of \(\mathbb{R}^m\). Equivalently, \(C(A) = \{A\mathbf{x} : \mathbf{x}\in\mathbb{R}^n\}\), the range of the map \(\mathbf{x}\mapsto A\mathbf{x}\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (solvability)</p>
+                        <p>\(A\mathbf{x} = \mathbf{b}\) has a solution if and only if \(\mathbf{b} \in C(A)\).</p>
+                    </div>
+
+                    <h3 id="sp-nullspace">3.2 The nullspace and reduced row echelon form</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (nullspace)</p>
+                        <p>The <strong>nullspace</strong> \(N(A) = \{\mathbf{x}\in\mathbb{R}^n : A\mathbf{x} = \mathbf{0}\}\). It is a subspace of \(\mathbb{R}^n\): if \(A\mathbf{x} = A\mathbf{y} = \mathbf{0}\) then \(A(c\mathbf{x} + d\mathbf{y}) = \mathbf{0}\).</p>
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (echelon forms)</p>
+                        <p>A matrix is in <strong>row echelon form</strong> if all zero rows are at the bottom and each row's first nonzero entry (its pivot) lies strictly to the right of the pivot above it. It is in <strong>reduced row echelon form</strong> \(R = \operatorname{rref}(A)\) if, in addition, every pivot equals 1 and is the only nonzero entry in its column. The RREF of a matrix is unique.</p>
+                        <p>Columns containing pivots are <strong>pivot columns</strong>; the others are <strong>free columns</strong>, and their variables are <strong>free variables</strong>.</p>
+                    </div>
+
+                    <p>Row operations do not change the nullspace (they are invertible operations on the equations), so \(N(A) = N(R)\). From \(R\) the nullspace can be read off directly: set one free variable to 1, the other free variables to 0, and solve for the pivot variables. Each such vector is a <strong>special solution</strong>, and the special solutions form a basis of \(N(A)\).</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.1</p>
+                        <p>Find the RREF, rank and a basis for the nullspace of</p>
+                        \[ A = \begin{bmatrix} 1 &amp; 2 &amp; 0 &amp; 1 \\ 2 &amp; 4 &amp; 1 &amp; 4 \\ 3 &amp; 6 &amp; 1 &amp; 5 \end{bmatrix}. \]
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Row 2 \(-\) 2&times;row 1 gives \((0,0,1,2)\); row 3 \(-\) 3&times;row 1 gives \((0,0,1,2)\). Column 2 has no pivot, so move to column 3: row 3 \(-\) row 2 gives a zero row.</p>
+                            \[ R = \begin{bmatrix} \boxed{1} &amp; 2 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; \boxed{1} &amp; 2 \\ 0 &amp; 0 &amp; 0 &amp; 0 \end{bmatrix}. \]
+                            <p>(Row 1 already has a 0 above the second pivot, so this is reduced.) Pivot columns 1 and 3; free columns 2 and 4. <strong>Rank \(r = 2\).</strong></p>
+                            <p>\(R\mathbf{x} = \mathbf{0}\) reads \(x_1 = -2x_2 - x_4\), \(x_3 = -2x_4\).</p>
+                            <ul>
+                                <li>\(x_2 = 1, x_4 = 0\): \(\mathbf{s}_1 = (-2, 1, 0, 0)\).</li>
+                                <li>\(x_2 = 0, x_4 = 1\): \(\mathbf{s}_2 = (-1, 0, -2, 1)\).</li>
+                            </ul>
+                            <p>\(N(A) = \{a\mathbf{s}_1 + b\mathbf{s}_2\}\), a 2-dimensional subspace of \(\mathbb{R}^4\). Check \(\mathbf{s}_2\) in the original \(A\): \(-1 + 0 + 0 + 1 = 0\), \(-2 + 0 - 2 + 4 = 0\), \(-3 + 0 - 2 + 5 = 0\). ✓</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Count first, compute second. With \(n\) unknowns and rank \(r\), there are \(r\) pivot variables and \(n - r\) free variables, hence \(n - r\) special solutions. If \((n gt m)\) (more unknowns than equations), then \(r \le m \lt n\), so there is always at least one free variable and a nonzero nullspace vector.</p>
+                    </div>
+
+                    <h3 id="sp-complete">3.3 Rank and the complete solution of \(A\mathbf{x} = \mathbf{b}\)</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (rank)</p>
+                        <p>The <strong>rank</strong> \(r\) of \(A\) is the number of pivots. Equivalently: the dimension of the column space, the dimension of the row space, the number of independent columns, the number of independent rows. Always \(r \le \min(m, n)\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (structure of all solutions)</p>
+                        <p>If \(A\mathbf{x} = \mathbf{b}\) is solvable and \(\mathbf{x}_p\) is any one particular solution, then the complete solution is</p>
+                        \[ \mathbf{x} = \mathbf{x}_p + \mathbf{x}_n, \qquad \mathbf{x}_n \in N(A). \]
+                        <p>Proof: if \(A\mathbf{x} = \mathbf{b}\) then \(A(\mathbf{x} - \mathbf{x}_p) = \mathbf{b} - \mathbf{b} = \mathbf{0}\), so \(\mathbf{x} - \mathbf{x}_p \in N(A)\); conversely \(A(\mathbf{x}_p + \mathbf{x}_n) = \mathbf{b} + \mathbf{0}\). \(\blacksquare\)</p>
+                    </div>
+                    <p>This is the same structure as "particular solution + homogeneous solution" for linear ODEs, and for the same reason: linearity.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">The four rank cases (\(A\) is \(m\times n\), rank \(r\))</p>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Case</th><th>Shape of \(R\)</th><th>Solutions of \(A\mathbf{x}=\mathbf{b}\)</th></tr></thead>
+                                <tbody>
+                                    <tr><td>\(r = m = n\)</td><td>\(I\)</td><td>exactly one (invertible)</td></tr>
+                                    <tr><td>\(r = m \lt n\)</td><td>\([\,I \;\; F\,]\) (columns may interleave)</td><td>infinitely many, for every \(\mathbf{b}\)</td></tr>
+                                    <tr><td>\(r = n \lt m\)</td><td>\(\begin{bmatrix} I \\ 0 \end{bmatrix}\)</td><td>0 or 1</td></tr>
+                                    <tr><td>\(r \lt m,\ r \lt n\)</td><td>\(\begin{bmatrix} I &amp; F \\ 0 &amp; 0 \end{bmatrix}\)</td><td>0 or infinitely many</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.2</p>
+                        <p>For the matrix \(A\) of Example 3.1, find the condition on \(\mathbf{b}\) for \(A\mathbf{x} = \mathbf{b}\) to be solvable, and find the complete solution when \(\mathbf{b} = (1, 3, 4)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Apply the same row operations to \([A \mid \mathbf{b}]\) with a general \(\mathbf{b} = (b_1, b_2, b_3)\):</p>
+                            \[ \left[\begin{array}{cccc|c} 1 &amp; 2 &amp; 0 &amp; 1 &amp; b_1 \\ 0 &amp; 0 &amp; 1 &amp; 2 &amp; b_2 - 2b_1 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; b_3 - b_2 - b_1 \end{array}\right]. \]
+                            <p>(Row 3 became \(b_3 - 3b_1 - (b_2 - 2b_1) = b_3 - b_2 - b_1\).) The zero row demands \(b_3 = b_1 + b_2\). This makes sense: row 3 of \(A\) equals row 1 + row 2.</p>
+                            <p>For \(\mathbf{b} = (1,3,4)\): \(4 = 1 + 3\) ✓. The reduced system is \(x_1 + 2x_2 + x_4 = 1\), \(x_3 + 2x_4 = 1\). Setting the free variables \(x_2 = x_4 = 0\) gives \(\mathbf{x}_p = (1, 0, 1, 0)\). Check: \(A\mathbf{x}_p = (1+0, 2+1, 3+1) = (1, 3, 4)\). ✓</p>
+                            \[ \mathbf{x} = \begin{bmatrix} 1 \\ 0 \\ 1 \\ 0 \end{bmatrix} + a\begin{bmatrix} -2 \\ 1 \\ 0 \\ 0 \end{bmatrix} + b\begin{bmatrix} -1 \\ 0 \\ -2 \\ 1 \end{bmatrix}, \qquad a, b \in \mathbb{R}. \]
+                            <p>Geometrically: a 2-dimensional plane in \(\mathbb{R}^4\), parallel to \(N(A)\) but shifted off the origin by \(\mathbf{x}_p\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>The solution set of \(A\mathbf{x} = \mathbf{b}\) with \(\mathbf{b} \ne \mathbf{0}\) is <em>not</em> a subspace (it does not contain \(\mathbf{0}\)); it is a translate of one. And the particular solution is not unique &mdash; any solution will do; the free-variables-equal-zero choice is just convenient.</p>
+                    </div>
+
+                    <h3 id="sp-basis">3.4 Independence, basis and dimension</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (independence, basis, dimension)</p>
+                        <p>Vectors \(\mathbf{v}_1, \dots, \mathbf{v}_k\) are <strong>linearly independent</strong> if the only combination giving zero is the trivial one: \(c_1\mathbf{v}_1 + \cdots + c_k\mathbf{v}_k = \mathbf{0} \Rightarrow\) all \(c_i = 0\). Equivalently, the matrix with these columns has \(N = \{\mathbf{0}\}\), i.e. rank \(k\).</p>
+                        <p>A <strong>basis</strong> for a space \(V\) is an independent set that spans \(V\). Every vector in \(V\) is then a combination of the basis vectors in <em>exactly one</em> way; those unique coefficients are its <strong>coordinates</strong>.</p>
+                        <p>All bases of \(V\) have the same number of vectors; that number is the <strong>dimension</strong> \(\dim V\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (counting)</p>
+                        <p>In a space of dimension \(d\): any set of more than \(d\) vectors is dependent; any set of fewer than \(d\) vectors cannot span; and a set of exactly \(d\) vectors is independent if and only if it spans. In particular, any \(n+1\) vectors in \(\mathbb{R}^n\) are dependent.</p>
+                    </div>
+                    <p><strong>Why bases have the same size (sketch).</strong> Suppose \(\mathbf{v}_1,\dots,\mathbf{v}_m\) span \(V\) and \(\mathbf{w}_1,\dots,\mathbf{w}_n\) are in \(V\) with \((n gt m)\). Write each \(\mathbf{w}_j = \sum_i a_{ij}\mathbf{v}_i\), i.e. \(W = VA\) with \(A\) of size \(m\times n\). Since \((n gt m)\), \(A\mathbf{c} = \mathbf{0}\) has a nonzero solution, and then \(W\mathbf{c} = VA\mathbf{c} = \mathbf{0}\): the \(\mathbf{w}\)'s are dependent. So an independent set can never outnumber a spanning set, and two bases must have equal size. \(\blacksquare\)</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.3</p>
+                        <p>Are \(\mathbf{v}_1 = (1, 2, 1)\), \(\mathbf{v}_2 = (2, 1, 0)\), \(\mathbf{v}_3 = (1, -1, -1)\) independent? Find a basis and the dimension of their span.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Put them in columns and eliminate:</p>
+                            \[ \begin{bmatrix} 1 &amp; 2 &amp; 1 \\ 2 &amp; 1 &amp; -1 \\ 1 &amp; 0 &amp; -1 \end{bmatrix} \to \begin{bmatrix} 1 &amp; 2 &amp; 1 \\ 0 &amp; -3 &amp; -3 \\ 0 &amp; -2 &amp; -2 \end{bmatrix} \to \begin{bmatrix} 1 &amp; 2 &amp; 1 \\ 0 &amp; -3 &amp; -3 \\ 0 &amp; 0 &amp; 0 \end{bmatrix}. \]
+                            <p>(Third step: row 3 \(-\) \(\tfrac23\)&times;row 2.) Only two pivots, so the vectors are <strong>dependent</strong>. The free column 3 gives the special solution \(c_3 = 1\), \(-3c_2 - 3 = 0 \Rightarrow c_2 = -1\), \(c_1 - 2 + 1 = 0 \Rightarrow c_1 = 1\): indeed \(\mathbf{v}_1 - \mathbf{v}_2 + \mathbf{v}_3 = (1-2+1,\ 2-1-1,\ 1-0-1) = \mathbf{0}\). ✓</p>
+                            <p>The pivot columns \(\mathbf{v}_1, \mathbf{v}_2\) form a basis of the span, which is a plane: dimension 2.</p>
+                        </details>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>The pivot columns of the <em>original</em> \(A\) form a basis for \(C(A)\) &mdash; not the pivot columns of \(R\). Row operations change the column space (though they preserve which columns are independent). By contrast, the nonzero rows of \(R\) <em>do</em> form a basis for the row space, since row operations do not change the row space.</p>
+                    </div>
+
+                    <h3 id="sp-four">3.5 The four fundamental subspaces</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (the four subspaces of an \(m\times n\) matrix \(A\))</p>
+                        <ul>
+                            <li><strong>Column space</strong> \(C(A) \subseteq \mathbb{R}^m\): all \(A\mathbf{x}\).</li>
+                            <li><strong>Nullspace</strong> \(N(A) \subseteq \mathbb{R}^n\): all \(\mathbf{x}\) with \(A\mathbf{x} = \mathbf{0}\).</li>
+                            <li><strong>Row space</strong> \(C(A^{\mathsf T}) \subseteq \mathbb{R}^n\): all combinations of the rows.</li>
+                            <li><strong>Left nullspace</strong> \(N(A^{\mathsf T}) \subseteq \mathbb{R}^m\): all \(\mathbf{y}\) with \(A^{\mathsf T}\mathbf{y} = \mathbf{0}\), i.e. \(\mathbf{y}^{\mathsf T}A = \mathbf{0}^{\mathsf T}\).</li>
+                        </ul>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Fundamental Theorem of Linear Algebra, Part 1 (dimensions)</p>
+                        \[ \dim C(A) = \dim C(A^{\mathsf T}) = r, \qquad \dim N(A) = n - r, \qquad \dim N(A^{\mathsf T}) = m - r. \]
+                        <p>In particular (<strong>rank&ndash;nullity</strong>): \(\dim C(A^{\mathsf T}) + \dim N(A) = n\) and \(\dim C(A) + \dim N(A^{\mathsf T}) = m\).</p>
+                    </div>
+
+                    <p><strong>Proof of rank&ndash;nullity.</strong> Reduce \(A\) to \(R\). Row operations preserve the row space and the nullspace. The \(r\) nonzero rows of \(R\) are independent (each has a 1 in a pivot column where the others have 0), so \(\dim C(A^{\mathsf T}) = r\). The \(n - r\) special solutions span \(N(A)\) (every solution is determined by its free variables) and are independent (each has a 1 in its own free slot where the others have 0), so \(\dim N(A) = n - r\). Applying the same argument to \(A^{\mathsf T}\), which has \(m\) columns and the same rank (column rank = row rank, since the \(r\) pivot columns of \(A\) form a basis for \(C(A)\)), gives \(\dim N(A^{\mathsf T}) = m - r\). \(\blacksquare\)</p>
+
+                    <p>Part 2 of the fundamental theorem (orthogonality: \(N(A) \perp C(A^{\mathsf T})\) and \(N(A^{\mathsf T}) \perp C(A)\)) is in Chapter 4. Together they give the "big picture": \(A\) maps its row space one-to-one onto its column space, and crushes the nullspace to zero.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.4</p>
+                        <p>Find bases for all four subspaces of the matrix \(A\) of Example 3.1 and verify the dimension counts.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Here \(m = 3\), \(n = 4\), \(r = 2\).</p>
+                            <ul>
+                                <li>\(C(A)\): pivot columns 1 and 3 of \(A\): \((1,2,3)\) and \((0,1,1)\). Dimension 2.</li>
+                                <li>\(C(A^{\mathsf T})\): nonzero rows of \(R\): \((1,2,0,1)\) and \((0,0,1,2)\). Dimension 2.</li>
+                                <li>\(N(A)\): special solutions \((-2,1,0,0)\), \((-1,0,-2,1)\). Dimension \(4 - 2 = 2\).</li>
+                                <li>\(N(A^{\mathsf T})\): we need \(\mathbf{y}^{\mathsf T}A = \mathbf{0}\), a combination of rows giving zero. Since row 3 = row 1 + row 2, \(\mathbf{y} = (1, 1, -1)\). Dimension \(3 - 2 = 1\).</li>
+                            </ul>
+                            <p>Orthogonality check (preview of Chapter 4): \((1,1,-1)\cdot(1,2,3) = 0\), \((1,1,-1)\cdot(0,1,1) = 0\); \((1,2,0,1)\cdot(-1,0,-2,1) = 0\), \((0,0,1,2)\cdot(-1,0,-2,1) = 0\), and similarly for \((-2,1,0,0)\). ✓ Note the left nullspace is exactly the solvability condition from Example 3.2: \(\mathbf{b} \in C(A) \iff \mathbf{y}\cdot\mathbf{b} = b_1 + b_2 - b_3 = 0\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Engineering connection</p>
+                        <p>For the incidence matrix of an electrical network (rows = edges, columns = nodes), the nullspace is the constant potentials (you can ground any node), the left nullspace is the loop currents satisfying Kirchhoff's current law, and \(\dim N(A^{\mathsf T}) = m - r\) counts independent loops: edges \(-\) nodes \(+\) 1 for a connected graph. That is Euler's formula, derived from rank&ndash;nullity.</p>
+                    </div>
+
+                    <h3 id="sp-transform">3.6 Linear transformations and their matrices</h3>
+
+                    <p>Linear maps exist between any vector spaces, not just \(\mathbb{R}^n\). Choosing a basis in each space turns the map into a matrix, and changing the bases changes the matrix &mdash; a key idea behind diagonalization and the SVD.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (matrix of a linear map)</p>
+                        <p>Let \(T: V \to W\) be linear, with basis \(\mathbf{v}_1, \dots, \mathbf{v}_n\) for \(V\) and \(\mathbf{w}_1, \dots, \mathbf{w}_m\) for \(W\). Write \(T(\mathbf{v}_j) = \sum_i a_{ij}\mathbf{w}_i\). Then the \(m\times n\) matrix \(A = [a_{ij}]\) satisfies: coordinates of \(T(\mathbf{v})\) \(= A \times\) (coordinates of \(\mathbf{v}\)). Column \(j\) of \(A\) holds the coordinates of \(T(\mathbf{v}_j)\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (change of basis)</p>
+                        <p>If \(T:\mathbb{R}^n\to\mathbb{R}^n\) has standard matrix \(A\), and the columns of an invertible \(B\) form a new basis, then the matrix of \(T\) in the new basis is \(B^{-1}AB\). Matrices related this way are called <strong>similar</strong>; they represent the same map and share eigenvalues, determinant, trace and rank.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.5</p>
+                        <p>Let \(D = \tfrac{d}{dx}\) act on polynomials of degree \(\le 3\), with values in polynomials of degree \(\le 2\). Using bases \(1, x, x^2, x^3\) and \(1, x, x^2\), find the matrix of \(D\), its rank and nullspace, and use it to differentiate \(p(x) = 4 - x + 5x^3\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Images of the input basis: \(D(1) = 0\), \(D(x) = 1\), \(D(x^2) = 2x\), \(D(x^3) = 3x^2\). Their coordinates are the columns:</p>
+                            \[ A = \begin{bmatrix} 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 2 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 3 \end{bmatrix}. \]
+                            <p>Rank 3 (three pivots), so \(\dim N = 4 - 3 = 1\): the nullspace is spanned by \((1,0,0,0)\), the constant polynomials &mdash; exactly the functions with zero derivative. The column space is all of \(\mathbb{R}^3\): every quadratic is a derivative.</p>
+                            <p>\(p\) has coordinates \((4, -1, 0, 5)\), and \(A(4,-1,0,5) = (-1, 0, 15)\), i.e. \(p'(x) = -1 + 15x^2\). ✓</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Is the set of vectors \((x,y,z)\) with \(x + y + z = 1\) a subspace of \(\mathbb{R}^3\)? With \(x + y + z = 0\)?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>The first is not (it does not contain \(\mathbf{0}\); also, the sum of two members has coordinate sum 2). The second is: it is \(N\big([1\;1\;1]\big)\), a plane through the origin of dimension 2.</p>
+                                </details>
+                            </li>
+                            <li>Find the rank and nullspace of \(\begin{bmatrix} 1 &amp; 3 \\ 2 &amp; 6 \end{bmatrix}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Row 2 \(-\) 2&times;row 1 = 0, so \(r = 1\). \(x_1 + 3x_2 = 0\): \(N\) is spanned by \((-3, 1)\).</p>
+                                </details>
+                            </li>
+                            <li>\(A\) is \(5\times7\) with rank 3. Give the dimensions of all four subspaces. Can \(A\mathbf{x} = \mathbf{b}\) be solvable for every \(\mathbf{b}\)?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\dim C(A) = \dim C(A^{\mathsf T}) = 3\), \(\dim N(A) = 7 - 3 = 4\), \(\dim N(A^{\mathsf T}) = 5 - 3 = 2\). No: \(C(A)\) is a 3-dimensional subspace of \(\mathbb{R}^5\), so most \(\mathbf{b}\) are unreachable.</p>
+                                </details>
+                            </li>
+                            <li>Find the complete solution of the single equation \(x + 2y - z = 4\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\mathbf{x}_p = (4,0,0)\); free variables \(y, z\) give special solutions \((-2,1,0)\) and \((1,0,1)\). \(\mathbf{x} = (4,0,0) + a(-2,1,0) + b(1,0,1)\): a plane in \(\mathbb{R}^3\) not through the origin.</p>
+                                </details>
+                            </li>
+                            <li>Find a basis for the span of \((1,1,0,0)\), \((0,1,1,0)\), \((1,2,1,0)\), \((0,0,0,1)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>The third vector is the sum of the first two; the other three are independent (look at which components are nonzero). Basis: \((1,1,0,0), (0,1,1,0), (0,0,0,1)\); dimension 3.</p>
+                                </details>
+                            </li>
+                            <li>Let \(T\) reflect \(\mathbb{R}^2\) across the line \(y = x\). Give its matrix in the standard basis and in the basis \(\mathbf{v}_1 = (1,1)\), \(\mathbf{v}_2 = (1,-1)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Standard: \(\begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}\). Since \(T\mathbf{v}_1 = \mathbf{v}_1\) and \(T\mathbf{v}_2 = -\mathbf{v}_2\), the matrix in the new basis is \(\begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix}\). This basis is made of eigenvectors &mdash; the theme of Chapter 6.</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-orthogonality">
+                    <h2>4. Orthogonality</h2>
+                    <p class="ref">Strang Ch. 4 &middot; Lay Ch. 6</p>
+
+                    <p>When \(A\mathbf{x} = \mathbf{b}\) has no solution &mdash; the typical situation with more measurements than unknowns &mdash; the best we can do is find the \(\mathbf{x}\) that makes \(A\mathbf{x}\) as close to \(\mathbf{b}\) as possible. "Closest" means "the error is perpendicular", so the whole chapter rests on orthogonality: orthogonal subspaces, projections, least squares, and finally orthonormal bases, which make every computation easy.</p>
+
+                    <h3 id="orth-subspaces">4.1 Orthogonal subspaces</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (orthogonal subspaces, orthogonal complement)</p>
+                        <p>Subspaces \(V\) and \(W\) of \(\mathbb{R}^n\) are <strong>orthogonal</strong> if \(\mathbf{v}\cdot\mathbf{w} = 0\) for every \(\mathbf{v}\in V\), \(\mathbf{w}\in W\). The <strong>orthogonal complement</strong> \(V^\perp\) is the set of <em>all</em> vectors orthogonal to every vector of \(V\). It is a subspace, and \(\dim V + \dim V^\perp = n\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Fundamental Theorem of Linear Algebra, Part 2</p>
+                        \[ N(A) = C(A^{\mathsf T})^{\perp} \text{ in } \mathbb{R}^n, \qquad N(A^{\mathsf T}) = C(A)^{\perp} \text{ in } \mathbb{R}^m. \]
+                    </div>
+                    <p><strong>Proof.</strong> \(A\mathbf{x} = \mathbf{0}\) says precisely that every row of \(A\) has zero dot product with \(\mathbf{x}\); hence \(\mathbf{x}\) is orthogonal to every combination of rows. So \(N(A) \subseteq C(A^{\mathsf T})^\perp\), and the reverse inclusion is the same statement read backwards. Apply this to \(A^{\mathsf T}\) for the second identity. \(\blacksquare\)</p>
+
+                    <p>Consequence: every \(\mathbf{x}\in\mathbb{R}^n\) splits uniquely as \(\mathbf{x} = \mathbf{x}_r + \mathbf{x}_n\) with \(\mathbf{x}_r\) in the row space and \(\mathbf{x}_n\) in the nullspace, and \(A\mathbf{x} = A\mathbf{x}_r\). Also: \(A\mathbf{x} = \mathbf{b}\) is solvable \(\iff\) \(\mathbf{b}\) is orthogonal to every \(\mathbf{y}\) with \(A^{\mathsf T}\mathbf{y} = \mathbf{0}\) (the <em>Fredholm alternative</em>).</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Orthogonal is stronger than "intersecting only at zero". Two different lines through the origin in a plane meet only at \(\mathbf{0}\) but are orthogonal only if they meet at \(90^\circ\). Likewise two planes in \(\mathbb{R}^3\) are never orthogonal subspaces (dimensions \(2 + 2 \gt 3\)), even if they look perpendicular, because they share a line.</p>
+                    </div>
+
+                    <h3 id="orth-projection">4.2 Projections</h3>
+
+                    <p><strong>Onto a line.</strong> To project \(\mathbf{b}\) onto the line through \(\mathbf{a}\), find \(\hat{x}\) so that the error \(\mathbf{e} = \mathbf{b} - \hat{x}\mathbf{a}\) is perpendicular to \(\mathbf{a}\): \(\mathbf{a}\cdot(\mathbf{b} - \hat x\mathbf{a}) = 0\).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (projection onto a line)</p>
+                        \[ \hat x = \frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\mathbf{a}^{\mathsf T}\mathbf{a}}, \qquad \mathbf{p} = \hat x\,\mathbf{a}, \qquad P = \frac{\mathbf{a}\mathbf{a}^{\mathsf T}}{\mathbf{a}^{\mathsf T}\mathbf{a}}. \]
+                    </div>
+
+                    <p><strong>Onto a subspace.</strong> Let the subspace be \(C(A)\), where \(A\) is \(m\times n\) with independent columns. We want \(\mathbf{p} = A\hat{\mathbf{x}}\) such that \(\mathbf{e} = \mathbf{b} - A\hat{\mathbf{x}}\) is perpendicular to the subspace, i.e. to every column of \(A\):</p>
+                    \[ A^{\mathsf T}(\mathbf{b} - A\hat{\mathbf{x}}) = \mathbf{0} \quad\Longleftrightarrow\quad A^{\mathsf T}A\,\hat{\mathbf{x}} = A^{\mathsf T}\mathbf{b}. \]
+                    <p>These are the <strong>normal equations</strong>. In the language of Part 2: \(\mathbf{e}\) must lie in \(C(A)^\perp = N(A^{\mathsf T})\).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (projection onto \(C(A)\))</p>
+                        <p>If \(A\) has independent columns, then \(A^{\mathsf T}A\) is invertible and</p>
+                        \[ \hat{\mathbf{x}} = (A^{\mathsf T}A)^{-1}A^{\mathsf T}\mathbf{b}, \qquad \mathbf{p} = A\hat{\mathbf{x}}, \qquad P = A(A^{\mathsf T}A)^{-1}A^{\mathsf T}. \]
+                        <p>\(P\) is symmetric and idempotent: \(P^{\mathsf T} = P\) and \(P^2 = P\). Conversely, every matrix with \(P^{\mathsf T} = P = P^2\) is the orthogonal projection onto its column space. \(I - P\) projects onto the orthogonal complement.</p>
+                    </div>
+                    <p><strong>Why \(A^{\mathsf T}A\) is invertible.</strong> If \(A^{\mathsf T}A\mathbf{x} = \mathbf{0}\), then \(0 = \mathbf{x}^{\mathsf T}A^{\mathsf T}A\mathbf{x} = \|A\mathbf{x}\|^2\), so \(A\mathbf{x} = \mathbf{0}\), so \(\mathbf{x} = \mathbf{0}\) by independence of the columns. In general \(N(A^{\mathsf T}A) = N(A)\) and \(\operatorname{rank}(A^{\mathsf T}A) = \operatorname{rank}(A)\). \(\blacksquare\)</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.1</p>
+                        <p>Project \(\mathbf{b} = (2, 3, 4)\) onto the line through \(\mathbf{a} = (1, 1, 1)\). Give \(\mathbf{p}\), \(\mathbf{e}\) and \(P\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\mathbf{a}^{\mathsf T}\mathbf{b} = 9\), \(\mathbf{a}^{\mathsf T}\mathbf{a} = 3\), so \(\hat x = 3\) and \(\mathbf{p} = (3, 3, 3)\). The error is \(\mathbf{e} = \mathbf{b} - \mathbf{p} = (-1, 0, 1)\); check \(\mathbf{e}\cdot\mathbf{a} = 0\). ✓</p>
+                            \[ P = \frac{1}{3}\begin{bmatrix} 1 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; 1 \end{bmatrix}. \]
+                            <p>Interpretation: projecting onto \((1,1,1)\) replaces every component by the average. The error is the deviation from the mean.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.2</p>
+                        <p>Project \(\mathbf{b} = (1, 2, 0)\) onto the plane spanned by \((1, 0, 1)\) and \((0, 1, 1)\). Find the projection matrix.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Put the spanning vectors in the columns of \(A\):</p>
+                            \[ A = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \\ 1 &amp; 1 \end{bmatrix}, \qquad A^{\mathsf T}A = \begin{bmatrix} 2 &amp; 1 \\ 1 &amp; 2 \end{bmatrix}, \qquad A^{\mathsf T}\mathbf{b} = \begin{bmatrix} 1 \\ 2 \end{bmatrix}. \]
+                            <p>\((A^{\mathsf T}A)^{-1} = \tfrac13\begin{bmatrix} 2 &amp; -1 \\ -1 &amp; 2 \end{bmatrix}\), so \(\hat{\mathbf{x}} = \tfrac13(2 - 2,\ -1 + 4) = (0, 1)\).</p>
+                            <p>\(\mathbf{p} = A\hat{\mathbf{x}} = (0, 1, 1)\) and \(\mathbf{e} = \mathbf{b} - \mathbf{p} = (1, 1, -1)\). Check: \(\mathbf{e}\cdot(1,0,1) = 0\), \(\mathbf{e}\cdot(0,1,1) = 0\). ✓</p>
+                            <p>Projection matrix: \(A(A^{\mathsf T}A)^{-1} = \tfrac13\begin{bmatrix} 2 &amp; -1 \\ -1 &amp; 2 \\ 1 &amp; 1 \end{bmatrix}\), then multiplying by \(A^{\mathsf T}\):</p>
+                            \[ P = \frac13\begin{bmatrix} 2 &amp; -1 &amp; 1 \\ -1 &amp; 2 &amp; 1 \\ 1 &amp; 1 &amp; 2 \end{bmatrix}. \]
+                            <p>Cross-check: the plane's normal is \(\mathbf{n} = (1, 1, -1)\) (orthogonal to both columns), and \(P = I - \mathbf{n}\mathbf{n}^{\mathsf T}/3\) gives the same matrix. Also \(P\mathbf{b} = \tfrac13(0, 3, 3) = (0,1,1)\). ✓</p>
+                        </details>
+                    </div>
+
+                    <h3 id="orth-leastsq">4.3 Least squares</h3>
+
+                    <p>An overdetermined system \(A\mathbf{x} = \mathbf{b}\) (\(m \gt n\)) usually has no solution. The <strong>least-squares solution</strong> \(\hat{\mathbf{x}}\) minimizes \(\|A\mathbf{x} - \mathbf{b}\|^2\). Geometrically, \(A\hat{\mathbf{x}}\) is the point of \(C(A)\) nearest to \(\mathbf{b}\) &mdash; the projection \(\mathbf{p}\) &mdash; so \(\hat{\mathbf{x}}\) solves the normal equations.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (least squares)</p>
+                        <p>\(\hat{\mathbf{x}}\) minimizes \(\|A\mathbf{x} - \mathbf{b}\|\) if and only if \(A^{\mathsf T}A\hat{\mathbf{x}} = A^{\mathsf T}\mathbf{b}\). The minimizer is unique when the columns of \(A\) are independent.</p>
+                    </div>
+                    <p><strong>Proof via Pythagoras.</strong> Let \(\hat{\mathbf{x}}\) satisfy the normal equations, so \(\mathbf{e} = \mathbf{b} - A\hat{\mathbf{x}}\) is orthogonal to \(C(A)\). For any \(\mathbf{x}\), \(\mathbf{b} - A\mathbf{x} = \mathbf{e} + A(\hat{\mathbf{x}} - \mathbf{x})\), the sum of two orthogonal vectors, so \(\|\mathbf{b} - A\mathbf{x}\|^2 = \|\mathbf{e}\|^2 + \|A(\hat{\mathbf{x}} - \mathbf{x})\|^2 \ge \|\mathbf{e}\|^2\). (Calculus gives the same equations: the gradient of \(\|A\mathbf{x} - \mathbf{b}\|^2\) is \(2A^{\mathsf T}(A\mathbf{x} - \mathbf{b})\).) \(\blacksquare\)</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.3 (fitting a straight line)</p>
+                        <p>Fit \(y = C + Dt\) to the data \((t, y) = (0, 1), (1, 3), (2, 4), (3, 4)\) by least squares. Find the residuals and verify they are orthogonal to the columns of \(A\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>One equation per data point, \(C + Dt_i = y_i\):</p>
+                            \[ A = \begin{bmatrix} 1 &amp; 0 \\ 1 &amp; 1 \\ 1 &amp; 2 \\ 1 &amp; 3 \end{bmatrix}, \quad \mathbf{b} = \begin{bmatrix} 1 \\ 3 \\ 4 \\ 4 \end{bmatrix}, \quad A^{\mathsf T}A = \begin{bmatrix} 4 &amp; 6 \\ 6 &amp; 14 \end{bmatrix}, \quad A^{\mathsf T}\mathbf{b} = \begin{bmatrix} 12 \\ 23 \end{bmatrix}. \]
+                            <p>(\(A^{\mathsf T}A\) entries: \(m = 4\), \(\sum t_i = 6\), \(\sum t_i^2 = 14\); \(A^{\mathsf T}\mathbf{b}\): \(\sum y_i = 12\), \(\sum t_iy_i = 0 + 3 + 8 + 12 = 23\).)</p>
+                            <p>Solve \(4C + 6D = 12\), \(6C + 14D = 23\). The determinant is \(56 - 36 = 20\):</p>
+                            \[ C = \frac{12\cdot14 - 6\cdot23}{20} = \frac{30}{20} = 1.5, \qquad D = \frac{4\cdot23 - 6\cdot12}{20} = \frac{20}{20} = 1. \]
+                            <p>Best line: \(y = 1.5 + t\). Fitted values \(\mathbf{p} = (1.5, 2.5, 3.5, 4.5)\); residuals \(\mathbf{e} = \mathbf{b} - \mathbf{p} = (-0.5, 0.5, 0.5, -0.5)\).</p>
+                            <p>Orthogonality: \(\sum e_i = 0\) (column of ones) and \(\sum t_ie_i = 0 + 0.5 + 1 - 1.5 = 0\) (column of \(t\)'s). ✓ Minimum squared error \(\|\mathbf{e}\|^2 = 4(0.25) = 1\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>"Least squares" only needs the model to be linear in the <em>unknown parameters</em>, not in \(t\). Fitting \(y = C + Dt + Et^2\), or \(y = C\cos\omega t + D\sin\omega t\) with known \(\omega\), is the same recipe with more columns in \(A\). In the lab this is how you extract a calibration curve or the parameters of a sinusoid buried in noise.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Do not "solve" \(A\mathbf{x} = \mathbf{b}\) by writing \(\mathbf{x} = A^{-1}\mathbf{b}\) for a rectangular \(A\), and do not cancel \(A^{\mathsf T}\) from both sides of the normal equations &mdash; \(A^{\mathsf T}\) is not invertible when \(m \gt n\). Numerically, forming \(A^{\mathsf T}A\) squares the condition number; QR (below) or the SVD is preferred for ill-conditioned fits.</p>
+                    </div>
+
+                    <h3 id="orth-gs">4.4 Orthonormal bases and Gram&ndash;Schmidt</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (orthonormal, orthogonal matrix)</p>
+                        <p>Vectors \(\mathbf{q}_1, \dots, \mathbf{q}_n\) are <strong>orthonormal</strong> if \(\mathbf{q}_i^{\mathsf T}\mathbf{q}_j = 0\) for \(i\ne j\) and \(=1\) for \(i = j\). A matrix \(Q\) with orthonormal columns satisfies \(Q^{\mathsf T}Q = I\). If \(Q\) is also square it is an <strong>orthogonal matrix</strong>, and then \(Q^{-1} = Q^{\mathsf T}\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (why orthonormal columns are wonderful)</p>
+                        <ul>
+                            <li>\(Q\) preserves lengths and dot products: \(\|Q\mathbf{x}\| = \|\mathbf{x}\|\), \((Q\mathbf{x})\cdot(Q\mathbf{y}) = \mathbf{x}\cdot\mathbf{y}\), since \((Q\mathbf{x})^{\mathsf T}(Q\mathbf{y}) = \mathbf{x}^{\mathsf T}Q^{\mathsf T}Q\mathbf{y} = \mathbf{x}^{\mathsf T}\mathbf{y}\).</li>
+                            <li>Coordinates are dot products: if \(\mathbf{b} = \sum c_i\mathbf{q}_i\) then \(c_i = \mathbf{q}_i^{\mathsf T}\mathbf{b}\).</li>
+                            <li>Projection onto \(C(Q)\) needs no inverse: \(\hat{\mathbf{x}} = Q^{\mathsf T}\mathbf{b}\), \(P = QQ^{\mathsf T} = \sum_i \mathbf{q}_i\mathbf{q}_i^{\mathsf T}\).</li>
+                        </ul>
+                    </div>
+                    <p>Rotations, reflections and permutations are orthogonal matrices. The Fourier basis is orthogonal, which is why Fourier coefficients are computed by inner products.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Gram&ndash;Schmidt algorithm</p>
+                        <p>Given independent \(\mathbf{a}_1, \dots, \mathbf{a}_n\): for \(j = 1, \dots, n\), subtract from \(\mathbf{a}_j\) its projections onto the already-built \(\mathbf{q}\)'s, then normalize:</p>
+                        \[ \mathbf{A}_j = \mathbf{a}_j - \sum_{i \lt j} (\mathbf{q}_i^{\mathsf T}\mathbf{a}_j)\,\mathbf{q}_i, \qquad \mathbf{q}_j = \frac{\mathbf{A}_j}{\|\mathbf{A}_j\|}. \]
+                        <p>At every stage, \(\operatorname{span}(\mathbf{q}_1, \dots, \mathbf{q}_j) = \operatorname{span}(\mathbf{a}_1, \dots, \mathbf{a}_j)\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.4</p>
+                        <p>Apply Gram&ndash;Schmidt to \(\mathbf{a} = (1, 1, 0)\), \(\mathbf{b} = (1, 0, 1)\), \(\mathbf{c} = (0, 1, 1)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Step 1.</strong> \(\|\mathbf{a}\| = \sqrt2\), so \(\mathbf{q}_1 = \tfrac{1}{\sqrt2}(1, 1, 0)\).</p>
+                            <p><strong>Step 2.</strong> \(\mathbf{q}_1^{\mathsf T}\mathbf{b} = \tfrac{1}{\sqrt2}\), so</p>
+                            \[ \mathbf{B} = \mathbf{b} - \tfrac{1}{\sqrt2}\mathbf{q}_1 = (1, 0, 1) - \tfrac12(1, 1, 0) = \left(\tfrac12, -\tfrac12, 1\right), \qquad \|\mathbf{B}\| = \sqrt{\tfrac14 + \tfrac14 + 1} = \sqrt{\tfrac32}. \]
+                            <p>Hence \(\mathbf{q}_2 = \mathbf{B}/\|\mathbf{B}\| = \tfrac{1}{\sqrt6}(1, -1, 2)\).</p>
+                            <p><strong>Step 3.</strong> \(\mathbf{q}_1^{\mathsf T}\mathbf{c} = \tfrac{1}{\sqrt2}\) and \(\mathbf{q}_2^{\mathsf T}\mathbf{c} = \tfrac{0 - 1 + 2}{\sqrt6} = \tfrac{1}{\sqrt6}\), so</p>
+                            \[ \mathbf{C} = (0,1,1) - \tfrac12(1,1,0) - \tfrac16(1,-1,2) = \left(-\tfrac23, \tfrac23, \tfrac23\right), \qquad \mathbf{q}_3 = \tfrac{1}{\sqrt3}(-1, 1, 1). \]
+                            <p>Checks: \((1,1,0)\cdot(-1,1,1) = 0\), \((1,-1,2)\cdot(-1,1,1) = -1 - 1 + 2 = 0\), \((1,1,0)\cdot(1,-1,2) = 0\). ✓</p>
+                        </details>
+                    </div>
+
+                    <h3 id="orth-qr">4.5 QR factorization</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (\(A = QR\))</p>
+                        <p>Every \(m\times n\) matrix \(A\) with independent columns factors as \(A = QR\), where \(Q\) (\(m\times n\)) has orthonormal columns and \(R\) (\(n\times n\)) is upper triangular with positive diagonal. Here \(R = Q^{\mathsf T}A\), i.e. \(r_{ij} = \mathbf{q}_i^{\mathsf T}\mathbf{a}_j\); it is upper triangular because \(\mathbf{a}_j\) involves only \(\mathbf{q}_1, \dots, \mathbf{q}_j\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Least squares with QR</p>
+                        \[ A^{\mathsf T}A\hat{\mathbf{x}} = A^{\mathsf T}\mathbf{b} \;\Longrightarrow\; R^{\mathsf T}Q^{\mathsf T}QR\,\hat{\mathbf{x}} = R^{\mathsf T}Q^{\mathsf T}\mathbf{b} \;\Longrightarrow\; R\hat{\mathbf{x}} = Q^{\mathsf T}\mathbf{b}, \]
+                        <p>solved by back-substitution. No \(A^{\mathsf T}A\) is ever formed.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.5</p>
+                        <p>Write \(A = QR\) for \(A = \begin{bmatrix} 1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \end{bmatrix}\), whose columns are the vectors of Example 4.4.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(Q\) has columns \(\mathbf{q}_1, \mathbf{q}_2, \mathbf{q}_3\) from Example 4.4. The entries of \(R\) are dot products:</p>
+                            <p>\(r_{11} = \mathbf{q}_1^{\mathsf T}\mathbf{a} = \tfrac{2}{\sqrt2} = \sqrt2\), \(r_{12} = \mathbf{q}_1^{\mathsf T}\mathbf{b} = \tfrac{1}{\sqrt2}\), \(r_{13} = \mathbf{q}_1^{\mathsf T}\mathbf{c} = \tfrac1{\sqrt2}\), \(r_{22} = \mathbf{q}_2^{\mathsf T}\mathbf{b} = \tfrac{3}{\sqrt6}\), \(r_{23} = \mathbf{q}_2^{\mathsf T}\mathbf{c} = \tfrac{1}{\sqrt6}\), \(r_{33} = \mathbf{q}_3^{\mathsf T}\mathbf{c} = \tfrac{2}{\sqrt3}\).</p>
+                            \[ A = \begin{bmatrix} \tfrac{1}{\sqrt2} &amp; \tfrac{1}{\sqrt6} &amp; -\tfrac{1}{\sqrt3} \\ \tfrac{1}{\sqrt2} &amp; -\tfrac{1}{\sqrt6} &amp; \tfrac{1}{\sqrt3} \\ 0 &amp; \tfrac{2}{\sqrt6} &amp; \tfrac{1}{\sqrt3} \end{bmatrix} \begin{bmatrix} \sqrt2 &amp; \tfrac{1}{\sqrt2} &amp; \tfrac{1}{\sqrt2} \\ 0 &amp; \tfrac{3}{\sqrt6} &amp; \tfrac{1}{\sqrt6} \\ 0 &amp; 0 &amp; \tfrac{2}{\sqrt3} \end{bmatrix}. \]
+                            <p>Note \(r_{jj} = \|\mathbf{A}_j\|\): \(r_{22} = 3/\sqrt6 = \sqrt{3/2}\) and \(r_{33} = \|(-\tfrac23,\tfrac23,\tfrac23)\| = 2/\sqrt3\), matching Example 4.4. Spot check entry \((3,3)\) of \(QR\): \(0\cdot\tfrac1{\sqrt2} + \tfrac{2}{\sqrt6}\cdot\tfrac{1}{\sqrt6} + \tfrac{1}{\sqrt3}\cdot\tfrac{2}{\sqrt3} = \tfrac13 + \tfrac23 = 1\). ✓</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Project \(\mathbf{b} = (1, 0, 0)\) onto the line through \(\mathbf{a} = (1, 2, 2)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\hat x = 1/9\), \(\mathbf{p} = \tfrac19(1,2,2)\), \(\mathbf{e} = \tfrac19(8,-2,-2)\); check \(\mathbf{e}\cdot\mathbf{a} = \tfrac19(8 - 4 - 4) = 0\).</p>
+                                </details>
+                            </li>
+                            <li>Find a basis for the orthogonal complement of the line spanned by \((1, 2, 3)\) in \(\mathbb{R}^3\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>It is the plane \(x + 2y + 3z = 0\), i.e. \(N([1\;2\;3])\): basis \((-2,1,0)\), \((-3,0,1)\).</p>
+                                </details>
+                            </li>
+                            <li>Fit \(y = Ct\) (a line through the origin) to \((1, 2), (2, 3), (3, 7)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(A\) is the single column \((1,2,3)\): \(C = \dfrac{\sum t_iy_i}{\sum t_i^2} = \dfrac{2 + 6 + 21}{14} = \dfrac{29}{14} \approx 2.07\).</p>
+                                </details>
+                            </li>
+                            <li>Show that \(P = A(A^{\mathsf T}A)^{-1}A^{\mathsf T}\) satisfies \(P^2 = P\) and \(P^{\mathsf T} = P\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(P^2 = A(A^{\mathsf T}A)^{-1}(A^{\mathsf T}A)(A^{\mathsf T}A)^{-1}A^{\mathsf T} = P\). Transposing reverses order, and \(A^{\mathsf T}A\) is symmetric so its inverse is too: \(P^{\mathsf T} = A(A^{\mathsf T}A)^{-\mathsf T}A^{\mathsf T} = P\). Projecting twice changes nothing.</p>
+                                </details>
+                            </li>
+                            <li>Fit a horizontal line \(y = C\) to data \(b_1, \dots, b_m\). What is \(C\)?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(A\) is the column of ones: \(A^{\mathsf T}A = m\), \(A^{\mathsf T}\mathbf{b} = \sum b_i\), so \(C = \tfrac1m\sum b_i\), the mean. The least-squares error is \(m\) times the (population) variance.</p>
+                                </details>
+                            </li>
+                            <li>If \(Q\) is orthogonal, what can \(\det Q\) be? Give an example of each case in \(\mathbb{R}^2\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(1 = \det(Q^{\mathsf T}Q) = (\det Q)^2\), so \(\det Q = \pm1\). Rotations have \(+1\); reflections such as \(\begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix}\) have \(-1\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-determinants">
+                    <h2>5. Determinants</h2>
+                    <p class="ref">Strang Ch. 5 &middot; Lay Ch. 3</p>
+
+                    <p>The determinant packs a square matrix into one number that answers two questions at once: is \(A\) invertible (\(\det A \ne 0\)), and by what factor does \(A\) scale volumes (\(|\det A|\)), with the sign recording whether orientation is preserved. It is rarely the best way to <em>compute</em> anything for large matrices, but it is indispensable in theory: it gives the characteristic polynomial for eigenvalues, the Jacobian for change of variables, and (via antisymmetry) the Slater determinant for fermion wavefunctions.</p>
+
+                    <h3 id="det-properties">5.1 The defining properties</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (determinant by three properties)</p>
+                        <p>The determinant is the unique function of \(n\times n\) matrices satisfying:</p>
+                        <ol>
+                            <li>\(\det I = 1\).</li>
+                            <li>Exchanging two rows reverses the sign of the determinant.</li>
+                            <li>It is linear in each row separately (others held fixed): scaling one row by \(t\) multiplies \(\det\) by \(t\), and if one row is a sum \(\mathbf{r} + \mathbf{r}'\), the determinant splits as a sum.</li>
+                        </ol>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Consequences</p>
+                        <ol start="4">
+                            <li>Two equal rows \(\Rightarrow \det A = 0\) (swapping them changes the sign but not the matrix).</li>
+                            <li>Subtracting a multiple of one row from another leaves \(\det\) unchanged. So elimination without exchanges preserves the determinant.</li>
+                            <li>A zero row \(\Rightarrow \det A = 0\).</li>
+                            <li>Triangular \(A\): \(\det A = a_{11}a_{22}\cdots a_{nn}\), the product of the diagonal.</li>
+                            <li>\(\det A = 0 \iff A\) is singular.</li>
+                            <li>\(\det(AB) = \det A\,\det B\). Hence \(\det(A^{-1}) = 1/\det A\) and \(\det(B^{-1}AB) = \det A\).</li>
+                            <li>\(\det A^{\mathsf T} = \det A\). So every row property also holds for columns.</li>
+                        </ol>
+                    </div>
+
+                    <p>Combining 5 and 7: if \(PA = LU\), then \(\det A = \pm\,(\text{product of the pivots})\), with sign \(+\) for an even number of row exchanges and \(-\) for odd. This is how computers evaluate determinants, in \(O(n^3)\) operations.</p>
+
+                    <p><strong>Proof sketch of the product rule.</strong> If \(B\) is singular so is \(AB\), and both sides are 0. Otherwise, for fixed invertible \(B\) consider \(D(A) = \det(AB)/\det B\). It satisfies properties 1&ndash;3 (row operations on \(A\) are row operations on \(AB\)), so by uniqueness \(D(A) = \det A\). \(\blacksquare\)</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(\det(A + B) \ne \det A + \det B\) in general, and \(\det(cA) = c^n\det A\) for an \(n\times n\) matrix &mdash; not \(c\det A\) &mdash; because every one of the \(n\) rows gets scaled.</p>
+                    </div>
+
+                    <h3 id="det-formulas">5.2 Formulas: the big formula and cofactors</h3>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas</p>
+                        \[ \det\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} = ad - bc, \qquad \det A = \sum_{\sigma\in S_n} \operatorname{sgn}(\sigma)\, a_{1\sigma(1)}a_{2\sigma(2)}\cdots a_{n\sigma(n)}. \]
+                        <p>The "big formula" has \(n!\) terms, one for each way to choose one entry from every row and every column; \(\operatorname{sgn}(\sigma) = \pm1\) according to whether the permutation is even or odd.</p>
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (minor, cofactor)</p>
+                        <p>The <strong>minor</strong> \(M_{ij}\) is the determinant of the \((n-1)\times(n-1)\) matrix obtained by deleting row \(i\) and column \(j\). The <strong>cofactor</strong> is \(C_{ij} = (-1)^{i+j}M_{ij}\) (sign pattern \(+\,-\,+\) checkerboard).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (cofactor expansion)</p>
+                        <p>For any fixed row \(i\): \(\det A = a_{i1}C_{i1} + a_{i2}C_{i2} + \cdots + a_{in}C_{in}\). The same holds down any column.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Expand along the row or column with the most zeros. For anything larger than \(3\times3\) with few zeros, eliminate first (property 5 costs nothing) and then multiply the pivots.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.1</p>
+                        <p>Compute \(\det A\) for \(A = \begin{bmatrix} 1 &amp; 0 &amp; 2 \\ 2 &amp; 1 &amp; 3 \\ 0 &amp; 1 &amp; 1 \end{bmatrix}\) (from Example 2.3) in two ways.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Cofactors along row 1</strong> (the zero saves a term):</p>
+                            \[ \det A = 1\cdot\det\begin{bmatrix} 1 &amp; 3 \\ 1 &amp; 1 \end{bmatrix} - 0 + 2\cdot\det\begin{bmatrix} 2 &amp; 1 \\ 0 &amp; 1 \end{bmatrix} = 1(1 - 3) + 2(2 - 0) = -2 + 4 = 2. \]
+                            <p><strong>Pivots:</strong> elimination in Example 2.3 (row 2 \(-\) 2 row 1, then row 3 \(-\) row 2, no exchanges) gave the triangular matrix with diagonal \(1, 1, 2\). Product \(= 2\). ✓</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.2</p>
+                        <p>Evaluate \(\det\begin{bmatrix} 2 &amp; 1 &amp; 0 &amp; 0 \\ 1 &amp; 2 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 2 &amp; 1 \\ 0 &amp; 0 &amp; 1 &amp; 2 \end{bmatrix}\) using the structure of the matrix.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let \(D_n\) be the determinant of the \(n\times n\) matrix of this tridiagonal \(1, 2, 1\) form. Expanding along the first row, the \((1,1)\) cofactor is \(D_{n-1}\); the \((1,2)\) term is \(-1\cdot\) (a minor whose first column is \((1, 0, \dots)\), which expands to \(D_{n-2}\)). So</p>
+                            \[ D_n = 2D_{n-1} - D_{n-2}, \qquad D_1 = 2,\ D_2 = 4 - 1 = 3. \]
+                            <p>Then \(D_3 = 2(3) - 2 = 4\), \(D_4 = 2(4) - 3 = 5\). In general \(D_n = n + 1\). (Matrices like this, with \(-1\)'s instead of \(+1\)'s, arise from discretizing \(-u''\) or from chains of springs; the determinant is the same, \(n+1\), because flipping the sign of every off-diagonal entry is a similarity by \(\operatorname{diag}(1,-1,1,-1)\).)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="det-apps">5.3 Cramer's rule, the inverse formula, and volume</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (cofactor formula for the inverse; Cramer's rule)</p>
+                        <p>If \(\det A \ne 0\), then with \(C = [C_{ij}]\) the cofactor matrix,</p>
+                        \[ A^{-1} = \frac{C^{\mathsf T}}{\det A}, \qquad x_j = \frac{\det B_j}{\det A} \text{ solves } A\mathbf{x} = \mathbf{b}, \]
+                        <p>where \(B_j\) is \(A\) with column \(j\) replaced by \(\mathbf{b}\). (\(C^{\mathsf T}\) is called the adjugate.)</p>
+                    </div>
+                    <p><strong>Why it works.</strong> Row \(i\) of \(A\) times column \(i\) of \(C^{\mathsf T}\) is the cofactor expansion of \(\det A\). Row \(i\) times column \(k\ne i\) is the cofactor expansion of a matrix whose row \(k\) has been replaced by a copy of row \(i\) &mdash; two equal rows, so 0. Hence \(AC^{\mathsf T} = (\det A)I\). \(\blacksquare\)</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.3</p>
+                        <p>Solve \(2x + y = 5,\ x + 3y = 5\) by Cramer's rule.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \det A = \det\begin{bmatrix} 2 &amp; 1 \\ 1 &amp; 3 \end{bmatrix} = 5, \quad x = \frac{1}{5}\det\begin{bmatrix} 5 &amp; 1 \\ 5 &amp; 3 \end{bmatrix} = \frac{15 - 5}{5} = 2, \quad y = \frac15\det\begin{bmatrix} 2 &amp; 5 \\ 1 &amp; 5 \end{bmatrix} = \frac{10 - 5}{5} = 1. \]
+                            <p>Check: \(4 + 1 = 5\), \(2 + 3 = 5\). ✓ Cramer's rule is elegant for \(2\times2\) and for theory (it shows the solution depends smoothly on the data), but far too slow for large systems.</p>
+                        </details>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (determinant as volume)</p>
+                        <p>\(|\det A|\) is the volume of the parallelepiped (in 2D: parallelogram) whose edges are the rows of \(A\) (equivalently, the columns). A linear map \(\mathbf{x}\mapsto A\mathbf{x}\) multiplies every volume by \(|\det A|\); this is why the Jacobian determinant appears in multivariable change of variables, \(dx\,dy = |\det J|\,du\,dv\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 5.4</p>
+                        <p>Find the area of the triangle with vertices \((1,1)\), \((4,2)\), \((2,5)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Edge vectors from \((1,1)\): \((3, 1)\) and \((1, 4)\). The parallelogram they span has area \(\left|\det\begin{bmatrix} 3 &amp; 1 \\ 1 &amp; 4 \end{bmatrix}\right| = |12 - 1| = 11\). The triangle is half of it: area \(= \tfrac{11}{2}\).</p>
+                        </details>
+                    </div>
+
+                    <p>The cross product is a determinant in disguise: \(\mathbf{u}\times\mathbf{v} = \det\begin{bmatrix} \mathbf{i} &amp; \mathbf{j} &amp; \mathbf{k} \\ u_1 &amp; u_2 &amp; u_3 \\ v_1 &amp; v_2 &amp; v_3 \end{bmatrix}\), and the triple product \(\mathbf{w}\cdot(\mathbf{u}\times\mathbf{v})\) is the \(3\times3\) determinant with rows \(\mathbf{w}, \mathbf{u}, \mathbf{v}\) &mdash; the signed volume of the box.</p>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Compute \(\det\begin{bmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 \\ 7 &amp; 8 &amp; 9 \end{bmatrix}\) without expanding.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Row 3 \(-\) row 2 \(= (3,3,3)\) and row 2 \(-\) row 1 \(= (3,3,3)\). After these (determinant-preserving) operations two rows are equal, so \(\det = 0\).</p>
+                                </details>
+                            </li>
+                            <li>\(A\) is \(3\times3\) with \(\det A = 5\). Find \(\det(2A)\), \(\det(A^{-1})\), \(\det(A^{\mathsf T}A)\) and \(\det(-A)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(2^3\cdot5 = 40\); \(1/5\); \(5\cdot5 = 25\); \((-1)^3\cdot5 = -5\).</p>
+                                </details>
+                            </li>
+                            <li>Compute \(\det\begin{bmatrix} 2 &amp; 1 &amp; 0 \\ 1 &amp; 2 &amp; 1 \\ 0 &amp; 1 &amp; 2 \end{bmatrix}\) by cofactors along row 1.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(2(4 - 1) - 1(2 - 0) + 0 = 6 - 2 = 4\), agreeing with \(D_3 = 4\) in Example 5.2.</p>
+                                </details>
+                            </li>
+                            <li>Show that \(\det(A^{\mathsf T}A) \ge 0\) for every square \(A\), and explain the geometric meaning when \(A\) is \(m\times n\) with \(m \gt n\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Square case: \(\det(A^{\mathsf T}A) = (\det A)^2 \ge 0\). For tall \(A\), \(\det(A^{\mathsf T}A)\) (the Gram determinant) is the squared \(n\)-dimensional volume of the parallelepiped spanned by the columns of \(A\) inside \(\mathbb{R}^m\); it is positive iff the columns are independent.</p>
+                                </details>
+                            </li>
+                            <li>Use the cofactor formula to find the \((2,3)\) entry of \(A^{-1}\) for the matrix of Example 5.1.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\((A^{-1})_{23} = C_{32}/\det A\). \(C_{32} = (-1)^{5}\det\begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 3 \end{bmatrix} = -(3 - 4) = 1\). So \((A^{-1})_{23} = \tfrac12\), matching Example 2.3.</p>
+                                </details>
+                            </li>
+                            <li>A permutation matrix \(P\) reverses the order of 4 rows (\(1234 \to 4321\)). What is \(\det P\)?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Two exchanges (swap 1&harr;4, 2&harr;3) produce it, so \(\det P = (-1)^2 = +1\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-eigen">
+                    <h2>6. Eigenvalues and eigenvectors</h2>
+                    <p class="ref">Strang Ch. 6 &middot; Lay Ch. 5 and 7</p>
+
+                    <p>Most vectors change direction when multiplied by \(A\). An <em>eigenvector</em> is a special direction that \(A\) merely stretches, by a factor \(\lambda\). If \(A\) has a full set of eigenvectors, then in that basis \(A\) acts as a diagonal matrix: every coupled problem decouples into independent scalar ones. This is why eigenvalues govern powers \(A^k\) (growth, decay, steady states), solutions of \(d\mathbf{u}/dt = A\mathbf{u}\) (normal modes, stability), and in quantum mechanics the possible outcomes of measurements.</p>
+
+                    <h3 id="eig-basics">6.1 The eigenvalue problem</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (eigenvalue, eigenvector)</p>
+                        <p>For square \(A\), a scalar \(\lambda\) is an <strong>eigenvalue</strong> with <strong>eigenvector</strong> \(\mathbf{x}\ne\mathbf{0}\) if \(A\mathbf{x} = \lambda\mathbf{x}\). The eigenvectors for \(\lambda\), together with \(\mathbf{0}\), form the <strong>eigenspace</strong> \(N(A - \lambda I)\).</p>
+                    </div>
+
+                    <p>\(A\mathbf{x} = \lambda\mathbf{x}\) with \(\mathbf{x} \ne \mathbf{0}\) means \((A - \lambda I)\mathbf{x} = \mathbf{0}\) has a nonzero solution, i.e. \(A - \lambda I\) is singular:</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Characteristic equation</p>
+                        \[ \det(A - \lambda I) = 0. \]
+                        <p>This is a polynomial of degree \(n\) in \(\lambda\), so there are exactly \(n\) eigenvalues counted with multiplicity (possibly complex). For \(2\times2\):</p>
+                        \[ \lambda^2 - (\operatorname{tr}A)\,\lambda + \det A = 0. \]
+                        <p>In general: \(\lambda_1 + \cdots + \lambda_n = \operatorname{tr}A\) (sum of diagonal entries) and \(\lambda_1\lambda_2\cdots\lambda_n = \det A\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Useful facts</p>
+                        <ul>
+                            <li>Triangular matrices: the eigenvalues are the diagonal entries.</li>
+                            <li>If \(A\mathbf{x} = \lambda\mathbf{x}\) then \(A^k\mathbf{x} = \lambda^k\mathbf{x}\), \((A + cI)\mathbf{x} = (\lambda + c)\mathbf{x}\), and \(A^{-1}\mathbf{x} = \lambda^{-1}\mathbf{x}\) (if \(A\) is invertible) &mdash; same eigenvectors.</li>
+                            <li>\(A\) is singular \(\iff\) 0 is an eigenvalue.</li>
+                            <li>\(A\) and \(A^{\mathsf T}\) have the same eigenvalues (same characteristic polynomial) but generally different eigenvectors.</li>
+                            <li>Real matrices can have complex eigenvalues; they come in conjugate pairs. Example: the \(90^\circ\) rotation \(\begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix}\) has \(\lambda^2 + 1 = 0\), \(\lambda = \pm i\): no real direction survives a rotation.</li>
+                        </ul>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.1</p>
+                        <p>Find the eigenvalues and eigenvectors of \(A = \begin{bmatrix} 4 &amp; 1 \\ 2 &amp; 3 \end{bmatrix}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\operatorname{tr}A = 7\), \(\det A = 12 - 2 = 10\), so</p>
+                            \[ \lambda^2 - 7\lambda + 10 = (\lambda - 5)(\lambda - 2) = 0 \quad\Longrightarrow\quad \lambda_1 = 5,\ \lambda_2 = 2. \]
+                            <p>\(\lambda_1 = 5\): \(A - 5I = \begin{bmatrix} -1 &amp; 1 \\ 2 &amp; -2 \end{bmatrix}\), whose nullspace is spanned by \(\mathbf{x}_1 = (1, 1)\).</p>
+                            <p>\(\lambda_2 = 2\): \(A - 2I = \begin{bmatrix} 2 &amp; 1 \\ 2 &amp; 1 \end{bmatrix}\), nullspace spanned by \(\mathbf{x}_2 = (1, -2)\).</p>
+                            <p>Check: \(A\mathbf{x}_1 = (5, 5) = 5\mathbf{x}_1\) ✓, \(A\mathbf{x}_2 = (4 - 2, 2 - 6) = (2, -4) = 2\mathbf{x}_2\) ✓. Also \(5 + 2 = 7 = \operatorname{tr}A\), \(5\cdot 2 = 10 = \det A\). ✓</p>
+                        </details>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Elimination does <em>not</em> preserve eigenvalues: the pivots of \(A\) are not its eigenvalues (except for triangular matrices). Also, the eigenvalues of \(A + B\) and \(AB\) are not in general sums or products of eigenvalues of \(A\) and \(B\) &mdash; unless \(A\) and \(B\) share eigenvectors.</p>
+                    </div>
+
+                    <h3 id="eig-diag">6.2 Diagonalization</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (diagonalization)</p>
+                        <p>If the \(n\times n\) matrix \(A\) has \(n\) linearly independent eigenvectors \(\mathbf{x}_1, \dots, \mathbf{x}_n\), place them in the columns of \(X\) and the eigenvalues in \(\Lambda = \operatorname{diag}(\lambda_1, \dots, \lambda_n)\). Then</p>
+                        \[ AX = X\Lambda, \qquad A = X\Lambda X^{-1}, \qquad \Lambda = X^{-1}AX. \]
+                    </div>
+                    <p>(Strang writes the eigenvector matrix as \(X\) in recent editions; many texts, including the summary table below, write \(S\). They mean the same thing.) Proof: column \(j\) of \(AX\) is \(A\mathbf{x}_j = \lambda_j\mathbf{x}_j\), which is column \(j\) of \(X\Lambda\). Invertibility of \(X\) is exactly the independence of the eigenvectors.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (distinct eigenvalues give independent eigenvectors)</p>
+                        <p>Eigenvectors belonging to distinct eigenvalues are linearly independent. Hence a matrix with \(n\) distinct eigenvalues is diagonalizable.</p>
+                    </div>
+                    <p><strong>Proof.</strong> Suppose not, and take a shortest dependence \(c_1\mathbf{x}_1 + \cdots + c_k\mathbf{x}_k = \mathbf{0}\) with all \(c_i \ne 0\) (and \(k \ge 2\), since eigenvectors are nonzero). Multiply by \(A\): \(\sum c_i\lambda_i\mathbf{x}_i = \mathbf{0}\). Multiply the original by \(\lambda_k\): \(\sum c_i\lambda_k\mathbf{x}_i = \mathbf{0}\). Subtract: \(\sum_{i \lt k} c_i(\lambda_i - \lambda_k)\mathbf{x}_i = \mathbf{0}\). Since \(\lambda_i \ne \lambda_k\), this is a shorter nontrivial dependence &mdash; contradiction. \(\blacksquare\)</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (algebraic and geometric multiplicity)</p>
+                        <p>The <strong>algebraic multiplicity</strong> of \(\lambda\) is its multiplicity as a root of \(\det(A - \lambda I)\). The <strong>geometric multiplicity</strong> is \(\dim N(A - \lambda I)\), the number of independent eigenvectors. Always geometric \(\le\) algebraic. \(A\) is diagonalizable iff they are equal for every eigenvalue. A matrix that falls short is <strong>defective</strong>; e.g. \(\begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1 \end{bmatrix}\) has \(\lambda = 1\) twice but only the eigenvector \((1, 0)\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Diagonalizability and invertibility are unrelated. \(\begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1 \end{bmatrix}\) is invertible but not diagonalizable; \(\begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 0 \end{bmatrix}\) is diagonal (so diagonalizable) but singular. Repeated eigenvalues are what threaten diagonalizability; zero eigenvalues are what destroy invertibility.</p>
+                    </div>
+
+                    <h3 id="eig-powers">6.3 Powers of matrices and difference equations</h3>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula (powers)</p>
+                        \[ A^k = X\Lambda^kX^{-1}, \qquad \mathbf{u}_k = A^k\mathbf{u}_0 = c_1\lambda_1^k\mathbf{x}_1 + \cdots + c_n\lambda_n^k\mathbf{x}_n, \]
+                        <p>where \(\mathbf{u}_0 = c_1\mathbf{x}_1 + \cdots + c_n\mathbf{x}_n\), i.e. \(\mathbf{c} = X^{-1}\mathbf{u}_0\).</p>
+                    </div>
+                    <p>So the long-run behaviour of \(\mathbf{u}_{k+1} = A\mathbf{u}_k\) is dominated by the eigenvalue of largest \(|\lambda|\). If all \(|\lambda_i| \lt 1\), then \(A^k \to 0\) (stable). If \(|\lambda_1| = 1\) and the rest are smaller, \(\mathbf{u}_k\) approaches the steady state \(c_1\mathbf{x}_1\).</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.2</p>
+                        <p>Using Example 6.1, find a closed formula for \(A^k\) where \(A = \begin{bmatrix} 4 &amp; 1 \\ 2 &amp; 3 \end{bmatrix}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(X = \begin{bmatrix} 1 &amp; 1 \\ 1 &amp; -2 \end{bmatrix}\), \(\det X = -3\), \(X^{-1} = \tfrac13\begin{bmatrix} 2 &amp; 1 \\ 1 &amp; -1 \end{bmatrix}\).</p>
+                            \[ A^k = \begin{bmatrix} 1 &amp; 1 \\ 1 &amp; -2 \end{bmatrix}\begin{bmatrix} 5^k &amp; 0 \\ 0 &amp; 2^k \end{bmatrix}\frac13\begin{bmatrix} 2 &amp; 1 \\ 1 &amp; -1 \end{bmatrix} = \frac13\begin{bmatrix} 5^k &amp; 2^k \\ 5^k &amp; -2\cdot2^k \end{bmatrix}\begin{bmatrix} 2 &amp; 1 \\ 1 &amp; -1 \end{bmatrix} \]
+                            \[ = \frac13\begin{bmatrix} 2\cdot5^k + 2^k &amp; 5^k - 2^k \\ 2\cdot5^k - 2\cdot2^k &amp; 5^k + 2\cdot2^k \end{bmatrix}. \]
+                            <p>Check \(k = 1\): \(\tfrac13\begin{bmatrix} 12 &amp; 3 \\ 6 &amp; 9 \end{bmatrix} = A\) ✓; \(k = 0\): \(\tfrac13\begin{bmatrix} 3 &amp; 0 \\ 0 &amp; 3 \end{bmatrix} = I\) ✓. For large \(k\), \(A^k \approx \tfrac{5^k}{3}\begin{bmatrix} 2 &amp; 1 \\ 2 &amp; 1 \end{bmatrix}\), a rank-one matrix whose columns point along \(\mathbf{x}_1\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.3 (a Markov chain)</p>
+                        <p>Each year 10% of a city's population moves to the suburbs and 20% of the suburban population moves to the city. Starting with everyone in the city, find the population split after \(k\) years and in the long run.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>With \(\mathbf{u} = (\text{city}, \text{suburbs})\) as fractions, \(\mathbf{u}_{k+1} = A\mathbf{u}_k\) with the column-stochastic matrix</p>
+                            \[ A = \begin{bmatrix} 0.9 &amp; 0.2 \\ 0.1 &amp; 0.8 \end{bmatrix}. \]
+                            <p>Columns sum to 1, so \(\lambda_1 = 1\) (the rows of \(A - I\) add to zero); then \(\lambda_2 = \operatorname{tr}A - 1 = 0.7\).</p>
+                            <p>\(\lambda_1 = 1\): \(A - I = \begin{bmatrix} -0.1 &amp; 0.2 \\ 0.1 &amp; -0.2 \end{bmatrix}\) gives \(\mathbf{x}_1 = (2, 1)\), normalized to fractions \(\left(\tfrac23, \tfrac13\right)\). \(\lambda_2 = 0.7\): \(A - 0.7I = \begin{bmatrix} 0.2 &amp; 0.2 \\ 0.1 &amp; 0.1 \end{bmatrix}\) gives \(\mathbf{x}_2 = (1, -1)\).</p>
+                            <p>Expand \(\mathbf{u}_0 = (1, 0) = \left(\tfrac23, \tfrac13\right) + \tfrac13(1, -1)\). Therefore</p>
+                            \[ \mathbf{u}_k = \begin{bmatrix} 2/3 \\ 1/3 \end{bmatrix} + \frac{(0.7)^k}{3}\begin{bmatrix} 1 \\ -1 \end{bmatrix}. \]
+                            <p>Check \(k = 1\): \(\left(\tfrac{2 + 0.7}{3}, \tfrac{1 - 0.7}{3}\right) = (0.9, 0.1) = A\mathbf{u}_0\). ✓ As \(k \to\infty\), the split approaches \(\tfrac23\) city, \(\tfrac13\) suburbs, and the approach is geometric with ratio 0.7.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="eig-ode">6.4 Differential equations \(d\mathbf{u}/dt = A\mathbf{u}\)</h3>
+
+                    <p>Try \(\mathbf{u}(t) = e^{\lambda t}\mathbf{x}\): then \(d\mathbf{u}/dt = \lambda e^{\lambda t}\mathbf{x}\) and \(A\mathbf{u} = e^{\lambda t}A\mathbf{x}\), which agree exactly when \(A\mathbf{x} = \lambda\mathbf{x}\). Eigenvectors give pure exponential solutions, and linearity superposes them.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas (linear ODE systems)</p>
+                        \[ \mathbf{u}(t) = c_1e^{\lambda_1 t}\mathbf{x}_1 + \cdots + c_ne^{\lambda_n t}\mathbf{x}_n, \qquad \mathbf{c} = X^{-1}\mathbf{u}(0). \]
+                        \[ e^{At} = \sum_{k=0}^\infty \frac{(At)^k}{k!} = Xe^{\Lambda t}X^{-1}, \qquad \mathbf{u}(t) = e^{At}\mathbf{u}(0). \]
+                        <p>Stability: \(\mathbf{u}(t) \to \mathbf{0}\) for every start iff \(\operatorname{Re}\lambda_i \lt 0\) for all \(i\). For \(2\times2\) real \(A\) this means \(\operatorname{tr}A \lt 0\) and \(\det A \gt 0\).</p>
+                    </div>
+
+                    <p>The series definition of \(e^{At}\) works even for defective matrices. Two instructive cases: for nilpotent \(N = \begin{bmatrix} 0 &amp; 1 \\ 0 &amp; 0 \end{bmatrix}\), \(N^2 = 0\) so \(e^{Nt} = I + Nt\) (a polynomial, not an exponential, in \(t\)); for the generator \(J = \begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix}\), \(J^2 = -I\) so the series splits into cosine and sine series: \(e^{Jt} = (\cos t)I + (\sin t)J\), the rotation matrix. That is the matrix version of Euler's formula \(e^{it} = \cos t + i\sin t\). Warning: \(e^{A+B} = e^Ae^B\) only when \(AB = BA\).</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.4</p>
+                        <p>Solve \(d\mathbf{u}/dt = A\mathbf{u}\) with \(A = \begin{bmatrix} 4 &amp; 1 \\ 2 &amp; 3 \end{bmatrix}\) and \(\mathbf{u}(0) = (0, 3)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>From Example 6.1, \(\lambda = 5, 2\) with \(\mathbf{x}_1 = (1,1)\), \(\mathbf{x}_2 = (1,-2)\). Solve \(c_1\mathbf{x}_1 + c_2\mathbf{x}_2 = (0, 3)\): \(c_1 + c_2 = 0\), \(c_1 - 2c_2 = 3\), so \(c_2 = -1\), \(c_1 = 1\).</p>
+                            \[ \mathbf{u}(t) = e^{5t}\begin{bmatrix} 1 \\ 1 \end{bmatrix} - e^{2t}\begin{bmatrix} 1 \\ -2 \end{bmatrix} = \begin{bmatrix} e^{5t} - e^{2t} \\ e^{5t} + 2e^{2t} \end{bmatrix}. \]
+                            <p>Check \(t = 0\): \((0, 3)\) ✓. Check the first equation: \(u_1' = 5e^{5t} - 2e^{2t}\) and \(4u_1 + u_2 = 4e^{5t} - 4e^{2t} + e^{5t} + 2e^{2t} = 5e^{5t} - 2e^{2t}\). ✓ Both eigenvalues are positive, so the origin is unstable; the \(e^{5t}\) mode dominates.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.5 (coupled oscillators &mdash; normal modes)</p>
+                        <p>Two equal masses \(m\) slide between two walls, connected wall&ndash;spring&ndash;mass&ndash;spring&ndash;mass&ndash;spring&ndash;wall, all springs of constant \(k\). Find the normal modes and frequencies.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Newton's law for displacements \(x_1, x_2\): \(m\ddot x_1 = -kx_1 + k(x_2 - x_1)\), \(m\ddot x_2 = -k(x_2 - x_1) - kx_2\). So</p>
+                            \[ \ddot{\mathbf{x}} = -\frac{k}{m}K\mathbf{x}, \qquad K = \begin{bmatrix} 2 &amp; -1 \\ -1 &amp; 2 \end{bmatrix}. \]
+                            <p>Try \(\mathbf{x} = \cos(\omega t)\mathbf{v}\): then \(-\omega^2\mathbf{v} = -\tfrac{k}{m}K\mathbf{v}\), an eigenvalue problem for \(K\) with \(\omega^2 = \tfrac{k}{m}\mu\). \(K\) has trace 4 and determinant 3, so \(\mu^2 - 4\mu + 3 = 0\), \(\mu = 1, 3\).</p>
+                            <ul>
+                                <li>\(\mu = 1\): \(K - I = \begin{bmatrix} 1 &amp; -1 \\ -1 &amp; 1 \end{bmatrix}\), \(\mathbf{v} = (1, 1)\): masses move together, middle spring unstretched, \(\omega = \sqrt{k/m}\).</li>
+                                <li>\(\mu = 3\): \(K - 3I = \begin{bmatrix} -1 &amp; -1 \\ -1 &amp; -1 \end{bmatrix}\), \(\mathbf{v} = (1, -1)\): masses move oppositely, \(\omega = \sqrt{3k/m}\).</li>
+                            </ul>
+                            <p>The general motion is a superposition of these two modes. Because \(K\) is symmetric the mode shapes are orthogonal &mdash; the content of the next section. The same mathematics describes coupled LC circuits and, in quantum mechanics, the normal modes behind phonons.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="eig-symmetric">6.5 Symmetric matrices and the spectral theorem</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Spectral Theorem (real symmetric matrices)</p>
+                        <p>If \(S = S^{\mathsf T}\) is real \(n\times n\), then (1) all eigenvalues of \(S\) are real, and (2) eigenvectors can be chosen orthonormal. Hence</p>
+                        \[ S = Q\Lambda Q^{\mathsf T} = \lambda_1\mathbf{q}_1\mathbf{q}_1^{\mathsf T} + \cdots + \lambda_n\mathbf{q}_n\mathbf{q}_n^{\mathsf T}, \qquad Q^{\mathsf T}Q = I. \]
+                        <p>Every symmetric matrix is a combination of perpendicular projections onto its eigenvectors, weighted by its eigenvalues.</p>
+                    </div>
+
+                    <p><strong>Proof that eigenvalues are real.</strong> Let \(S\mathbf{x} = \lambda\mathbf{x}\) with possibly complex \(\lambda, \mathbf{x}\). Conjugate (\(S\) is real): \(S\bar{\mathbf{x}} = \bar\lambda\bar{\mathbf{x}}\). Then \(\bar{\mathbf{x}}^{\mathsf T}S\mathbf{x} = \lambda\,\bar{\mathbf{x}}^{\mathsf T}\mathbf{x}\), and also \(\bar{\mathbf{x}}^{\mathsf T}S\mathbf{x} = (S^{\mathsf T}\bar{\mathbf{x}})^{\mathsf T}\mathbf{x} = (S\bar{\mathbf{x}})^{\mathsf T}\mathbf{x} = \bar\lambda\,\bar{\mathbf{x}}^{\mathsf T}\mathbf{x}\). Since \(\bar{\mathbf{x}}^{\mathsf T}\mathbf{x} = \sum|x_i|^2 \gt 0\), \(\lambda = \bar\lambda\). \(\blacksquare\)</p>
+
+                    <p><strong>Proof that eigenvectors for distinct eigenvalues are orthogonal.</strong> Let \(S\mathbf{x} = \lambda_1\mathbf{x}\), \(S\mathbf{y} = \lambda_2\mathbf{y}\), \(\lambda_1\ne\lambda_2\). Then \(\lambda_1\mathbf{x}^{\mathsf T}\mathbf{y} = (S\mathbf{x})^{\mathsf T}\mathbf{y} = \mathbf{x}^{\mathsf T}S^{\mathsf T}\mathbf{y} = \mathbf{x}^{\mathsf T}S\mathbf{y} = \lambda_2\mathbf{x}^{\mathsf T}\mathbf{y}\). So \((\lambda_1 - \lambda_2)\mathbf{x}^{\mathsf T}\mathbf{y} = 0\), forcing \(\mathbf{x}^{\mathsf T}\mathbf{y} = 0\). \(\blacksquare\) (For repeated eigenvalues one still gets a full orthonormal set &mdash; Gram&ndash;Schmidt within each eigenspace &mdash; but the proof needs more work, e.g. via the Schur factorization \(S = QTQ^{\mathsf T}\), where symmetry forces the triangular \(T\) to be diagonal.)</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.6</p>
+                        <p>Diagonalize \(S = \begin{bmatrix} 5 &amp; 2 \\ 2 &amp; 2 \end{bmatrix}\) by an orthogonal matrix and write its spectral decomposition.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\operatorname{tr}S = 7\), \(\det S = 10 - 4 = 6\): \(\lambda^2 - 7\lambda + 6 = (\lambda - 6)(\lambda - 1)\), so \(\lambda = 6, 1\).</p>
+                            <p>\(\lambda = 6\): \(S - 6I = \begin{bmatrix} -1 &amp; 2 \\ 2 &amp; -4 \end{bmatrix}\), eigenvector \((2, 1)\). \(\lambda = 1\): \(S - I = \begin{bmatrix} 4 &amp; 2 \\ 2 &amp; 1 \end{bmatrix}\), eigenvector \((1, -2)\). Orthogonal: \(2 - 2 = 0\) ✓. Normalize (length \(\sqrt5\)):</p>
+                            \[ Q = \frac{1}{\sqrt5}\begin{bmatrix} 2 &amp; 1 \\ 1 &amp; -2 \end{bmatrix}, \qquad S = Q\begin{bmatrix} 6 &amp; 0 \\ 0 &amp; 1 \end{bmatrix}Q^{\mathsf T}. \]
+                            <p>Spectral form:</p>
+                            \[ S = 6\cdot\frac15\begin{bmatrix} 4 &amp; 2 \\ 2 &amp; 1 \end{bmatrix} + 1\cdot\frac15\begin{bmatrix} 1 &amp; -2 \\ -2 &amp; 4 \end{bmatrix} = \frac15\begin{bmatrix} 25 &amp; 10 \\ 10 &amp; 10 \end{bmatrix} = \begin{bmatrix} 5 &amp; 2 \\ 2 &amp; 2 \end{bmatrix}. \]
+                            <p>The two rank-one pieces are the projections onto the eigenvector lines; they add to \(I\) when the weights are both 1. ✓</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Physics connection</p>
+                        <p>Symmetric matrices are everywhere in physics: inertia tensors (eigenvectors = principal axes), stress tensors, stiffness matrices, covariance matrices, and Hamiltonians with real matrix elements. The spectral theorem says each has a natural orthogonal coordinate system in which it is diagonal. The complex version (Hermitian matrices, Chapter 8) is the mathematical backbone of quantum mechanics.</p>
+                    </div>
+
+                    <h3 id="eig-posdef">6.6 Positive definite matrices</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (positive definite)</p>
+                        <p>A symmetric matrix \(S\) is <strong>positive definite</strong> if \(\mathbf{x}^{\mathsf T}S\mathbf{x} \gt 0\) for every \(\mathbf{x}\ne\mathbf{0}\), and <strong>positive semidefinite</strong> if \(\mathbf{x}^{\mathsf T}S\mathbf{x} \ge 0\). The function \(\mathbf{x}^{\mathsf T}S\mathbf{x}\) is the associated <strong>quadratic form</strong> (energy).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (five equivalent tests)</p>
+                        <p>For symmetric \(S\), each of the following is equivalent to positive definiteness:</p>
+                        <ol>
+                            <li>All eigenvalues are positive.</li>
+                            <li>All pivots (elimination without row exchanges) are positive.</li>
+                            <li>All leading principal minors (upper-left \(k\times k\) determinants) are positive.</li>
+                            <li>\(\mathbf{x}^{\mathsf T}S\mathbf{x} \gt 0\) for all \(\mathbf{x}\ne\mathbf{0}\).</li>
+                            <li>\(S = A^{\mathsf T}A\) for some matrix \(A\) with independent columns (e.g. Cholesky, \(S = LL^{\mathsf T}\)).</li>
+                        </ol>
+                    </div>
+                    <p><strong>Why 1 \(\iff\) 4.</strong> Write \(\mathbf{x} = Q\mathbf{y}\); then \(\mathbf{x}^{\mathsf T}S\mathbf{x} = \mathbf{y}^{\mathsf T}\Lambda\mathbf{y} = \sum\lambda_iy_i^2\), which is positive for all \(\mathbf{y}\ne\mathbf{0}\) iff every \(\lambda_i \gt 0\). <strong>Why 5 \(\Rightarrow\) 4.</strong> \(\mathbf{x}^{\mathsf T}A^{\mathsf T}A\mathbf{x} = \|A\mathbf{x}\|^2 \gt 0\) when \(A\mathbf{x}\ne\mathbf{0}\). This is why \(A^{\mathsf T}A\) in least squares is always positive (semi)definite.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.7</p>
+                        <p>Check that \(S = \begin{bmatrix} 5 &amp; 2 \\ 2 &amp; 2 \end{bmatrix}\) is positive definite by every test, and describe the level curve \(\mathbf{x}^{\mathsf T}S\mathbf{x} = 1\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <ul>
+                                <li>Eigenvalues: 6 and 1 (Example 6.6), both positive.</li>
+                                <li>Pivots: 5 and \(2 - \tfrac{2}{5}\cdot2 = \tfrac65\), both positive.</li>
+                                <li>Leading minors: \(5\) and \(\det S = 6\), both positive. (Note: product of pivots = \(5\cdot\tfrac65 = 6 = \det S\).)</li>
+                                <li>Energy, by completing the square (this is elimination in disguise):
+                                    \[ 5x^2 + 4xy + 2y^2 = 5\left(x + \tfrac25y\right)^2 + \tfrac65y^2 \gt 0 \text{ unless } x = y = 0. \]</li>
+                            </ul>
+                            <p>Level curve: in eigen-coordinates \(\mathbf{y} = Q^{\mathsf T}\mathbf{x}\) it reads \(6y_1^2 + y_2^2 = 1\), an ellipse with principal axes along \((2,1)\) and \((1,-2)\) and semi-axis lengths \(1/\sqrt6\) and \(1\). In general the semi-axes are \(1/\sqrt{\lambda_i}\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Positive entries do not make a matrix positive definite: \(\begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 1 \end{bmatrix}\) has eigenvalues \(3\) and \(-1\). Conversely, a positive definite matrix can have negative off-diagonal entries (e.g. \(K\) in Example 6.5). And the tests apply to <em>symmetric</em> matrices; for non-symmetric \(A\), test the symmetric part \(\tfrac12(A + A^{\mathsf T})\) for the energy condition.</p>
+                    </div>
+
+                    <p>Physically, positive definiteness is the condition for a <em>stable minimum</em>: near equilibrium, a potential \(V(\mathbf{x}) \approx V_0 + \tfrac12\mathbf{x}^{\mathsf T}H\mathbf{x}\) has a minimum iff the Hessian \(H\) is positive definite. Stiffness and resistance matrices are positive definite because they store or dissipate energy.</p>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Find the eigenvalues and eigenvectors of \(\begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 1 \end{bmatrix}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Trace 2, determinant \(-3\): \(\lambda^2 - 2\lambda - 3 = 0\), \(\lambda = 3, -1\), with eigenvectors \((1,1)\) and \((1,-1)\) (orthogonal, as the matrix is symmetric).</p>
+                                </details>
+                            </li>
+                            <li>What are the eigenvalues of \(\begin{bmatrix} 2 &amp; 5 &amp; 7 \\ 0 &amp; 3 &amp; 1 \\ 0 &amp; 0 &amp; -1 \end{bmatrix}\)? Is it diagonalizable?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Triangular, so \(2, 3, -1\). Three distinct eigenvalues, so yes.</p>
+                                </details>
+                            </li>
+                            <li>The sequence \(G_{k+2} = G_{k+1} + 2G_k\), \(G_0 = 0\), \(G_1 = 1\). Find a formula for \(G_k\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>With \(\mathbf{u}_k = (G_{k+1}, G_k)\), \(A = \begin{bmatrix} 1 &amp; 2 \\ 1 &amp; 0 \end{bmatrix}\): \(\lambda^2 - \lambda - 2 = 0\), \(\lambda = 2, -1\). So \(G_k = a2^k + b(-1)^k\) with \(a + b = 0\), \(2a - b = 1\): \(a = \tfrac13\). \(G_k = \tfrac{2^k - (-1)^k}{3}\). Check: \(G_2 = 1\), \(G_3 = 3\). ✓</p>
+                                </details>
+                            </li>
+                            <li>Solve \(u_1' = u_2\), \(u_2' = -u_1\) with \(\mathbf{u}(0) = (1, 0)\). What are the eigenvalues?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(A = \begin{bmatrix} 0 &amp; 1 \\ -1 &amp; 0 \end{bmatrix}\), \(\lambda^2 + 1 = 0\), \(\lambda = \pm i\): pure oscillation, neither growth nor decay. \(\mathbf{u}(t) = (\cos t, -\sin t)\); \(\|\mathbf{u}\| = 1\) for all \(t\) because \(A\) is antisymmetric, so \(e^{At}\) is orthogonal.</p>
+                                </details>
+                            </li>
+                            <li>For which \(b\) is \(\begin{bmatrix} 2 &amp; b \\ b &amp; 8 \end{bmatrix}\) positive definite?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Leading minors: \(2 \gt 0\) and \(16 - b^2 \gt 0\), so \(-4 \lt b \lt 4\).</p>
+                                </details>
+                            </li>
+                            <li>Show that if \(A = X\Lambda X^{-1}\) then \(\det A = \prod\lambda_i\) and \(\operatorname{tr}A = \sum\lambda_i\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\det A = \det X\det\Lambda\det X^{-1} = \det\Lambda\). For trace use \(\operatorname{tr}(BC) = \operatorname{tr}(CB)\): \(\operatorname{tr}(X\Lambda X^{-1}) = \operatorname{tr}(\Lambda X^{-1}X) = \operatorname{tr}\Lambda\). (Both facts hold for all square matrices, via the characteristic polynomial.)</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-svd">
+                    <h2>7. Singular value decomposition</h2>
+                    <p class="ref">Strang Ch. 7 &middot; Lay Ch. 7</p>
+
+                    <p>Eigenvectors need a square matrix, and even then they may fail to exist or fail to be orthogonal. The SVD repairs all of this: <em>every</em> \(m\times n\) matrix, of any rank, maps some orthonormal basis of \(\mathbb{R}^n\) to an orthogonal set in \(\mathbb{R}^m\). Use one orthonormal basis for the input space and a different one for the output space, and every matrix becomes diagonal. The SVD is the workhorse behind principal component analysis, image compression, numerical rank, least squares for rank-deficient problems, and the Schmidt decomposition of entangled quantum states.</p>
+
+                    <h3 id="svd-def">7.1 The SVD</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (singular value decomposition)</p>
+                        <p>Every real \(m\times n\) matrix \(A\) of rank \(r\) can be written</p>
+                        \[ A = U\Sigma V^{\mathsf T} = \sigma_1\mathbf{u}_1\mathbf{v}_1^{\mathsf T} + \sigma_2\mathbf{u}_2\mathbf{v}_2^{\mathsf T} + \cdots + \sigma_r\mathbf{u}_r\mathbf{v}_r^{\mathsf T}, \]
+                        <p>where \(U\) (\(m\times m\)) and \(V\) (\(n\times n\)) are orthogonal, \(\Sigma\) (\(m\times n\)) is zero except for the <strong>singular values</strong> \(\sigma_1 \ge \sigma_2 \ge \cdots \ge \sigma_r \gt 0\) on its diagonal, and \(A\mathbf{v}_i = \sigma_i\mathbf{u}_i\) for \(i \le r\).</p>
+                        <ul>
+                            <li>\(\mathbf{v}_1,\dots,\mathbf{v}_r\): orthonormal basis of the row space; \(\mathbf{v}_{r+1},\dots,\mathbf{v}_n\): of the nullspace.</li>
+                            <li>\(\mathbf{u}_1,\dots,\mathbf{u}_r\): orthonormal basis of the column space; \(\mathbf{u}_{r+1},\dots,\mathbf{u}_m\): of the left nullspace.</li>
+                        </ul>
+                    </div>
+
+                    <p>The SVD hands you orthonormal bases for all four fundamental subspaces at once &mdash; the cleanest statement of the "big picture" of Chapter 3.</p>
+
+                    <p><strong>Construction (proof sketch).</strong> \(A^{\mathsf T}A\) is symmetric positive semidefinite, so by the spectral theorem it has orthonormal eigenvectors \(\mathbf{v}_i\) with eigenvalues \(\sigma_i^2 \ge 0\). Define \(\sigma_i = \sqrt{\sigma_i^2}\) and, for \(\sigma_i \gt 0\), \(\mathbf{u}_i = A\mathbf{v}_i/\sigma_i\). These \(\mathbf{u}_i\) are orthonormal:</p>
+                    \[ \mathbf{u}_i^{\mathsf T}\mathbf{u}_j = \frac{\mathbf{v}_i^{\mathsf T}A^{\mathsf T}A\mathbf{v}_j}{\sigma_i\sigma_j} = \frac{\sigma_j^2\,\mathbf{v}_i^{\mathsf T}\mathbf{v}_j}{\sigma_i\sigma_j} = \delta_{ij}. \]
+                    <p>Complete the \(\mathbf{u}\)'s and \(\mathbf{v}\)'s to orthonormal bases with vectors from the left nullspace and nullspace. Then \(AV = U\Sigma\). \(\blacksquare\)</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas</p>
+                        \[ A^{\mathsf T}A = V(\Sigma^{\mathsf T}\Sigma)V^{\mathsf T}, \qquad AA^{\mathsf T} = U(\Sigma\Sigma^{\mathsf T})U^{\mathsf T}, \qquad A\mathbf{v}_i = \sigma_i\mathbf{u}_i, \quad A^{\mathsf T}\mathbf{u}_i = \sigma_i\mathbf{v}_i. \]
+                        <p>The \(\sigma_i^2\) are the nonzero eigenvalues of both \(A^{\mathsf T}A\) and \(AA^{\mathsf T}\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Do not compute \(U\) and \(V\) independently as eigenvectors of \(AA^{\mathsf T}\) and \(A^{\mathsf T}A\): each eigenvector is only determined up to sign (or up to rotation within a repeated eigenspace), and independent choices may not satisfy \(A\mathbf{v}_i = \sigma_i\mathbf{u}_i\). Find the \(\mathbf{v}\)'s, then <em>define</em> \(\mathbf{u}_i = A\mathbf{v}_i/\sigma_i\). Also, singular values are never negative; for a symmetric matrix they are \(|\lambda_i|\), not \(\lambda_i\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.1</p>
+                        <p>Find the full SVD of \(A = \begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Step 1: \(A^{\mathsf T}A\) and its eigenvectors.</strong></p>
+                            \[ A^{\mathsf T}A = \begin{bmatrix} 1 &amp; 0 &amp; 1 \\ 1 &amp; 1 &amp; 0 \end{bmatrix}\begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix} = \begin{bmatrix} 2 &amp; 1 \\ 1 &amp; 2 \end{bmatrix}. \]
+                            <p>Trace 4, determinant 3: eigenvalues \(3\) and \(1\), eigenvectors \(\mathbf{v}_1 = \tfrac{1}{\sqrt2}(1, 1)\), \(\mathbf{v}_2 = \tfrac{1}{\sqrt2}(1, -1)\). So \(\sigma_1 = \sqrt3\), \(\sigma_2 = 1\).</p>
+                            <p><strong>Step 2: \(\mathbf{u}_i = A\mathbf{v}_i/\sigma_i\).</strong></p>
+                            \[ \mathbf{u}_1 = \frac{1}{\sqrt3}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt6}\begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}, \qquad \mathbf{u}_2 = \frac{1}{1}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 0 \\ -1 \\ 1 \end{bmatrix}. \]
+                            <p><strong>Step 3: complete \(U\).</strong> \(\mathbf{u}_3\) spans the left nullspace, orthogonal to both: \(\mathbf{u}_3 = \tfrac{1}{\sqrt3}(-1, 1, 1)\). (Check: \((2,1,1)\cdot(-1,1,1) = 0\), \((0,-1,1)\cdot(-1,1,1) = 0\), and \(A^{\mathsf T}(-1,1,1) = (-1 + 0 + 1,\ -1 + 1 + 0) = \mathbf{0}\). ✓)</p>
+                            \[ A = \underbrace{\begin{bmatrix} \tfrac{2}{\sqrt6} &amp; 0 &amp; -\tfrac{1}{\sqrt3} \\ \tfrac{1}{\sqrt6} &amp; -\tfrac{1}{\sqrt2} &amp; \tfrac{1}{\sqrt3} \\ \tfrac{1}{\sqrt6} &amp; \tfrac{1}{\sqrt2} &amp; \tfrac{1}{\sqrt3} \end{bmatrix}}_{U}\underbrace{\begin{bmatrix} \sqrt3 &amp; 0 \\ 0 &amp; 1 \\ 0 &amp; 0 \end{bmatrix}}_{\Sigma}\underbrace{\begin{bmatrix} \tfrac{1}{\sqrt2} &amp; \tfrac{1}{\sqrt2} \\ \tfrac{1}{\sqrt2} &amp; -\tfrac{1}{\sqrt2} \end{bmatrix}}_{V^{\mathsf T}}. \]
+                            <p><strong>Check via the rank-one sum:</strong></p>
+                            \[ \sqrt3\,\mathbf{u}_1\mathbf{v}_1^{\mathsf T} = \frac{\sqrt3}{\sqrt{12}}\begin{bmatrix} 2 &amp; 2 \\ 1 &amp; 1 \\ 1 &amp; 1 \end{bmatrix} = \begin{bmatrix} 1 &amp; 1 \\ \tfrac12 &amp; \tfrac12 \\ \tfrac12 &amp; \tfrac12 \end{bmatrix}, \qquad 1\cdot\mathbf{u}_2\mathbf{v}_2^{\mathsf T} = \frac12\begin{bmatrix} 0 &amp; 0 \\ -1 &amp; 1 \\ 1 &amp; -1 \end{bmatrix}. \]
+                            <p>Sum: \(\begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix} = A\). ✓</p>
+                        </details>
+                    </div>
+
+                    <h3 id="svd-geometry">7.2 Geometry of the SVD</h3>
+
+                    <p>Read \(A = U\Sigma V^{\mathsf T}\) right to left as three simple steps applied to \(\mathbf{x}\):</p>
+                    <ol>
+                        <li>\(V^{\mathsf T}\): rotate (or reflect) so the special input directions \(\mathbf{v}_i\) line up with the coordinate axes.</li>
+                        <li>\(\Sigma\): stretch axis \(i\) by \(\sigma_i\) (and embed into \(\mathbb{R}^m\), dropping or padding dimensions).</li>
+                        <li>\(U\): rotate the axes onto the output directions \(\mathbf{u}_i\).</li>
+                    </ol>
+                    <p>So the unit sphere in \(\mathbb{R}^n\) is mapped to an ellipsoid (possibly flattened) in \(\mathbb{R}^m\) whose semi-axes are \(\sigma_i\mathbf{u}_i\).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (norms and conditioning from the SVD)</p>
+                        <ul>
+                            <li>\(\|A\|_2 = \max_{\|\mathbf{x}\| = 1}\|A\mathbf{x}\| = \sigma_1\), attained at \(\mathbf{x} = \mathbf{v}_1\).</li>
+                            <li>Frobenius norm: \(\|A\|_F^2 = \sum_{i,j}a_{ij}^2 = \sigma_1^2 + \cdots + \sigma_r^2\).</li>
+                            <li>For invertible square \(A\): \(\|A^{-1}\|_2 = 1/\sigma_n\), and the condition number \(\kappa(A) = \sigma_1/\sigma_n\) measures how much relative errors in \(\mathbf{b}\) can be amplified in \(\mathbf{x}\).</li>
+                            <li>For square \(A\): \(|\det A| = \sigma_1\sigma_2\cdots\sigma_n\).</li>
+                        </ul>
+                    </div>
+                    <p><strong>Proof of \(\|A\|_2 = \sigma_1\).</strong> Since \(U\) and \(V\) preserve length, \(\|A\mathbf{x}\| = \|\Sigma V^{\mathsf T}\mathbf{x}\| = \|\Sigma\mathbf{y}\|\) with \(\mathbf{y} = V^{\mathsf T}\mathbf{x}\), \(\|\mathbf{y}\| = 1\). Then \(\|\Sigma\mathbf{y}\|^2 = \sum\sigma_i^2y_i^2 \le \sigma_1^2\sum y_i^2 = \sigma_1^2\), with equality at \(\mathbf{y} = \mathbf{e}_1\). \(\blacksquare\)</p>
+
+                    <h3 id="svd-lowrank">7.3 Low-rank approximation</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Eckart&ndash;Young)</p>
+                        <p>Truncating the SVD after \(k\) terms, \(A_k = \sigma_1\mathbf{u}_1\mathbf{v}_1^{\mathsf T} + \cdots + \sigma_k\mathbf{u}_k\mathbf{v}_k^{\mathsf T}\), gives the best rank-\(k\) approximation to \(A\): for every matrix \(B\) of rank at most \(k\),</p>
+                        \[ \|A - B\|_2 \ge \|A - A_k\|_2 = \sigma_{k+1}, \qquad \|A - B\|_F \ge \|A - A_k\|_F = \sqrt{\sigma_{k+1}^2 + \cdots + \sigma_r^2}. \]
+                    </div>
+
+                    <p>This is the mathematics of compression: a \(1000\times1000\) image needs \(10^6\) numbers, but if its singular values decay quickly, \(A_{20}\) needs only \(20(1000 + 1000 + 1) \approx 40{,}000\). In data analysis (PCA), subtract the column means from a data matrix; the \(\mathbf{v}_i\) are the principal directions and \(\sigma_i^2/(N-1)\) the variances along them.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.2</p>
+                        <p>For \(A\) of Example 7.1, give the best rank-1 approximation and its error in both norms.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(A_1 = \sqrt3\,\mathbf{u}_1\mathbf{v}_1^{\mathsf T} = \begin{bmatrix} 1 &amp; 1 \\ \tfrac12 &amp; \tfrac12 \\ \tfrac12 &amp; \tfrac12 \end{bmatrix}\). The error is \(A - A_1 = \mathbf{u}_2\mathbf{v}_2^{\mathsf T} = \tfrac12\begin{bmatrix} 0 &amp; 0 \\ -1 &amp; 1 \\ 1 &amp; -1 \end{bmatrix}\).</p>
+                            <p>\(\|A - A_1\|_2 = \sigma_2 = 1\). Frobenius: \(\tfrac14(1 + 1 + 1 + 1) = 1\), so \(\|A - A_1\|_F = 1\) as well (only one discarded singular value). Sanity check: \(\|A\|_F^2 = 1+1+0+1+1+0 = 4 = \sigma_1^2 + \sigma_2^2 = 3 + 1\). ✓ The rank-1 approximation captures \(3/4\) of the "energy" \(\|A\|_F^2\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Quantum connection: the Schmidt decomposition</p>
+                        <p>A pure state of two systems with \(m\) and \(n\) levels is a vector \(|\psi\rangle = \sum_{ij}c_{ij}|i\rangle|j\rangle\); arrange the amplitudes as an \(m\times n\) matrix \(C\). The (complex) SVD \(C = U\Sigma V^{\dagger}\) rewrites the state as \(|\psi\rangle = \sum_k\sigma_k|u_k\rangle|v_k^*\rangle\) with orthonormal local bases. The number of nonzero \(\sigma_k\) (the Schmidt rank) is 1 exactly for product states; \(\sigma_k^2\) are the eigenvalues of each reduced density matrix, and the entanglement entropy is \(-\sum\sigma_k^2\log\sigma_k^2\). Tensor-network methods (DMRG, MPS) are essentially repeated truncated SVDs.</p>
+                    </div>
+
+                    <h3 id="svd-pinv">7.4 The pseudoinverse</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Moore&ndash;Penrose pseudoinverse)</p>
+                        \[ A^{+} = V\Sigma^{+}U^{\mathsf T} = \frac{1}{\sigma_1}\mathbf{v}_1\mathbf{u}_1^{\mathsf T} + \cdots + \frac{1}{\sigma_r}\mathbf{v}_r\mathbf{u}_r^{\mathsf T}, \]
+                        <p>where \(\Sigma^+\) (\(n\times m\)) has \(1/\sigma_i\) in place of each nonzero \(\sigma_i\). \(A^+\) inverts \(A\) where it can: it maps \(\mathbf{u}_i \mapsto \mathbf{v}_i/\sigma_i\) (column space back to row space) and sends the left nullspace to zero.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Properties</p>
+                        <ul>
+                            <li>If \(A\) is invertible, \(A^+ = A^{-1}\). If \(A\) has independent columns, \(A^+ = (A^{\mathsf T}A)^{-1}A^{\mathsf T}\) (the least-squares solver).</li>
+                            <li>\(AA^+\) is the projection onto \(C(A)\); \(A^+A\) is the projection onto \(C(A^{\mathsf T})\).</li>
+                            <li>\(\mathbf{x}^+ = A^+\mathbf{b}\) is the least-squares solution of <em>minimum length</em> &mdash; the unique least-squares solution lying in the row space. It exists for every \(A\), even when \(A^{\mathsf T}A\) is singular.</li>
+                        </ul>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.3</p>
+                        <p>Compute \(A^+\) for the matrix of Example 7.1 from its SVD and confirm that it equals \((A^{\mathsf T}A)^{-1}A^{\mathsf T}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ A^+ = \frac{1}{\sqrt3}\mathbf{v}_1\mathbf{u}_1^{\mathsf T} + \frac11\mathbf{v}_2\mathbf{u}_2^{\mathsf T} = \frac{1}{\sqrt3\sqrt2\sqrt6}\begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 2 &amp; 1 &amp; 1 \end{bmatrix} + \frac12\begin{bmatrix} 0 &amp; -1 &amp; 1 \\ 0 &amp; 1 &amp; -1 \end{bmatrix}. \]
+                            <p>Since \(\sqrt3\sqrt2\sqrt6 = 6\):</p>
+                            \[ A^+ = \begin{bmatrix} \tfrac13 &amp; \tfrac16 - \tfrac12 &amp; \tfrac16 + \tfrac12 \\ \tfrac13 &amp; \tfrac16 + \tfrac12 &amp; \tfrac16 - \tfrac12 \end{bmatrix} = \frac13\begin{bmatrix} 1 &amp; -1 &amp; 2 \\ 1 &amp; 2 &amp; -1 \end{bmatrix}. \]
+                            <p>Normal-equations route: \((A^{\mathsf T}A)^{-1} = \tfrac13\begin{bmatrix} 2 &amp; -1 \\ -1 &amp; 2 \end{bmatrix}\), and</p>
+                            \[ \frac13\begin{bmatrix} 2 &amp; -1 \\ -1 &amp; 2 \end{bmatrix}\begin{bmatrix} 1 &amp; 0 &amp; 1 \\ 1 &amp; 1 &amp; 0 \end{bmatrix} = \frac13\begin{bmatrix} 1 &amp; -1 &amp; 2 \\ 1 &amp; 2 &amp; -1 \end{bmatrix}. \ \checkmark \]
+                            <p>Also \(A^+A = \tfrac13\begin{bmatrix} 1 + 0 + 2 &amp; 1 - 1 + 0 \\ 1 + 0 - 1 &amp; 1 + 2 + 0 \end{bmatrix} = I\), as expected for independent columns.</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>What are the singular values of \(\begin{bmatrix} 3 &amp; 0 \\ 0 &amp; -2 \end{bmatrix}\)? Give \(U\), \(\Sigma\), \(V\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\sigma = 3, 2\). One choice: \(V = I\), \(\Sigma = \operatorname{diag}(3,2)\), \(U = \operatorname{diag}(1, -1)\) (the sign goes into \(U\)).</p>
+                                </details>
+                            </li>
+                            <li>Find the SVD of the rank-one matrix \(\begin{bmatrix} 2 &amp; 2 \\ 1 &amp; 1 \end{bmatrix}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>It equals \((2,1)(1,1)^{\mathsf T}\) \(= \sqrt5\sqrt2\,\mathbf{u}_1\mathbf{v}_1^{\mathsf T}\) with \(\mathbf{u}_1 = (2,1)/\sqrt5\), \(\mathbf{v}_1 = (1,1)/\sqrt2\). So \(\sigma_1 = \sqrt{10}\), \(\sigma_2 = 0\); \(\mathbf{u}_2 = (1,-2)/\sqrt5\), \(\mathbf{v}_2 = (1,-1)/\sqrt2\). Check: \(\|A\|_F^2 = 4+4+1+1 = 10 = \sigma_1^2\).</p>
+                                </details>
+                            </li>
+                            <li>What are the singular values of an orthogonal matrix \(Q\)?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(Q^{\mathsf T}Q = I\) has all eigenvalues 1, so every \(\sigma_i = 1\). (\(Q = Q\cdot I\cdot I^{\mathsf T}\).)</p>
+                                </details>
+                            </li>
+                            <li>If \(S\) is symmetric with eigenvalues \(4, -3\), what are its singular values? How do \(U\) and \(V\) relate to its eigenvectors?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\sigma = 4, 3\). \(V\) contains the orthonormal eigenvectors \(\mathbf{q}_1, \mathbf{q}_2\); \(U\) contains \(\mathbf{q}_1, -\mathbf{q}_2\). For positive semidefinite \(S\), \(U = V = Q\) and the SVD is the spectral decomposition.</p>
+                                </details>
+                            </li>
+                            <li>Find the pseudoinverse of the column vector \(\mathbf{a} = (1, 2)\) (a \(2\times1\) matrix) and solve \(\mathbf{a}x = (3, 1)\) in the least-squares sense.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\mathbf{a}^+ = \mathbf{a}^{\mathsf T}/\|\mathbf{a}\|^2 = \tfrac15(1, 2)\). Then \(\hat x = \tfrac15(3 + 2) = 1\) &mdash; the same as projection onto a line.</p>
+                                </details>
+                            </li>
+                            <li>Explain why \(\operatorname{rank}(A)\) equals the number of nonzero singular values, and why numerical software uses "singular values above a tolerance" to define rank.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(A = U\Sigma V^{\mathsf T}\) with \(U, V\) invertible, so \(\operatorname{rank}A = \operatorname{rank}\Sigma\) = number of nonzero \(\sigma_i\). In floating point, a tiny \(\sigma_i\) (say \(10^{-14}\sigma_1\)) is indistinguishable from round-off; Eckart&ndash;Young says \(A\) is that close to a matrix of lower rank.</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-complex">
+                    <h2>8. Complex vectors and matrices</h2>
+                    <p class="ref">Strang Ch. 9 &middot; Lay Ch. 5 (complex eigenvalues)</p>
+
+                    <p>Complex numbers enter linear algebra uninvited &mdash; real matrices can have complex eigenvalues &mdash; and in quantum mechanics they are essential: state vectors live in \(\mathbb{C}^n\) (or an infinite-dimensional Hilbert space), and relative phases are physical. Almost everything from the real case carries over once one rule is changed: <strong>whenever you would transpose, also take the complex conjugate.</strong> Symmetric becomes Hermitian, orthogonal becomes unitary, and the spectral theorem survives intact.</p>
+
+                    <h3 id="cx-vectors">8.1 Complex vectors and inner products</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (conjugate transpose, inner product, length)</p>
+                        <p>For a complex matrix \(A\), the <strong>conjugate transpose</strong> is \(A^{\mathrm H} = \bar{A}^{\mathsf T}\) (physicists write \(A^\dagger\), "A dagger"). For \(\mathbf{u}, \mathbf{v} \in \mathbb{C}^n\):</p>
+                        \[ \langle\mathbf{u}, \mathbf{v}\rangle = \mathbf{u}^{\mathrm H}\mathbf{v} = \bar u_1v_1 + \cdots + \bar u_nv_n, \qquad \|\mathbf{v}\|^2 = \mathbf{v}^{\mathrm H}\mathbf{v} = |v_1|^2 + \cdots + |v_n|^2. \]
+                        <p>\(\mathbf{u}\) and \(\mathbf{v}\) are <strong>orthogonal</strong> if \(\mathbf{u}^{\mathrm H}\mathbf{v} = 0\).</p>
+                    </div>
+
+                    <p>Why conjugate? Without it, \((1, i)\cdot(1, i) = 1 + i^2 = 0\): a nonzero vector would have length zero. With it, \(\|(1, i)\|^2 = |1|^2 + |i|^2 = 2\). The price is that the inner product is no longer symmetric: \(\langle\mathbf{v},\mathbf{u}\rangle = \overline{\langle\mathbf{u},\mathbf{v}\rangle}\). It is linear in the second slot and conjugate-linear in the first, \(\langle c\mathbf{u}, \mathbf{v}\rangle = \bar c\langle\mathbf{u},\mathbf{v}\rangle\) &mdash; the physics convention, which Strang also uses. (Many mathematics texts conjugate the <em>second</em> slot instead; watch which convention a source uses.)</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Rules for the conjugate transpose</p>
+                        <p>\((AB)^{\mathrm H} = B^{\mathrm H}A^{\mathrm H}\), \((A^{\mathrm H})^{\mathrm H} = A\), \((cA)^{\mathrm H} = \bar cA^{\mathrm H}\), and \(\langle A\mathbf{u}, \mathbf{v}\rangle = \langle\mathbf{u}, A^{\mathrm H}\mathbf{v}\rangle\). Cauchy&ndash;Schwarz holds: \(|\langle\mathbf{u},\mathbf{v}\rangle| \le \|\mathbf{u}\|\|\mathbf{v}\|\).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Aside: bra&ndash;ket notation</p>
+                        <p>Dirac's notation is just this algebra with different typography:</p>
+                        <ul>
+                            <li>A <strong>ket</strong> \(|\psi\rangle\) is a column vector \(\boldsymbol{\psi}\).</li>
+                            <li>A <strong>bra</strong> \(\langle\phi|\) is the row vector \(\boldsymbol{\phi}^{\mathrm H}\).</li>
+                            <li>A <strong>bracket</strong> \(\langle\phi|\psi\rangle = \boldsymbol{\phi}^{\mathrm H}\boldsymbol{\psi}\) is the inner product (a number).</li>
+                            <li>\(\langle\phi|A|\psi\rangle = \boldsymbol{\phi}^{\mathrm H}A\boldsymbol{\psi}\) is a matrix element.</li>
+                            <li>An outer product \(|\psi\rangle\langle\phi| = \boldsymbol{\psi}\boldsymbol{\phi}^{\mathrm H}\) is a matrix; for a unit vector, \(|\psi\rangle\langle\psi|\) is the projection onto \(\psi\).</li>
+                            <li>An orthonormal basis \(\{|i\rangle\}\) satisfies \(\langle i|j\rangle = \delta_{ij}\) and the <strong>completeness relation</strong> \(\sum_i|i\rangle\langle i| = I\) &mdash; which is just \(QQ^{\mathrm H} = I\) written column by column.</li>
+                        </ul>
+                        <p>Inserting \(I = \sum_i |i\rangle\langle i|\) is the bra&ndash;ket version of "expand in an orthonormal basis; coefficients are inner products" from &sect;4.4.</p>
+                    </div>
+
+                    <h3 id="cx-hermitian">8.2 Hermitian matrices</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Hermitian)</p>
+                        <p>A square complex matrix is <strong>Hermitian</strong> (self-adjoint) if \(A^{\mathrm H} = A\), i.e. \(a_{ji} = \overline{a_{ij}}\). The diagonal entries are therefore real. A real symmetric matrix is the special case with real entries.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (spectral theorem for Hermitian matrices)</p>
+                        <p>If \(A = A^{\mathrm H}\), then:</p>
+                        <ol>
+                            <li>\(\mathbf{x}^{\mathrm H}A\mathbf{x}\) is real for every \(\mathbf{x}\in\mathbb{C}^n\).</li>
+                            <li>Every eigenvalue of \(A\) is real.</li>
+                            <li>Eigenvectors for distinct eigenvalues are orthogonal.</li>
+                            <li>\(A = U\Lambda U^{\mathrm H} = \sum_i\lambda_i\mathbf{u}_i\mathbf{u}_i^{\mathrm H}\) with \(U\) unitary and \(\Lambda\) real diagonal.</li>
+                        </ol>
+                    </div>
+                    <p><strong>Proofs.</strong> (1) The number \(z = \mathbf{x}^{\mathrm H}A\mathbf{x}\) is a \(1\times1\) matrix, so \(\bar z = z^{\mathrm H} = \mathbf{x}^{\mathrm H}A^{\mathrm H}\mathbf{x} = \mathbf{x}^{\mathrm H}A\mathbf{x} = z\). (2) If \(A\mathbf{x} = \lambda\mathbf{x}\), then \(\mathbf{x}^{\mathrm H}A\mathbf{x} = \lambda\,\mathbf{x}^{\mathrm H}\mathbf{x} = \lambda\|\mathbf{x}\|^2\); the left side is real by (1) and \(\|\mathbf{x}\|^2 \gt 0\), so \(\lambda\) is real. (3) If \(A\mathbf{x} = \lambda_1\mathbf{x}\), \(A\mathbf{y} = \lambda_2\mathbf{y}\), then \(\lambda_1\mathbf{x}^{\mathrm H}\mathbf{y} = (A\mathbf{x})^{\mathrm H}\mathbf{y} = \mathbf{x}^{\mathrm H}A\mathbf{y} = \lambda_2\mathbf{x}^{\mathrm H}\mathbf{y}\), using \(\bar\lambda_1 = \lambda_1\). Since \(\lambda_1 \ne \lambda_2\), \(\mathbf{x}^{\mathrm H}\mathbf{y} = 0\). \(\blacksquare\)</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.1</p>
+                        <p>Diagonalize the Hermitian matrix \(H = \begin{bmatrix} 2 &amp; 1 - i \\ 1 + i &amp; 3 \end{bmatrix}\) with a unitary matrix.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Check Hermitian: diagonal real, and \(\overline{1 - i} = 1 + i\) ✓.</p>
+                            <p>\(\operatorname{tr}H = 5\), \(\det H = 6 - (1 - i)(1 + i) = 6 - 2 = 4\), so \(\lambda^2 - 5\lambda + 4 = (\lambda - 4)(\lambda - 1) = 0\): \(\lambda = 4, 1\) &mdash; real, as promised.</p>
+                            <p>\(\lambda = 4\): \(H - 4I = \begin{bmatrix} -2 &amp; 1 - i \\ 1 + i &amp; -1 \end{bmatrix}\). Row 1 gives \(-2x_1 + (1 - i)x_2 = 0\); take \(\mathbf{x}_1 = (1 - i, 2)\). Check row 2: \((1+i)(1-i) - 2 = 2 - 2 = 0\). ✓</p>
+                            <p>\(\lambda = 1\): \(H - I = \begin{bmatrix} 1 &amp; 1 - i \\ 1 + i &amp; 2 \end{bmatrix}\). Take \(\mathbf{x}_2 = (1 - i, -1)\): row 1: \((1-i) - (1-i) = 0\) ✓; row 2: \((1+i)(1-i) - 2 = 0\) ✓.</p>
+                            <p>Orthogonality (conjugate the first vector!):</p>
+                            \[ \mathbf{x}_1^{\mathrm H}\mathbf{x}_2 = \overline{(1-i)}(1-i) + \bar 2\cdot(-1) = (1+i)(1-i) - 2 = 0. \ \checkmark \]
+                            <p>Norms: \(\|\mathbf{x}_1\|^2 = |1-i|^2 + 4 = 6\), \(\|\mathbf{x}_2\|^2 = 2 + 1 = 3\). Therefore</p>
+                            \[ U = \begin{bmatrix} \tfrac{1-i}{\sqrt6} &amp; \tfrac{1-i}{\sqrt3} \\ \tfrac{2}{\sqrt6} &amp; -\tfrac{1}{\sqrt3} \end{bmatrix}, \qquad H = U\begin{bmatrix} 4 &amp; 0 \\ 0 &amp; 1 \end{bmatrix}U^{\mathrm H}. \]
+                        </details>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>A complex <em>symmetric</em> matrix (\(A^{\mathsf T} = A\)) is not Hermitian and enjoys none of these properties: \(\begin{bmatrix} 1 &amp; i \\ i &amp; 1 \end{bmatrix}\) has eigenvalues \(1 \pm i\). And forgetting to conjugate when testing orthogonality or normalizing is the single most common error in quantum homework.</p>
+                    </div>
+
+                    <h3 id="cx-unitary">8.3 Unitary matrices</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (unitary)</p>
+                        <p>A square complex matrix \(U\) is <strong>unitary</strong> if \(U^{\mathrm H}U = I\), i.e. \(U^{-1} = U^{\mathrm H}\); equivalently its columns are orthonormal in \(\mathbb{C}^n\). Real unitary matrices are the orthogonal matrices.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (properties of unitary matrices)</p>
+                        <ol>
+                            <li>\(U\) preserves inner products and lengths: \((U\mathbf{x})^{\mathrm H}(U\mathbf{y}) = \mathbf{x}^{\mathrm H}\mathbf{y}\), \(\|U\mathbf{x}\| = \|\mathbf{x}\|\).</li>
+                            <li>Every eigenvalue satisfies \(|\lambda| = 1\), i.e. \(\lambda = e^{i\theta}\).</li>
+                            <li>Eigenvectors for distinct eigenvalues are orthogonal.</li>
+                            <li>\(|\det U| = 1\). Products and inverses of unitary matrices are unitary.</li>
+                            <li>If \(H\) is Hermitian, then \(e^{iH}\) is unitary; conversely every unitary matrix has this form.</li>
+                        </ol>
+                    </div>
+                    <p><strong>Proof of 2.</strong> If \(U\mathbf{x} = \lambda\mathbf{x}\), then \(\|\mathbf{x}\| = \|U\mathbf{x}\| = |\lambda|\|\mathbf{x}\|\), so \(|\lambda| = 1\). <strong>Proof of 5.</strong> Write \(H = Q\Lambda Q^{\mathrm H}\); then \(e^{iH} = Qe^{i\Lambda}Q^{\mathrm H}\), and \(e^{i\Lambda}\) is diagonal with entries \(e^{i\lambda_k}\) of modulus 1 (since each \(\lambda_k\) is real). \(\blacksquare\)</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (normal matrices)</p>
+                        <p>A matrix is <strong>unitarily diagonalizable</strong> &mdash; \(A = U\Lambda U^{\mathrm H}\) with \(U\) unitary &mdash; if and only if it is <strong>normal</strong>: \(AA^{\mathrm H} = A^{\mathrm H}A\). Hermitian, anti-Hermitian (\(A^{\mathrm H} = -A\)) and unitary matrices are all normal; their eigenvalues lie respectively on the real axis, the imaginary axis, and the unit circle.</p>
+                    </div>
+
+                    <p>An important example in engineering is the <strong>Fourier matrix</strong> \(F_n\) with entries \(\omega^{jk}\), \(\omega = e^{2\pi i/n}\): \(F_n/\sqrt n\) is unitary, which is why the discrete Fourier transform preserves energy (Parseval) and is inverted by its conjugate transpose. The FFT is a fast factorization of this matrix.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.2 (Pauli matrices)</p>
+                        <p>The Pauli matrices are \(\sigma_x = \begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}\), \(\sigma_y = \begin{bmatrix} 0 &amp; -i \\ i &amp; 0 \end{bmatrix}\), \(\sigma_z = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix}\). Show each is both Hermitian and unitary, find the eigenvectors of \(\sigma_y\), and compute \(\sigma_x\sigma_y\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Hermitian: \(\sigma_y^{\mathrm H} = \overline{\begin{bmatrix} 0 &amp; i \\ -i &amp; 0 \end{bmatrix}} = \begin{bmatrix} 0 &amp; -i \\ i &amp; 0 \end{bmatrix} = \sigma_y\); \(\sigma_x, \sigma_z\) are real symmetric. Each squares to \(I\) (e.g. \(\sigma_y^2 = \begin{bmatrix} (-i)(i) &amp; 0 \\ 0 &amp; (i)(-i) \end{bmatrix} = I\)), so \(\sigma^{\mathrm H}\sigma = \sigma^2 = I\): unitary too. Hermitian + unitary forces eigenvalues that are real <em>and</em> of modulus 1, i.e. \(\pm1\).</p>
+                            <p>Eigenvalues of \(\sigma_y\): trace 0 and \(\det\sigma_y = 0\cdot0 - (-i)(i) = -1\), so \(\lambda^2 - 1 = 0\), \(\lambda = \pm1\).</p>
+                            <ul>
+                                <li>\(\lambda = +1\): \(\sigma_y(1, i) = (-i\cdot i,\ i\cdot1) = (1, i)\). Normalized: \(\tfrac{1}{\sqrt2}(1, i)\).</li>
+                                <li>\(\lambda = -1\): \(\sigma_y(1, -i) = (-i\cdot(-i),\ i) = (-1, i) = -(1, -i)\). Normalized: \(\tfrac{1}{\sqrt2}(1, -i)\).</li>
+                            </ul>
+                            <p>Orthogonal: \(\overline{(1, i)}\cdot(1, -i) = 1\cdot1 + (-i)(-i) = 1 - 1 = 0\). ✓</p>
+                            <p>Product: \(\sigma_x\sigma_y = \begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}\begin{bmatrix} 0 &amp; -i \\ i &amp; 0 \end{bmatrix} = \begin{bmatrix} i &amp; 0 \\ 0 &amp; -i \end{bmatrix} = i\sigma_z\). Similarly \(\sigma_y\sigma_x = -i\sigma_z\), so \([\sigma_x, \sigma_y] = 2i\sigma_z\): these matrices do not commute, which is why spin components along \(x\) and \(y\) cannot be measured simultaneously.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="cx-quantum">8.4 Connection to quantum mechanics</h3>
+
+                    <p>Finite-dimensional quantum mechanics (qubits, spin systems, quantum circuits) is literally linear algebra over \(\mathbb{C}\). The dictionary:</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Physics</th><th>Linear algebra</th></tr></thead>
+                            <tbody>
+                                <tr><td>State \(|\psi\rangle\)</td><td>Unit vector in \(\mathbb{C}^n\), defined up to a global phase \(e^{i\alpha}\)</td></tr>
+                                <tr><td>Observable</td><td>Hermitian matrix \(A\)</td></tr>
+                                <tr><td>Possible measurement outcomes</td><td>Eigenvalues of \(A\) (real, by &sect;8.2)</td></tr>
+                                <tr><td>Probability of outcome \(a_k\)</td><td>\(|\langle a_k|\psi\rangle|^2\) (squared length of the projection onto the eigenvector)</td></tr>
+                                <tr><td>Expectation value \(\langle A\rangle\)</td><td>\(\boldsymbol\psi^{\mathrm H}A\boldsymbol\psi = \sum_k a_k|\langle a_k|\psi\rangle|^2\)</td></tr>
+                                <tr><td>Time evolution</td><td>\(|\psi(t)\rangle = U(t)|\psi(0)\rangle\), \(U(t) = e^{-iHt/\hbar}\) unitary</td></tr>
+                                <tr><td>Schr&ouml;dinger equation</td><td>\(i\hbar\,\tfrac{d}{dt}\boldsymbol\psi = H\boldsymbol\psi\) &mdash; a system \(d\mathbf{u}/dt = A\mathbf{u}\) with \(A = -iH/\hbar\) (&sect;6.4)</td></tr>
+                                <tr><td>Quantum gate</td><td>Unitary matrix (e.g. Hadamard \(\tfrac{1}{\sqrt2}\begin{bmatrix} 1 &amp; 1 \\ 1 &amp; -1 \end{bmatrix}\))</td></tr>
+                                <tr><td>Compatible observables</td><td>Commuting Hermitian matrices &mdash; they share an orthonormal eigenbasis</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Why unitary evolution? Total probability \(\|\boldsymbol\psi\|^2\) must stay 1. From \(i\hbar\boldsymbol\psi' = H\boldsymbol\psi\): \(\tfrac{d}{dt}\|\boldsymbol\psi\|^2 = \boldsymbol\psi'^{\mathrm H}\boldsymbol\psi + \boldsymbol\psi^{\mathrm H}\boldsymbol\psi' = \tfrac{1}{i\hbar}\left(-\boldsymbol\psi^{\mathrm H}H^{\mathrm H}\boldsymbol\psi + \boldsymbol\psi^{\mathrm H}H\boldsymbol\psi\right) = 0\) exactly because \(H^{\mathrm H} = H\). Hermitian generator \(\iff\) unitary evolution \(\iff\) conserved probability. Solving with the eigenbasis of \(H\) (energy eigenstates \(H\boldsymbol\phi_k = E_k\boldsymbol\phi_k\)):</p>
+                    \[ \boldsymbol\psi(t) = \sum_k c_k e^{-iE_kt/\hbar}\boldsymbol\phi_k, \qquad c_k = \boldsymbol\phi_k^{\mathrm H}\boldsymbol\psi(0). \]
+                    <p>Each energy eigenstate only acquires a phase; all the dynamics lives in the <em>relative</em> phases between components.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (commuting Hermitian matrices)</p>
+                        <p>Hermitian matrices \(A\) and \(B\) can be diagonalized by the same unitary matrix if and only if \(AB = BA\).</p>
+                    </div>
+                    <p><strong>Sketch (\(\Leftarrow\), distinct eigenvalues).</strong> If \(A\mathbf{x} = \lambda\mathbf{x}\), then \(A(B\mathbf{x}) = BA\mathbf{x} = \lambda(B\mathbf{x})\), so \(B\mathbf{x}\) lies in the same eigenspace of \(A\). If that eigenspace is a line, \(B\mathbf{x} = \mu\mathbf{x}\): \(\mathbf{x}\) is an eigenvector of \(B\) too. (With repeated eigenvalues, diagonalize \(B\) within each eigenspace of \(A\).) \(\blacksquare\)</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.3 (measuring a qubit)</p>
+                        <p>A qubit is in the state \(\boldsymbol\psi = \tfrac{1}{\sqrt3}(1,\ 1 + i)\) in the \(\sigma_z\) basis \(|0\rangle = (1,0)\), \(|1\rangle = (0,1)\). (a) Check normalization. (b) Find the outcome probabilities and \(\langle\sigma_z\rangle\). (c) Do the same for \(\sigma_x\), whose eigenvectors are \(|\pm\rangle = \tfrac{1}{\sqrt2}(1, \pm1)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(\|\boldsymbol\psi\|^2 = \tfrac13\left(|1|^2 + |1 + i|^2\right) = \tfrac13(1 + 2) = 1\). ✓</p>
+                            <p>(b) \(P(+1) = |\langle0|\psi\rangle|^2 = \tfrac13\), \(P(-1) = |\langle1|\psi\rangle|^2 = \tfrac23\). So \(\langle\sigma_z\rangle = (+1)\tfrac13 + (-1)\tfrac23 = -\tfrac13\).</p>
+                            <p>(c) Project onto the \(\sigma_x\) eigenvectors (their entries are real, so conjugation does nothing to them):</p>
+                            \[ \langle +|\psi\rangle = \frac{1 + (1 + i)}{\sqrt2\sqrt3} = \frac{2 + i}{\sqrt6}, \qquad \langle -|\psi\rangle = \frac{1 - (1 + i)}{\sqrt6} = \frac{-i}{\sqrt6}. \]
+                            <p>\(P(+1) = \tfrac{|2+i|^2}{6} = \tfrac56\), \(P(-1) = \tfrac{1}{6}\); they sum to 1 ✓. Hence \(\langle\sigma_x\rangle = \tfrac56 - \tfrac16 = \tfrac23\).</p>
+                            <p>Direct check with the matrix: \(\sigma_x\boldsymbol\psi = \tfrac1{\sqrt3}(1 + i, 1)\), so</p>
+                            \[ \boldsymbol\psi^{\mathrm H}\sigma_x\boldsymbol\psi = \frac13\left[\bar 1\,(1+i) + \overline{(1+i)}\cdot1\right] = \frac13\left[(1 + i) + (1 - i)\right] = \frac23. \ \checkmark \]
+                            <p>The answer is real, as it must be for a Hermitian observable.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.4 (Rabi oscillation: unitary time evolution)</p>
+                        <p>A qubit has Hamiltonian \(H = \tfrac{\hbar\omega}{2}\sigma_x\) and starts in \(|0\rangle = (1, 0)\). Find \(\boldsymbol\psi(t)\) and the probability of finding it in \(|1\rangle\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Method 1 (power series).</strong> \(U(t) = e^{-iHt/\hbar} = e^{-i\theta\sigma_x}\) with \(\theta = \omega t/2\). Because \(\sigma_x^2 = I\), the even powers give \(\cos\theta\) and the odd powers give \(\sin\theta\), exactly as for \(J\) in &sect;6.4:</p>
+                            \[ e^{-i\theta\sigma_x} = (\cos\theta)I - i(\sin\theta)\sigma_x = \begin{bmatrix} \cos\theta &amp; -i\sin\theta \\ -i\sin\theta &amp; \cos\theta \end{bmatrix}. \]
+                            <p>So \(\boldsymbol\psi(t) = U(t)(1, 0) = \left(\cos\tfrac{\omega t}{2},\ -i\sin\tfrac{\omega t}{2}\right)\).</p>
+                            <p><strong>Method 2 (eigenbasis).</strong> \(\sigma_x\) has eigenvalues \(\pm1\) with \(|\pm\rangle = \tfrac{1}{\sqrt2}(1, \pm1)\), so the energies are \(\pm\tfrac{\hbar\omega}{2}\). Expand \(|0\rangle = \tfrac{1}{\sqrt2}(|+\rangle + |-\rangle)\) and attach phases:</p>
+                            \[ \boldsymbol\psi(t) = \tfrac{1}{\sqrt2}\left(e^{-i\omega t/2}|+\rangle + e^{i\omega t/2}|-\rangle\right) = \tfrac12\begin{bmatrix} e^{-i\omega t/2} + e^{i\omega t/2} \\ e^{-i\omega t/2} - e^{i\omega t/2} \end{bmatrix} = \begin{bmatrix} \cos\frac{\omega t}{2} \\ -i\sin\frac{\omega t}{2} \end{bmatrix}. \]
+                            <p>Both agree. \(P_{|1\rangle}(t) = \sin^2\tfrac{\omega t}{2} = \tfrac12(1 - \cos\omega t)\): the qubit oscillates fully between \(|0\rangle\) and \(|1\rangle\) at angular frequency \(\omega\). At \(\omega t = \pi\) the evolution acts as a NOT gate (up to a phase \(-i\)). Throughout, \(\|\boldsymbol\psi(t)\|^2 = \cos^2 + \sin^2 = 1\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>When a problem says "observable", think "Hermitian, so real eigenvalues and an orthonormal eigenbasis". When it says "evolution", "gate" or "symmetry operation", think "unitary, so it preserves inner products and has eigenvalues \(e^{i\theta}\)". Most finite-dimensional QM calculations are: (1) find the eigenbasis, (2) expand the state, (3) attach phases or square magnitudes.</p>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Compute \(\langle\mathbf{u},\mathbf{v}\rangle\), \(\|\mathbf{u}\|\) and \(\|\mathbf{v}\|\) for \(\mathbf{u} = (1, i)\), \(\mathbf{v} = (i, 1)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\mathbf{u}^{\mathrm H}\mathbf{v} = \bar1\cdot i + \bar i\cdot1 = i - i = 0\): orthogonal. \(\|\mathbf{u}\| = \|\mathbf{v}\| = \sqrt2\).</p>
+                                </details>
+                            </li>
+                            <li>Is \(U = \tfrac{1}{\sqrt2}\begin{bmatrix} 1 &amp; i \\ i &amp; 1 \end{bmatrix}\) unitary? Hermitian? Find its eigenvalues.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(U^{\mathrm H} = \tfrac{1}{\sqrt2}\begin{bmatrix} 1 &amp; -i \\ -i &amp; 1 \end{bmatrix}\), and \(U^{\mathrm H}U = \tfrac12\begin{bmatrix} 1 + 1 &amp; i - i \\ -i + i &amp; 1 + 1 \end{bmatrix} = I\): unitary. Not Hermitian (\(U^{\mathrm H} \ne U\)). Eigenvalues \(\tfrac{1 \pm i}{\sqrt2} = e^{\pm i\pi/4}\), with eigenvectors \((1, \pm1)\); both have modulus 1. ✓</p>
+                                </details>
+                            </li>
+                            <li>Show that the eigenvalues of an anti-Hermitian matrix (\(A^{\mathrm H} = -A\)) are purely imaginary, and that \(e^{A}\) is unitary.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(iA\) is Hermitian: \((iA)^{\mathrm H} = -iA^{\mathrm H} = iA\). Its eigenvalues are real, so those of \(A\) are \(-i\times\)real. \(e^{A} = e^{i(-iA)}\) with \(-iA\) Hermitian, so it is unitary by &sect;8.3. (Example: \(A = -iH/\hbar\) in the Schr&ouml;dinger equation.)</p>
+                                </details>
+                            </li>
+                            <li>Verify \(\sigma_y\sigma_x = -i\sigma_z\), and find \(\sigma_x\sigma_y\sigma_z\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\begin{bmatrix} 0 &amp; -i \\ i &amp; 0 \end{bmatrix}\begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix} = \begin{bmatrix} -i &amp; 0 \\ 0 &amp; i \end{bmatrix} = -i\sigma_z\). Then \(\sigma_x\sigma_y\sigma_z = i\sigma_z\sigma_z = iI\).</p>
+                                </details>
+                            </li>
+                            <li>Write the projector \(P = |\psi\rangle\langle\psi|\) for \(\boldsymbol\psi = \tfrac{1}{\sqrt2}(1, i)\) and verify \(P^{\mathrm H} = P = P^2\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(P = \boldsymbol\psi\boldsymbol\psi^{\mathrm H} = \tfrac12\begin{bmatrix} 1 \\ i \end{bmatrix}\begin{bmatrix} 1 &amp; -i \end{bmatrix} = \tfrac12\begin{bmatrix} 1 &amp; -i \\ i &amp; 1 \end{bmatrix}\). Hermitian by inspection; \(P^2 = \boldsymbol\psi(\boldsymbol\psi^{\mathrm H}\boldsymbol\psi)\boldsymbol\psi^{\mathrm H} = P\) since \(\boldsymbol\psi^{\mathrm H}\boldsymbol\psi = 1\). (It is \(\tfrac12(I + \sigma_y)\), the projector onto the \(+1\) eigenvector of \(\sigma_y\).)</p>
+                                </details>
+                            </li>
+                            <li>For a Hermitian \(H\) with eigenvalues \(E_1 \lt E_2\), show that \(\min_{\|\mathbf{x}\| = 1}\mathbf{x}^{\mathrm H}H\mathbf{x} = E_1\) (the variational principle).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Expand \(\mathbf{x} = c_1\boldsymbol\phi_1 + c_2\boldsymbol\phi_2\) in the orthonormal eigenbasis with \(|c_1|^2 + |c_2|^2 = 1\). Then \(\mathbf{x}^{\mathrm H}H\mathbf{x} = E_1|c_1|^2 + E_2|c_2|^2 \ge E_1\), with equality at \(\mathbf{x} = \boldsymbol\phi_1\). Any trial state overestimates the ground-state energy.</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="formula-sheet">
+                    <h2>Formula sheet</h2>
+
+                    <h3>The invertible matrix theorem</h3>
+                    <p>For a square \(n\times n\) matrix \(A\), the following are all equivalent:</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Viewpoint</th><th>Statement equivalent to "\(A\) is invertible"</th></tr></thead>
+                            <tbody>
+                                <tr><td>Elimination</td><td>\(A\) has \(n\) (nonzero) pivots; \(\operatorname{rref}(A) = I\); \(A\) is a product of elementary matrices</td></tr>
+                                <tr><td>Equations</td><td>\(A\mathbf{x} = \mathbf{0}\) has only \(\mathbf{x} = \mathbf{0}\); \(A\mathbf{x} = \mathbf{b}\) has exactly one solution for every \(\mathbf{b}\)</td></tr>
+                                <tr><td>Rank / subspaces</td><td>\(\operatorname{rank}A = n\); \(N(A) = \{\mathbf{0}\}\); \(C(A) = \mathbb{R}^n\); \(N(A^{\mathsf T}) = \{\mathbf{0}\}\)</td></tr>
+                                <tr><td>Columns / rows</td><td>Columns are independent; columns span \(\mathbb{R}^n\); columns form a basis; same for rows</td></tr>
+                                <tr><td>Maps</td><td>\(\mathbf{x}\mapsto A\mathbf{x}\) is one-to-one; it is onto</td></tr>
+                                <tr><td>Transpose</td><td>\(A^{\mathsf T}\) is invertible</td></tr>
+                                <tr><td>Determinant</td><td>\(\det A \ne 0\)</td></tr>
+                                <tr><td>Eigenvalues</td><td>0 is not an eigenvalue of \(A\)</td></tr>
+                                <tr><td>SVD</td><td>All \(n\) singular values are positive (\(\sigma_n \gt 0\))</td></tr>
+                                <tr><td>Gram matrix</td><td>\(A^{\mathsf T}A\) is positive definite</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>The great factorizations</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Factorization</th><th>Requirements</th><th>What the factors are</th><th>Used for</th></tr></thead>
+                            <tbody>
+                                <tr><td>\(A = LU\) (or \(PA = LU\))</td><td>Square; no zero pivots (else add \(P\))</td><td>\(L\): unit lower triangular, multipliers \(\ell_{ij}\); \(U\): upper triangular, pivots on diagonal</td><td>Solving \(A\mathbf{x} = \mathbf{b}\); determinants</td></tr>
+                                <tr><td>\(S = LDL^{\mathsf T}\), \(S = LL^{\mathsf T}\)</td><td>Symmetric (Cholesky: positive definite)</td><td>\(D\): pivots</td><td>Symmetric systems, testing definiteness</td></tr>
+                                <tr><td>\(A = QR\)</td><td>Independent columns</td><td>\(Q\): orthonormal columns; \(R\): upper triangular, \(r_{ij} = \mathbf{q}_i^{\mathsf T}\mathbf{a}_j\)</td><td>Least squares (\(R\hat{\mathbf{x}} = Q^{\mathsf T}\mathbf{b}\)), Gram&ndash;Schmidt</td></tr>
+                                <tr><td>\(A = S\Lambda S^{-1}\)</td><td>Square with \(n\) independent eigenvectors</td><td>\(S\): eigenvectors in columns; \(\Lambda\): eigenvalues</td><td>Powers \(A^k = S\Lambda^kS^{-1}\), \(e^{At} = Se^{\Lambda t}S^{-1}\)</td></tr>
+                                <tr><td>\(S = Q\Lambda Q^{\mathsf T}\)</td><td>Real symmetric</td><td>\(Q\): orthonormal eigenvectors; \(\Lambda\): real eigenvalues</td><td>Spectral theorem, quadratic forms, normal modes</td></tr>
+                                <tr><td>\(A = U\Lambda U^{\mathrm H}\)</td><td>Hermitian (more generally, normal)</td><td>\(U\): unitary eigenvectors; \(\Lambda\): real (Hermitian) eigenvalues</td><td>Quantum observables</td></tr>
+                                <tr><td>\(A = U\Sigma V^{\mathsf T}\)</td><td>Any \(m\times n\) matrix</td><td>\(U, V\): orthogonal; \(\Sigma\): singular values \(\sigma_1 \ge \cdots \ge \sigma_r \gt 0\)</td><td>Rank, norms, low-rank approximation, pseudoinverse, PCA</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Key formulas by topic</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Dot product, angle</td><td>\(\mathbf{v}\cdot\mathbf{w} = \mathbf{v}^{\mathsf T}\mathbf{w}\), \(\cos\theta = \dfrac{\mathbf{v}\cdot\mathbf{w}}{\|\mathbf{v}\|\|\mathbf{w}\|}\), \(|\mathbf{v}\cdot\mathbf{w}| \le \|\mathbf{v}\|\|\mathbf{w}\|\)</td></tr>
+                                <tr><td>Matrix&ndash;vector product</td><td>\(A\mathbf{x} = x_1\mathbf{a}_1 + \cdots + x_n\mathbf{a}_n\) (combination of columns)</td></tr>
+                                <tr><td>Inverse and transpose rules</td><td>\((AB)^{-1} = B^{-1}A^{-1}\), \((AB)^{\mathsf T} = B^{\mathsf T}A^{\mathsf T}\), \((A^{-1})^{\mathsf T} = (A^{\mathsf T})^{-1}\)</td></tr>
+                                <tr><td>\(2\times2\) inverse</td><td>\(\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix}^{-1} = \dfrac{1}{ad - bc}\begin{bmatrix} d &amp; -b \\ -c &amp; a \end{bmatrix}\)</td></tr>
+                                <tr><td>Four subspaces (\(m\times n\), rank \(r\))</td><td>\(\dim C(A) = \dim C(A^{\mathsf T}) = r\), \(\dim N(A) = n - r\), \(\dim N(A^{\mathsf T}) = m - r\)</td></tr>
+                                <tr><td>Orthogonal complements</td><td>\(N(A) = C(A^{\mathsf T})^\perp\), \(N(A^{\mathsf T}) = C(A)^\perp\)</td></tr>
+                                <tr><td>Complete solution</td><td>\(\mathbf{x} = \mathbf{x}_p + \mathbf{x}_n\), \(\mathbf{x}_n \in N(A)\)</td></tr>
+                                <tr><td>Projection onto a line</td><td>\(\mathbf{p} = \dfrac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\mathbf{a}^{\mathsf T}\mathbf{a}}\mathbf{a}\), \(P = \dfrac{\mathbf{a}\mathbf{a}^{\mathsf T}}{\mathbf{a}^{\mathsf T}\mathbf{a}}\)</td></tr>
+                                <tr><td>Projection onto \(C(A)\)</td><td>\(P = A(A^{\mathsf T}A)^{-1}A^{\mathsf T}\), \(P^2 = P = P^{\mathsf T}\); with orthonormal \(Q\): \(P = QQ^{\mathsf T}\)</td></tr>
+                                <tr><td>Least squares</td><td>\(A^{\mathsf T}A\hat{\mathbf{x}} = A^{\mathsf T}\mathbf{b}\); \(\mathbf{e} = \mathbf{b} - A\hat{\mathbf{x}} \perp C(A)\)</td></tr>
+                                <tr><td>Gram&ndash;Schmidt</td><td>\(\mathbf{A}_j = \mathbf{a}_j - \sum_{i \lt j}(\mathbf{q}_i^{\mathsf T}\mathbf{a}_j)\mathbf{q}_i\), \(\mathbf{q}_j = \mathbf{A}_j/\|\mathbf{A}_j\|\)</td></tr>
+                                <tr><td>Orthogonal matrix</td><td>\(Q^{\mathsf T}Q = I\), \(\|Q\mathbf{x}\| = \|\mathbf{x}\|\), \(\det Q = \pm1\)</td></tr>
+                                <tr><td>Determinant</td><td>\(\det(AB) = \det A\det B\), \(\det A^{\mathsf T} = \det A\), \(\det(cA) = c^n\det A\), \(\det A = \pm\prod\text{pivots}\)</td></tr>
+                                <tr><td>Cofactors, Cramer</td><td>\(\det A = \sum_j a_{ij}C_{ij}\), \(A^{-1} = C^{\mathsf T}/\det A\), \(x_j = \det B_j/\det A\)</td></tr>
+                                <tr><td>Eigenvalues</td><td>\(\det(A - \lambda I) = 0\), \(\sum\lambda_i = \operatorname{tr}A\), \(\prod\lambda_i = \det A\); \(2\times2\): \(\lambda^2 - (\operatorname{tr}A)\lambda + \det A = 0\)</td></tr>
+                                <tr><td>Difference equations</td><td>\(\mathbf{u}_k = A^k\mathbf{u}_0 = \sum c_i\lambda_i^k\mathbf{x}_i\); stable iff all \(|\lambda_i| \lt 1\)</td></tr>
+                                <tr><td>Differential equations</td><td>\(\mathbf{u}(t) = e^{At}\mathbf{u}(0) = \sum c_ie^{\lambda_it}\mathbf{x}_i\); stable iff all \(\operatorname{Re}\lambda_i \lt 0\)</td></tr>
+                                <tr><td>Positive definite (symmetric \(S\))</td><td>\(\mathbf{x}^{\mathsf T}S\mathbf{x} \gt 0\) \(\iff\) all \(\lambda_i \gt 0\) \(\iff\) all pivots \(\gt 0\) \(\iff\) leading minors \(\gt 0\) \(\iff\) \(S = A^{\mathsf T}A\), \(A\) independent columns</td></tr>
+                                <tr><td>SVD relations</td><td>\(A\mathbf{v}_i = \sigma_i\mathbf{u}_i\), \(A^{\mathsf T}\mathbf{u}_i = \sigma_i\mathbf{v}_i\), \(\sigma_i^2 = \lambda_i(A^{\mathsf T}A)\), \(\|A\|_2 = \sigma_1\), \(\|A\|_F^2 = \sum\sigma_i^2\)</td></tr>
+                                <tr><td>Eckart&ndash;Young</td><td>\(A_k = \sum_{i\le k}\sigma_i\mathbf{u}_i\mathbf{v}_i^{\mathsf T}\), \(\|A - A_k\|_2 = \sigma_{k+1}\)</td></tr>
+                                <tr><td>Pseudoinverse</td><td>\(A^+ = V\Sigma^+U^{\mathsf T}\); \(A^+ = (A^{\mathsf T}A)^{-1}A^{\mathsf T}\) for independent columns</td></tr>
+                                <tr><td>Complex inner product</td><td>\(\langle\mathbf{u},\mathbf{v}\rangle = \mathbf{u}^{\mathrm H}\mathbf{v}\), \(\|\mathbf{v}\|^2 = \sum|v_i|^2\), \(\langle\mathbf{v},\mathbf{u}\rangle = \overline{\langle\mathbf{u},\mathbf{v}\rangle}\)</td></tr>
+                                <tr><td>Hermitian</td><td>\(A^{\mathrm H} = A\): real eigenvalues, orthonormal eigenvectors, \(\mathbf{x}^{\mathrm H}A\mathbf{x} \in \mathbb{R}\)</td></tr>
+                                <tr><td>Unitary</td><td>\(U^{\mathrm H}U = I\): \(|\lambda| = 1\), preserves \(\langle\cdot,\cdot\rangle\); \(U = e^{iH}\) with \(H\) Hermitian</td></tr>
+                                <tr><td>Quantum evolution</td><td>\(i\hbar\boldsymbol\psi' = H\boldsymbol\psi\), \(\boldsymbol\psi(t) = e^{-iHt/\hbar}\boldsymbol\psi(0) = \sum_kc_ke^{-iE_kt/\hbar}\boldsymbol\phi_k\); \(P(a_k) = |\langle a_k|\psi\rangle|^2\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </article>
+        </div>
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 Jack Geisler</p>
+        </div>
+    </footer>
+
 </body>
+
 </html>

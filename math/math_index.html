@@ -1,25 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
-
-    <title>Math Index</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Notes | Jack Geisler</title>
+    <meta name="description" content="Study notes for calculus, linear algebra, differential equations, and statistics.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css?v=7">
 </head>
-<body>
-    <a class="back-link" href="../index.html" style="display:inline-block;margin:16px 0 0 16px;font-family:Inter,system-ui,sans-serif;font-size:0.95rem;font-weight:600;color:#1d3461;text-decoration:none;">&larr; Home</a>
-    <header>
-        <h1>MATH INDEX</h1>
-    </header>   
 
-    <main>
-        <li><a href="calc_one/calc_one.html">Calculus One</a></li>
-        <li><a href="calc_two.html">Calculus Two</a></li>
-        <li><a href="calc_three.html">Calcus Three</a></li>
-        <li><a href="linear_algebra.html">Linear Algebra</a></li>
-        <li><a href="diffyQ.html">Differential Equations</a></li>
-        <li><a href="statistics.html">Statistics</a></li>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../index.html">Jack Geisler</a>
+            <nav aria-label="Main">
+                <ul>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../projects.html">Projects</a></li>
+                    <li><a href="../articles.html">Articles</a></li>
+                    <li><a href="math_index.html" aria-current="page">Math</a></li>
+                    <li><a href="../physics/physics_index.html">Physics</a></li>
+                    <li><a href="https://chat.jackgeisler.com">Chat</a></li>
+                    <li><a class="nav-cta" href="../resmue.html">Resume</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="projects-page">
+
+        <a class="back-link" href="../index.html">&larr; Home</a>
+
+        <header class="page-intro">
+            <p class="eyebrow">Math &middot; Study Notes</p>
+            <h1>Mathematics</h1>
+            <p>Course-by-course study notes with definitions, theorems, worked examples, and practice problems.
+                Each set follows the chapter structure of one or two standard textbooks.</p>
+        </header>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>Calculus I</h3>
+                <span class="date">Limits &middot; Derivatives &middot; Integrals</span>
+            </div>
+            <p>Functions, limits and continuity, differentiation and its applications, and the definite integral
+                through the Fundamental Theorem of Calculus.</p>
+            <ul class="tags"><li>Stewart</li><li>OpenStax Calculus Vol. 1</li></ul>
+            <a class="project-link" href="calc_one/calc_one.html">Open notes</a>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>Calculus II</h3>
+                <span class="date">Integration &middot; Series</span>
+            </div>
+            <p>Applications and techniques of integration, improper integrals, introductory differential equations,
+                parametric and polar curves, and sequences and series.</p>
+            <ul class="tags"><li>Stewart</li><li>OpenStax Calculus Vol. 2</li></ul>
+            <a class="project-link" href="calc_two.html">Open notes</a>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>Calculus III</h3>
+                <span class="date">Multivariable &amp; Vector Calculus</span>
+            </div>
+            <p>Vectors and 3D geometry, vector functions, partial derivatives, multiple integrals, and the
+                theorems of Green, Stokes, and Gauss.</p>
+            <ul class="tags"><li>Stewart</li><li>OpenStax Calculus Vol. 3</li></ul>
+            <a class="project-link" href="calc_three.html">Open notes</a>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>Linear Algebra</h3>
+                <span class="date">Matrices &middot; Vector Spaces &middot; Eigenvalues</span>
+            </div>
+            <p>Linear systems, matrix algebra, vector spaces and the four fundamental subspaces, orthogonality,
+                determinants, eigenvalues, and the singular value decomposition.</p>
+            <ul class="tags"><li>Strang</li><li>Lay</li></ul>
+            <a class="project-link" href="linear_algebra.html">Open notes</a>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>Differential Equations</h3>
+                <span class="date">ODEs &middot; Laplace &middot; Systems</span>
+            </div>
+            <p>First- and second-order ODEs, series solutions, Laplace transforms, linear systems, and an
+                introduction to Fourier series and boundary value problems.</p>
+            <ul class="tags"><li>Boyce &amp; DiPrima</li><li>Zill</li></ul>
+            <a class="project-link" href="diffyQ.html">Open notes</a>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>Probability &amp; Statistics</h3>
+                <span class="date">Probability &middot; Inference &middot; Regression</span>
+            </div>
+            <p>Probability, discrete and continuous distributions, sampling distributions, confidence intervals,
+                hypothesis testing, and regression, with an engineering focus.</p>
+            <ul class="tags"><li>Montgomery &amp; Runger</li><li>OpenStax Introductory Statistics</li></ul>
+            <a class="project-link" href="statistics.html">Open notes</a>
+        </article>
+
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 Jack Geisler</p>
+        </div>
+    </footer>
+
 </body>
+
 </html>

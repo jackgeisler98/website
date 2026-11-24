@@ -1,15 +1,2272 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculus II</title>
+    <title>Calculus II | Study Notes | Jack Geisler</title>
+    <meta name="description" content="Study notes for Calculus II: applications and techniques of integration, differential equations, parametric and polar curves, and sequences and series.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css?v=7">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']],
+                tags: 'none'
+            },
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
 </head>
-<body style="font-family:Inter,system-ui,sans-serif;background:#f7f1e3;color:#1c2333;margin:0;">
-    <a class="back-link" href="math_index.html" style="display:inline-block;margin:16px 0 0 16px;font-family:Inter,system-ui,sans-serif;font-size:0.95rem;font-weight:600;color:#1d3461;text-decoration:none;">&larr; Math</a>
-    <main style="max-width:760px;margin:0 auto;padding:32px 24px;">
-        <h1 style="font-family:Georgia,serif;color:#0f1f3d;">Calculus II</h1>
-        <p>Notes coming soon.</p>
+
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../index.html">Jack Geisler</a>
+            <nav aria-label="Main">
+                <ul>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../projects.html">Projects</a></li>
+                    <li><a href="../articles.html">Articles</a></li>
+                    <li><a href="../math/math_index.html">Math</a></li>
+                    <li><a href="../physics/physics_index.html">Physics</a></li>
+                    <li><a href="https://chat.jackgeisler.com">Chat</a></li>
+                    <li><a class="nav-cta" href="../resmue.html">Resume</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="notes-page">
+
+        <a class="back-link" href="math_index.html">&larr; Math</a>
+
+        <header class="notes-intro">
+            <p class="eyebrow">Math &middot; Study Notes</p>
+            <h1>Calculus II</h1>
+            <p class="lede-dark">Calculus II turns the integral into a working tool: computing areas, volumes, work and lengths; a toolkit of integration techniques; first differential equations; curves described parametrically and in polar form; and infinite series, which let us replace hard functions with polynomials we can actually compute with.</p>
+            <div class="textbooks">
+                <p><strong>Based on:</strong></p>
+                <ul>
+                    <li><em>Calculus: Early Transcendentals</em>, James Stewart (with Clegg and Watson), 9th edition</li>
+                    <li><em>Calculus Volume 2</em>, Gilbert Strang and Edwin Herman, OpenStax (free online)</li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="notes-layout">
+
+            <nav class="toc" aria-label="Contents">
+                <p>Contents</p>
+                <ol>
+                    <li><a href="#ch6">Applications of integration</a>
+                        <ol>
+                            <li><a href="#ch6-area">Area between curves</a></li>
+                            <li><a href="#ch6-disks">Volumes: disks and washers</a></li>
+                            <li><a href="#ch6-shells">Volumes: cylindrical shells</a></li>
+                            <li><a href="#ch6-work">Work</a></li>
+                            <li><a href="#ch6-average">Average value</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch7">Techniques of integration</a>
+                        <ol>
+                            <li><a href="#ch7-parts">Integration by parts</a></li>
+                            <li><a href="#ch7-trig">Trigonometric integrals</a></li>
+                            <li><a href="#ch7-trigsub">Trigonometric substitution</a></li>
+                            <li><a href="#ch7-partial">Partial fractions</a></li>
+                            <li><a href="#ch7-strategy">Strategy</a></li>
+                            <li><a href="#ch7-numerical">Numerical integration</a></li>
+                            <li><a href="#ch7-improper">Improper integrals</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch8">Further applications</a>
+                        <ol>
+                            <li><a href="#ch8-arc">Arc length</a></li>
+                            <li><a href="#ch8-surface">Surface area of revolution</a></li>
+                            <li><a href="#ch8-mass">Centers of mass and centroids</a></li>
+                            <li><a href="#ch8-hydro">Hydrostatic force</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch9">Differential equations</a>
+                        <ol>
+                            <li><a href="#ch9-model">Modeling and terminology</a></li>
+                            <li><a href="#ch9-direction">Direction fields</a></li>
+                            <li><a href="#ch9-euler">Euler's method</a></li>
+                            <li><a href="#ch9-separable">Separable equations</a></li>
+                            <li><a href="#ch9-growth">Exponential and logistic growth</a></li>
+                            <li><a href="#ch9-linear">First-order linear equations</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch10">Parametric and polar</a>
+                        <ol>
+                            <li><a href="#ch10-param">Parametric curves</a></li>
+                            <li><a href="#ch10-paramcalc">Calculus with parametric curves</a></li>
+                            <li><a href="#ch10-polar">Polar coordinates</a></li>
+                            <li><a href="#ch10-polarcalc">Areas and lengths in polar</a></li>
+                            <li><a href="#ch10-conics">Conic sections</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch11">Sequences and series</a>
+                        <ol>
+                            <li><a href="#ch11-seq">Sequences</a></li>
+                            <li><a href="#ch11-series">Series</a></li>
+                            <li><a href="#ch11-integral">Integral test</a></li>
+                            <li><a href="#ch11-comparison">Comparison tests</a></li>
+                            <li><a href="#ch11-alternating">Alternating series</a></li>
+                            <li><a href="#ch11-absolute">Absolute vs conditional</a></li>
+                            <li><a href="#ch11-ratio">Ratio and root tests</a></li>
+                            <li><a href="#ch11-strategy">Strategy</a></li>
+                            <li><a href="#ch11-power">Power series</a></li>
+                            <li><a href="#ch11-represent">Functions as power series</a></li>
+                            <li><a href="#ch11-taylor">Taylor and Maclaurin series</a></li>
+                            <li><a href="#ch11-binomial">Binomial series</a></li>
+                            <li><a href="#ch11-apps">Applications of Taylor polynomials</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#formula-sheet">Formula sheet</a></li>
+                </ol>
+            </nav>
+
+            <article class="notes">
+
+                <section id="ch6">
+                    <h2>6. Applications of Integration</h2>
+                    <p class="ref">Stewart Ch. 6 &middot; OpenStax Vol. 2 Ch. 2</p>
+
+                    <p>Every application in this chapter uses the same idea: <strong>slice, approximate, add, take the limit</strong>. Chop the quantity you want (an area, a volume, an amount of work) into thin pieces. On each thin piece something is nearly constant, so the piece is easy to compute: a rectangle, a disk, a shell, a force times a small distance. Adding the pieces gives a Riemann sum, and letting the slices get thin turns the sum into a definite integral. If you can write down the volume, mass or work of <em>one typical slice</em>, you can set up the integral. The rest is Calculus I.</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip: the universal recipe</p>
+                        <p>(1) Draw the region. (2) Draw <em>one</em> representative slice of thickness \(dx\) or \(dy\). (3) Write the small quantity \(dQ\) for that slice in terms of the slice's position. (4) Integrate over the range of positions. Most errors in this chapter happen at step (2), when the slice is not drawn.</p>
+                    </div>
+
+                    <h3 id="ch6-area">6.1 Area between curves</h3>
+
+                    <p>A thin vertical strip at position \(x\) has height (top curve) minus (bottom curve) and width \(dx\). Adding strips gives the area.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas</p>
+                        <p>Vertical strips, \(f(x)\ge g(x)\) on \([a,b]\):</p>
+                        \[ A = \int_a^b \big[f(x) - g(x)\big]\,dx = \int_a^b (\text{top} - \text{bottom})\,dx \]
+                        <p>Horizontal strips, \(x = R(y)\) to the right of \(x = L(y)\) on \([c,d]\):</p>
+                        \[ A = \int_c^d \big[R(y) - L(y)\big]\,dy = \int_c^d (\text{right} - \text{left})\,dy \]
+                        <p>If the curves cross, the area is \(\int_a^b |f(x)-g(x)|\,dx\): split the interval at each crossing point.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Writing \(\int_a^b (f-g)\,dx\) when the curves cross inside \([a,b]\). The pieces where \(g\) is on top contribute negatively and cancel real area. Always find every intersection first, then check which curve is on top on each sub-interval (plug in a test point).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip: \(dx\) or \(dy\)?</p>
+                        <p>Choose the direction where the top and bottom (or right and left) boundaries do not change formula. If vertical strips would hit different curves in different parts of the region, horizontal strips often need only one integral.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.1</p>
+                        <p>Find the area enclosed by \(y = x\) and \(y = x^2 - 2x\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Intersections: \(x = x^2 - 2x \Rightarrow x^2 - 3x = 0 \Rightarrow x = 0, 3\). Test \(x = 1\): the line gives \(1\), the parabola gives \(-1\), so the line is on top.</p>
+                            \[ \begin{aligned} A &amp;= \int_0^3 \big[x - (x^2 - 2x)\big]\,dx = \int_0^3 (3x - x^2)\,dx \\ &amp;= \left[\tfrac{3}{2}x^2 - \tfrac{1}{3}x^3\right]_0^3 = \tfrac{27}{2} - 9 = \tfrac{9}{2}. \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.2</p>
+                        <p>Find the area enclosed by \(x = y^2 - 4\) and \(x = 2 - y\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Both curves are given as \(x\) in terms of \(y\), so use horizontal strips. Intersections: \(y^2 - 4 = 2 - y \Rightarrow y^2 + y - 6 = 0 \Rightarrow (y+3)(y-2) = 0\), so \(y = -3, 2\). At \(y = 0\): the line gives \(x = 2\), the parabola gives \(x = -4\), so the line is on the right.</p>
+                            \[ \begin{aligned} A &amp;= \int_{-3}^{2} \big[(2 - y) - (y^2 - 4)\big]\,dy = \int_{-3}^{2} (6 - y - y^2)\,dy \\ &amp;= \left[6y - \tfrac{1}{2}y^2 - \tfrac{1}{3}y^3\right]_{-3}^{2} \\ &amp;= \left(12 - 2 - \tfrac{8}{3}\right) - \left(-18 - \tfrac{9}{2} + 9\right) = \tfrac{22}{3} + \tfrac{27}{2} = \tfrac{125}{6}. \end{aligned} \]
+                            <p>With vertical strips, the left part of this region would be bounded above and below by the two branches of the parabola and the right part by the parabola and the line, so two integrals would be needed.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch6-disks">6.2 Volumes by slicing: disks and washers</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (volume by cross-sections)</p>
+                        <p>Let a solid lie between the planes \(x = a\) and \(x = b\), and let \(A(x)\) be the area of its cross-section perpendicular to the \(x\)-axis. If \(A\) is continuous, the volume is</p>
+                        \[ V = \int_a^b A(x)\,dx. \]
+                    </div>
+
+                    <p>When the solid is made by revolving a region about an axis, each cross-section perpendicular to that axis is a disk (region touches the axis) or a washer (region is separated from the axis).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas: disks and washers</p>
+                        \[ V_{\text{disk}} = \int_a^b \pi R(x)^2\,dx, \qquad V_{\text{washer}} = \int_a^b \pi\big[R(x)^2 - r(x)^2\big]\,dx \]
+                        <p>\(R\) = outer radius, \(r\) = inner radius, both measured <em>from the axis of rotation</em>. The slices are perpendicular to the axis, so a horizontal axis means \(dx\) and a vertical axis means \(dy\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(\pi(R^2 - r^2)\) is <em>not</em> \(\pi(R - r)^2\). Square each radius separately. Also, when the axis is a line such as \(y = -1\), the radius is a distance to that line: \(R = (\text{curve}) - (-1)\), not just the curve's \(y\)-value.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.3</p>
+                        <p>The region bounded by \(y = x\) and \(y = x^2\) is revolved about (a) the \(x\)-axis, (b) the line \(y = -1\). Find each volume.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The curves meet at \(x = 0\) and \(x = 1\), and \(x \ge x^2\) on \([0,1]\). A vertical slice revolved about a horizontal axis makes a washer.</p>
+                            <p>(a) About the \(x\)-axis: \(R = x\), \(r = x^2\).</p>
+                            \[ V = \pi\int_0^1 (x^2 - x^4)\,dx = \pi\left(\tfrac13 - \tfrac15\right) = \tfrac{2\pi}{15}. \]
+                            <p>(b) About \(y = -1\): each radius gains 1. \(R = x + 1\), \(r = x^2 + 1\).</p>
+                            \[ \begin{aligned} V &amp;= \pi\int_0^1 \big[(x+1)^2 - (x^2+1)^2\big]\,dx = \pi\int_0^1 \big[(x^2 + 2x + 1) - (x^4 + 2x^2 + 1)\big]\,dx \\ &amp;= \pi\int_0^1 (-x^4 - x^2 + 2x)\,dx = \pi\left(-\tfrac15 - \tfrac13 + 1\right) = \tfrac{7\pi}{15}. \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.4 (known cross-sections)</p>
+                        <p>A solid has as its base the disk \(x^2 + y^2 \le 4\). Cross-sections perpendicular to the \(x\)-axis are squares. Find the volume.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>At position \(x\), the base runs from \(y = -\sqrt{4 - x^2}\) to \(y = \sqrt{4-x^2}\), so the square's side is \(s = 2\sqrt{4 - x^2}\) and \(A(x) = s^2 = 4(4 - x^2)\).</p>
+                            \[ V = \int_{-2}^{2} 4(4 - x^2)\,dx = 4\left[4x - \tfrac{x^3}{3}\right]_{-2}^{2} = 4\left(\tfrac{16}{3} + \tfrac{16}{3}\right) = \tfrac{128}{3}. \]
+                        </details>
+                    </div>
+
+                    <h3 id="ch6-shells">6.3 Volumes by cylindrical shells</h3>
+
+                    <p>Instead of slicing perpendicular to the axis, take a thin strip <em>parallel</em> to the axis and spin it. It sweeps out a thin cylindrical shell. Cut the shell open and flatten it: it is nearly a rectangular slab with length \(2\pi r\) (the circumference), height \(h\), and thickness \(dr\). So \(dV \approx 2\pi r\,h\,dr\).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula: shells</p>
+                        \[ V = \int_a^b 2\pi\,(\text{radius})(\text{height})\,dx \]
+                        <p>For rotation about the \(y\)-axis with vertical strips: radius \(= x\), height \(= f(x) - g(x)\). For rotation about \(x = k\): radius \(= |x - k|\). For a horizontal axis, use horizontal strips and integrate in \(y\).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip: disks or shells?</p>
+                        <p>Washers: slice <em>perpendicular</em> to the axis. Shells: slice <em>parallel</em> to the axis. Pick whichever lets you write the boundaries as functions of the variable you integrate in. Revolving \(y = f(x)\) about the \(y\)-axis with washers needs \(x = f^{-1}(y)\); shells avoid the inverse entirely.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.5</p>
+                        <p>The region between \(y = x^2\), the \(x\)-axis and \(x = 1\) is revolved about the line \(x = 2\). Find the volume using shells, and check it with washers.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Shells.</strong> A vertical strip at \(x\in[0,1]\) has height \(x^2\) and distance \(2 - x\) from the axis.</p>
+                            \[ V = \int_0^1 2\pi(2 - x)x^2\,dx = 2\pi\int_0^1 (2x^2 - x^3)\,dx = 2\pi\left(\tfrac23 - \tfrac14\right) = 2\pi\cdot\tfrac{5}{12} = \tfrac{5\pi}{6}. \]
+                            <p><strong>Washers.</strong> Horizontal slices at height \(y \in [0,1]\): the region runs from \(x = \sqrt{y}\) to \(x = 1\). Distances to \(x = 2\): outer \(R = 2 - \sqrt y\), inner \(r = 2 - 1 = 1\).</p>
+                            \[ \begin{aligned} V &amp;= \pi\int_0^1 \big[(2 - \sqrt y)^2 - 1\big]\,dy = \pi\int_0^1 (3 - 4\sqrt y + y)\,dy \\ &amp;= \pi\left(3 - \tfrac83 + \tfrac12\right) = \tfrac{5\pi}{6}. \checkmark \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <h3 id="ch6-work">6.4 Work</h3>
+
+                    <p>For a constant force along a line, \(W = F d\). When the force varies with position, on a short interval \([x, x + dx]\) the force is nearly constant, so \(dW = F(x)\,dx\), and</p>
+                    \[ W = \int_a^b F(x)\,dx. \]
+                    <p>Units: newton-metres = joules (SI), or foot-pounds (US). In pumping and lifting problems a different slicing is natural: the <em>force</em> on each slice is constant (its weight), but each slice moves a different <em>distance</em>. Then \(dW = (\text{weight of slice})(\text{distance that slice moves})\).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas</p>
+                        <p>Hooke's law (spring stretched \(x\) beyond natural length): \(F = kx\), so \(W = \int_{x_1}^{x_2} kx\,dx = \tfrac{k}{2}(x_2^2 - x_1^2)\).</p>
+                        <p>Pumping liquid of density \(\rho\) (slice at height \(y\), horizontal cross-sectional area \(A(y)\), lifted a distance \(D(y)\)):</p>
+                        \[ W = \int_{c}^{d} \rho g\,A(y)\,D(y)\,dy. \]
+                        <p>For water, \(\rho g \approx 9800\ \text{N/m}^3\) (SI) or \(62.5\ \text{lb/ft}^3\) (US, already a weight density).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>In spring problems, \(x\) is the displacement <em>from the natural length</em>, not the total length. If a 30 cm spring is stretched to 40 cm, \(x = 0.10\) m.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.6 (spring)</p>
+                        <p>A force of 6 N holds a spring stretched 0.2 m beyond its natural length. How much work is needed to stretch it from 0.2 m to 0.5 m beyond natural length?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(6 = k(0.2) \Rightarrow k = 30\) N/m.</p>
+                            \[ W = \int_{0.2}^{0.5} 30x\,dx = 15\big(0.5^2 - 0.2^2\big) = 15(0.25 - 0.04) = 3.15\ \text{J}. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.7 (pumping)</p>
+                        <p>A vertical cylindrical tank of radius 2 m and height 5 m is full of water. Find the work needed to pump all the water out over the top rim.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Put \(y = 0\) at the bottom. The slice at height \(y\) with thickness \(dy\) has volume \(\pi(2)^2\,dy = 4\pi\,dy\), weight \(9800 \cdot 4\pi\,dy\) N, and must be lifted \(5 - y\) m.</p>
+                            \[ \begin{aligned} W &amp;= \int_0^5 9800\cdot 4\pi\,(5 - y)\,dy = 39200\pi\left[5y - \tfrac{y^2}{2}\right]_0^5 \\ &amp;= 39200\pi(12.5) = 490000\pi \approx 1.54\times 10^6\ \text{J}. \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.8 (winding a cable)</p>
+                        <p>A 20 m cable with mass 3 kg/m hangs from the top of a building. Find the work to wind all of it onto a drum at the top.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The piece of cable at depth \(x\) below the top, of length \(dx\), weighs \(3(9.8)\,dx = 29.4\,dx\) N and is lifted \(x\) m.</p>
+                            \[ W = \int_0^{20} 29.4\,x\,dx = 29.4\cdot\tfrac{20^2}{2} = 5880\ \text{J}. \]
+                            <p>Check: total weight \(588\) N, centre of mass 10 m down, so \(W = 588 \times 10 = 5880\) J. Lifting work only depends on how far the centre of mass rises.</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Physics connection</p>
+                        <p>\(W = \int F\,dx\) is the one-dimensional version of the line integral \(W = \int_C \mathbf F\cdot d\mathbf r\) from vector calculus. The spring result \(\tfrac12 kx^2\) is the stored elastic potential energy; the same integral gives the energy in a capacitor, \(\int_0^Q \frac{q}{C}\,dq = \frac{Q^2}{2C}\), and in an inductor, \(\int_0^I L i\,di = \tfrac12 L I^2\).</p>
+                    </div>
+
+                    <h3 id="ch6-average">6.5 Average value of a function</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition</p>
+                        <p>The average value of an integrable \(f\) on \([a,b]\) is</p>
+                        \[ f_{\text{avg}} = \frac{1}{b-a}\int_a^b f(x)\,dx. \]
+                        <p>This is the limit of the ordinary average of \(n\) equally spaced samples, \(\frac1n\sum f(x_i) = \frac{1}{b-a}\sum f(x_i)\,\Delta x\), as \(n\to\infty\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Mean Value Theorem for Integrals)</p>
+                        <p>If \(f\) is <strong>continuous</strong> on \([a,b]\), there is some \(c \in [a,b]\) with</p>
+                        \[ f(c) = f_{\text{avg}}, \quad\text{that is,}\quad \int_a^b f(x)\,dx = f(c)(b-a). \]
+                        <p><em>Proof sketch.</em> By the Extreme Value Theorem \(f\) has a minimum \(m\) and maximum \(M\) on \([a,b]\). Then \(m(b-a) \le \int_a^b f \le M(b-a)\), so \(m \le f_{\text{avg}} \le M\). By the Intermediate Value Theorem, \(f\) takes the value \(f_{\text{avg}}\) somewhere in \([a,b]\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 6.9</p>
+                        <p>Find the average value of \(\sin x\) on \([0,\pi]\) and every \(c\) where it is attained.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ f_{\text{avg}} = \frac{1}{\pi}\int_0^\pi \sin x\,dx = \frac{1}{\pi}\big[-\cos x\big]_0^\pi = \frac{1}{\pi}(1 + 1) = \frac{2}{\pi} \approx 0.637. \]
+                            <p>Solve \(\sin c = 2/\pi\): \(c = \arcsin(2/\pi) \approx 0.690\) and \(c = \pi - \arcsin(2/\pi) \approx 2.451\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Engineering connection: RMS values</p>
+                        <p>The root-mean-square value is the square root of the average of \(f^2\). For \(v(t) = V_0\sin(\omega t)\) over one period \(T = 2\pi/\omega\), the average of \(\sin^2\) is \(\tfrac12\) (use \(\sin^2\theta = \tfrac12(1 - \cos 2\theta)\)), so \(V_{\text{rms}} = V_0/\sqrt2\). The plain average of \(v\) over a period is zero, which is why RMS, not the mean, measures delivered power.</p>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Find the area between \(y = x^2\) and \(y = 4\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\int_{-2}^{2}(4 - x^2)\,dx = 2\left(8 - \tfrac83\right) = \tfrac{32}{3}\).</p>
+                                </details>
+                            </li>
+                            <li>Find the area between \(y = \sin x\) and \(y = \cos x\) for \(0 \le x \le \pi/2\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>They cross at \(\pi/4\); by symmetry the two pieces are equal: \(2\int_0^{\pi/4}(\cos x - \sin x)\,dx = 2\big[\sin x + \cos x\big]_0^{\pi/4} = 2(\sqrt2 - 1)\).</p>
+                                </details>
+                            </li>
+                            <li>The region under \(y = e^x\), \(0 \le x \le 1\), is revolved about the \(x\)-axis. Find the volume.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Disks: \(\pi\int_0^1 e^{2x}\,dx = \tfrac{\pi}{2}(e^2 - 1) \approx 10.04\).</p>
+                                </details>
+                            </li>
+                            <li>The region under \(y = \sqrt x\), \(0 \le x \le 4\), is revolved about the \(y\)-axis. Find the volume.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Shells: \(2\pi\int_0^4 x\cdot x^{1/2}\,dx = 2\pi\cdot\tfrac25\big[x^{5/2}\big]_0^4 = 2\pi\cdot\tfrac25\cdot 32 = \tfrac{128\pi}{5}\).</p>
+                                </details>
+                            </li>
+                            <li>A 10 kg bucket is lifted 15 m by a rope of mass 0.5 kg/m that is wound up as the bucket rises. Find the total work (\(g = 9.8\)).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Bucket: \(10(9.8)(15) = 1470\) J. Rope: \(\int_0^{15} 0.5(9.8)x\,dx = 4.9\cdot 112.5 = 551.25\) J. Total \(2021.25\) J.</p>
+                                </details>
+                            </li>
+                            <li>Find the average value of \(f(x) = x^2\) on \([0,3]\) and the point \(c\) guaranteed by the Mean Value Theorem for Integrals.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(f_{\text{avg}} = \tfrac13\int_0^3 x^2\,dx = \tfrac13\cdot 9 = 3\); \(c^2 = 3 \Rightarrow c = \sqrt3\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+
+                <section id="ch7">
+                    <h2>7. Techniques of Integration</h2>
+                    <p class="ref">Stewart Ch. 7 &middot; OpenStax Vol. 2 Ch. 3</p>
+
+                    <p>Differentiation is mechanical: there is a rule for every combination of functions. Integration is not. There is no product rule or quotient rule for antiderivatives, and many elementary functions (such as \(e^{-x^2}\) or \(\sin x / x\)) have no elementary antiderivative at all. This chapter is a toolkit of transformations, each one undoing a differentiation rule or using an algebraic identity, that turn a hard integral into one you already know. When no transformation works, numerical methods give an answer to any required accuracy. Finally, improper integrals extend the definite integral to infinite intervals and unbounded integrands.</p>
+
+                    <h3 id="ch7-parts">7.1 Integration by parts</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Integration by parts)</p>
+                        <p>If \(u\) and \(v\) are differentiable with continuous derivatives,</p>
+                        \[ \int u\,dv = uv - \int v\,du, \qquad \int_a^b u\,dv = \big[uv\big]_a^b - \int_a^b v\,du. \]
+                        <p><em>Proof.</em> The product rule says \((uv)' = u'v + uv'\). Integrate both sides: \(uv = \int u'v\,dx + \int uv'\,dx\). Rearrange to \(\int uv'\,dx = uv - \int vu'\,dx\), and write \(dv = v'\,dx\), \(du = u'\,dx\). So integration by parts is the product rule run backwards, just as substitution is the chain rule run backwards.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip: choosing \(u\)</p>
+                        <p>Choose \(u\) so that \(du\) is <em>simpler</em> than \(u\), and \(dv\) so that you can integrate it. A useful priority order for \(u\) is <strong>LIATE</strong>: Logarithmic, Inverse trig, Algebraic (polynomials), Trigonometric, Exponential. It is a heuristic, not a law. For \(\int x^n e^{ax}\,dx\) or \(\int x^n \sin(ax)\,dx\), repeated parts can be organised in a table: differentiate \(u\) down to zero in one column, integrate \(dv\) repeatedly in the other, and multiply along the diagonals with alternating signs (the <em>tabular method</em>).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.1</p>
+                        <p>Evaluate \(\displaystyle\int x e^{2x}\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let \(u = x\), \(dv = e^{2x}\,dx\). Then \(du = dx\), \(v = \tfrac12 e^{2x}\).</p>
+                            \[ \int x e^{2x}\,dx = \tfrac12 x e^{2x} - \int \tfrac12 e^{2x}\,dx = \tfrac12 x e^{2x} - \tfrac14 e^{2x} + C = \tfrac14 e^{2x}(2x - 1) + C. \]
+                            <p>Check by differentiating: \(\tfrac14\big[2e^{2x}(2x-1) + 2e^{2x}\big] = \tfrac14 e^{2x}(4x) = xe^{2x}\). \(\checkmark\)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.2 (definite integral)</p>
+                        <p>Evaluate \(\displaystyle\int_1^e x^2 \ln x\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The log goes in \(u\): \(u = \ln x\), \(dv = x^2\,dx\), so \(du = \frac{dx}{x}\), \(v = \frac{x^3}{3}\).</p>
+                            \[ \begin{aligned} \int_1^e x^2\ln x\,dx &amp;= \left[\frac{x^3}{3}\ln x\right]_1^e - \int_1^e \frac{x^3}{3}\cdot\frac{1}{x}\,dx = \frac{e^3}{3} - \left[\frac{x^3}{9}\right]_1^e \\ &amp;= \frac{e^3}{3} - \frac{e^3}{9} + \frac19 = \frac{2e^3 + 1}{9} \approx 4.57. \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.3 (the integral comes back)</p>
+                        <p>Evaluate \(I = \displaystyle\int e^x \cos x\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Parts with \(u = \cos x\), \(dv = e^x\,dx\): \(I = e^x\cos x + \int e^x \sin x\,dx\).</p>
+                            <p>Parts again with \(u = \sin x\), \(dv = e^x\,dx\) (keep the same kind of choice, or you will undo the first step): \(\int e^x\sin x\,dx = e^x \sin x - \int e^x\cos x\,dx = e^x\sin x - I\).</p>
+                            \[ I = e^x\cos x + e^x\sin x - I \quad\Longrightarrow\quad I = \tfrac12 e^x(\sin x + \cos x) + C. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.4 (tabular method)</p>
+                        <p>Evaluate \(\displaystyle\int x^3 e^{x}\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Derivatives of \(x^3\): \(x^3, 3x^2, 6x, 6, 0\). Repeated integrals of \(e^x\): \(e^x\) each time. Signs alternate \(+,-,+,-\).</p>
+                            \[ \int x^3e^x\,dx = x^3e^x - 3x^2e^x + 6xe^x - 6e^x + C = e^x(x^3 - 3x^2 + 6x - 6) + C. \]
+                        </details>
+                    </div>
+
+                    <h3 id="ch7-trig">7.2 Trigonometric integrals</h3>
+
+                    <p>The tools are the Pythagorean identities and the half-angle (power-reduction) formulas:</p>
+                    \[ \sin^2 x + \cos^2 x = 1,\quad 1 + \tan^2 x = \sec^2 x,\quad \sin^2 x = \tfrac12(1 - \cos 2x),\quad \cos^2 x = \tfrac12(1 + \cos 2x). \]
+
+                    <div class="box formula">
+                        <p class="box-label">Strategy for \(\int \sin^m x\cos^n x\,dx\)</p>
+                        <ul>
+                            <li><strong>\(n\) odd:</strong> save one \(\cos x\), convert the remaining even power of cosine with \(\cos^2 x = 1 - \sin^2 x\), substitute \(u = \sin x\).</li>
+                            <li><strong>\(m\) odd:</strong> save one \(\sin x\), convert with \(\sin^2 x = 1 - \cos^2 x\), substitute \(u = \cos x\).</li>
+                            <li><strong>Both even:</strong> use the half-angle formulas (possibly repeatedly).</li>
+                        </ul>
+                        <p class="box-label">Strategy for \(\int \tan^m x\sec^n x\,dx\)</p>
+                        <ul>
+                            <li><strong>\(n\) even (\(n \ge 2\)):</strong> save \(\sec^2 x\), convert the rest with \(\sec^2 x = 1 + \tan^2 x\), substitute \(u = \tan x\).</li>
+                            <li><strong>\(m\) odd:</strong> save \(\sec x\tan x\), convert with \(\tan^2 x = \sec^2 x - 1\), substitute \(u = \sec x\).</li>
+                        </ul>
+                        <p>Useful results: \(\int\tan x\,dx = \ln|\sec x| + C\), \(\int\sec x\,dx = \ln|\sec x + \tan x| + C\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.5</p>
+                        <p>Evaluate \(\displaystyle\int \sin^3 x\cos^2 x\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The sine power is odd: save one \(\sin x\). Let \(u = \cos x\), \(du = -\sin x\,dx\).</p>
+                            \[ \begin{aligned} \int \sin^2 x\cos^2 x\,\sin x\,dx &amp;= \int (1 - \cos^2 x)\cos^2 x\,\sin x\,dx = -\int (1 - u^2)u^2\,du \\ &amp;= -\frac{u^3}{3} + \frac{u^5}{5} + C = \frac{\cos^5 x}{5} - \frac{\cos^3 x}{3} + C. \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.6 (both powers even)</p>
+                        <p>Evaluate \(\displaystyle\int_0^\pi \sin^4 x\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \begin{aligned} \sin^4 x &amp;= \left(\frac{1 - \cos 2x}{2}\right)^2 = \frac14\left(1 - 2\cos 2x + \cos^2 2x\right) \\ &amp;= \frac14\left(1 - 2\cos 2x + \frac{1 + \cos 4x}{2}\right) = \frac38 - \frac12\cos 2x + \frac18\cos 4x. \end{aligned} \]
+                            \[ \int_0^\pi \sin^4 x\,dx = \left[\frac{3x}{8} - \frac{\sin 2x}{4} + \frac{\sin 4x}{32}\right]_0^\pi = \frac{3\pi}{8}. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.7</p>
+                        <p>Evaluate \(\displaystyle\int \tan^3 x\sec^4 x\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The secant power is even: save \(\sec^2 x\) and let \(u = \tan x\), \(du = \sec^2 x\,dx\).</p>
+                            \[ \int \tan^3 x\,(1 + \tan^2 x)\sec^2 x\,dx = \int (u^3 + u^5)\,du = \frac{\tan^4 x}{4} + \frac{\tan^6 x}{6} + C. \]
+                        </details>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Products with different frequencies</p>
+                        \[ \begin{aligned} \sin A\cos B &amp;= \tfrac12\big[\sin(A - B) + \sin(A + B)\big] \\ \sin A\sin B &amp;= \tfrac12\big[\cos(A - B) - \cos(A + B)\big] \\ \cos A\cos B &amp;= \tfrac12\big[\cos(A - B) + \cos(A + B)\big] \end{aligned} \]
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Physics connection: orthogonality</p>
+                        <p>Using the product formulas, for positive integers \(m \ne n\), \(\int_{-\pi}^{\pi}\sin mx\sin nx\,dx = 0\), and for \(m = n\) the integral is \(\pi\). The same holds for cosines, and \(\int_{-\pi}^{\pi}\sin mx\cos nx\,dx = 0\) for all \(m, n\). This orthogonality is exactly what makes Fourier series work: it lets you isolate one harmonic of a signal by multiplying and integrating.</p>
+                    </div>
+
+                    <h3 id="ch7-trigsub">7.3 Trigonometric substitution</h3>
+
+                    <p>A square root of a quadratic is the hypotenuse or a leg of a right triangle. Substituting a trig function for \(x\) turns the radical into a single trig function via a Pythagorean identity. This is an <em>inverse</em> substitution: we set \(x = g(\theta)\) rather than \(u = g(x)\), so \(g\) must be invertible on the chosen \(\theta\)-interval.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key substitutions (\(a \gt 0\))</p>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Expression</th><th>Substitution</th><th>Identity</th><th>\(\theta\) range</th></tr></thead>
+                                <tbody>
+                                    <tr><td>\(\sqrt{a^2 - x^2}\)</td><td>\(x = a\sin\theta\)</td><td>\(a^2 - a^2\sin^2\theta = a^2\cos^2\theta\)</td><td>\(-\pi/2 \le \theta \le \pi/2\)</td></tr>
+                                    <tr><td>\(\sqrt{a^2 + x^2}\)</td><td>\(x = a\tan\theta\)</td><td>\(a^2 + a^2\tan^2\theta = a^2\sec^2\theta\)</td><td>\(-\pi/2 \lt \theta \lt \pi/2\)</td></tr>
+                                    <tr><td>\(\sqrt{x^2 - a^2}\)</td><td>\(x = a\sec\theta\)</td><td>\(a^2\sec^2\theta - a^2 = a^2\tan^2\theta\)</td><td>\(0 \le \theta \lt \pi/2\) (for \(x \ge a\))</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p>To return to \(x\), draw the reference right triangle from the substitution (e.g. \(\sin\theta = x/a\): opposite \(x\), hypotenuse \(a\), adjacent \(\sqrt{a^2 - x^2}\)).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Forgetting to substitute \(dx\). If \(x = 3\sin\theta\), then \(dx = 3\cos\theta\,d\theta\). Also, for definite integrals, either change the limits to \(\theta\)-values or convert back to \(x\) before evaluating; do not mix the two.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.8</p>
+                        <p>Evaluate \(\displaystyle\int \frac{dx}{x^2\sqrt{9 - x^2}}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let \(x = 3\sin\theta\), \(dx = 3\cos\theta\,d\theta\), \(\sqrt{9 - x^2} = 3\cos\theta\) (positive because \(|\theta| \le \pi/2\)).</p>
+                            \[ \int \frac{3\cos\theta\,d\theta}{9\sin^2\theta\cdot 3\cos\theta} = \frac19\int\csc^2\theta\,d\theta = -\frac19\cot\theta + C. \]
+                            <p>Triangle: opposite \(x\), hypotenuse 3, adjacent \(\sqrt{9 - x^2}\), so \(\cot\theta = \sqrt{9 - x^2}/x\).</p>
+                            \[ \int \frac{dx}{x^2\sqrt{9 - x^2}} = -\frac{\sqrt{9 - x^2}}{9x} + C. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.9</p>
+                        <p>Evaluate \(\displaystyle\int_0^2 \frac{dx}{(x^2 + 4)^{3/2}}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let \(x = 2\tan\theta\), \(dx = 2\sec^2\theta\,d\theta\), \((x^2 + 4)^{3/2} = (4\sec^2\theta)^{3/2} = 8\sec^3\theta\). Limits: \(x = 0 \Rightarrow \theta = 0\); \(x = 2 \Rightarrow \theta = \pi/4\).</p>
+                            \[ \int_0^{\pi/4} \frac{2\sec^2\theta}{8\sec^3\theta}\,d\theta = \frac14\int_0^{\pi/4}\cos\theta\,d\theta = \frac14\sin\frac{\pi}{4} = \frac{\sqrt2}{8}. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.10 (area of an ellipse)</p>
+                        <p>Show that the ellipse \(\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1\) encloses area \(\pi ab\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>By symmetry, \(A = 4\int_0^a \frac{b}{a}\sqrt{a^2 - x^2}\,dx\). Let \(x = a\sin\theta\), \(dx = a\cos\theta\,d\theta\), with \(\theta\) from \(0\) to \(\pi/2\):</p>
+                            \[ \int_0^a\sqrt{a^2 - x^2}\,dx = \int_0^{\pi/2} a^2\cos^2\theta\,d\theta = a^2\left[\frac{\theta}{2} + \frac{\sin 2\theta}{4}\right]_0^{\pi/2} = \frac{\pi a^2}{4}. \]
+                            <p>So \(A = 4\cdot\frac{b}{a}\cdot\frac{\pi a^2}{4} = \pi ab\). With \(a = b = r\) this recovers \(\pi r^2\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>For a general quadratic \(ax^2 + bx + c\) under a root, complete the square first, then substitute for the shifted variable. Example: \(x^2 + 2x + 5 = (x+1)^2 + 4\), so let \(x + 1 = 2\tan\theta\).</p>
+                    </div>
+
+                    <h3 id="ch7-partial">7.4 Partial fractions</h3>
+
+                    <p>To integrate a rational function \(P(x)/Q(x)\), break it into a sum of simple fractions, each of which integrates to a log, a power, or an arctangent. This is the algebra of adding fractions run in reverse.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Procedure</p>
+                        <ol>
+                            <li><strong>Make it proper.</strong> If \(\deg P \ge \deg Q\), long-divide: \(P/Q = S(x) + R(x)/Q(x)\) with \(\deg R \lt \deg Q\).</li>
+                            <li><strong>Factor \(Q\)</strong> completely into linear factors and irreducible quadratics (\(b^2 - 4ac \lt 0\)).</li>
+                            <li><strong>Write the decomposition</strong>, one group of terms per factor:
+                                <ul>
+                                    <li>Distinct linear \((x - r)\): \(\dfrac{A}{x - r}\).</li>
+                                    <li>Repeated linear \((x - r)^k\): \(\dfrac{A_1}{x - r} + \dfrac{A_2}{(x - r)^2} + \cdots + \dfrac{A_k}{(x - r)^k}\).</li>
+                                    <li>Irreducible quadratic \(ax^2 + bx + c\): \(\dfrac{Bx + C}{ax^2 + bx + c}\) (repeated: one such term for each power).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Find the constants</strong> by multiplying through by \(Q\), then substituting convenient \(x\)-values (roots) and/or matching coefficients.</li>
+                        </ol>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Over a quadratic factor the numerator must be <em>linear</em>, \(Bx + C\), not a constant. And a repeated factor \((x-1)^2\) needs both \(\frac{A}{x-1}\) and \(\frac{B}{(x-1)^2}\); using only the second makes the system unsolvable.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.11 (distinct linear factors)</p>
+                        <p>Evaluate \(\displaystyle\int \frac{5x - 4}{x^2 - x - 2}\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(x^2 - x - 2 = (x - 2)(x + 1)\). Write \(\frac{5x - 4}{(x-2)(x+1)} = \frac{A}{x - 2} + \frac{B}{x + 1}\), so \(5x - 4 = A(x + 1) + B(x - 2)\).</p>
+                            <p>\(x = 2\): \(6 = 3A \Rightarrow A = 2\). \(x = -1\): \(-9 = -3B \Rightarrow B = 3\).</p>
+                            \[ \int \left(\frac{2}{x - 2} + \frac{3}{x + 1}\right)dx = 2\ln|x - 2| + 3\ln|x + 1| + C. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.12 (repeated linear factor)</p>
+                        <p>Evaluate \(\displaystyle\int \frac{x^2 + 1}{x(x - 1)^2}\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\frac{x^2 + 1}{x(x-1)^2} = \frac{A}{x} + \frac{B}{x - 1} + \frac{C}{(x - 1)^2}\), so \(x^2 + 1 = A(x - 1)^2 + Bx(x - 1) + Cx\).</p>
+                            <p>\(x = 0\): \(1 = A\). \(x = 1\): \(2 = C\). Coefficient of \(x^2\): \(1 = A + B \Rightarrow B = 0\).</p>
+                            \[ \int\left(\frac1x + \frac{2}{(x - 1)^2}\right)dx = \ln|x| - \frac{2}{x - 1} + C. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.13 (irreducible quadratic)</p>
+                        <p>Evaluate \(\displaystyle\int \frac{2x^2 + x + 4}{x^3 + 4x}\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(x^3 + 4x = x(x^2 + 4)\), and \(x^2 + 4\) is irreducible. Write \(\frac{2x^2 + x + 4}{x(x^2 + 4)} = \frac{A}{x} + \frac{Bx + C}{x^2 + 4}\), so</p>
+                            \[ 2x^2 + x + 4 = A(x^2 + 4) + (Bx + C)x = (A + B)x^2 + Cx + 4A. \]
+                            <p>Matching: \(4A = 4 \Rightarrow A = 1\); \(A + B = 2 \Rightarrow B = 1\); \(C = 1\).</p>
+                            \[ \begin{aligned} \int\left(\frac1x + \frac{x}{x^2 + 4} + \frac{1}{x^2 + 4}\right)dx &amp;= \ln|x| + \tfrac12\ln(x^2 + 4) + \tfrac12\arctan\frac{x}{2} + C. \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Engineering connection</p>
+                        <p>Inverting a Laplace transform such as \(\frac{s + 3}{(s + 1)(s + 2)}\) is the same partial-fraction decomposition: each simple pole \(\frac{A}{s + a}\) becomes a decaying exponential \(Ae^{-at}\) in the time domain, and irreducible quadratics become damped sinusoids. The "cover-up" trick (plug in the root of each linear factor) is exactly the residue calculation.</p>
+                    </div>
+
+                    <h3 id="ch7-strategy">7.5 Strategy for integration</h3>
+
+                    <div class="box tip">
+                        <p class="box-label">A checklist</p>
+                        <ol>
+                            <li><strong>Simplify first.</strong> Expand, cancel, split fractions, use an identity (\(\sin x\cos x = \tfrac12\sin 2x\), etc.).</li>
+                            <li><strong>Look for an obvious substitution:</strong> a function whose derivative also appears (up to a constant).</li>
+                            <li><strong>Classify by form:</strong>
+                                <ul>
+                                    <li>Product of a polynomial with \(e^{ax}\), \(\sin ax\), \(\ln x\), \(\arctan x\): parts.</li>
+                                    <li>Powers of trig functions: trig-integral strategies.</li>
+                                    <li>\(\sqrt{\pm x^2 \pm a^2}\): trig substitution.</li>
+                                    <li>Rational function: partial fractions (after division if needed).</li>
+                                    <li>\(\sqrt[n]{g(x)}\) alone: try \(u = \sqrt[n]{g(x)}\).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Try again:</strong> manipulate the integrand (multiply by a conjugate, rewrite in terms of sine and cosine), or combine methods.</li>
+                        </ol>
+                        <p>Some integrals, such as \(\int e^{-x^2}\,dx\), \(\int \frac{\sin x}{x}\,dx\) and \(\int\sqrt{1 + x^3}\,dx\), have no elementary antiderivative. For those, use series (Chapter 11) or numerical methods.</p>
+                    </div>
+
+                    <h3 id="ch7-numerical">7.6 Numerical integration</h3>
+
+                    <p>Split \([a,b]\) into \(n\) subintervals of width \(\Delta x = (b - a)/n\) with endpoints \(x_i = a + i\Delta x\) and midpoints \(\bar x_i = \tfrac12(x_{i-1} + x_i)\).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas</p>
+                        \[ \begin{aligned} M_n &amp;= \Delta x\big[f(\bar x_1) + f(\bar x_2) + \cdots + f(\bar x_n)\big] &amp;&amp;\text{(midpoint)} \\ T_n &amp;= \tfrac{\Delta x}{2}\big[f(x_0) + 2f(x_1) + 2f(x_2) + \cdots + 2f(x_{n-1}) + f(x_n)\big] &amp;&amp;\text{(trapezoid)} \\ S_n &amp;= \tfrac{\Delta x}{3}\big[f(x_0) + 4f(x_1) + 2f(x_2) + 4f(x_3) + \cdots + 4f(x_{n-1}) + f(x_n)\big] &amp;&amp;\text{(Simpson, } n \text{ even)} \end{aligned} \]
+                        <p>The trapezoid rule replaces \(f\) by straight segments; Simpson's rule fits a parabola through each pair of subintervals. Also \(T_n = \tfrac12(L_n + R_n)\) and \(S_{2n} = \tfrac13 T_n + \tfrac23 M_n\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Error bounds)</p>
+                        <p>If \(|f''(x)| \le K\) on \([a,b]\), then</p>
+                        \[ |E_T| \le \frac{K(b - a)^3}{12n^2}, \qquad |E_M| \le \frac{K(b - a)^3}{24n^2}. \]
+                        <p>If \(|f^{(4)}(x)| \le K\) on \([a,b]\), then</p>
+                        \[ |E_S| \le \frac{K(b - a)^5}{180n^4}. \]
+                        <p>Doubling \(n\) cuts the trapezoid and midpoint error bounds by a factor of 4, and Simpson's by a factor of 16. Simpson's rule is exact for cubics, since \(f^{(4)} = 0\).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip: signs of the error</p>
+                        <p>If \(f\) is concave up (\(f'' \gt 0\)), the chords lie above the graph, so \(T_n\) <em>overestimates</em> and \(M_n\) <em>underestimates</em>. The midpoint error is about half the trapezoid error and of opposite sign, which is why the weighted average \(\tfrac13 T_n + \tfrac23 M_n\) (Simpson) cancels most of both.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.14</p>
+                        <p>Approximate \(\displaystyle\int_1^2 \frac{dx}{x} = \ln 2 \approx 0.693147\) using \(T_4\), \(M_4\) and \(S_4\). Compare the trapezoid error with its bound. How large must \(n\) be to guarantee Simpson's error is below \(10^{-6}\)?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\Delta x = 0.25\). Endpoints \(1, 1.25, 1.5, 1.75, 2\) give \(f = 1,\ 0.8,\ 0.666667,\ 0.571429,\ 0.5\). Midpoints \(1.125, 1.375, 1.625, 1.875\) give \(f = 0.888889,\ 0.727273,\ 0.615385,\ 0.533333\).</p>
+                            \[ \begin{aligned} T_4 &amp;= 0.125\big[1 + 2(0.8 + 0.666667 + 0.571429) + 0.5\big] = 0.125(5.576190) \approx 0.697024 \\ M_4 &amp;= 0.25(0.888889 + 0.727273 + 0.615385 + 0.533333) = 0.25(2.764880) \approx 0.691220 \\ S_4 &amp;= \tfrac{0.25}{3}\big[1 + 4(0.8) + 2(0.666667) + 4(0.571429) + 0.5\big] = \tfrac{0.25}{3}(8.319048) \approx 0.693254 \end{aligned} \]
+                            <p>Errors (exact minus approximation): \(E_T \approx -0.00388\), \(E_M \approx +0.00193\), \(E_S \approx -0.00011\). Since \(1/x\) is concave up, \(T_4\) is too big and \(M_4\) too small, as predicted.</p>
+                            <p>Trapezoid bound: \(f''(x) = 2/x^3 \le 2\) on \([1,2]\), so \(|E_T| \le \frac{2\cdot 1^3}{12\cdot 16} = \frac{1}{96} \approx 0.0104\). The actual error 0.0039 is within this bound.</p>
+                            <p>Simpson: \(f^{(4)}(x) = 24/x^5 \le 24\). Need \(\frac{24}{180n^4} \lt 10^{-6}\), so \(n^4 \gt 133{,}333\), \(n \gt 19.1\). Since \(n\) must be even, \(n = 20\). (For the trapezoid rule the same accuracy needs \(\frac{2}{12n^2} \lt 10^{-6}\), i.e. \(n \ge 409\).)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch7-improper">7.7 Improper integrals</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition</p>
+                        <p><strong>Type 1 (infinite interval).</strong> If \(\int_a^t f(x)\,dx\) exists for every \(t \ge a\),</p>
+                        \[ \int_a^\infty f(x)\,dx = \lim_{t\to\infty}\int_a^t f(x)\,dx, \]
+                        <p>and similarly for \(\int_{-\infty}^b\). The integral <strong>converges</strong> if the limit exists (as a finite number) and <strong>diverges</strong> otherwise. \(\int_{-\infty}^\infty f\) is defined as \(\int_{-\infty}^a f + \int_a^\infty f\), and converges only if <em>both</em> pieces converge.</p>
+                        <p><strong>Type 2 (discontinuous integrand).</strong> If \(f\) is continuous on \([a,b)\) but unbounded near \(b\),</p>
+                        \[ \int_a^b f(x)\,dx = \lim_{t\to b^-}\int_a^t f(x)\,dx, \]
+                        <p>and similarly at the left endpoint. If the discontinuity is at an interior point \(c\), split: \(\int_a^b = \int_a^c + \int_c^b\), and both must converge.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (\(p\)-integrals)</p>
+                        \[ \int_1^\infty \frac{dx}{x^p}\ \text{converges} \iff p \gt 1 \ \left(\text{value } \tfrac{1}{p - 1}\right), \qquad \int_0^1 \frac{dx}{x^p}\ \text{converges} \iff p \lt 1 \ \left(\text{value } \tfrac{1}{1 - p}\right). \]
+                        <p><em>Proof.</em> For \(p \ne 1\), \(\int_1^t x^{-p}\,dx = \frac{t^{1-p} - 1}{1 - p}\). As \(t\to\infty\), \(t^{1-p}\to 0\) if \(p \gt 1\) and \(\to\infty\) if \(p \lt 1\). For \(p = 1\), \(\int_1^t \frac{dx}{x} = \ln t \to \infty\). The \([0,1]\) case is the same calculation with \(t \to 0^+\), where now \(t^{1-p} \to 0\) needs \(p \lt 1\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Comparison test for integrals)</p>
+                        <p>Suppose \(f\) and \(g\) are continuous with \(0 \le g(x) \le f(x)\) for \(x \ge a\).</p>
+                        <ul>
+                            <li>If \(\int_a^\infty f\,dx\) converges, then \(\int_a^\infty g\,dx\) converges. (Smaller than finite is finite.)</li>
+                            <li>If \(\int_a^\infty g\,dx\) diverges, then \(\int_a^\infty f\,dx\) diverges. (Bigger than infinite is infinite.)</li>
+                        </ul>
+                        <p>Knowing that \(g\) is smaller than a divergent integral, or larger than a convergent one, tells you nothing.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Ignoring an interior discontinuity. Naively, \(\int_{-1}^{1}\frac{dx}{x^2} = \left[-\frac1x\right]_{-1}^{1} = -2\), a negative answer for a positive integrand. In fact \(\int_0^1 x^{-2}\,dx\) diverges (\(p = 2 \ge 1\)), so the whole integral diverges. Always check the integrand for vertical asymptotes on the interval.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.15</p>
+                        <p>Evaluate \(\displaystyle\int_0^\infty x e^{-x}\,dx\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Parts with \(u = x\), \(dv = e^{-x}dx\): \(\int xe^{-x}dx = -xe^{-x} - e^{-x} + C\).</p>
+                            \[ \int_0^\infty xe^{-x}\,dx = \lim_{t\to\infty}\Big[-te^{-t} - e^{-t} + 1\Big] = 0 - 0 + 1 = 1, \]
+                            <p>using \(te^{-t} = t/e^t \to 0\) (L'H&ocirc;pital). In probability this is the mean of an exponential random variable with rate 1.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.16 (interior discontinuity)</p>
+                        <p>Evaluate \(\displaystyle\int_0^3 \frac{dx}{(x - 1)^{2/3}}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The integrand blows up at \(x = 1\), so split there. An antiderivative is \(3(x - 1)^{1/3}\).</p>
+                            \[ \begin{aligned} \int_0^1 \frac{dx}{(x-1)^{2/3}} &amp;= \lim_{t\to 1^-}\Big[3(x - 1)^{1/3}\Big]_0^t = 0 - 3(-1) = 3, \\ \int_1^3 \frac{dx}{(x-1)^{2/3}} &amp;= \lim_{s\to 1^+}\Big[3(x - 1)^{1/3}\Big]_s^3 = 3\sqrt[3]{2} - 0. \end{aligned} \]
+                            <p>Both converge, so the integral equals \(3 + 3\sqrt[3]{2} \approx 6.78\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 7.17 (comparison)</p>
+                        <p>Determine whether (a) \(\displaystyle\int_1^\infty \frac{1 + \sin^2 x}{x^2}\,dx\) and (b) \(\displaystyle\int_2^\infty \frac{dx}{\sqrt x - 1}\) converge.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(0 \le \frac{1 + \sin^2 x}{x^2} \le \frac{2}{x^2}\) and \(\int_1^\infty \frac{2}{x^2}dx = 2\) converges, so (a) <strong>converges</strong>.</p>
+                            <p>(b) For \(x \ge 2\), \(\sqrt x - 1 \lt \sqrt x\), so \(\frac{1}{\sqrt x - 1} \gt \frac{1}{\sqrt x} \gt 0\). Since \(\int_2^\infty x^{-1/2}dx\) diverges (\(p = \tfrac12\)), (b) <strong>diverges</strong>.</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Physics connection: escape energy</p>
+                        <p>The work needed to move a mass \(m\) from a planet's surface (radius \(R\)) to infinity is \(\int_R^\infty \frac{GMm}{r^2}\,dr = \frac{GMm}{R}\). It is finite because \(1/r^2\) has \(p = 2 \gt 1\). Setting \(\tfrac12 mv^2 = GMm/R\) gives the escape speed \(v = \sqrt{2GM/R}\).</p>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Evaluate \(\int x\sin 3x\,dx\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(u = x\), \(dv = \sin 3x\,dx\), \(v = -\tfrac13\cos 3x\): \(-\tfrac{x}{3}\cos 3x + \tfrac13\int\cos 3x\,dx = -\tfrac{x}{3}\cos 3x + \tfrac19\sin 3x + C\).</p>
+                                </details>
+                            </li>
+                            <li>Evaluate \(\int \sin^2 x\cos^3 x\,dx\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Save \(\cos x\), \(u = \sin x\): \(\int u^2(1 - u^2)\,du = \tfrac{\sin^3 x}{3} - \tfrac{\sin^5 x}{5} + C\).</p>
+                                </details>
+                            </li>
+                            <li>Evaluate \(\int \frac{\sqrt{x^2 - 9}}{x}\,dx\) for \(x \gt 3\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(x = 3\sec\theta\), \(dx = 3\sec\theta\tan\theta\,d\theta\), \(\sqrt{x^2 - 9} = 3\tan\theta\): \(\int \frac{3\tan\theta}{3\sec\theta}3\sec\theta\tan\theta\,d\theta = 3\int\tan^2\theta\,d\theta = 3(\tan\theta - \theta) + C = \sqrt{x^2 - 9} - 3\,\mathrm{arcsec}(x/3) + C\).</p>
+                                </details>
+                            </li>
+                            <li>Evaluate \(\int \frac{dx}{x^2 - 4}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\frac{1}{(x-2)(x+2)} = \frac{1/4}{x - 2} - \frac{1/4}{x + 2}\), so the integral is \(\tfrac14\ln\left|\frac{x - 2}{x + 2}\right| + C\).</p>
+                                </details>
+                            </li>
+                            <li>Evaluate \(\int_1^\infty \frac{\ln x}{x^2}\,dx\) or show it diverges.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Parts: \(u = \ln x\), \(dv = x^{-2}dx\): antiderivative \(-\frac{\ln x}{x} - \frac1x\). As \(t\to\infty\), \(\frac{\ln t}{t}\to 0\), so the value is \(0 - (0 - 1) = 1\). Converges to 1.</p>
+                                </details>
+                            </li>
+                            <li>Use \(S_2\) to approximate \(\int_0^2 x^4\,dx\). Compare the actual error with the Simpson error bound.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\Delta x = 1\): \(S_2 = \tfrac13[0 + 4(1) + 16] = \tfrac{20}{3} \approx 6.667\); exact value \(\tfrac{32}{5} = 6.4\); error \(\approx 0.267\). Bound: \(K = 24\), \(\frac{24\cdot 2^5}{180\cdot 2^4} = \frac{768}{2880} \approx 0.267\). The bound is attained exactly because \(f^{(4)}\) is constant.</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+
+                <section id="ch8">
+                    <h2>8. Further Applications of Integration</h2>
+                    <p class="ref">Stewart Ch. 8 &middot; OpenStax Vol. 2 Ch. 2</p>
+
+                    <p>The slicing idea from Chapter 6 now meets geometry and physics. The length of a curve is the limit of the lengths of inscribed polygons; each tiny polygon edge is a hypotenuse, which brings in a square root. A surface of revolution is approximated by thin bands (frustums of cones). A center of mass is a weighted average of position, so it is a ratio of two integrals. Fluid pressure grows with depth, so the force on a submerged wall is an integral of pressure times strip area. In every case: find the contribution of one thin piece, then integrate.</p>
+
+                    <h3 id="ch8-arc">8.1 Arc length</h3>
+
+                    <p>Over a short step \(\Delta x\), the curve rises \(\Delta y\), so the chord has length \(\sqrt{(\Delta x)^2 + (\Delta y)^2} = \sqrt{1 + (\Delta y/\Delta x)^2}\,\Delta x\). By the Mean Value Theorem, \(\Delta y/\Delta x = f'(x_i^*)\) for some point in the step. Summing and taking the limit gives the formula below. The shorthand to remember is \(ds = \sqrt{dx^2 + dy^2}\).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Arc length)</p>
+                        <p>If \(f'\) is <strong>continuous</strong> on \([a,b]\), the length of \(y = f(x)\), \(a \le x \le b\), is</p>
+                        \[ L = \int_a^b \sqrt{1 + \big[f'(x)\big]^2}\,dx. \]
+                        <p>For \(x = g(y)\), \(c \le y \le d\): \(L = \int_c^d \sqrt{1 + [g'(y)]^2}\,dy\). The <strong>arc length function</strong> \(s(x) = \int_a^x \sqrt{1 + [f'(t)]^2}\,dt\) measures length from the starting point, and \(ds/dx = \sqrt{1 + (f')^2}\).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Textbook arc-length problems are built so that \(1 + (f')^2\) is a perfect square. If you see \(f\) of the form \(\frac{x^2}{4} - \frac{\ln x}{2}\) or \(\frac{x^3}{6} + \frac{1}{2x}\), expect \(1 + (f')^2 = (\text{something})^2\). For most curves (even \(y = x^2\) or \(y = \sin x\)), the integral is hard or impossible in closed form, and Simpson's rule is the practical tool.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.1</p>
+                        <p>Find the length of \(y = \tfrac23 x^{3/2}\) for \(0 \le x \le 3\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(y' = x^{1/2}\), so \(1 + (y')^2 = 1 + x\).</p>
+                            \[ L = \int_0^3 \sqrt{1 + x}\,dx = \tfrac23\big[(1 + x)^{3/2}\big]_0^3 = \tfrac23(8 - 1) = \tfrac{14}{3}. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.2 (perfect-square trick)</p>
+                        <p>Find the length of \(y = \dfrac{x^2}{4} - \dfrac{\ln x}{2}\) for \(1 \le x \le e\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(y' = \frac{x}{2} - \frac{1}{2x}\), so</p>
+                            \[ 1 + (y')^2 = 1 + \frac{x^2}{4} - \frac12 + \frac{1}{4x^2} = \frac{x^2}{4} + \frac12 + \frac{1}{4x^2} = \left(\frac{x}{2} + \frac{1}{2x}\right)^2. \]
+                            \[ L = \int_1^e\left(\frac x2 + \frac{1}{2x}\right)dx = \left[\frac{x^2}{4} + \frac{\ln x}{2}\right]_1^e = \frac{e^2}{4} + \frac12 - \frac14 = \frac{e^2 + 1}{4} \approx 2.097. \]
+                        </details>
+                    </div>
+
+                    <h3 id="ch8-surface">8.2 Area of a surface of revolution</h3>
+
+                    <p>Revolve a short piece of curve of length \(ds\), at distance \(r\) from the axis. It sweeps out a thin band whose area is approximately circumference times width: \(2\pi r\,ds\). (Rigorously, the band is a frustum of a cone with lateral area \(2\pi\bar r\,\ell\), where \(\bar r\) is the average radius and \(\ell\) the slant length.)</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas</p>
+                        \[ S = \int 2\pi r\,ds, \qquad ds = \sqrt{1 + \left(\frac{dy}{dx}\right)^2}dx = \sqrt{1 + \left(\frac{dx}{dy}\right)^2}dy. \]
+                        <p>About the \(x\)-axis, \(r = y\); about the \(y\)-axis, \(r = x\). Use whichever form of \(ds\) matches the variable you integrate in.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Using \(dx\) instead of \(ds\): \(\int 2\pi y\,dx\) is <em>not</em> the surface area. The band is tilted, and its width is the slant length \(ds\), which is longer than \(dx\). (Contrast with volume, where \(\pi y^2\,dx\) is correct because the error from the tilt is of higher order.)</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.3 (sphere)</p>
+                        <p>Derive the surface area of a sphere of radius \(R\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Revolve \(y = \sqrt{R^2 - x^2}\), \(-R \le x \le R\), about the \(x\)-axis. \(y' = -x/y\), so \(1 + (y')^2 = \frac{y^2 + x^2}{y^2} = \frac{R^2}{y^2}\), and \(y\,ds = y\cdot\frac{R}{y}dx = R\,dx\).</p>
+                            \[ S = \int_{-R}^{R} 2\pi R\,dx = 2\pi R\cdot 2R = 4\pi R^2. \]
+                            <p>Bonus: the area of a band between \(x = a\) and \(x = b\) is \(2\pi R(b - a)\), which depends only on the band's width (Archimedes' hat-box theorem).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.4</p>
+                        <p>Find the area of the surface formed by revolving \(y = x^3\), \(0 \le x \le 1\), about the \(x\)-axis.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(y' = 3x^2\). Let \(u = 1 + 9x^4\), \(du = 36x^3\,dx\); \(x = 0\to u = 1\), \(x = 1 \to u = 10\).</p>
+                            \[ S = \int_0^1 2\pi x^3\sqrt{1 + 9x^4}\,dx = \frac{2\pi}{36}\int_1^{10}u^{1/2}\,du = \frac{\pi}{18}\cdot\frac23\big(10^{3/2} - 1\big) = \frac{\pi}{27}\big(10\sqrt{10} - 1\big) \approx 3.563. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.5 (Gabriel's horn)</p>
+                        <p>Revolve \(y = 1/x\), \(x \ge 1\), about the \(x\)-axis. Show the volume is finite but the surface area is infinite.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Volume: \(\pi\int_1^\infty x^{-2}\,dx = \pi\) (a \(p\)-integral with \(p = 2\)).</p>
+                            <p>Surface: \(S = \int_1^\infty \frac{2\pi}{x}\sqrt{1 + \frac{1}{x^4}}\,dx\). Since \(\sqrt{1 + x^{-4}} \ge 1\), the integrand is at least \(2\pi/x\), whose integral diverges (\(p = 1\)). By comparison, \(S = \infty\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch8-mass">8.3 Moments and centers of mass</h3>
+
+                    <p>The center of mass is the balance point: the weighted average of position, weighted by mass. For point masses \(m_i\) at \(x_i\), \(\bar x = \frac{\sum m_i x_i}{\sum m_i}\). The numerator is the <strong>moment</strong> about the origin. For a flat plate (lamina) of <em>uniform</em> density, mass is proportional to area, so the center of mass depends only on shape. It is then called the <strong>centroid</strong>.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas: centroid of a plane region</p>
+                        <p>Region between \(y = f(x)\) (top) and \(y = g(x)\) (bottom), \(a \le x \le b\), with area \(A = \int_a^b (f - g)\,dx\):</p>
+                        \[ \bar x = \frac{1}{A}\int_a^b x\big[f(x) - g(x)\big]\,dx, \qquad \bar y = \frac{1}{A}\int_a^b \tfrac12\Big(\big[f(x)\big]^2 - \big[g(x)\big]^2\Big)\,dx. \]
+                        <p>Why: a vertical strip has area \((f - g)\,dx\), its own centroid is at horizontal position \(x\) and at height \(\tfrac12(f + g)\). Its moment about the \(x\)-axis is \(\tfrac12(f + g)(f - g)\,dx = \tfrac12(f^2 - g^2)\,dx\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Pappus)</p>
+                        <p>If a plane region of area \(A\) lies entirely on one side of a line in its plane and is revolved about that line, the volume generated is</p>
+                        \[ V = 2\pi\bar d\,A, \]
+                        <p>where \(\bar d\) is the distance from the centroid to the line (the distance the centroid travels is \(2\pi\bar d\)).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Use symmetry first: if the region is symmetric about a line, the centroid lies on that line, and one of the two integrals is unnecessary. Also sanity-check that the centroid lies where your eye says the region "balances".</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.6</p>
+                        <p>Find the centroid of the region between \(y = x\) and \(y = x^2\), and use Pappus to recheck Example 6.3.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(A = \int_0^1 (x - x^2)\,dx = \tfrac12 - \tfrac13 = \tfrac16\).</p>
+                            \[ \bar x = 6\int_0^1 x(x - x^2)\,dx = 6\left(\tfrac13 - \tfrac14\right) = \tfrac12, \qquad \bar y = 6\int_0^1 \tfrac12(x^2 - x^4)\,dx = 3\left(\tfrac13 - \tfrac15\right) = \tfrac25. \]
+                            <p>Pappus about the \(x\)-axis: \(V = 2\pi\cdot\tfrac25\cdot\tfrac16 = \tfrac{2\pi}{15}\). About \(y = -1\): \(\bar d = \tfrac25 + 1 = \tfrac75\), \(V = 2\pi\cdot\tfrac75\cdot\tfrac16 = \tfrac{7\pi}{15}\). Both match Example 6.3.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.7 (quarter disk and a torus)</p>
+                        <p>(a) Find the centroid of the quarter disk \(x^2 + y^2 \le r^2\), \(x, y \ge 0\). (b) Use Pappus to find the volume of a torus made by revolving a disk of radius \(a\) about a line at distance \(R \gt a\) from its center.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) By symmetry \(\bar x = \bar y\). With \(A = \pi r^2/4\), top \(f = \sqrt{r^2 - x^2}\), bottom \(g = 0\):</p>
+                            \[ \bar y = \frac{4}{\pi r^2}\int_0^r \tfrac12(r^2 - x^2)\,dx = \frac{4}{\pi r^2}\cdot\tfrac12\left(r^3 - \tfrac{r^3}{3}\right) = \frac{4}{\pi r^2}\cdot\frac{r^3}{3} = \frac{4r}{3\pi}. \]
+                            <p>(b) The disk's centroid is its center, at distance \(R\): \(V = 2\pi R\cdot\pi a^2 = 2\pi^2 Ra^2\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch8-hydro">8.4 Hydrostatic force</h3>
+
+                    <p>Pressure in a fluid at rest at depth \(d\) is \(P = \rho g d\) (ignoring atmospheric pressure), and it acts equally in all directions. On a horizontal plate, the force is just \(PA\). On a vertical wall the depth changes, so slice the wall into horizontal strips, each at a single depth.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula</p>
+                        <p>Measure depth \(y\) downward from the surface. If the wall's width at depth \(y\) is \(w(y)\),</p>
+                        \[ F = \int_{y_1}^{y_2} \rho g\,y\,w(y)\,dy. \]
+                        <p>Shortcut: \(F = \rho g\,\bar y\,A\), where \(\bar y\) is the depth of the plate's centroid. (The integral is \(\rho g\) times the moment of the plate about the surface line.)</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 8.8</p>
+                        <p>A vertical plate is an isosceles triangle with its 4 m base along the water surface and its vertex 3 m below. Find the hydrostatic force on one side (\(\rho g = 9800\ \text{N/m}^3\)).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>By similar triangles, the width at depth \(y\) is \(w(y) = 4\left(1 - \frac{y}{3}\right)\).</p>
+                            \[ F = \int_0^3 9800\,y\left(4 - \tfrac{4}{3}y\right)dy = 9800\left[2y^2 - \tfrac49 y^3\right]_0^3 = 9800(18 - 12) = 58{,}800\ \text{N}. \]
+                            <p>Check: \(A = 6\ \text{m}^2\); the centroid of a triangle is one-third of the height from the base, so \(\bar y = 1\) m; \(F = 9800\cdot 1\cdot 6 = 58{,}800\) N. \(\checkmark\)</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Find the arc length of \(y = \cosh x\) on \([-1, 1]\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(1 + \sinh^2 x = \cosh^2 x\), so \(L = \int_{-1}^1\cosh x\,dx = 2\sinh 1 = e - e^{-1} \approx 2.350\).</p>
+                                </details>
+                            </li>
+                            <li>Find the arc length of \(y = \ln(\cos x)\) for \(0 \le x \le \pi/4\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(y' = -\tan x\), \(\sqrt{1 + \tan^2 x} = \sec x\). \(L = \big[\ln|\sec x + \tan x|\big]_0^{\pi/4} = \ln(\sqrt2 + 1) \approx 0.881\).</p>
+                                </details>
+                            </li>
+                            <li>Find the area of the surface formed by revolving \(y = \sqrt x\), \(0 \le x \le 2\), about the \(x\)-axis.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(y\sqrt{1 + (y')^2} = \sqrt x\sqrt{1 + \frac{1}{4x}} = \sqrt{x + \tfrac14}\). \(S = 2\pi\int_0^2\sqrt{x + \tfrac14}\,dx = \tfrac{4\pi}{3}\left[\left(\tfrac94\right)^{3/2} - \left(\tfrac14\right)^{3/2}\right] = \tfrac{4\pi}{3}\cdot\tfrac{26}{8} = \tfrac{13\pi}{3}\).</p>
+                                </details>
+                            </li>
+                            <li>Find the centroid of the region between \(y = 4 - x^2\) and the \(x\)-axis.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\bar x = 0\) by symmetry. \(A = \tfrac{32}{3}\). \(\int_{-2}^2\tfrac12(4 - x^2)^2dx = \tfrac12\left(64 - \tfrac{128}{3} + \tfrac{64}{5}\right) = \tfrac{256}{15}\). \(\bar y = \tfrac{256/15}{32/3} = \tfrac85\).</p>
+                                </details>
+                            </li>
+                            <li>Use Pappus to find the volume generated by revolving the disk \((x - 3)^2 + y^2 \le 1\) about the \(y\)-axis.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(A = \pi\), \(\bar d = 3\): \(V = 2\pi(3)(\pi) = 6\pi^2 \approx 59.2\).</p>
+                                </details>
+                            </li>
+                            <li>A vertical rectangular gate 2 m wide and 1.5 m tall has its top edge 3 m below the water surface. Find the force on it.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(F = \int_3^{4.5} 9800\cdot y\cdot 2\,dy = 9800(4.5^2 - 3^2) = 9800(11.25) = 110{,}250\) N. (Centroid check: \(9800\cdot 3.75\cdot 3\).)</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+
+                <section id="ch9">
+                    <h2>9. Differential Equations</h2>
+                    <p class="ref">Stewart Ch. 9 &middot; OpenStax Vol. 2 Ch. 4</p>
+
+                    <p>Physical laws usually say how a quantity <em>changes</em>, not what it is: the rate of cooling is proportional to the temperature difference, the voltage across an inductor is proportional to the rate of change of current, a population grows at a rate proportional to its size. Such laws are differential equations. Solving one means finding the function whose rate of change obeys the law. This chapter gives three complementary views: <strong>geometric</strong> (direction fields show solution shapes without solving anything), <strong>numerical</strong> (Euler's method steps along the field), and <strong>analytic</strong> (separable and linear equations solved exactly).</p>
+
+                    <h3 id="ch9-model">9.1 Modeling and terminology</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definitions</p>
+                        <ul>
+                            <li>A <strong>differential equation</strong> (DE) relates an unknown function to its derivatives. Its <strong>order</strong> is the highest derivative that appears.</li>
+                            <li>A <strong>solution</strong> is a function that makes the equation true on some interval. The <strong>general solution</strong> contains arbitrary constants (for a first-order equation, one constant).</li>
+                            <li>An <strong>initial-value problem</strong> (IVP) pairs a DE with a condition such as \(y(t_0) = y_0\), which picks out one particular solution.</li>
+                            <li>An <strong>equilibrium solution</strong> is a constant solution: for \(y' = f(y)\), any \(y = c\) with \(f(c) = 0\).</li>
+                        </ul>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Standard first-order models</p>
+                        <ul>
+                            <li>Natural growth/decay: \(\dfrac{dP}{dt} = kP\).</li>
+                            <li>Logistic growth with carrying capacity \(M\): \(\dfrac{dP}{dt} = kP\left(1 - \dfrac{P}{M}\right)\).</li>
+                            <li>Newton's law of cooling: \(\dfrac{dT}{dt} = -k(T - T_s)\), with \(T_s\) the surrounding temperature.</li>
+                            <li>RL circuit: \(L\dfrac{dI}{dt} + RI = E(t)\); RC circuit: \(R\dfrac{dq}{dt} + \dfrac{q}{C} = E(t)\).</li>
+                            <li>Mixing: \(\dfrac{dS}{dt} = (\text{rate in}) - (\text{rate out})\), where rate out = (concentration in tank) \(\times\) (outflow rate).</li>
+                        </ul>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 9.1 (verifying a solution)</p>
+                        <p>Show that \(y = \dfrac{1}{x + C}\) solves \(y' = -y^2\), and find the solution with \(y(0) = \tfrac12\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(y' = -\frac{1}{(x + C)^2} = -y^2\). \(\checkmark\) Then \(y(0) = \frac{1}{C} = \frac12\) gives \(C = 2\), so \(y = \frac{1}{x + 2}\) (valid on \(x \gt -2\), the interval containing \(x = 0\)). Note that \(y = 0\) is also a solution (the equilibrium), which the formula misses for every finite \(C\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch9-direction">9.2 Direction fields</h3>
+
+                    <p>The equation \(y' = F(x, y)\) tells you the slope of the solution curve through any point \((x, y)\), without solving anything. Draw a short segment of that slope at each point of a grid: this is the <strong>direction field</strong> (slope field). Solution curves are the curves that are tangent to the segments everywhere, like streamlines in a fluid.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definitions</p>
+                        <p>An <strong>isocline</strong> is a curve \(F(x, y) = c\) along which all the slopes equal \(c\). For an <strong>autonomous</strong> equation \(y' = f(y)\) (no explicit \(x\)), the slope depends only on height, so the field is the same along every horizontal line; an equilibrium \(y = c\) is <strong>stable</strong> if nearby solutions approach it and <strong>unstable</strong> if they move away.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip: phase line</p>
+                        <p>For \(y' = f(y)\), mark the zeros of \(f\) on a vertical line and the sign of \(f\) between them (up arrows where \(f \gt 0\), down where \(f \lt 0\)). An equilibrium with arrows pointing toward it from both sides is stable. This takes a minute and gives the long-run behaviour of every solution.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 9.2</p>
+                        <p>Describe the direction field of \(y' = x - y\) and find a straight-line solution.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Isoclines are lines \(x - y = c\), i.e. \(y = x - c\). On the line \(y = x\) the slopes are 0; on \(y = x - 1\) they are 1. A line of slope 1 on which the field also has slope 1 must be a solution: try \(y = x - 1\). Then \(y' = 1\) and \(x - y = 1\). \(\checkmark\)</p>
+                            <p>Above that line \(x - y \lt 1\), so solutions are less steep than the line and fall toward it; below, they are steeper and rise toward it. All solutions approach \(y = x - 1\) as \(x\) increases. (The general solution, found in 9.6, is \(y = x - 1 + Ce^{-x}\).)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch9-euler">9.3 Euler's method</h3>
+
+                    <p>Follow the direction field in small straight steps: from the current point, move a step \(h\) to the right along the tangent line, then recompute the slope.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula: Euler's method for \(y' = F(x, y)\), \(y(x_0) = y_0\)</p>
+                        \[ x_{n+1} = x_n + h, \qquad y_{n+1} = y_n + h\,F(x_n, y_n). \]
+                        <p>The error at a fixed endpoint is roughly proportional to \(h\) (Euler is a <em>first-order</em> method): halving the step size roughly halves the error.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Evaluating the slope at the <em>new</em> point instead of the current one, or forgetting to update \(x_n\) inside \(F(x_n, y_n)\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 9.3</p>
+                        <p>Use Euler's method with \(h = 0.1\) to estimate \(y(0.3)\) for \(y' = x + y\), \(y(0) = 1\). Compare with the exact solution \(y = 2e^x - x - 1\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \begin{aligned} y_1 &amp;= 1 + 0.1(0 + 1) = 1.1 \\ y_2 &amp;= 1.1 + 0.1(0.1 + 1.1) = 1.22 \\ y_3 &amp;= 1.22 + 0.1(0.2 + 1.22) = 1.362 \end{aligned} \]
+                            <p>Exact: \(y(0.3) = 2e^{0.3} - 1.3 \approx 1.3997\). (Check: \(y' = 2e^x - 1 = (2e^x - x - 1) + x = y + x\), \(y(0) = 1\).) The error is about \(0.038\). Euler underestimates here because the solution is concave up, so each tangent step lands below the curve.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch9-separable">9.4 Separable equations</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition and method</p>
+                        <p>A first-order DE is <strong>separable</strong> if it can be written \(\dfrac{dy}{dx} = g(x)\,h(y)\). For \(h(y) \ne 0\):</p>
+                        \[ \int\frac{dy}{h(y)} = \int g(x)\,dx + C. \]
+                        <p><em>Why it works:</em> if \(y(x)\) is a solution, then \(\frac{1}{h(y(x))}y'(x) = g(x)\). Integrate both sides in \(x\); by the substitution rule, the left side is \(\int\frac{dy}{h(y)}\). "Multiplying by \(dx\)" is just shorthand for this.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Dividing by \(h(y)\) discards any constant solutions \(y = c\) with \(h(c) = 0\). Check for them separately. Also, add the constant \(C\) as soon as you integrate, <em>before</em> solving for \(y\): \(\ln|y| = x^2 + C\) gives \(y = Ae^{x^2}\), not \(e^{x^2} + C\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 9.4</p>
+                        <p>Solve \(\dfrac{dy}{dx} = xy^2\), \(y(0) = 1\). On what interval is the solution valid?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \int y^{-2}\,dy = \int x\,dx \;\Longrightarrow\; -\frac1y = \frac{x^2}{2} + C. \]
+                            <p>\(y(0) = 1\): \(-1 = C\). So \(\frac1y = 1 - \frac{x^2}{2}\), giving \(y = \dfrac{2}{2 - x^2}\).</p>
+                            <p>The solution blows up at \(x = \pm\sqrt2\), so it is valid on \(-\sqrt2 \lt x \lt \sqrt2\). Nonlinear equations can have solutions that escape to infinity in finite time even though the equation itself is perfectly smooth.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 9.5 (mixing)</p>
+                        <p>A tank holds 200 L of pure water. Brine containing 0.5 kg of salt per litre flows in at 4 L/min; the well-stirred mixture drains at 4 L/min. How much salt is in the tank after one hour, and in the long run?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let \(S(t)\) be the salt (kg). Rate in \(= 0.5 \times 4 = 2\) kg/min. The volume stays 200 L, so rate out \(= \frac{S}{200}\times 4 = \frac{S}{50}\).</p>
+                            \[ \frac{dS}{dt} = 2 - \frac{S}{50} = \frac{100 - S}{50}, \qquad S(0) = 0. \]
+                            <p>Separate: \(\int\frac{dS}{100 - S} = \int\frac{dt}{50}\), so \(-\ln|100 - S| = \frac{t}{50} + C\), i.e. \(100 - S = Ae^{-t/50}\). At \(t = 0\), \(A = 100\):</p>
+                            \[ S(t) = 100\left(1 - e^{-t/50}\right), \qquad S(60) = 100(1 - e^{-1.2}) \approx 69.9\ \text{kg}. \]
+                            <p>As \(t\to\infty\), \(S\to 100\) kg, the amount when the whole tank has the inflow concentration (\(0.5 \times 200\)).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch9-growth">9.5 Exponential and logistic growth</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (natural growth)</p>
+                        <p>The only solutions of \(\dfrac{dy}{dt} = ky\) are \(y(t) = y(0)e^{kt}\). For \(k \gt 0\) the doubling time is \(\frac{\ln 2}{k}\); for \(k \lt 0\) the half-life is \(\frac{\ln 2}{|k|}\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 9.6 (radiocarbon dating)</p>
+                        <p>Carbon-14 has half-life about 5730 years. A sample has 30% of its original carbon-14. Estimate its age.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(k = -\frac{\ln 2}{5730}\). Solve \(0.3 = e^{kt}\):</p>
+                            \[ t = \frac{\ln 0.3}{k} = \frac{5730\,\ln(1/0.3)}{\ln 2} = 5730\times\frac{1.20397}{0.69315} \approx 9950\ \text{years}. \]
+                        </details>
+                    </div>
+
+                    <p>Pure exponential growth cannot continue forever. The logistic model makes the relative growth rate \(\frac{1}{P}\frac{dP}{dt}\) decrease linearly from \(k\) (small population) to 0 (at the carrying capacity \(M\)).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (logistic equation)</p>
+                        <p>The solution of \(\dfrac{dP}{dt} = kP\left(1 - \dfrac{P}{M}\right)\), \(P(0) = P_0 \gt 0\), is</p>
+                        \[ P(t) = \frac{M}{1 + Ae^{-kt}}, \qquad A = \frac{M - P_0}{P_0}. \]
+                        <p>Equilibria: \(P = 0\) (unstable) and \(P = M\) (stable). Every positive solution tends to \(M\). The growth rate \(P'\) is largest when \(P = M/2\), where the graph has its inflection point.</p>
+                        <p><em>Derivation.</em> Separate and use partial fractions: \(\frac{M}{P(M - P)} = \frac1P + \frac{1}{M - P}\). So \(\int\left(\frac1P + \frac{1}{M - P}\right)dP = \int k\,dt\) gives \(\ln\left|\frac{P}{M - P}\right| = kt + C\), hence \(\frac{M - P}{P} = Ae^{-kt}\). Solve for \(P\). The maximum of \(P' = kP - \frac{k}{M}P^2\), a downward parabola in \(P\), is at \(P = M/2\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 9.7</p>
+                        <p>A population satisfies \(P' = 0.5P(1 - P/1000)\) with \(P(0) = 100\). Find \(P(t)\) and the time when the population is growing fastest.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(A = \frac{1000 - 100}{100} = 9\), so \(P(t) = \dfrac{1000}{1 + 9e^{-0.5t}}\).</p>
+                            <p>Fastest growth when \(P = 500\): \(1 + 9e^{-0.5t} = 2 \Rightarrow e^{-0.5t} = \tfrac19 \Rightarrow t = 2\ln 9 = 4\ln 3 \approx 4.39\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch9-linear">9.6 First-order linear equations</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (integrating factor)</p>
+                        <p>A first-order linear equation has the standard form</p>
+                        \[ \frac{dy}{dx} + P(x)\,y = Q(x), \]
+                        <p>with \(P, Q\) continuous on an interval. Multiply by the <strong>integrating factor</strong> \(I(x) = e^{\int P(x)\,dx}\). Because \(I' = PI\), the left side becomes an exact derivative:</p>
+                        \[ \big(I(x)\,y\big)' = I(x)\,Q(x) \quad\Longrightarrow\quad y = \frac{1}{I(x)}\left[\int I(x)Q(x)\,dx + C\right]. \]
+                        <p><em>Proof.</em> \((Iy)' = Iy' + I'y = Iy' + PIy = I(y' + Py) = IQ\). Integrate both sides and divide by \(I \gt 0\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Computing \(P(x)\) before putting the equation in standard form. For \(xy' + 2y = 4x^2\), divide by \(x\) first: \(P = 2/x\), not \(2\). And the constant \(C\) must be added before dividing by \(I(x)\), so it becomes \(C/I(x)\), not \(C\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 9.8</p>
+                        <p>Solve \(xy' + 2y = 4x^2\), \(y(1) = 2\), for \(x \gt 0\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Standard form: \(y' + \frac{2}{x}y = 4x\). \(I = e^{\int 2/x\,dx} = e^{2\ln x} = x^2\).</p>
+                            \[ (x^2y)' = 4x^3 \;\Longrightarrow\; x^2y = x^4 + C \;\Longrightarrow\; y = x^2 + \frac{C}{x^2}. \]
+                            <p>\(y(1) = 1 + C = 2 \Rightarrow C = 1\). So \(y = x^2 + x^{-2}\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 9.9 (RL circuit)</p>
+                        <p>A circuit has inductance \(L = 2\) H, resistance \(R = 10\ \Omega\) and a constant 40 V source switched on at \(t = 0\) with \(I(0) = 0\). Find \(I(t)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(2I' + 10I = 40\), so \(I' + 5I = 20\). The integrating factor is \(e^{\int 5\,dt} = e^{5t}\).</p>
+                            \[ (e^{5t}I)' = 20e^{5t} \;\Longrightarrow\; e^{5t}I = 4e^{5t} + C \;\Longrightarrow\; I = 4 + Ce^{-5t}. \]
+                            <p>\(I(0) = 0 \Rightarrow C = -4\): \(I(t) = 4\left(1 - e^{-5t}\right)\) A. The steady state is \(E/R = 4\) A and the time constant is \(L/R = 0.2\) s.</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip: structure of the solution</p>
+                        <p>The general solution of a linear equation is always (one particular solution) + \(C\times\)(solution of the homogeneous equation \(y' + Py = 0\)). In circuits these are the steady-state and transient responses. This structure carries over unchanged to the higher-order linear ODEs you meet later.</p>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Solve \(y' = y\cos x\), \(y(0) = 3\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Separable: \(\ln|y| = \sin x + C\), so \(y = Ae^{\sin x}\); \(A = 3\). \(y = 3e^{\sin x}\).</p>
+                                </details>
+                            </li>
+                            <li>Use Euler's method with \(h = 0.5\) to estimate \(y(1)\) for \(y' = y\), \(y(0) = 1\). Compare with the exact value.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(y_1 = 1 + 0.5(1) = 1.5\), \(y_2 = 1.5 + 0.5(1.5) = 2.25\). Exact \(e \approx 2.718\); error \(\approx 0.47\). (Euler gives \((1 + h)^{1/h}\), which tends to \(e\) as \(h\to 0\).)</p>
+                                </details>
+                            </li>
+                            <li>Find the equilibria of \(y' = y(y - 2)(y - 4)\) and classify each as stable or unstable.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Signs of \(f\): negative for \(y \lt 0\), positive on \((0,2)\), negative on \((2,4)\), positive for \(y \gt 4\). So \(y = 0\) unstable, \(y = 2\) stable, \(y = 4\) unstable.</p>
+                                </details>
+                            </li>
+                            <li>Coffee at 90&deg;C sits in a 20&deg;C room and cools to 70&deg;C in 5 minutes. When does it reach 50&deg;C?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(T - 20 = 70e^{-kt}\). \(50 = 70e^{-5k} \Rightarrow k = \tfrac15\ln\tfrac75 \approx 0.06729\). \(30 = 70e^{-kt} \Rightarrow t = \ln(7/3)/k \approx 12.6\) min.</p>
+                                </details>
+                            </li>
+                            <li>Solve \(y' - y = e^{2x}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(I = e^{-x}\): \((e^{-x}y)' = e^{x}\), so \(e^{-x}y = e^x + C\), \(y = e^{2x} + Ce^{x}\).</p>
+                                </details>
+                            </li>
+                            <li>For \(P' = 0.2P(1 - P/500)\), \(P(0) = 50\): find \(P(t)\), \(\lim_{t\to\infty}P\), and when growth is fastest.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(A = 450/50 = 9\): \(P = \frac{500}{1 + 9e^{-0.2t}}\). Limit 500. Fastest at \(P = 250\): \(t = 5\ln 9 \approx 11.0\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+
+                <section id="ch10">
+                    <h2>10. Parametric Equations and Polar Coordinates</h2>
+                    <p class="ref">Stewart Ch. 10 &middot; OpenStax Vol. 2 Ch. 7</p>
+
+                    <p>Not every curve is the graph of a function \(y = f(x)\). A circle fails the vertical line test; the path of a particle may loop back on itself. <strong>Parametric equations</strong> describe a curve by giving both coordinates as functions of a third variable, usually time: this records not just the shape but how it is traced. <strong>Polar coordinates</strong> describe a point by its distance from the origin and its direction, which is natural for anything with rotational symmetry: orbits, antenna radiation patterns, spirals. The calculus is the same as before (slopes, areas, lengths), rewritten for the new description.</p>
+
+                    <h3 id="ch10-param">10.1 Parametric curves</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition</p>
+                        <p>A <strong>parametric curve</strong> is the set of points \((x, y) = \big(f(t), g(t)\big)\) as the <strong>parameter</strong> \(t\) ranges over an interval \(I\). The direction of increasing \(t\) gives the curve's <strong>orientation</strong>. Different parametrizations can trace the same set of points at different speeds or in different directions.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip: eliminating the parameter</p>
+                        <p>Solve one equation for \(t\) and substitute, or use an identity. For \(x = a\cos t\), \(y = b\sin t\): \(\frac{x^2}{a^2} + \frac{y^2}{b^2} = \cos^2 t + \sin^2 t = 1\). Always note the restrictions the parametrization imposes: \(x = t^2\) forces \(x \ge 0\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 10.1</p>
+                        <p>Describe the curves (a) \(x = 2\cos t\), \(y = 3\sin t\), \(0 \le t \le 2\pi\); (b) the cycloid \(x = r(\theta - \sin\theta)\), \(y = r(1 - \cos\theta)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(\left(\frac x2\right)^2 + \left(\frac y3\right)^2 = 1\): an ellipse with semi-axes 2 (horizontal) and 3 (vertical), traced once counterclockwise starting at \((2, 0)\).</p>
+                            <p>(b) The cycloid is the path of a point on the rim of a wheel of radius \(r\) rolling along the \(x\)-axis. After rolling through angle \(\theta\), the centre is at \((r\theta, r)\), and the point sits at offset \((-r\sin\theta, -r\cos\theta)\) from the centre. It touches the axis (with a cusp) at \(\theta = 2\pi n\) and reaches height \(2r\) at \(\theta = \pi\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch10-paramcalc">10.2 Calculus with parametric curves</h3>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas (\(x = f(t)\), \(y = g(t)\))</p>
+                        <p><strong>Slope</strong> (chain rule, \(\frac{dy}{dt} = \frac{dy}{dx}\frac{dx}{dt}\)), valid where \(dx/dt \ne 0\):</p>
+                        \[ \frac{dy}{dx} = \frac{dy/dt}{dx/dt}, \qquad \frac{d^2y}{dx^2} = \frac{\frac{d}{dt}\left(\frac{dy}{dx}\right)}{dx/dt}. \]
+                        <p>Horizontal tangent: \(dy/dt = 0\), \(dx/dt \ne 0\). Vertical tangent: \(dx/dt = 0\), \(dy/dt \ne 0\).</p>
+                        <p><strong>Area</strong> under the curve (traced once, left to right as \(t\) goes from \(\alpha\) to \(\beta\)):</p>
+                        \[ A = \int y\,dx = \int_\alpha^\beta g(t)\,f'(t)\,dt. \]
+                        <p><strong>Arc length</strong> (curve traced exactly once, \(f', g'\) continuous):</p>
+                        \[ L = \int_\alpha^\beta\sqrt{\left(\frac{dx}{dt}\right)^2 + \left(\frac{dy}{dt}\right)^2}\,dt. \]
+                        <p><strong>Surface area</strong> about the \(x\)-axis (\(y \ge 0\)): \(S = \int_\alpha^\beta 2\pi y\,\sqrt{(dx/dt)^2 + (dy/dt)^2}\,dt\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>The second derivative is <em>not</em> \(\frac{d^2y/dt^2}{d^2x/dt^2}\). Differentiate the expression for \(dy/dx\) with respect to \(t\), then divide by \(dx/dt\) once more.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 10.2</p>
+                        <p>For \(x = t^2 - 1\), \(y = t^3 - 3t\): find the points with horizontal and vertical tangents, the tangent line at \(t = 2\), and the concavity there.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\frac{dx}{dt} = 2t\), \(\frac{dy}{dt} = 3t^2 - 3\), so \(\frac{dy}{dx} = \frac{3(t^2 - 1)}{2t}\).</p>
+                            <p>Horizontal: \(t = \pm 1\), at points \((0, -2)\) (\(t = 1\)) and \((0, 2)\) (\(t = -1\)). Vertical: \(t = 0\), at \((-1, 0)\).</p>
+                            <p>At \(t = 2\): point \((3, 2)\), slope \(\frac{3\cdot 3}{4} = \frac94\). Tangent: \(y - 2 = \frac94(x - 3)\).</p>
+                            <p>Concavity: \(\frac{dy}{dx} = \frac32 t - \frac32 t^{-1}\), so \(\frac{d}{dt}\frac{dy}{dx} = \frac32 + \frac{3}{2t^2}\). Divide by \(2t\):</p>
+                            \[ \frac{d^2y}{dx^2} = \frac{3(t^2 + 1)}{4t^3}; \quad\text{at } t = 2: \ \frac{15}{32} \gt 0, \text{ concave up.} \]
+                            <p>(The curve crosses itself at \((2, 0)\), reached at both \(t = \sqrt3\) and \(t = -\sqrt3\), with two different tangent lines there.)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 10.3 (one arch of a cycloid)</p>
+                        <p>Find the length of one arch of the cycloid \(x = r(\theta - \sin\theta)\), \(y = r(1 - \cos\theta)\), and the area under it.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(x' = r(1 - \cos\theta)\), \(y' = r\sin\theta\). Then</p>
+                            \[ (x')^2 + (y')^2 = r^2(1 - 2\cos\theta + \cos^2\theta + \sin^2\theta) = 2r^2(1 - \cos\theta) = 4r^2\sin^2\tfrac{\theta}{2}. \]
+                            <p>On \([0, 2\pi]\), \(\sin(\theta/2) \ge 0\), so</p>
+                            \[ L = \int_0^{2\pi}2r\sin\tfrac\theta2\,d\theta = 2r\Big[-2\cos\tfrac\theta2\Big]_0^{2\pi} = 2r(2 + 2) = 8r. \]
+                            <p>Area: \(A = \int_0^{2\pi} y\,x'\,d\theta = r^2\int_0^{2\pi}(1 - \cos\theta)^2\,d\theta = r^2\int_0^{2\pi}(1 - 2\cos\theta + \cos^2\theta)\,d\theta = r^2(2\pi - 0 + \pi) = 3\pi r^2\), three times the area of the rolling wheel.</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Physics connection</p>
+                        <p>For a particle at \((x(t), y(t))\), the integrand \(\sqrt{x'^2 + y'^2}\) is its <strong>speed</strong>, so the arc length formula says distance = \(\int\) speed \(dt\). A projectile launched at speed \(v_0\) and angle \(\alpha\) follows \(x = v_0 t\cos\alpha\), \(y = v_0 t\sin\alpha - \tfrac12 gt^2\); eliminating \(t\) shows the path is a parabola.</p>
+                    </div>
+
+                    <h3 id="ch10-polar">10.3 Polar coordinates and polar curves</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition</p>
+                        <p>The point with <strong>polar coordinates</strong> \((r, \theta)\) is at distance \(|r|\) from the origin (the <strong>pole</strong>), in direction \(\theta\) measured counterclockwise from the positive \(x\)-axis. If \(r \lt 0\), the point is in the <em>opposite</em> direction: \((r, \theta)\) and \((-r, \theta + \pi)\) are the same point. Every point has infinitely many polar representations.</p>
+                        \[ x = r\cos\theta,\quad y = r\sin\theta; \qquad r^2 = x^2 + y^2,\quad \tan\theta = \frac{y}{x}. \]
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(\theta = \arctan(y/x)\) only gives angles in \((-\pi/2, \pi/2)\). For a point in quadrant II or III, add \(\pi\). Example: \((-1, \sqrt3)\) has \(r = 2\) and \(\theta = 2\pi/3\), not \(\arctan(-\sqrt3) = -\pi/3\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Common polar curves</p>
+                        <ul>
+                            <li>\(r = a\): circle of radius \(a\) centred at the pole. \(\theta = \alpha\): line through the pole.</li>
+                            <li>\(r = 2a\cos\theta\) (or \(2a\sin\theta\)): circle of radius \(a\) through the pole, centred at \((a, 0)\) (or \((0, a)\)).</li>
+                            <li>\(r = a(1 \pm\cos\theta)\): cardioid. \(r = a + b\cos\theta\): lima&ccedil;on (inner loop if \(|b| \gt |a|\)).</li>
+                            <li>\(r = a\cos n\theta\) or \(a\sin n\theta\): rose with \(n\) petals if \(n\) is odd, \(2n\) petals if \(n\) is even.</li>
+                            <li>\(r = a\theta\): Archimedean spiral.</li>
+                        </ul>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formula: tangents to polar curves</p>
+                        <p>Treat \(r = f(\theta)\) as the parametric curve \(x = f(\theta)\cos\theta\), \(y = f(\theta)\sin\theta\):</p>
+                        \[ \frac{dy}{dx} = \frac{dy/d\theta}{dx/d\theta} = \frac{\frac{dr}{d\theta}\sin\theta + r\cos\theta}{\frac{dr}{d\theta}\cos\theta - r\sin\theta}. \]
+                        <p>At the pole (\(r = 0\)) with \(dr/d\theta \ne 0\), this reduces to \(\tan\theta\): the curve leaves the pole in the direction \(\theta\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 10.4</p>
+                        <p>(a) Convert \(r = 4\sin\theta\) to Cartesian form. (b) For the cardioid \(r = 1 + \cos\theta\), find the slope at \(\theta = \pi/2\) and the points with horizontal tangents.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) Multiply by \(r\): \(r^2 = 4r\sin\theta \Rightarrow x^2 + y^2 = 4y \Rightarrow x^2 + (y - 2)^2 = 4\). A circle of radius 2 centred at \((0, 2)\).</p>
+                            <p>(b) \(r' = -\sin\theta\). At \(\theta = \pi/2\): \(r = 1\), \(r' = -1\), so</p>
+                            \[ \frac{dy}{dx} = \frac{(-1)(1) + (1)(0)}{(-1)(0) - (1)(1)} = \frac{-1}{-1} = 1. \]
+                            <p>Horizontal tangents: \(\frac{dy}{d\theta} = r'\sin\theta + r\cos\theta = -\sin^2\theta + \cos\theta + \cos^2\theta = 2\cos^2\theta + \cos\theta - 1 = (2\cos\theta - 1)(\cos\theta + 1)\).</p>
+                            <p>\(\cos\theta = \tfrac12\): \(\theta = \pm\pi/3\), \(r = \tfrac32\), points \(\left(\tfrac34, \pm\tfrac{3\sqrt3}{4}\right)\). At these, \(\frac{dx}{d\theta} = -\sin\theta(1 + 2\cos\theta) \ne 0\), so they are genuine horizontal tangents. \(\cos\theta = -1\) (\(\theta = \pi\)) gives the pole, where \(dx/d\theta = 0\) too: that is the cusp.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch10-polarcalc">10.4 Areas and lengths in polar coordinates</h3>
+
+                    <p>The natural slice in polar coordinates is a thin sector, not a rectangle. A sector of radius \(r\) and angle \(d\theta\) has area \(\tfrac12 r^2\,d\theta\) (a fraction \(d\theta/2\pi\) of \(\pi r^2\)).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Key formulas</p>
+                        \[ A = \int_a^b \tfrac12 r^2\,d\theta, \qquad A_{\text{between}} = \int_a^b\tfrac12\big(r_{\text{out}}^2 - r_{\text{in}}^2\big)\,d\theta, \]
+                        \[ L = \int_a^b\sqrt{r^2 + \left(\frac{dr}{d\theta}\right)^2}\,d\theta. \]
+                        <p>The length formula comes from the parametric one: with \(x = r\cos\theta\), \(y = r\sin\theta\), one finds \((dx/d\theta)^2 + (dy/d\theta)^2 = r^2 + (dr/d\theta)^2\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Choosing \(\theta\)-limits that trace part of the region twice (e.g. integrating \(r = \cos 3\theta\) over \([0, 2\pi]\) traces the rose twice). Also, setting \(r_1(\theta) = r_2(\theta)\) can miss intersection points: two curves may pass through the pole at different \(\theta\) values, or meet at a point with different representations. Sketch the curves.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 10.5</p>
+                        <p>Find (a) the area inside the cardioid \(r = 1 + \cos\theta\) and (b) its length.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a)</p>
+                            \[ A = \tfrac12\int_0^{2\pi}(1 + 2\cos\theta + \cos^2\theta)\,d\theta = \tfrac12\left(2\pi + 0 + \pi\right) = \frac{3\pi}{2}. \]
+                            <p>(b) \(r^2 + r'^2 = 1 + 2\cos\theta + \cos^2\theta + \sin^2\theta = 2 + 2\cos\theta = 4\cos^2\tfrac\theta2\). Using symmetry (\(\cos\tfrac\theta2 \ge 0\) on \([0,\pi]\)):</p>
+                            \[ L = 2\int_0^\pi 2\cos\tfrac\theta2\,d\theta = 4\Big[2\sin\tfrac\theta2\Big]_0^\pi = 8. \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 10.6</p>
+                        <p>Find the area of one petal of \(r = \cos 3\theta\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>A petal runs between consecutive zeros of \(r\): \(\cos 3\theta = 0\) at \(\theta = \pm\pi/6\).</p>
+                            \[ A = \tfrac12\int_{-\pi/6}^{\pi/6}\cos^2 3\theta\,d\theta = \tfrac14\int_{-\pi/6}^{\pi/6}(1 + \cos 6\theta)\,d\theta = \tfrac14\cdot\tfrac\pi3 = \frac{\pi}{12}. \]
+                            <p>The full three-petal rose has area \(\pi/4\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 10.7 (area between polar curves)</p>
+                        <p>Find the area inside \(r = 3\cos\theta\) and outside \(r = 1 + \cos\theta\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Intersections: \(3\cos\theta = 1 + \cos\theta \Rightarrow \cos\theta = \tfrac12 \Rightarrow \theta = \pm\pi/3\). Between these the circle is outside. Use symmetry about the \(x\)-axis:</p>
+                            \[ \begin{aligned} A &amp;= 2\cdot\tfrac12\int_0^{\pi/3}\big[9\cos^2\theta - (1 + \cos\theta)^2\big]\,d\theta = \int_0^{\pi/3}(8\cos^2\theta - 2\cos\theta - 1)\,d\theta \\ &amp;= \int_0^{\pi/3}(3 + 4\cos 2\theta - 2\cos\theta)\,d\theta = \Big[3\theta + 2\sin 2\theta - 2\sin\theta\Big]_0^{\pi/3} \\ &amp;= \pi + \sqrt3 - \sqrt3 = \pi. \end{aligned} \]
+                        </details>
+                    </div>
+
+                    <h3 id="ch10-conics">10.5 Conic sections</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Standard forms</p>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Conic</th><th>Equation</th><th>Foci</th><th>Notes</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Parabola</td><td>\(x^2 = 4py\)</td><td>\((0, p)\)</td><td>Directrix \(y = -p\); every point equidistant from focus and directrix</td></tr>
+                                    <tr><td>Ellipse</td><td>\(\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1\), \(a \ge b\)</td><td>\((\pm c, 0)\), \(c^2 = a^2 - b^2\)</td><td>Sum of distances to foci \(= 2a\)</td></tr>
+                                    <tr><td>Hyperbola</td><td>\(\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1\)</td><td>\((\pm c, 0)\), \(c^2 = a^2 + b^2\)</td><td>Difference of distances \(= 2a\); asymptotes \(y = \pm\frac ba x\)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (focus-directrix form)</p>
+                        <p>Fix a point \(F\) (focus), a line \(\ell\) (directrix) and \(e \gt 0\) (eccentricity). The set of points \(P\) with \(\frac{|PF|}{\text{dist}(P, \ell)} = e\) is an ellipse if \(e \lt 1\), a parabola if \(e = 1\), a hyperbola if \(e \gt 1\). With the focus at the pole and directrix \(x = d\) (or \(x = -d\)), its polar equation is</p>
+                        \[ r = \frac{ed}{1 + e\cos\theta} \quad\left(\text{or } r = \frac{ed}{1 - e\cos\theta}\right), \]
+                        <p>with \(\sin\theta\) in place of \(\cos\theta\) for a horizontal directrix \(y = \pm d\).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Physics connection</p>
+                        <p>Under an inverse-square force, orbits are conics with the attracting body at a focus. Planetary orbits are ellipses with small \(e\) (Earth's is about 0.017); the polar form above, with the Sun at the pole, is exactly how orbital mechanics writes them. Perihelion is \(r_{\min} = \frac{ed}{1 + e}\) and aphelion \(r_{\max} = \frac{ed}{1 - e}\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 10.8</p>
+                        <p>Identify the conic \(r = \dfrac{10}{3 + 2\cos\theta}\), find its vertices, and find \(a\), \(b\), \(c\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Divide by 3: \(r = \dfrac{10/3}{1 + \frac23\cos\theta}\). So \(e = \tfrac23 \lt 1\): an ellipse, with \(ed = \tfrac{10}{3}\), \(d = 5\).</p>
+                            <p>Vertices: \(\theta = 0\): \(r = 10/5 = 2\), point \((2, 0)\). \(\theta = \pi\): \(r = 10/1 = 10\), point \((-10, 0)\).</p>
+                            <p>Major axis length \(2a = 12\), so \(a = 6\); centre \((-4, 0)\); the focus at the origin is \(c = 4\) from the centre. Check: \(e = c/a = 4/6 = 2/3\). \(\checkmark\) Then \(b^2 = a^2 - c^2 = 20\), \(b = 2\sqrt5\).</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Eliminate the parameter: \(x = e^t\), \(y = e^{2t} + 1\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(y = x^2 + 1\) with \(x \gt 0\) (the right half of the parabola), traced left to right.</p>
+                                </details>
+                            </li>
+                            <li>Find the length of \(x = t^2\), \(y = \tfrac23 t^3\), \(0 \le t \le \sqrt3\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\sqrt{4t^2 + 4t^4} = 2t\sqrt{1 + t^2}\). \(L = \tfrac23\big[(1 + t^2)^{3/2}\big]_0^{\sqrt3} = \tfrac23(8 - 1) = \tfrac{14}{3}\).</p>
+                                </details>
+                            </li>
+                            <li>Write \(x^2 + y^2 = 6x\) in polar form.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(r^2 = 6r\cos\theta \Rightarrow r = 6\cos\theta\): a circle of radius 3 centred at \((3, 0)\).</p>
+                                </details>
+                            </li>
+                            <li>Find the total area enclosed by the four-petal rose \(r = 2\sin 2\theta\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\tfrac12\int_0^{2\pi}4\sin^2 2\theta\,d\theta = 2\cdot\pi = 2\pi\). (Over \([0, 2\pi]\) each of the four petals is traced exactly once.)</p>
+                                </details>
+                            </li>
+                            <li>Find the slope of the tangent to the spiral \(r = \theta\) at \(\theta = \pi/2\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(r' = 1\): \(\frac{dy}{dx} = \frac{\sin\theta + \theta\cos\theta}{\cos\theta - \theta\sin\theta} = \frac{1 + 0}{0 - \pi/2} = -\frac{2}{\pi}\).</p>
+                                </details>
+                            </li>
+                            <li>Identify \(r = \dfrac{4}{1 - \cos\theta}\) and give its Cartesian equation.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(e = 1\): a parabola with focus at the origin. \(r = 4 + r\cos\theta = 4 + x\), so \(x^2 + y^2 = (4 + x)^2 \Rightarrow y^2 = 8(x + 2)\). Vertex \((-2, 0)\), opening right, directrix \(x = -4\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+
+                <section id="ch11">
+                    <h2>11. Sequences, Series and Power Series</h2>
+                    <p class="ref">Stewart Ch. 11 &middot; OpenStax Vol. 2 Ch. 5&ndash;6</p>
+
+                    <p>Can you add infinitely many numbers and get a finite answer? Sometimes: \(\tfrac12 + \tfrac14 + \tfrac18 + \cdots = 1\), because the partial sums creep up to 1. Sometimes not: \(1 + \tfrac12 + \tfrac13 + \cdots\) grows without bound, even though its terms shrink to zero. The first half of this chapter builds tests that decide which case you are in without computing the sum. The second half uses the payoff: a <strong>power series</strong> is an "infinite polynomial", and many functions (\(e^x\), \(\sin x\), \(\ln(1 + x)\)) <em>are</em> power series. Truncating gives a Taylor polynomial, which is how calculators compute these functions and how physicists justify approximations like \(\sin\theta \approx \theta\).</p>
+
+                    <h3 id="ch11-seq">11.1 Sequences</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (limit of a sequence)</p>
+                        <p>A sequence \(\{a_n\}\) <strong>converges</strong> to \(L\), written \(\lim_{n\to\infty}a_n = L\), if for every \(\varepsilon \gt 0\) there is an integer \(N\) such that \(|a_n - L| \lt \varepsilon\) whenever \(n \gt N\). Otherwise the sequence <strong>diverges</strong>. (If \(a_n\) grows without bound we write \(a_n\to\infty\), but the sequence still diverges.)</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorems for computing limits</p>
+                        <ul>
+                            <li><strong>Function link:</strong> if \(\lim_{x\to\infty}f(x) = L\) and \(a_n = f(n)\), then \(a_n\to L\). (So L'H&ocirc;pital's rule can be used on \(f\).)</li>
+                            <li><strong>Limit laws</strong> (sum, product, quotient) and the <strong>Squeeze Theorem</strong> hold as for functions. In particular, if \(|a_n|\to 0\) then \(a_n\to 0\).</li>
+                            <li><strong>Continuity:</strong> if \(a_n\to L\) and \(f\) is continuous at \(L\), then \(f(a_n)\to f(L)\).</li>
+                            <li><strong>Geometric:</strong> \(r^n\) converges if \(-1 \lt r \le 1\) (to 0 if \(|r| \lt 1\), to 1 if \(r = 1\)) and diverges otherwise.</li>
+                            <li><strong>Monotone Sequence Theorem:</strong> every bounded, monotonic sequence converges. (This is a form of the completeness of the real numbers.)</li>
+                        </ul>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Useful limits (as \(n\to\infty\))</p>
+                        \[ \frac{\ln n}{n}\to 0,\qquad \sqrt[n]{n}\to 1,\qquad \left(1 + \frac{x}{n}\right)^n\to e^x,\qquad \frac{x^n}{n!}\to 0\ \text{(any } x),\qquad \frac{n!}{n^n}\to 0. \]
+                        <p>Growth order for large \(n\): \(\ln n \ll n^p \ll b^n \ll n! \ll n^n\) (for \(p \gt 0\), \(b \gt 1\)).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.1</p>
+                        <p>Find the limits: (a) \(\dfrac{3n^2 - n}{5n^2 + 2}\); (b) \(\dfrac{(-1)^n}{n}\); (c) \(n\sin\dfrac1n\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) Divide top and bottom by \(n^2\): \(\frac{3 - 1/n}{5 + 2/n^2}\to\frac35\).</p>
+                            <p>(b) \(\left|\frac{(-1)^n}{n}\right| = \frac1n\to 0\), so the sequence \(\to 0\) by the squeeze theorem.</p>
+                            <p>(c) Let \(x = 1/n \to 0^+\): \(\frac{\sin x}{x}\to 1\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.2 (recursive sequence)</p>
+                        <p>Let \(a_1 = 1\) and \(a_{n+1} = \sqrt{2 + a_n}\). Show the sequence converges and find its limit.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Bounded above by 2</strong> (induction): \(a_1 = 1 \lt 2\); if \(a_n \lt 2\) then \(a_{n+1} \lt \sqrt{4} = 2\).</p>
+                            <p><strong>Increasing:</strong> \(a_{n+1} \gt a_n \iff 2 + a_n \gt a_n^2 \iff (a_n - 2)(a_n + 1) \lt 0\), which holds since \(0 \lt a_n \lt 2\).</p>
+                            <p>By the Monotone Sequence Theorem, \(a_n\to L\). Take limits in the recursion: \(L = \sqrt{2 + L}\), so \(L^2 - L - 2 = 0\), \(L = 2\) or \(L = -1\). Since all terms are positive, \(L = 2\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Solving \(L = g(L)\) before proving the limit exists. The algebra only tells you what the limit must be <em>if</em> there is one. For example \(a_{n+1} = -a_n\) with \(a_1 = 1\) gives "\(L = -L\), so \(L = 0\)", but the sequence \(1, -1, 1, \ldots\) diverges.</p>
+                    </div>
+
+                    <h3 id="ch11-series">11.2 Series</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition</p>
+                        <p>Given \(\{a_n\}\), the <strong>partial sums</strong> are \(s_n = a_1 + a_2 + \cdots + a_n\). The series \(\sum_{n=1}^\infty a_n\) <strong>converges</strong> with sum \(s\) if \(s_n\to s\); otherwise it <strong>diverges</strong>. A series is a sequence of partial sums in disguise.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Geometric series)</p>
+                        \[ \sum_{n=1}^\infty ar^{n-1} = a + ar + ar^2 + \cdots = \frac{a}{1 - r}\quad\text{if } |r| \lt 1, \]
+                        <p>and the series diverges if \(|r| \ge 1\) (with \(a \ne 0\)). In words: first term over (1 &minus; ratio).</p>
+                        <p><em>Proof.</em> \(s_n - rs_n = a - ar^n\), so \(s_n = \frac{a(1 - r^n)}{1 - r}\) for \(r \ne 1\). This converges iff \(r^n\) does, i.e. iff \(|r| \lt 1\) (the case \(r = -1\) oscillates; \(r = 1\) gives \(s_n = na\)).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Test for Divergence)</p>
+                        <p>If \(\sum a_n\) converges, then \(a_n\to 0\). Equivalently: if \(\lim a_n \ne 0\) or does not exist, then \(\sum a_n\) diverges.</p>
+                        <p><em>Proof.</em> \(a_n = s_n - s_{n-1}\to s - s = 0\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>The converse is false: \(a_n\to 0\) does <em>not</em> imply convergence. The <strong>harmonic series</strong> \(\sum\frac1n\) diverges although \(\frac1n\to 0\). Proof by grouping: \(1 + \tfrac12 + \left(\tfrac13 + \tfrac14\right) + \left(\tfrac15 + \cdots + \tfrac18\right) + \cdots\); each bracket is at least \(\tfrac12\), so \(s_{2^k} \ge 1 + \tfrac k2\to\infty\).</p>
+                    </div>
+
+                    <p>Convergent series can be added and multiplied by constants term by term: \(\sum(ca_n + b_n) = c\sum a_n + \sum b_n\). Changing or removing finitely many terms never affects convergence (only the sum). A <strong>telescoping</strong> series is one whose partial sums collapse after cancellation.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.3</p>
+                        <p>Find the sums: (a) \(\displaystyle\sum_{n=0}^\infty 3\left(-\tfrac25\right)^n\); (b) \(0.\overline{27} = 0.272727\ldots\); (c) \(\displaystyle\sum_{n=1}^\infty\frac{1}{n(n+1)}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) Geometric with \(a = 3\), \(r = -\tfrac25\): sum \(= \frac{3}{1 + 2/5} = \frac{15}{7}\).</p>
+                            <p>(b) \(\frac{27}{100} + \frac{27}{100^2} + \cdots = \frac{27/100}{1 - 1/100} = \frac{27}{99} = \frac{3}{11}\).</p>
+                            <p>(c) Partial fractions: \(\frac{1}{n(n+1)} = \frac1n - \frac{1}{n+1}\). Then \(s_n = \left(1 - \tfrac12\right) + \left(\tfrac12 - \tfrac13\right) + \cdots + \left(\tfrac1n - \tfrac{1}{n+1}\right) = 1 - \tfrac{1}{n+1}\to 1\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.4 (bouncing ball)</p>
+                        <p>A ball dropped from 10 m rebounds each time to \(\tfrac34\) of its previous height. Find the total vertical distance travelled.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Down 10, then each rebound goes up and down: \(2(7.5) + 2(7.5)(0.75) + \cdots\).</p>
+                            \[ D = 10 + 2\cdot\frac{7.5}{1 - 0.75} = 10 + 2(30) = 70\ \text{m}. \]
+                        </details>
+                    </div>
+
+                    <h3 id="ch11-integral">11.3 The integral test</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Integral Test)</p>
+                        <p>Suppose \(f\) is <strong>continuous, positive and decreasing</strong> on \([1,\infty)\) and \(a_n = f(n)\). Then \(\sum_{n=1}^\infty a_n\) converges if and only if \(\int_1^\infty f(x)\,dx\) converges. (It is enough for \(f\) to be decreasing for \(x \ge N\), starting the comparison there.)</p>
+                        <p><em>Proof idea.</em> Draw rectangles of width 1. Right-endpoint rectangles fit under the curve and left-endpoint rectangles cover it:</p>
+                        \[ a_2 + a_3 + \cdots + a_n \le \int_1^n f(x)\,dx \le a_1 + a_2 + \cdots + a_{n-1}. \]
+                        <p>If the integral is finite, the partial sums are bounded and increasing, so they converge (Monotone Sequence Theorem). If the integral is infinite, the partial sums exceed it and diverge.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Corollary (\(p\)-series)</p>
+                        \[ \sum_{n=1}^\infty\frac{1}{n^p}\ \text{converges if } p \gt 1 \text{ and diverges if } p \le 1. \]
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Remainder estimate</p>
+                        <p>Under the integral-test hypotheses, the remainder \(R_n = s - s_n\) satisfies</p>
+                        \[ \int_{n+1}^\infty f(x)\,dx \le R_n \le \int_n^\infty f(x)\,dx, \qquad\text{so}\qquad s_n + \int_{n+1}^\infty f \le s \le s_n + \int_n^\infty f. \]
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>The integral's <em>value</em> is not the series' sum. \(\int_1^\infty x^{-2}dx = 1\), but \(\sum n^{-2} = \pi^2/6 \approx 1.645\). The test only says whether both are finite.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.5</p>
+                        <p>Does \(\displaystyle\sum_{n=2}^\infty\frac{1}{n\ln n}\) converge?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f(x) = \frac{1}{x\ln x}\) is continuous, positive and decreasing for \(x \ge 2\) (its denominator increases). With \(u = \ln x\):</p>
+                            \[ \int_2^t\frac{dx}{x\ln x} = \Big[\ln(\ln x)\Big]_2^t = \ln(\ln t) - \ln(\ln 2)\to\infty. \]
+                            <p>The series <strong>diverges</strong>, though extremely slowly: the partial sums grow like \(\ln(\ln n)\), and the first billion terms add up to less than 5.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.6 (estimating a sum)</p>
+                        <p>Given \(s_{10} = \sum_{n=1}^{10}\frac{1}{n^3} \approx 1.197532\), bound the error and give an interval containing \(\sum_{n=1}^\infty\frac{1}{n^3}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\int_n^\infty x^{-3}\,dx = \frac{1}{2n^2}\). So \(R_{10} \le \frac{1}{200} = 0.005\), and</p>
+                            \[ 1.197532 + \frac{1}{2(11)^2} \le s \le 1.197532 + \frac{1}{2(10)^2} \;\Longrightarrow\; 1.20166 \le s \le 1.20253. \]
+                            <p>(The true value is \(1.20206\ldots\).) Using the midpoint of the interval as an estimate is far better than \(s_{10}\) itself.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch11-comparison">11.4 The comparison tests</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Direct Comparison Test)</p>
+                        <p>Suppose \(0 \le a_n \le b_n\) for all \(n\) (or all \(n \ge N\)).</p>
+                        <ul>
+                            <li>If \(\sum b_n\) converges, so does \(\sum a_n\).</li>
+                            <li>If \(\sum a_n\) diverges, so does \(\sum b_n\).</li>
+                        </ul>
+                        <p><em>Why:</em> the partial sums of \(\sum a_n\) are increasing and bounded by \(\sum b_n\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Limit Comparison Test)</p>
+                        <p>Suppose \(a_n \gt 0\), \(b_n \gt 0\) and</p>
+                        \[ \lim_{n\to\infty}\frac{a_n}{b_n} = c, \quad 0 \lt c \lt \infty. \]
+                        <p>Then \(\sum a_n\) and \(\sum b_n\) both converge or both diverge.</p>
+                        <p><em>Why:</em> for large \(n\), \(\tfrac c2 b_n \lt a_n \lt 2c\,b_n\), and direct comparison applies in each direction.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip: choosing \(b_n\)</p>
+                        <p>Keep only the dominant terms of numerator and denominator. \(\frac{2n^2 + 3n}{\sqrt{5 + n^7}}\) behaves like \(\frac{2n^2}{n^{7/2}} = \frac{2}{n^{3/2}}\), so compare with \(\sum n^{-3/2}\) (a convergent \(p\)-series). Limit comparison is usually easier than direct comparison because you do not need an inequality.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.7</p>
+                        <p>Test for convergence: (a) \(\displaystyle\sum\frac{1}{2^n + 1}\); (b) \(\displaystyle\sum_{n=1}^\infty\frac{\ln n}{n}\); (c) \(\displaystyle\sum\frac{2n^2 + 3n}{\sqrt{5 + n^7}}\); (d) \(\displaystyle\sum\sin\frac1n\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(\frac{1}{2^n + 1} \lt \frac{1}{2^n}\), a convergent geometric series. <strong>Converges.</strong></p>
+                            <p>(b) For \(n \ge 3\), \(\ln n \gt 1\), so \(\frac{\ln n}{n} \gt \frac1n\). The harmonic series diverges, so this <strong>diverges</strong>.</p>
+                            <p>(c) With \(b_n = n^{-3/2}\):</p>
+                            \[ \frac{a_n}{b_n} = \frac{(2n^2 + 3n)\,n^{3/2}}{\sqrt{5 + n^7}} = \frac{2n^{7/2} + 3n^{5/2}}{n^{7/2}\sqrt{5n^{-7} + 1}} = \frac{2 + 3/n}{\sqrt{5n^{-7} + 1}}\to 2. \]
+                            <p>Since \(0 \lt 2 \lt \infty\) and \(\sum n^{-3/2}\) converges, the series <strong>converges</strong>.</p>
+                            <p>(d) \(\frac{\sin(1/n)}{1/n}\to 1\), and \(\sum\frac1n\) diverges, so the series <strong>diverges</strong>.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch11-alternating">11.5 Alternating series</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Alternating Series Test)</p>
+                        <p>If \(b_n \gt 0\), the sequence \(b_n\) is <strong>decreasing</strong> (\(b_{n+1} \le b_n\), at least eventually), and \(\lim b_n = 0\), then</p>
+                        \[ \sum_{n=1}^\infty(-1)^{n-1}b_n = b_1 - b_2 + b_3 - b_4 + \cdots \]
+                        <p>converges.</p>
+                        <p><em>Proof sketch.</em> The even partial sums \(s_2, s_4, s_6, \ldots\) increase, since \(s_{2n+2} = s_{2n} + (b_{2n+1} - b_{2n+2})\) with a non-negative bracket. They are bounded above by \(b_1\), since \(s_{2n} = b_1 - (b_2 - b_3) - \cdots - b_{2n}\). So they converge to some \(s\). The odd sums satisfy \(s_{2n+1} = s_{2n} + b_{2n+1}\to s + 0\). Both subsequences have limit \(s\).</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Alternating Series Estimation)</p>
+                        <p>Under the same hypotheses, the error after \(n\) terms is at most the first omitted term:</p>
+                        \[ |R_n| = |s - s_n| \le b_{n+1}, \]
+                        <p>and the true sum lies between any two consecutive partial sums.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.8</p>
+                        <p>(a) Show \(\displaystyle\sum_{n=1}^\infty\frac{(-1)^n n}{n^2 + 1}\) converges. (b) Estimate \(\displaystyle\sum_{n=0}^\infty\frac{(-1)^n}{n!}\) to within 0.0005.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(b_n = \frac{n}{n^2 + 1}\to 0\). Decreasing: \(f(x) = \frac{x}{x^2 + 1}\) has \(f'(x) = \frac{1 - x^2}{(x^2 + 1)^2} \lt 0\) for \(x \gt 1\). So the series converges by the AST.</p>
+                            <p>(b) \(b_n = \frac{1}{n!}\) is decreasing to 0. We need \(b_{n+1} \lt 0.0005\): \(\frac{1}{6!} \approx 0.00139\) is too big, but \(\frac{1}{7!} \approx 0.000198\) works. So sum the terms through \(n = 6\):</p>
+                            \[ 1 - 1 + \tfrac12 - \tfrac16 + \tfrac1{24} - \tfrac1{120} + \tfrac1{720} \approx 0.36806. \]
+                            <p>(The exact sum is \(e^{-1} \approx 0.36788\); the error 0.00018 is within the bound.)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch11-absolute">11.6 Absolute and conditional convergence</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition</p>
+                        <p>\(\sum a_n\) is <strong>absolutely convergent</strong> if \(\sum|a_n|\) converges, and <strong>conditionally convergent</strong> if \(\sum a_n\) converges but \(\sum|a_n|\) diverges.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem</p>
+                        <p>Absolute convergence implies convergence.</p>
+                        <p><em>Proof.</em> \(0 \le a_n + |a_n| \le 2|a_n|\), so \(\sum(a_n + |a_n|)\) converges by comparison. Then \(\sum a_n = \sum(a_n + |a_n|) - \sum|a_n|\) is a difference of convergent series.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Why the distinction matters</p>
+                        <p>An absolutely convergent series can be rearranged in any order with the same sum. A conditionally convergent one cannot: by Riemann's rearrangement theorem, its terms can be reordered to sum to <em>any</em> real number, or to diverge. The alternating harmonic series \(1 - \tfrac12 + \tfrac13 - \cdots = \ln 2\) is the standard conditionally convergent example.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.9</p>
+                        <p>Classify (a) \(\displaystyle\sum\frac{\cos n}{n^2}\) and (b) \(\displaystyle\sum\frac{(-1)^n}{\sqrt n}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) Not alternating in a regular pattern, but \(\left|\frac{\cos n}{n^2}\right| \le \frac{1}{n^2}\), so \(\sum|a_n|\) converges. <strong>Absolutely convergent</strong> (hence convergent).</p>
+                            <p>(b) \(\frac{1}{\sqrt n}\) decreases to 0, so the AST gives convergence. But \(\sum\frac{1}{\sqrt n}\) is a \(p\)-series with \(p = \tfrac12\), which diverges. <strong>Conditionally convergent.</strong></p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch11-ratio">11.7 The ratio and root tests</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Ratio Test)</p>
+                        <p>Let \(L = \displaystyle\lim_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right|\).</p>
+                        <ul>
+                            <li>If \(L \lt 1\), \(\sum a_n\) converges absolutely.</li>
+                            <li>If \(L \gt 1\) (including \(L = \infty\)), \(\sum a_n\) diverges.</li>
+                            <li>If \(L = 1\), the test is inconclusive.</li>
+                        </ul>
+                        <p><em>Why it works.</em> If \(L \lt 1\), pick \(r\) with \(L \lt r \lt 1\). For \(n \ge N\), \(|a_{n+1}| \le r|a_n|\), so \(|a_{N+k}| \le |a_N|\,r^k\). The tail is dominated by a convergent geometric series. If \(L \gt 1\), then eventually \(|a_{n+1}| \gt |a_n|\), so the terms do not go to zero. A series passes the ratio test exactly when it is "eventually at least as good as geometric".</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Root Test)</p>
+                        <p>Let \(L = \displaystyle\lim_{n\to\infty}\sqrt[n]{|a_n|}\). The conclusions are the same as for the ratio test: \(L \lt 1\) absolute convergence, \(L \gt 1\) divergence, \(L = 1\) inconclusive. (Same proof: \(|a_n| \le r^n\) eventually.)</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Using the ratio test on \(p\)-series or other rational functions of \(n\). For \(\sum\frac{1}{n}\) and \(\sum\frac{1}{n^2}\) alike, \(L = 1\): no information. The ratio test is for factorials and exponentials; the root test is for expressions raised to the \(n\)th power.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.10</p>
+                        <p>Test: (a) \(\displaystyle\sum\frac{n^3}{3^n}\); (b) \(\displaystyle\sum\frac{n!}{n^n}\); (c) \(\displaystyle\sum\left(\frac{2n + 3}{3n + 2}\right)^n\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(\frac{a_{n+1}}{a_n} = \frac{(n+1)^3}{3^{n+1}}\cdot\frac{3^n}{n^3} = \frac13\left(1 + \frac1n\right)^3\to\frac13 \lt 1\). <strong>Converges</strong> absolutely.</p>
+                            <p>(b) \(\frac{a_{n+1}}{a_n} = \frac{(n+1)!}{(n+1)^{n+1}}\cdot\frac{n^n}{n!} = \frac{(n+1)\,n^n}{(n+1)^{n+1}} = \left(\frac{n}{n+1}\right)^n = \frac{1}{(1 + 1/n)^n}\to\frac1e \lt 1\). <strong>Converges.</strong></p>
+                            <p>(c) \(\sqrt[n]{a_n} = \frac{2n + 3}{3n + 2}\to\frac23 \lt 1\). <strong>Converges</strong> by the root test.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch11-strategy">11.8 Strategy for testing series</h3>
+
+                    <div class="box tip">
+                        <p class="box-label">Decision order</p>
+                        <ol>
+                            <li><strong>Divergence test:</strong> does \(a_n\not\to 0\)? Then it diverges. (Check this first; it is quick.)</li>
+                            <li><strong>Recognise a family:</strong> geometric \(\sum ar^n\), \(p\)-series \(\sum 1/n^p\), telescoping.</li>
+                            <li><strong>Rational or algebraic in \(n\)</strong> (powers and roots of \(n\)): limit comparison with a \(p\)-series.</li>
+                            <li><strong>Factorials or \(c^n\)</strong>: ratio test.</li>
+                            <li><strong>\((\ldots)^n\)</strong>: root test.</li>
+                            <li><strong>\((-1)^n\) factor</strong>: check absolute convergence first; if that fails, use the alternating series test (conditional).</li>
+                            <li><strong>\(f(n)\) easy to integrate</strong> (e.g. \(\frac{1}{n\ln n}\), \(ne^{-n^2}\)): integral test.</li>
+                            <li>Bounded oscillating factors like \(\sin n\), \(\cos n\): bound them by 1 and compare absolute values.</li>
+                        </ol>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems: convergence</h4>
+                        <ol>
+                            <li>\(\displaystyle\sum_{n=1}^\infty\frac{n}{2n + 1}\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Diverges: \(a_n\to\tfrac12 \ne 0\) (divergence test).</p>
+                                </details>
+                            </li>
+                            <li>Find the sum of \(\displaystyle\sum_{n=1}^\infty\frac{2^{n+1}}{3^n}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(2\sum_{n=1}^\infty\left(\tfrac23\right)^n = 2\cdot\frac{2/3}{1 - 2/3} = 4\).</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\sum_{n=1}^\infty\frac{1}{n^2 + 4}\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Converges: \(\frac{1}{n^2 + 4} \lt \frac{1}{n^2}\), a convergent \(p\)-series.</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\sum_{n=2}^\infty\frac{(-1)^n\ln n}{n}\): absolutely convergent, conditionally convergent, or divergent?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\frac{\ln n}{n}\) decreases for \(n \ge 3\) (derivative of \(\frac{\ln x}{x}\) is \(\frac{1 - \ln x}{x^2} \lt 0\) for \(x \gt e\)) and \(\to 0\), so the AST gives convergence. \(\sum\frac{\ln n}{n}\) diverges (Example 11.7b). Conditionally convergent.</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\sum_{n=0}^\infty\frac{5^n}{n!}\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Ratio: \(\frac{5}{n + 1}\to 0 \lt 1\). Converges absolutely (its sum is \(e^5\)).</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\sum_{n=1}^\infty ne^{-n^2}\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Integral test: \(xe^{-x^2}\) is positive and decreasing for \(x \ge 1\), and \(\int_1^\infty xe^{-x^2}dx = \left[-\tfrac12 e^{-x^2}\right]_1^\infty = \tfrac{1}{2e}\). Converges.</p>
+                                </details>
+                            </li>
+                            <li>\(\displaystyle\sum_{n=1}^\infty\left(\frac{n}{n + 1}\right)^{n^2}\)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Root: \(\sqrt[n]{a_n} = \left(\frac{n}{n+1}\right)^n = \frac{1}{(1 + 1/n)^n}\to\frac1e \lt 1\). Converges.</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3 id="ch11-power">11.9 Power series</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition</p>
+                        <p>A <strong>power series centred at \(a\)</strong> is</p>
+                        \[ \sum_{n=0}^\infty c_n(x - a)^n = c_0 + c_1(x - a) + c_2(x - a)^2 + \cdots \]
+                        <p>For each \(x\) it is an ordinary series that may or may not converge. Its sum is a function of \(x\) whose domain is the set of \(x\) where the series converges. (Convention: \((x - a)^0 = 1\) even at \(x = a\).)</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Radius of convergence)</p>
+                        <p>For a power series \(\sum c_n(x - a)^n\), exactly one of the following holds:</p>
+                        <ol>
+                            <li>It converges only at \(x = a\) (\(R = 0\)).</li>
+                            <li>It converges for all \(x\) (\(R = \infty\)).</li>
+                            <li>There is \(R \gt 0\) such that it converges (absolutely) for \(|x - a| \lt R\) and diverges for \(|x - a| \gt R\).</li>
+                        </ol>
+                        <p>\(R\) is the <strong>radius of convergence</strong>. At the two endpoints \(x = a \pm R\) anything can happen; they must be checked individually. The <strong>interval of convergence</strong> is the set of all \(x\) where it converges.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip: the standard procedure</p>
+                        <p>(1) Apply the ratio test (or root test) to \(|c_n(x - a)^n|\), treating \(x\) as fixed. (2) Solve "limit \(\lt 1\)" for \(|x - a| \lt R\). (3) Plug each endpoint into the series and test the resulting numerical series with a different test (the ratio test always gives \(L = 1\) there). (4) State the interval with the correct brackets.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.11</p>
+                        <p>Find the radius and interval of convergence: (a) \(\displaystyle\sum_{n=1}^\infty\frac{(x - 3)^n}{n\,2^n}\); (b) \(\displaystyle\sum_{n=1}^\infty\frac{(2x - 1)^n}{n^2}\); (c) \(\displaystyle\sum_{n=0}^\infty n!\,x^n\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(\left|\frac{a_{n+1}}{a_n}\right| = \frac{|x - 3|^{n+1}}{(n+1)2^{n+1}}\cdot\frac{n\,2^n}{|x - 3|^n} = \frac{|x - 3|}{2}\cdot\frac{n}{n+1}\to\frac{|x - 3|}{2}\). Converges for \(|x - 3| \lt 2\): \(R = 2\).</p>
+                            <p>Endpoints: \(x = 5\) gives \(\sum\frac{2^n}{n2^n} = \sum\frac1n\), divergent. \(x = 1\) gives \(\sum\frac{(-1)^n}{n}\), convergent (AST). Interval: \([1, 5)\).</p>
+                            <p>(b) Ratio: \(|2x - 1|\frac{n^2}{(n+1)^2}\to|2x - 1|\). Need \(|2x - 1| \lt 1\), i.e. \(\left|x - \tfrac12\right| \lt \tfrac12\): \(R = \tfrac12\), centre \(\tfrac12\).</p>
+                            <p>Endpoints: \(x = 1\): \(\sum\frac{1}{n^2}\) converges. \(x = 0\): \(\sum\frac{(-1)^n}{n^2}\) converges absolutely. Interval: \([0, 1]\).</p>
+                            <p>(c) Ratio: \((n + 1)|x|\to\infty\) for any \(x \ne 0\). Converges only at \(x = 0\): \(R = 0\).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch11-represent">11.10 Representing functions as power series</h3>
+
+                    <p>Everything starts from the geometric series, read as a function:</p>
+                    \[ \frac{1}{1 - x} = \sum_{n=0}^\infty x^n = 1 + x + x^2 + \cdots, \qquad |x| \lt 1. \]
+                    <p>Substitute for \(x\), multiply by powers of \(x\), and differentiate or integrate to get many more.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Term-by-term differentiation and integration)</p>
+                        <p>If \(f(x) = \sum c_n(x - a)^n\) has radius of convergence \(R \gt 0\), then \(f\) is differentiable (hence continuous) on \((a - R, a + R)\) and</p>
+                        \[ f'(x) = \sum_{n=1}^\infty nc_n(x - a)^{n-1}, \qquad \int f(x)\,dx = C + \sum_{n=0}^\infty c_n\frac{(x - a)^{n+1}}{n + 1}. \]
+                        <p>Both new series have the same radius \(R\). The behaviour at the endpoints may change, so recheck them.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.12 (substitution)</p>
+                        <p>Find a power series for \(\dfrac{x}{4 + x}\) and its radius of convergence.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Factor to match \(\frac{1}{1 - u}\): \(\frac{x}{4 + x} = \frac{x}{4}\cdot\frac{1}{1 - (-x/4)}\).</p>
+                            \[ \frac{x}{4 + x} = \frac x4\sum_{n=0}^\infty\left(-\frac x4\right)^n = \sum_{n=0}^\infty\frac{(-1)^n x^{n+1}}{4^{n+1}}, \qquad \left|\frac{x}{4}\right| \lt 1 \iff |x| \lt 4. \]
+                            <p>\(R = 4\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.13 (integration: \(\arctan\) and \(\ln\))</p>
+                        <p>Find Maclaurin series for \(\arctan x\) and \(\ln(1 + x)\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Replace \(x\) by \(-x^2\) in the geometric series: \(\frac{1}{1 + x^2} = \sum_{n=0}^\infty(-1)^n x^{2n}\) for \(|x| \lt 1\). Integrate, using \(\arctan 0 = 0\) to get \(C = 0\):</p>
+                            \[ \arctan x = \sum_{n=0}^\infty\frac{(-1)^n x^{2n+1}}{2n + 1} = x - \frac{x^3}{3} + \frac{x^5}{5} - \cdots,\qquad R = 1. \]
+                            <p>Similarly \(\frac{1}{1 + x} = \sum(-1)^n x^n\); integrate with \(\ln 1 = 0\):</p>
+                            \[ \ln(1 + x) = \sum_{n=1}^\infty\frac{(-1)^{n-1}x^n}{n} = x - \frac{x^2}{2} + \frac{x^3}{3} - \cdots,\qquad R = 1. \]
+                            <p>Both series also converge at \(x = 1\) (alternating series), and their sums there are the function values: \(1 - \tfrac13 + \tfrac15 - \cdots = \frac\pi4\) and \(1 - \tfrac12 + \tfrac13 - \cdots = \ln 2\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.14 (differentiation: summing a series)</p>
+                        <p>Find the exact value of \(\displaystyle\sum_{n=1}^\infty\frac{n}{2^n}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Differentiate the geometric series: \(\frac{1}{(1 - x)^2} = \sum_{n=1}^\infty nx^{n-1}\) for \(|x| \lt 1\). Multiply by \(x\): \(\sum_{n=1}^\infty nx^n = \frac{x}{(1 - x)^2}\). At \(x = \tfrac12\):</p>
+                            \[ \sum_{n=1}^\infty\frac{n}{2^n} = \frac{1/2}{(1/2)^2} = 2. \]
+                        </details>
+                    </div>
+
+                    <h3 id="ch11-taylor">11.11 Taylor and Maclaurin series</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (coefficients are forced)</p>
+                        <p>If \(f\) has a power series representation \(f(x) = \sum c_n(x - a)^n\) for \(|x - a| \lt R\), then</p>
+                        \[ c_n = \frac{f^{(n)}(a)}{n!}, \qquad f(x) = \sum_{n=0}^\infty\frac{f^{(n)}(a)}{n!}(x - a)^n. \]
+                        <p>This is the <strong>Taylor series</strong> of \(f\) at \(a\); when \(a = 0\) it is the <strong>Maclaurin series</strong>.</p>
+                        <p><em>Proof.</em> Setting \(x = a\) gives \(f(a) = c_0\). Differentiate term by term: \(f'(x) = c_1 + 2c_2(x - a) + 3c_3(x - a)^2 + \cdots\), so \(f'(a) = c_1\). Again: \(f''(a) = 2c_2\), then \(f'''(a) = 3\cdot 2\,c_3\), and in general \(f^{(n)}(a) = n!\,c_n\).</p>
+                    </div>
+
+                    <p>The theorem says: <em>if</em> \(f\) has a power series, it must be the Taylor series. It does not say every smooth function equals its Taylor series. To prove that it does, show the remainder goes to zero.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Taylor polynomial and remainder)</p>
+                        <p>The \(n\)th-degree Taylor polynomial of \(f\) at \(a\) is</p>
+                        \[ T_n(x) = \sum_{i=0}^n\frac{f^{(i)}(a)}{i!}(x - a)^i = f(a) + f'(a)(x - a) + \frac{f''(a)}{2!}(x - a)^2 + \cdots + \frac{f^{(n)}(a)}{n!}(x - a)^n, \]
+                        <p>and the remainder is \(R_n(x) = f(x) - T_n(x)\). \(T_1\) is the tangent-line (linear) approximation. If \(R_n(x)\to 0\) as \(n\to\infty\) for \(|x - a| \lt R\), then \(f\) equals its Taylor series on that interval.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Taylor's Inequality)</p>
+                        <p>If \(|f^{(n+1)}(x)| \le M\) for \(|x - a| \le d\), then for \(|x - a| \le d\)</p>
+                        \[ |R_n(x)| \le \frac{M}{(n + 1)!}|x - a|^{n+1}. \]
+                        <p>Equivalently (Lagrange form), \(R_n(x) = \frac{f^{(n+1)}(z)}{(n + 1)!}(x - a)^{n+1}\) for some \(z\) between \(a\) and \(x\).</p>
+                        <p><em>Proof idea (\(n = 1\), \(x \gt a\)).</em> From \(f''(t) \le M\), integrate from \(a\) to \(x\): \(f'(x) - f'(a) \le M(x - a)\). Integrate again: \(f(x) - f(a) - f'(a)(x - a) \le \frac{M}{2}(x - a)^2\), i.e. \(R_1(x) \le \frac M2(x - a)^2\). The same argument starting from \(f'' \ge -M\) gives \(R_1(x) \ge -\frac M2(x - a)^2\). For general \(n\), integrate \(n + 1\) times. The \(n = 0\) case is just the Mean Value Theorem, and the Lagrange form is its generalisation.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Assuming a function with derivatives of all orders equals its Taylor series. The function \(f(x) = e^{-1/x^2}\) (with \(f(0) = 0\)) has \(f^{(n)}(0) = 0\) for every \(n\), so its Maclaurin series is identically 0, yet \(f(x) \gt 0\) for \(x \ne 0\). Here \(R_n(x)\not\to 0\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Important Maclaurin series (memorise these)</p>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Function</th><th>Series</th><th>Valid for</th></tr></thead>
+                                <tbody>
+                                    <tr><td>\(\dfrac{1}{1 - x}\)</td><td>\(\sum_{n=0}^\infty x^n = 1 + x + x^2 + x^3 + \cdots\)</td><td>\(|x| \lt 1\)</td></tr>
+                                    <tr><td>\(e^x\)</td><td>\(\sum_{n=0}^\infty\dfrac{x^n}{n!} = 1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + \cdots\)</td><td>all \(x\)</td></tr>
+                                    <tr><td>\(\sin x\)</td><td>\(\sum_{n=0}^\infty\dfrac{(-1)^n x^{2n+1}}{(2n+1)!} = x - \dfrac{x^3}{3!} + \dfrac{x^5}{5!} - \cdots\)</td><td>all \(x\)</td></tr>
+                                    <tr><td>\(\cos x\)</td><td>\(\sum_{n=0}^\infty\dfrac{(-1)^n x^{2n}}{(2n)!} = 1 - \dfrac{x^2}{2!} + \dfrac{x^4}{4!} - \cdots\)</td><td>all \(x\)</td></tr>
+                                    <tr><td>\(\arctan x\)</td><td>\(\sum_{n=0}^\infty\dfrac{(-1)^n x^{2n+1}}{2n + 1} = x - \dfrac{x^3}{3} + \dfrac{x^5}{5} - \cdots\)</td><td>\(|x| \le 1\)</td></tr>
+                                    <tr><td>\(\ln(1 + x)\)</td><td>\(\sum_{n=1}^\infty\dfrac{(-1)^{n-1}x^n}{n} = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} - \cdots\)</td><td>\(-1 \lt x \le 1\)</td></tr>
+                                    <tr><td>\((1 + x)^k\)</td><td>\(\sum_{n=0}^\infty\dbinom{k}{n}x^n = 1 + kx + \dfrac{k(k-1)}{2!}x^2 + \cdots\)</td><td>\(|x| \lt 1\)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.15 (\(e^x\) equals its series)</p>
+                        <p>Derive the Maclaurin series for \(e^x\) and prove it converges to \(e^x\) for every \(x\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Every derivative of \(e^x\) is \(e^x\), and equals 1 at 0, so \(c_n = \frac{1}{n!}\) and the series is \(\sum\frac{x^n}{n!}\). The ratio test gives \(\frac{|x|}{n + 1}\to 0\), so \(R = \infty\).</p>
+                            <p>Now fix \(x\) and let \(d = |x|\). On \([-d, d]\), \(|f^{(n+1)}| = e^t \le e^d = M\). Taylor's inequality:</p>
+                            \[ |R_n(x)| \le \frac{e^d}{(n + 1)!}|x|^{n+1}\to 0, \]
+                            <p>because \(\frac{d^{n+1}}{(n+1)!}\to 0\) for any fixed \(d\). Therefore \(e^x = \sum_{n=0}^\infty\frac{x^n}{n!}\) for all \(x\). At \(x = 1\): \(e = 1 + 1 + \frac12 + \frac16 + \cdots\).</p>
+                            <p>The same argument works for \(\sin x\) and \(\cos x\), even more easily: all their derivatives are bounded by \(M = 1\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.16 (a Taylor series not at 0)</p>
+                        <p>Find the Taylor series of \(\ln x\) at \(a = 1\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(f' = x^{-1}\), \(f'' = -x^{-2}\), \(f''' = 2x^{-3}\), \(f^{(4)} = -3!\,x^{-4}\); in general \(f^{(n)}(x) = (-1)^{n-1}(n-1)!\,x^{-n}\) for \(n \ge 1\). At \(x = 1\): \(\frac{f^{(n)}(1)}{n!} = \frac{(-1)^{n-1}(n-1)!}{n!} = \frac{(-1)^{n-1}}{n}\), and \(f(1) = 0\).</p>
+                            \[ \ln x = \sum_{n=1}^\infty\frac{(-1)^{n-1}}{n}(x - 1)^n = (x - 1) - \frac{(x - 1)^2}{2} + \frac{(x - 1)^3}{3} - \cdots \]
+                            <p>This is the \(\ln(1 + u)\) series with \(u = x - 1\), valid for \(0 \lt x \le 2\).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.17 (using known series)</p>
+                        <p>(a) Find the Maclaurin series of \(x^2e^{-x}\) and use it to find \(f^{(5)}(0)\). (b) Evaluate \(\displaystyle\lim_{x\to 0}\frac{\sin x - x}{x^3}\). (c) Approximate \(\displaystyle\int_0^1 e^{-x^2}\,dx\) with error less than 0.001.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(e^{-x} = \sum\frac{(-1)^n x^n}{n!}\), so \(x^2e^{-x} = \sum_{n=0}^\infty\frac{(-1)^n x^{n+2}}{n!}\). The \(x^5\) term has \(n = 3\): coefficient \(-\frac{1}{3!} = -\frac16\). Since this coefficient is \(\frac{f^{(5)}(0)}{5!}\), \(f^{(5)}(0) = -\frac{120}{6} = -20\). (No need to differentiate five times.)</p>
+                            <p>(b) \(\sin x - x = -\frac{x^3}{6} + \frac{x^5}{120} - \cdots\), so \(\frac{\sin x - x}{x^3} = -\frac16 + \frac{x^2}{120} - \cdots\to -\frac16\).</p>
+                            <p>(c) \(e^{-x^2} = \sum\frac{(-1)^n x^{2n}}{n!}\). Integrate term by term:</p>
+                            \[ \int_0^1 e^{-x^2}dx = \sum_{n=0}^\infty\frac{(-1)^n}{n!\,(2n + 1)} = 1 - \frac13 + \frac{1}{10} - \frac{1}{42} + \frac{1}{216} - \frac{1}{1320} + \cdots \]
+                            <p>This is alternating with decreasing terms. The term \(\frac{1}{1320} \approx 0.00076 \lt 0.001\), so stop before it: \(1 - 0.33333 + 0.1 - 0.02381 + 0.00463 \approx 0.7475\). (True value \(0.74682\ldots\).) This integral has no elementary antiderivative, yet we computed it to three decimals by hand.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="ch11-binomial">11.12 The binomial series</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Binomial series)</p>
+                        <p>For any real \(k\) and \(|x| \lt 1\),</p>
+                        \[ (1 + x)^k = \sum_{n=0}^\infty\binom{k}{n}x^n, \qquad \binom{k}{n} = \frac{k(k - 1)(k - 2)\cdots(k - n + 1)}{n!},\quad \binom{k}{0} = 1. \]
+                        <p>If \(k\) is a non-negative integer, the coefficients vanish for \(n \gt k\) and this is the ordinary binomial theorem (a finite sum valid for all \(x\)). Otherwise \(R = 1\) (ratio test: \(\left|\frac{k - n}{n + 1}\right||x|\to|x|\)).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>The formula needs the form \((1 + \text{small})^k\). For \(\sqrt{4 + x}\), factor first: \(\sqrt{4 + x} = 2\left(1 + \frac x4\right)^{1/2}\), valid for \(|x| \lt 4\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.18</p>
+                        <p>(a) Find the first four terms of the series for \(\sqrt{1 + x}\) and estimate \(\sqrt{1.1}\). (b) Find the Maclaurin series of \(\arcsin x\) up to \(x^7\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(k = \tfrac12\): \(\binom{1/2}{2} = \frac{\frac12\left(-\frac12\right)}{2} = -\frac18\), \(\binom{1/2}{3} = \frac{\frac12\left(-\frac12\right)\left(-\frac32\right)}{6} = \frac{1}{16}\).</p>
+                            \[ \sqrt{1 + x} = 1 + \frac x2 - \frac{x^2}{8} + \frac{x^3}{16} - \cdots \]
+                            <p>At \(x = 0.1\): \(1 + 0.05 - 0.00125 + 0.0000625 = 1.0488125\). (True value \(1.0488088\ldots\); error about \(4\times 10^{-6}\).)</p>
+                            <p>(b) \(k = -\tfrac12\): \(\binom{-1/2}{1} = -\frac12\), \(\binom{-1/2}{2} = \frac{\left(-\frac12\right)\left(-\frac32\right)}{2} = \frac38\), \(\binom{-1/2}{3} = \frac{\left(-\frac12\right)\left(-\frac32\right)\left(-\frac52\right)}{6} = -\frac{5}{16}\). With \(x\to -x^2\):</p>
+                            \[ \frac{1}{\sqrt{1 - x^2}} = 1 + \frac12x^2 + \frac38x^4 + \frac{5}{16}x^6 + \cdots \]
+                            <p>Integrate (with \(\arcsin 0 = 0\)):</p>
+                            \[ \arcsin x = x + \frac{x^3}{6} + \frac{3x^5}{40} + \frac{5x^7}{112} + \cdots,\qquad |x| \lt 1. \]
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Physics connection: relativistic kinetic energy</p>
+                        <p>With \(\gamma = (1 - v^2/c^2)^{-1/2}\), the binomial series with \(k = -\tfrac12\) and \(x = -v^2/c^2\) gives \(\gamma = 1 + \frac{v^2}{2c^2} + \frac{3v^4}{8c^4} + \cdots\). So the kinetic energy is</p>
+                        \[ K = (\gamma - 1)mc^2 = \tfrac12 mv^2 + \frac{3}{8}\frac{mv^4}{c^2} + \cdots \]
+                        <p>Newtonian kinetic energy is the first term; the second is the leading relativistic correction, negligible when \(v \ll c\).</p>
+                    </div>
+
+                    <h3 id="ch11-apps">11.13 Applications of Taylor polynomials</h3>
+
+                    <p>In practice we use a finite Taylor polynomial \(T_n\) and need to know how large the error is. Two tools bound it:</p>
+                    <ul>
+                        <li><strong>Taylor's inequality</strong> (always applicable): \(|R_n| \le \frac{M}{(n+1)!}|x - a|^{n+1}\).</li>
+                        <li><strong>Alternating series estimate</strong> (when the series at that \(x\) is alternating with decreasing terms): \(|R_n| \le\) first omitted term.</li>
+                    </ul>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.19</p>
+                        <p>(a) Find \(T_2\) for \(f(x) = \sqrt x\) at \(a = 4\) and use it to estimate \(\sqrt{4.2}\). (b) Bound the error of \(T_2\) on \(4 \le x \le 4.5\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(f(4) = 2\); \(f'(x) = \tfrac12 x^{-1/2}\), \(f'(4) = \tfrac14\); \(f''(x) = -\tfrac14 x^{-3/2}\), \(f''(4) = -\tfrac{1}{32}\).</p>
+                            \[ T_2(x) = 2 + \frac{x - 4}{4} - \frac{(x - 4)^2}{64}, \qquad T_2(4.2) = 2 + 0.05 - 0.000625 = 2.049375. \]
+                            <p>(b) \(f'''(x) = \tfrac38 x^{-5/2}\), which is decreasing, so on \([4, 4.5]\) its maximum is at \(x = 4\): \(M = \frac{3}{8\cdot 32} = \frac{3}{256}\).</p>
+                            \[ |R_2(x)| \le \frac{3/256}{3!}(0.5)^3 = \frac{3}{256}\cdot\frac{0.125}{6} \approx 0.000244. \]
+                            <p>(At \(x = 4.2\) specifically, the bound is \(\frac{3/256}{6}(0.2)^3 \approx 0.0000156\); the true error is \(\sqrt{4.2} - 2.049375 \approx 0.0000152\).)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 11.20 (small-angle approximation)</p>
+                        <p>For what angles is \(\sin\theta \approx \theta\) accurate to within 0.001?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>\(\sin\theta = \theta - \frac{\theta^3}{6} + \frac{\theta^5}{120} - \cdots\). For \(|\theta| \lt 1\) this alternates with decreasing terms, so the error of \(\sin\theta\approx\theta\) is at most \(\frac{|\theta|^3}{6}\). (Taylor's inequality with \(n = 2\), since \(T_2 = T_1 = \theta\), and \(M = 1\), gives the same bound.)</p>
+                            \[ \frac{|\theta|^3}{6} \lt 0.001 \iff |\theta| \lt \sqrt[3]{0.006} \approx 0.182\ \text{rad} \approx 10.4^\circ. \]
+                            <p>This is why the simple-pendulum equation \(\ddot\theta + \frac gL\sin\theta = 0\) is replaced by the linear \(\ddot\theta + \frac gL\theta = 0\) for swings up to about 10&deg;. The next correction to the period is \(T \approx 2\pi\sqrt{L/g}\left(1 + \frac{\theta_0^2}{16}\right)\).</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Physics connection: far-field approximations</p>
+                        <p>Charges \(+q\) and \(-q\) sit at \(x = \pm d/2\) on the \(x\)-axis. At a far point \(x = r \gg d\), the field is \(E = kq\left[\frac{1}{(r - d/2)^2} - \frac{1}{(r + d/2)^2}\right] = \frac{kq}{r^2}\left[(1 - u)^{-2} - (1 + u)^{-2}\right]\) with \(u = \frac{d}{2r}\). Binomial: \((1 \mp u)^{-2} \approx 1 \pm 2u\), so \(E \approx \frac{kq}{r^2}\cdot 4u = \frac{2kqd}{r^3}\). The dipole field falls off as \(1/r^3\), one power faster than a single charge. Expanding in a small ratio and keeping the first non-vanishing term is the most common use of Taylor series in physics.</p>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems: power and Taylor series</h4>
+                        <ol>
+                            <li>Find the interval of convergence of \(\displaystyle\sum_{n=1}^\infty\frac{n\,x^n}{3^n}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Ratio: \(\frac{n+1}{n}\cdot\frac{|x|}{3}\to\frac{|x|}{3}\), so \(R = 3\). At \(x = \pm 3\) the terms are \(n(\pm1)^n\), which do not go to 0. Interval \((-3, 3)\).</p>
+                                </details>
+                            </li>
+                            <li>Find a power series for \(\dfrac{x}{1 - x^2}\) and its radius.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(x\sum(x^2)^n = \sum_{n=0}^\infty x^{2n+1} = x + x^3 + x^5 + \cdots\), \(R = 1\).</p>
+                                </details>
+                            </li>
+                            <li>Find the Maclaurin series of \(x\cos 2x\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\cos 2x = \sum\frac{(-1)^n(2x)^{2n}}{(2n)!}\), so \(x\cos 2x = \sum_{n=0}^\infty\frac{(-1)^n 4^n x^{2n+1}}{(2n)!} = x - 2x^3 + \tfrac23 x^5 - \cdots\), all \(x\).</p>
+                                </details>
+                            </li>
+                            <li>Evaluate \(\displaystyle\lim_{x\to 0}\frac{1 - \cos x - x^2/2}{x^4}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(1 - \cos x = \frac{x^2}{2} - \frac{x^4}{24} + \cdots\), so the numerator is \(-\frac{x^4}{24} + \cdots\). Limit \(-\frac{1}{24}\).</p>
+                                </details>
+                            </li>
+                            <li>Find the sum \(\displaystyle\sum_{n=0}^\infty\frac{(-1)^n\pi^{2n}}{4^n(2n)!}\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\frac{\pi^{2n}}{4^n} = \left(\frac\pi2\right)^{2n}\), so this is the cosine series at \(x = \pi/2\): sum \(= \cos\frac\pi2 = 0\).</p>
+                                </details>
+                            </li>
+                            <li>How many terms of \(\ln(1.2) = \sum_{n=1}^\infty\frac{(-1)^{n-1}(0.2)^n}{n}\) guarantee an error below \(10^{-4}\)? Compute the estimate.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Need the first omitted term \(\frac{0.2^{n+1}}{n+1} \lt 10^{-4}\): \(n = 3\) gives \(0.0004\) (too big); \(n = 4\) gives \(0.000064\). Four terms: \(0.2 - 0.02 + 0.0026667 - 0.0004 = 0.1822667\). (True: \(0.1823216\).)</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+
+                <section id="formula-sheet">
+                    <h2>Formula sheet</h2>
+
+                    <h3>Integration applications and techniques</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Area between curves</td><td>\(A = \int_a^b(\text{top} - \text{bottom})\,dx = \int_c^d(\text{right} - \text{left})\,dy\)</td></tr>
+                                <tr><td>Disks / washers</td><td>\(V = \int_a^b\pi\big(R^2 - r^2\big)\,dx\)</td></tr>
+                                <tr><td>Shells</td><td>\(V = \int_a^b 2\pi(\text{radius})(\text{height})\,dx\)</td></tr>
+                                <tr><td>Work</td><td>\(W = \int_a^b F(x)\,dx\); spring \(F = kx\); pumping \(W = \int\rho g\,A(y)\,D(y)\,dy\)</td></tr>
+                                <tr><td>Average value</td><td>\(f_{\text{avg}} = \frac{1}{b-a}\int_a^b f(x)\,dx\)</td></tr>
+                                <tr><td>Integration by parts</td><td>\(\int u\,dv = uv - \int v\,du\)</td></tr>
+                                <tr><td>Half-angle</td><td>\(\sin^2x = \tfrac12(1 - \cos 2x)\), \(\cos^2x = \tfrac12(1 + \cos 2x)\)</td></tr>
+                                <tr><td>Trig integrals</td><td>\(\int\tan x\,dx = \ln|\sec x| + C\), \(\int\sec x\,dx = \ln|\sec x + \tan x| + C\)</td></tr>
+                                <tr><td>Trig substitution</td><td>\(\sqrt{a^2 - x^2}\): \(x = a\sin\theta\); \(\sqrt{a^2 + x^2}\): \(x = a\tan\theta\); \(\sqrt{x^2 - a^2}\): \(x = a\sec\theta\)</td></tr>
+                                <tr><td>Standard antiderivatives</td><td>\(\int\frac{dx}{x^2 + a^2} = \frac1a\arctan\frac xa + C\), \(\int\frac{dx}{\sqrt{a^2 - x^2}} = \arcsin\frac xa + C\)</td></tr>
+                                <tr><td>Trapezoid / midpoint error</td><td>\(|E_T| \le \frac{K(b-a)^3}{12n^2}\), \(|E_M| \le \frac{K(b-a)^3}{24n^2}\), \(K \ge |f''|\)</td></tr>
+                                <tr><td>Simpson error</td><td>\(|E_S| \le \frac{K(b-a)^5}{180n^4}\), \(K \ge |f^{(4)}|\), \(n\) even</td></tr>
+                                <tr><td>\(p\)-integrals</td><td>\(\int_1^\infty x^{-p}dx\) converges iff \(p \gt 1\); \(\int_0^1 x^{-p}dx\) converges iff \(p \lt 1\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Geometry and physics</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Arc length</td><td>\(L = \int_a^b\sqrt{1 + (f')^2}\,dx\)</td></tr>
+                                <tr><td>Surface of revolution</td><td>\(S = \int 2\pi r\,ds\), \(ds = \sqrt{1 + (dy/dx)^2}\,dx\)</td></tr>
+                                <tr><td>Centroid</td><td>\(\bar x = \frac1A\int x(f - g)\,dx\), \(\bar y = \frac1A\int\tfrac12(f^2 - g^2)\,dx\)</td></tr>
+                                <tr><td>Pappus</td><td>\(V = 2\pi\bar d\,A\)</td></tr>
+                                <tr><td>Hydrostatic force</td><td>\(F = \int\rho g\,y\,w(y)\,dy = \rho g\,\bar y\,A\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Differential equations</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Type</th><th>Method / solution</th></tr></thead>
+                            <tbody>
+                                <tr><td>Euler's method</td><td>\(y_{n+1} = y_n + hF(x_n, y_n)\)</td></tr>
+                                <tr><td>Separable \(y' = g(x)h(y)\)</td><td>\(\int\frac{dy}{h(y)} = \int g(x)\,dx + C\); check \(h(y) = 0\)</td></tr>
+                                <tr><td>Exponential \(y' = ky\)</td><td>\(y = y_0e^{kt}\); doubling time / half-life \(\ln 2/|k|\)</td></tr>
+                                <tr><td>Logistic \(P' = kP(1 - P/M)\)</td><td>\(P = \frac{M}{1 + Ae^{-kt}}\), \(A = \frac{M - P_0}{P_0}\)</td></tr>
+                                <tr><td>Linear \(y' + P(x)y = Q(x)\)</td><td>\(I = e^{\int P\,dx}\), \((Iy)' = IQ\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Parametric and polar</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Parametric slope</td><td>\(\frac{dy}{dx} = \frac{dy/dt}{dx/dt}\), \(\frac{d^2y}{dx^2} = \frac{\frac{d}{dt}(dy/dx)}{dx/dt}\)</td></tr>
+                                <tr><td>Parametric length</td><td>\(L = \int_\alpha^\beta\sqrt{(dx/dt)^2 + (dy/dt)^2}\,dt\)</td></tr>
+                                <tr><td>Polar conversion</td><td>\(x = r\cos\theta\), \(y = r\sin\theta\), \(r^2 = x^2 + y^2\)</td></tr>
+                                <tr><td>Polar slope</td><td>\(\frac{dy}{dx} = \frac{r'\sin\theta + r\cos\theta}{r'\cos\theta - r\sin\theta}\)</td></tr>
+                                <tr><td>Polar area</td><td>\(A = \int_a^b\tfrac12 r^2\,d\theta\)</td></tr>
+                                <tr><td>Polar length</td><td>\(L = \int_a^b\sqrt{r^2 + (dr/d\theta)^2}\,d\theta\)</td></tr>
+                                <tr><td>Conics (focus at pole)</td><td>\(r = \frac{ed}{1 \pm e\cos\theta}\): ellipse \(e \lt 1\), parabola \(e = 1\), hyperbola \(e \gt 1\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Series convergence tests: decision table</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>If the series looks like&hellip;</th><th>Use</th><th>Conclusion</th></tr></thead>
+                            <tbody>
+                                <tr><td>Any series; first check</td><td>Divergence test</td><td>\(a_n\not\to 0 \Rightarrow\) diverges. (\(a_n\to 0\) tells you nothing.)</td></tr>
+                                <tr><td>\(\sum ar^{n}\)</td><td>Geometric</td><td>Converges to \(\frac{\text{first term}}{1 - r}\) iff \(|r| \lt 1\)</td></tr>
+                                <tr><td>\(\sum\frac{1}{n^p}\)</td><td>\(p\)-series</td><td>Converges iff \(p \gt 1\)</td></tr>
+                                <tr><td>Rational/algebraic in \(n\), positive terms</td><td>Limit comparison with \(\sum\frac{1}{n^p}\) (dominant terms)</td><td>\(\lim\frac{a_n}{b_n} = c \in (0,\infty) \Rightarrow\) same behaviour</td></tr>
+                                <tr><td>Positive terms with an obvious bound</td><td>Direct comparison</td><td>\(a_n \le b_n\), \(\sum b_n\) conv \(\Rightarrow\) conv; \(a_n \ge b_n\), \(\sum b_n\) div \(\Rightarrow\) div</td></tr>
+                                <tr><td>\(a_n = f(n)\), \(f\) positive, decreasing, easy to integrate</td><td>Integral test</td><td>\(\sum a_n\) and \(\int_1^\infty f\) converge or diverge together</td></tr>
+                                <tr><td>\(\sum(-1)^{n}b_n\), \(b_n \gt 0\)</td><td>Alternating series test (after checking \(\sum b_n\))</td><td>\(b_n\) decreasing, \(b_n\to 0\) \(\Rightarrow\) converges; \(|R_n| \le b_{n+1}\)</td></tr>
+                                <tr><td>Factorials, \(c^n\), products</td><td>Ratio test</td><td>\(L \lt 1\) abs. conv; \(L \gt 1\) div; \(L = 1\) inconclusive</td></tr>
+                                <tr><td>\((\text{expression})^n\)</td><td>Root test</td><td>Same as ratio test with \(L = \lim\sqrt[n]{|a_n|}\)</td></tr>
+                                <tr><td>Mixed signs (e.g. \(\sin n\))</td><td>Test \(\sum|a_n|\)</td><td>Absolute convergence \(\Rightarrow\) convergence</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Power and Taylor series</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Taylor series</td><td>\(f(x) = \sum_{n=0}^\infty\frac{f^{(n)}(a)}{n!}(x - a)^n\)</td></tr>
+                                <tr><td>Taylor's inequality</td><td>\(|f^{(n+1)}| \le M\) on \(|x - a| \le d \Rightarrow |R_n(x)| \le \frac{M}{(n+1)!}|x - a|^{n+1}\)</td></tr>
+                                <tr><td>Geometric</td><td>\(\frac{1}{1 - x} = \sum x^n\), \(|x| \lt 1\)</td></tr>
+                                <tr><td>Exponential</td><td>\(e^x = \sum\frac{x^n}{n!}\), all \(x\)</td></tr>
+                                <tr><td>Sine / cosine</td><td>\(\sin x = \sum\frac{(-1)^n x^{2n+1}}{(2n+1)!}\), \(\cos x = \sum\frac{(-1)^n x^{2n}}{(2n)!}\), all \(x\)</td></tr>
+                                <tr><td>Arctangent</td><td>\(\arctan x = \sum\frac{(-1)^n x^{2n+1}}{2n+1}\), \(|x| \le 1\)</td></tr>
+                                <tr><td>Logarithm</td><td>\(\ln(1 + x) = \sum_{n\ge1}\frac{(-1)^{n-1}x^n}{n}\), \(-1 \lt x \le 1\)</td></tr>
+                                <tr><td>Binomial</td><td>\((1 + x)^k = \sum\binom kn x^n\), \(|x| \lt 1\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+
+            </article>
+        </div>
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 Jack Geisler</p>
+        </div>
+    </footer>
+
 </body>
+
 </html>
