@@ -1,90 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
-
-    <title>Jack A. Geisler - Resume</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        h2 {
-            font-size: 20px;
-            margin-bottom:   
- 5px;
-        }
-        .section {
-            margin-bottom: 20px;
-        }
-        .contact {
-            text-align: right;
-            margin-bottom: 15px;
-        }
-        .education, .skills, .experience {
-            border-left: 1px solid #ddd;
-            padding-left: 15px;
-            margin-bottom: 10px;
-        }
-        .experience .position {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .experience ul {
-            margin-left: 20px;
-            padding: 0;
-        }
-        .experience li {
-            margin-bottom: 5px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume | Jack A. Geisler</title>
+    <meta name="description" content="Resume of Jack A. Geisler, electrical and computer engineer.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=5">
 </head>
+
 <body>
-    <header class="contact">
-        <h1>Jack A. Geisler</h1>
-        <p><a href="mailto:jackgeisler98@gmail.com">jackgeisler98@gmail.com</a> | (206)-387-8578 | GitHub: <a href="https://github.com/jackgeisler98">jackgeisler98</a></p>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html">Jack Geisler</a>
+            <nav aria-label="Main">
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="articles.html">Articles</a></li>
+                    <li><a href="math/math_index.html">Math</a></li>
+                    <li><a href="physics/physics_index.html">Physics</a></li>
+                    <li><a href="https://chat.jackgeisler.com">Chat</a></li>
+                    <li><a class="nav-cta" href="resmue.html" aria-current="page">Resume</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <section class="section">
-        <h2>Education</h2>
-        <p><strong>Northeastern University, Boston, MA</strong> (May 2022)</p>
-        <p>Bachelor of Science in Electrical and Computer Engineering (GPA: 3.465)</p>
-        <p><strong>Coursework:</strong> General Chemistry, Physics 2, Calculus 3, Linear Algebra, Linear Systems, Embedded Design, Networks, Discrete Structures, Circuits & Signals, Electronics, Electronic Materials, Digital Design, Electricity and Magnetism</p>
-    </section>
+    <main class="resume-page">
+        <div class="resume">
 
-    <section class="section">
-        <h2>Technical Skills</h2>
-        <p><strong>Electronics:</strong> Microprocessors, RF communication, environmental sensors, reading schematics, & soldering</p>
-        <p><strong>Programming:</strong> C/C++/C#, Python, Matlab, React, ROS, Verilog, LabView, Rust, Scripting, Bash</p>
-        <p><strong>CAD:</strong> Solidworks, Autocad, Pspice</p>
-        <p><strong>Test:</strong> ATP, QTP, DVT - developing test plans and procedures and executing</p>
-    </section>
+            <header class="resume-head">
+                <h1>Jack A. Geisler</h1>
+                <p class="resume-title">Electrical &amp; Computer Engineer</p>
+                <ul class="contact-list">
+                    <li><a href="mailto:jackgeisler98@gmail.com">jackgeisler98@gmail.com</a></li>
+                    <li><a href="tel:+12063878578">(206) 387-8578</a></li>
+                    <li><a href="https://github.com/jackgeisler98">github.com/jackgeisler98</a></li>
+                    <li><a href="https://jackgeisler.com">jackgeisler.com</a></li>
+                </ul>
+            </header>
 
-    <section class="section">
-        <h2>Relevant Experience</h2>
+            <!-- ============ Education ============ -->
+            <section class="resume-section">
+                <h2>Education</h2>
 
-        <div class="experience">
-            <h3 class="position">Avionic, Instruments, & GNC Engineer</h3>
-            <strong>Blue Origin</strong> (May 2023 - Present)
-            <ul>
-                <li>Lead Acceptance Test Engineer for the BE3U Engine Controller Unit. Developed ATP process and workflow optimized to capture any manufacturing defects while maximizing units tested.</li>
-                <li>Assisted in the development of the test system used to screen the controllers, developing both hardware and software.</li>
-                <li>Ran ATP and QTP environmental tests including vibration, shock, thermal and more.</li>
-                <li>Developed ATP and QTP plans and procedures</li>
-                <li>Ran environments ATP and QTP tests</li>
-                <li>Generated and dispositioned non conformances</li>
-                <li>Review and designed tests to ensure full coverage of requirements</li>
-                <li>Main acceptance test engineer for BE3U ECU program</li>
-            </ul>
+                <div class="entry">
+                    <div class="entry-head">
+                        <h3>University of Washington <span class="place">Seattle, WA</span></h3>
+                        <span class="date">Expected May 2027</span>
+                    </div>
+                    <p class="role">Master of Science in Physics</p>
+                    <p class="coursework"><span>Coursework:</span> Electromagnetic Theory, Quantum Mechanics,
+                        Quantum Computing, Independent Research</p>
+                </div>
+
+                <div class="entry">
+                    <div class="entry-head">
+                        <h3>Northeastern University <span class="place">Boston, MA</span></h3>
+                        <span class="date">May 2022</span>
+                    </div>
+                    <p class="role">Bachelor of Science in Electrical and Computer Engineering
+                        <span class="gpa">GPA 3.465</span></p>
+                    <p class="coursework"><span>Coursework:</span> General Chemistry, Physics 2, Calculus 3,
+                        Linear Algebra, Linear Systems, Embedded Design, Networks, Discrete Structures,
+                        Circuits &amp; Signals, Electronics, Electronic Materials, Digital Design,
+                        Electricity and Magnetism</p>
+                </div>
+            </section>
+
+            <!-- ============ Skills ============ -->
+            <section class="resume-section">
+                <h2>Technical Skills</h2>
+                <dl class="skills">
+                    <dt>Electronics</dt>
+                    <dd>Microprocessors (TMS570, STM32, ARM), communication protocols (UART, I2C, USB, Ethernet),
+                        sensors, schematics, soldering</dd>
+                    <dt>Programming</dt>
+                    <dd>C/C++/C#, Python, MATLAB, ROS, Verilog, LabVIEW, Rust, Bash</dd>
+                    <dt>CAD</dt>
+                    <dd>SolidWorks, AutoCAD, PSpice</dd>
+                    <dt>Test</dt>
+                    <dd>ATP, QTP, DVT: developing and executing test plans and procedures</dd>
+                </dl>
+            </section>
+
+            <!-- ============ Experience ============ -->
+            <section class="resume-section">
+                <h2>Experience</h2>
+
+                <div class="entry">
+                    <div class="entry-head">
+                        <h3>Blue Origin</h3>
+                        <span class="date">July 2022 – Present</span>
+                    </div>
+                    <p class="role">Avionics, Instruments, &amp; GNC Engineer II</p>
+                    <p>Electrical design engineer working on test equipment and manufacturing automation. Led the
+                        development and maintenance of multiple engine HIL simulations and acceptance test systems.
+                        Previously served as lead acceptance test engineer for the BE3U Engine Controller Unit,
+                        developing an ATP process and workflow optimized to catch manufacturing defects while
+                        maximizing units tested. Helped develop the hardware and software of the test system used to
+                        screen the controllers, and ran ATP and QTP environmental tests including vibration, shock,
+                        and thermal.</p>
+                    <ul>
+                        <li>Developed ATP and QTP plans and procedures</li>
+                        <li>Ran environmental ATP and QTP tests</li>
+                        <li>Generated and dispositioned non-conformances</li>
+                        <li>Reviewed and designed tests to ensure full coverage of requirements</li>
+                        <li>Main acceptance test engineer for the BE3U ECU program</li>
+                    </ul>
+                </div>
+
+                <div class="entry">
+                    <div class="entry-head">
+                        <h3>Space Exploration Technologies</h3>
+                        <span class="date">May 2021 – September 2021</span>
+                    </div>
+                    <p class="role">Texas Test Software Intern</p>
+                    <p>Developed a Unit Test Discovery Tool for the Texas Software team that builds a dependency
+                        database mapping modified files on the current branch to the unit tests that cover them, so
+                        developers and automated testing only run the tests affected by a change. Also standardized
+                        unit testing practices and built abort buttons for engine tests.</p>
+                    <ul>
+                        <li>Designed and built the Unit Test Discovery Tool in LabVIEW, reducing test time by 50%</li>
+                        <li>Brought a unit testing framework into the internal repository and customized it to
+                            standardize unit testing and improve error handling</li>
+                        <li>Built abort buttons that communicate with test software to quickly and safely abort engine
+                            tests over a network connection</li>
+                        <li>Improved automated testing software by optimizing error handling and reporting</li>
+                        <li>Wrote a Python script to find available channels on the Starship orbital launch pad</li>
+                    </ul>
+                </div>
+
+                <div class="entry">
+                    <div class="entry-head">
+                        <h3>Kostas Research Institute</h3>
+                        <span class="date">January 2020 – August 2020</span>
+                    </div>
+                    <p class="role">Expeditionary Cyber and Unmanned Aircraft Systems Co-op</p>
+                    <p>Programmed SDRs to study methods of GPS simulation and manipulation, and built a system
+                        integrating multiple components into a ROS framework so a Pixhawk drone could be used with an
+                        OptiTrack system.</p>
+                    <ul>
+                        <li>Programmed SDRs in GNU Radio and tested their ability to simulate GPS in an anechoic
+                            chamber</li>
+                        <li>Integrated Pixhawk drone firmware with a companion board to build a custom drone</li>
+                        <li>Built HITL and SITL simulations in Gazebo that run in real time with the custom drone</li>
+                        <li>Created custom Xilinx images for the Ultra96-V2 board using PetaLinux and Vivado</li>
+                        <li>Built a system connecting the Pixhawk drone to OptiTrack via ROS (Melodic)</li>
+                        <li>Worked on a front-end application for a data pipeline using React, Material UI, and npm</li>
+                    </ul>
+                </div>
+
+                <div class="entry">
+                    <div class="entry-head">
+                        <h3>CamMED</h3>
+                        <span class="date">January 2019 – August 2019</span>
+                    </div>
+                    <p class="role">Firmware Engineer and R&amp;D Co-op</p>
+                    <p>Designed firmware to test computer components, adjust compensation curves, evaluate module
+                        functionality and low-power operation, and develop algorithms.</p>
+                    <ul>
+                        <li>Designed and implemented firmware (C/C++) for electrolysis-driven insulin patch pump
+                            prototypes</li>
+                        <li>Wrote test programs (LabVIEW/MATLAB) to verify prototype performance and collect data used
+                            to design compensation algorithms and adjust device metrics</li>
+                        <li>Evaluated MCUs, batteries, and schematic layouts to optimize device longevity,
+                            performance, and safety</li>
+                        <li>Integrated iOS app features for Bluetooth control of and data transfer from prototype
+                            devices</li>
+                    </ul>
+                </div>
+
+                <div class="entry">
+                    <div class="entry-head">
+                        <h3>NemaMetrix</h3>
+                        <span class="date">June 2018 – September 2018</span>
+                    </div>
+                    <p class="role">Genetic Engineering Firm Intern</p>
+                    <p>Assisted the computer engineering team with continuous development of the NemaMetrix
+                        ScreenChip system. Created and headed the manufacturing department, including building
+                        inventory systems and training the manufacturing team.</p>
+                    <ul>
+                        <li>Troubleshot system errors, including adding an ITO shield to prevent electrostatic noise;
+                            worked with the system's Python code</li>
+                        <li>Manufactured the NemaMetrix amplifier, including hand-soldering and connecting multiple
+                            boards, and helped design a controlled test environment that used a signal generator to
+                            send electrical impulses through a custom ScreenChip to evaluate the rest of the
+                            system</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ============ Projects ============ -->
+            <section class="resume-section">
+                <h2>Projects</h2>
+
+                <div class="entry">
+                    <div class="entry-head">
+                        <h3>Black Dog Data</h3>
+                    </div>
+                    <p>App startup that lets users collect and sell their own data. Consists of a mobile app,
+                        corporate website, marketplace, and database.</p>
+                </div>
+
+                <div class="entry">
+                    <div class="entry-head">
+                        <h3>Raspberry Pi Home Server</h3>
+                    </div>
+                    <p>Self-hosts a website, VPN, and email server on a Raspberry Pi, and serves as a platform for
+                        experimental Linux kernel builds.</p>
+                </div>
+
+                <div class="entry">
+                    <div class="entry-head">
+                        <h3>Machine Learning</h3>
+                    </div>
+                    <p>Followed SethBling's MarI/O tutorial to build an AI capable of playing Super Mario and Doom.
+                        Also built an ML algorithm to classify music by genre.</p>
+                </div>
+            </section>
+
         </div>
+    </main>
 
-        <div class="experience">
-            <h3 class="position">Texas Test Software Intern</h3>
-            <strong>Space Exploration Technologies</strong> (May to September 2021)
-            <ul>
-                <li>Developed a Unit Test Discovery Tool for the Texas Software team to build a dependency database to compare which modified files on the current branch were covered by the unit tests found, allowing
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 Jack Geisler</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
