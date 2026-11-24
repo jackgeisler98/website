@@ -1,20 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
-
-    <title>About Me</title>
-    <link rel="stylesheet" href="style.css?v=5">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Jack Geisler</title>
+    <meta name="description" content="Projects by Jack Geisler: firmware, embedded systems, machine learning, and software.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
-<body>
-    <header>
-        <h1>About Me</h1>
-    </header>   
 
-    <main>
-        <p>A short description about yourself, your interests, or your work.</p>
-        <p>You can include a picture or links to your social media profiles.</p>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html">Jack Geisler</a>
+            <nav aria-label="Main">
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="projects.html" aria-current="page">Projects</a></li>
+                    <li><a href="articles.html">Articles</a></li>
+                    <li><a href="math/math_index.html">Math</a></li>
+                    <li><a href="physics/physics_index.html">Physics</a></li>
+                    <li><a href="https://chat.jackgeisler.com">Chat</a></li>
+                    <li><a class="nav-cta" href="resmue.html">Resume</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="projects-page">
+
+        <header class="page-intro">
+            <p class="eyebrow">Projects</p>
+            <h1>Things I've built</h1>
+            <p>Firmware, embedded systems, machine learning, and software, newest first. Code for most of
+                these lives on <a href="https://github.com/jackgeisler98">GitHub</a>.</p>
+        </header>
+
+        <!-- ============ Ongoing ============ -->
+        <section class="timeline-group">
+            <h2 class="timeline-year">Ongoing</h2>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>Black Dog Data</h3>
+                    <span class="date">Startup</span>
+                </div>
+                <p>An app startup built around a simple idea: people should be able to collect their own data
+                    and sell it on their own terms. The platform spans a mobile app, a corporate website, a data
+                    marketplace, and the database that ties them together.</p>
+                <ul class="tags">
+                    <li>Mobile</li><li>Web</li><li>Databases</li><li>Product</li>
+                </ul>
+            </article>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>Self-Hosted Servers &amp; This Website</h3>
+                    <span class="date">2024 – Present</span>
+                </div>
+                <p>A Raspberry Pi home server running my own VPN and email servers, which doubles as a sandbox
+                    for building experimental Linux kernels. This website is hand-written HTML and CSS,
+                    developed locally and deployed to a cloud server with Git.</p>
+                <ul class="tags">
+                    <li>Linux</li><li>Raspberry Pi</li><li>Networking</li><li>HTML/CSS</li>
+                </ul>
+                <a class="project-link" href="https://github.com/jackgeisler98/website">View on GitHub</a>
+            </article>
+        </section>
+
+        <!-- ============ 2024 ============ -->
+        <section class="timeline-group">
+            <h2 class="timeline-year">2024</h2>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>LandMarks</h3>
+                    <span class="date">April 2024</span>
+                </div>
+                <p>A SwiftUI demo app for iOS, built to learn Apple's modern UI framework: list and detail
+                    views, navigation, and Xcode's unit and UI testing targets.</p>
+                <ul class="tags">
+                    <li>Swift</li><li>SwiftUI</li><li>iOS</li>
+                </ul>
+                <a class="project-link" href="https://github.com/jackgeisler98/LandMarks">View on GitHub</a>
+            </article>
+        </section>
+
+        <!-- ============ 2022 ============ -->
+        <section class="timeline-group">
+            <h2 class="timeline-year">2022</h2>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>SmartSole Firmware</h3>
+                    <span class="date">March – April 2022</span>
+                </div>
+                <p>Firmware for SmartSole, a sensor-equipped shoe insole. Running on a Nordic nRF52 with the
+                    nRF5 SDK, it samples four analog sensor channels with the SAADC in scan mode and streams the
+                    readings over Bluetooth Low Energy using the Nordic UART Service, with a hardware UART output
+                    for debugging.</p>
+                <ul class="tags">
+                    <li>C</li><li>nRF52</li><li>BLE</li><li>ADC</li><li>Embedded</li>
+                </ul>
+                <a class="project-link" href="https://github.com/jackgeisler98/SmartSole_Firmware">View on GitHub</a>
+            </article>
+        </section>
+
+        <!-- ============ 2021 ============ -->
+        <section class="timeline-group">
+            <h2 class="timeline-year">2021</h2>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>Machine Learning Final Project</h3>
+                    <span class="date">December 2021</span>
+                </div>
+                <p>Final project for Northeastern's EECE 5644 (Machine Learning and Pattern Recognition),
+                    written as a MATLAB live script.</p>
+                <ul class="tags">
+                    <li>MATLAB</li><li>Machine Learning</li>
+                </ul>
+                <a class="project-link" href="https://github.com/jackgeisler98/EECE5644_Final_Project">View on GitHub</a>
+            </article>
+        </section>
+
+        <!-- ============ 2020 ============ -->
+        <section class="timeline-group">
+            <h2 class="timeline-year">2020</h2>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>Data Structures &amp; Algorithms Projects</h3>
+                    <span class="date">May – June 2020</span>
+                </div>
+                <p>Team projects for Northeastern's EECE 2560 (Fundamentals of Engineering Algorithms) in C++.
+                    The highlight is a word-search solver that loads a dictionary into a custom hash table and
+                    searches a letter grid in every direction, with a hand-built heap used for sorting.</p>
+                <ul class="tags">
+                    <li>C++</li><li>Hash Tables</li><li>Heaps</li><li>Algorithms</li>
+                </ul>
+                <a class="project-link" href="https://github.com/jackgeisler98/eece2560_project3">View on GitHub</a>
+            </article>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>MAVLink Client–Server</h3>
+                    <span class="date">March 2020</span>
+                </div>
+                <p>A Python socket client and server for passing data between machines on a network, with a
+                    MAVLink shell for talking to PX4-based drones. Built alongside drone and GPS-simulation
+                    work at the Kostas Research Institute.</p>
+                <ul class="tags">
+                    <li>Python</li><li>Sockets</li><li>MAVLink</li><li>Drones</li>
+                </ul>
+                <a class="project-link" href="https://github.com/jackgeisler98/example_client_server">View on GitHub</a>
+            </article>
+        </section>
+
+        <!-- ============ 2019 ============ -->
+        <section class="timeline-group">
+            <h2 class="timeline-year">2019</h2>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>Evopump Firmware</h3>
+                    <span class="date">2019</span>
+                </div>
+                <p>Development firmware for CamMED's Evopump, an electrolysis-driven insulin patch pump, on the
+                    Nordic nRF52840. It controls the voltage and current that drive electrolysis, reads
+                    temperature and pressure for environmental compensation, and runs a real-time dosing
+                    timetable that adjusts based on how much medication has already been delivered. Elapsed
+                    time is kept on a low-frequency clock and saved to flash every five seconds to survive
+                    power loss, and logged data is sent over Bluetooth Low Energy to an iOS app. An ADC monitors
+                    battery voltage.</p>
+                <ul class="tags">
+                    <li>C</li><li>nRF52840</li><li>BLE</li><li>Medical Devices</li><li>Embedded</li>
+                </ul>
+                <a class="project-link" href="https://github.com/jackgeisler98/Evopump-Firmware">View on GitHub</a>
+            </article>
+        </section>
+
+        <!-- ============ 2018 ============ -->
+        <section class="timeline-group">
+            <h2 class="timeline-year">2018</h2>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>Reinforcement Learning &amp; Game AI</h3>
+                    <span class="date">2018 – 2019</span>
+                </div>
+                <p>A series of machine learning experiments. RL-Taxi teaches an agent to play the classic Taxi
+                    environment using Q-tables and reinforcement learning. Following SethBling's MarI/O
+                    tutorial, I built neuroevolution agents that play Super Mario and Doom, and I also trained a
+                    classifier that sorts music by genre.</p>
+                <ul class="tags">
+                    <li>Python</li><li>Reinforcement Learning</li><li>Neural Networks</li>
+                </ul>
+                <a class="project-link" href="https://github.com/jackgeisler98/RL-Taxi">View on GitHub</a>
+            </article>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>Pong</h3>
+                    <span class="date">September 2018</span>
+                </div>
+                <p>A playable Pong clone in Python with Pygame, adapted from an open-source example.</p>
+                <ul class="tags">
+                    <li>Python</li><li>Pygame</li>
+                </ul>
+                <a class="project-link" href="https://github.com/jackgeisler98/Pong">View on GitHub</a>
+            </article>
+
+            <article class="project">
+                <div class="project-head">
+                    <h3>Monty Hall Simulation</h3>
+                    <span class="date">August 2018</span>
+                </div>
+                <p>A quick Python simulation of the Monty Hall problem that shows, over many trials, why
+                    switching doors wins about two-thirds of the time.</p>
+                <ul class="tags">
+                    <li>Python</li><li>Probability</li>
+                </ul>
+                <a class="project-link" href="https://github.com/jackgeisler98/Monte-Hall-Problem">View on GitHub</a>
+            </article>
+        </section>
+
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 Jack Geisler</p>
+        </div>
+    </footer>
+
 </body>
+
 </html>
