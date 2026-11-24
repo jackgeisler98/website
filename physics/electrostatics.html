@@ -1,27 +1,1395 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>MathJax example</title>
-  <script id="MathJax-script" async
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrostatics | Study Notes | Jack Geisler</title>
+    <meta name="description" content="Study notes for upper-division electrostatics: vector analysis, Coulomb and Gauss, potentials, boundary-value problems, multipoles and fields in dielectrics.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css?v=7">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']],
+                tags: 'none'
+            },
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
 </head>
+
 <body>
-    <a class="back-link" href="physics_index.html" style="display:inline-block;margin:16px 0 0 16px;font-family:Inter,system-ui,sans-serif;font-size:0.95rem;font-weight:600;color:#1d3461;text-decoration:none;">&larr; Physics</a>
-    <header>
-        <h1>Electrostatics</h1>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../index.html">Jack Geisler</a>
+            <nav aria-label="Main">
+                <ul>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../projects.html">Projects</a></li>
+                    <li><a href="../articles.html">Articles</a></li>
+                    <li><a href="../math/math_index.html">Math</a></li>
+                    <li><a href="../physics/physics_index.html">Physics</a></li>
+                    <li><a href="https://chat.jackgeisler.com">Chat</a></li>
+                    <li><a class="nav-cta" href="../resmue.html">Resume</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-<p>
-    Electrostatics will be covered on this page. 
-</p>
+
+    <main class="notes-page">
+
+        <a class="back-link" href="physics_index.html">&larr; Physics</a>
+
+        <header class="notes-intro">
+            <p class="eyebrow">Physics &middot; Study Notes</p>
+            <h1>Electrostatics</h1>
+            <p class="lede-dark">The first half of upper-division electromagnetism: the vector-calculus language of fields, the field and potential of static charges, the boundary-value techniques (images, separation of variables, multipoles, Green's functions) that solve Laplace's equation, and how matter responds to an electric field through polarization.</p>
+            <div class="textbooks">
+                <p><strong>Based on:</strong></p>
+                <ul>
+                    <li><em>Introduction to Electrodynamics</em>, David J. Griffiths, 5th ed. &mdash; Chapters 1&ndash;4</li>
+                    <li><em>Classical Electrodynamics</em>, John David Jackson, 3rd ed. &mdash; Chapters 1&ndash;4 (graduate extensions)</li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="notes-layout">
+
+            <nav class="toc" aria-label="Contents">
+                <p>Contents</p>
+                <ol>
+                    <li><a href="#ch-vectors">Vector analysis</a>
+                        <ol>
+                            <li><a href="#va-algebra">Vector algebra</a></li>
+                            <li><a href="#va-differential">Grad, div, curl</a></li>
+                            <li><a href="#va-integral">Fundamental theorems</a></li>
+                            <li><a href="#va-curvilinear">Curvilinear coordinates</a></li>
+                            <li><a href="#va-delta">The Dirac delta</a></li>
+                            <li><a href="#va-helmholtz">Helmholtz &amp; potentials</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-electrostatics">Electrostatics</a>
+                        <ol>
+                            <li><a href="#es-coulomb">Coulomb's law &amp; the field</a></li>
+                            <li><a href="#es-continuous">Continuous distributions</a></li>
+                            <li><a href="#es-gauss">Divergence of E: Gauss</a></li>
+                            <li><a href="#es-curl">Curl of E</a></li>
+                            <li><a href="#es-potential">Potential, Poisson, Laplace</a></li>
+                            <li><a href="#es-boundary">Boundary conditions</a></li>
+                            <li><a href="#es-energy">Work &amp; energy</a></li>
+                            <li><a href="#es-conductors">Conductors &amp; capacitors</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-techniques">Special techniques</a>
+                        <ol>
+                            <li><a href="#st-laplace">Laplace's equation</a></li>
+                            <li><a href="#st-uniqueness">Uniqueness theorems</a></li>
+                            <li><a href="#st-images">Method of images</a></li>
+                            <li><a href="#st-cartesian">Separation: Cartesian</a></li>
+                            <li><a href="#st-spherical">Separation: spherical</a></li>
+                            <li><a href="#st-multipole">Multipole expansion</a></li>
+                            <li><a href="#st-green">Green's functions (Jackson)</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#ch-matter">Fields in matter</a>
+                        <ol>
+                            <li><a href="#fm-polarization">Polarization</a></li>
+                            <li><a href="#fm-bound">Bound charges</a></li>
+                            <li><a href="#fm-displacement">The displacement D</a></li>
+                            <li><a href="#fm-linear">Linear dielectrics</a></li>
+                            <li><a href="#fm-bvp">Boundary-value problems</a></li>
+                            <li><a href="#fm-energy">Energy &amp; forces</a></li>
+                            <li><a href="#fm-cm">Clausius&ndash;Mossotti</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#formula-sheet">Formula sheet</a></li>
+                </ol>
+            </nav>
+
+            <article class="notes">
+
+                <section id="ch-vectors">
+                    <h2>1. Vector analysis</h2>
+                    <p class="ref">Griffiths Ch. 1 &middot; Jackson Ch. 1 (delta function, Green's theorem)</p>
+
+                    <p>Electrostatics is a theory of <em>fields</em>: a number or an arrow attached to every point of space. To talk about fields efficiently we need a calculus that works on them. Three derivatives do all the work. The <strong>gradient</strong> tells you which way a scalar increases fastest; the <strong>divergence</strong> measures how much a vector field spreads out of a point (sources and sinks); the <strong>curl</strong> measures how much it circulates around a point. Each has an integral theorem that trades the derivative inside a region for the field on the boundary. Add the Dirac delta (to describe point charges inside a continuum theory) and the Helmholtz theorem (a field is fixed by its divergence and curl), and you have the entire mathematical skeleton of Maxwell's equations. If you have taken multivariable calculus, most of this is review; pay special attention to the delta function and to curvilinear coordinates, which are where E&amp;M students actually lose points.</p>
+
+                    <h3 id="va-algebra">1.1 Vector algebra</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Products of vectors)</p>
+                        <p>For \(\mathbf{A} = A_x\hat{\mathbf{x}} + A_y\hat{\mathbf{y}} + A_z\hat{\mathbf{z}}\) and similarly \(\mathbf{B}\):</p>
+                        \[ \mathbf{A}\cdot\mathbf{B} = A_xB_x + A_yB_y + A_zB_z = AB\cos\theta, \qquad \mathbf{A}\times\mathbf{B} = \begin{vmatrix} \hat{\mathbf{x}} &amp; \hat{\mathbf{y}} &amp; \hat{\mathbf{z}} \\ A_x &amp; A_y &amp; A_z \\ B_x &amp; B_y &amp; B_z \end{vmatrix}, \quad |\mathbf{A}\times\mathbf{B}| = AB\sin\theta . \]
+                        <p>The dot product is a scalar; the cross product is a vector perpendicular to both factors (right-hand rule) whose length is the area of the parallelogram they span.</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Triple products</p>
+                        \[ \mathbf{A}\cdot(\mathbf{B}\times\mathbf{C}) = \mathbf{B}\cdot(\mathbf{C}\times\mathbf{A}) = \mathbf{C}\cdot(\mathbf{A}\times\mathbf{B}) = \begin{vmatrix} A_x &amp; A_y &amp; A_z \\ B_x &amp; B_y &amp; B_z \\ C_x &amp; C_y &amp; C_z \end{vmatrix} \]
+                        \[ \mathbf{A}\times(\mathbf{B}\times\mathbf{C}) = \mathbf{B}(\mathbf{A}\cdot\mathbf{C}) - \mathbf{C}(\mathbf{A}\cdot\mathbf{B}) \quad \text{("BAC minus CAB")} \]
+                        <p>The scalar triple product is the signed volume of the parallelepiped; it is unchanged by cyclic permutation and changes sign under a swap.</p>
+                    </div>
+
+                    <p><strong>Index notation.</strong> Engineers often skip this, but it makes every identity in this chapter a two-line exercise. Write \((\mathbf{A}\times\mathbf{B})_i = \epsilon_{ijk}A_jB_k\) (sum over repeated indices), where the Levi-Civita symbol \(\epsilon_{ijk}\) is \(+1\) for cyclic \((1,2,3)\), \(-1\) for anticyclic, and \(0\) if any index repeats. The one identity you need is</p>
+                    \[ \epsilon_{ijk}\,\epsilon_{imn} = \delta_{jm}\delta_{kn} - \delta_{jn}\delta_{km}. \]
+                    <p>For example, \([\mathbf{A}\times(\mathbf{B}\times\mathbf{C})]_i = \epsilon_{ijk}A_j\epsilon_{kmn}B_mC_n = \epsilon_{kij}\epsilon_{kmn}A_jB_mC_n = (\delta_{im}\delta_{jn}-\delta_{in}\delta_{jm})A_jB_mC_n = B_i(\mathbf{A}\cdot\mathbf{C}) - C_i(\mathbf{A}\cdot\mathbf{B})\), which is BAC&ndash;CAB.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Position and separation vectors)</p>
+                        <p>The <strong>position vector</strong> of the field point is \(\mathbf{r} = x\hat{\mathbf{x}}+y\hat{\mathbf{y}}+z\hat{\mathbf{z}}\), with length \(r\) and unit vector \(\hat{\mathbf{r}} = \mathbf{r}/r\). A source sits at \(\mathbf{r}'\). The <strong>separation vector</strong> from source to field point is</p>
+                        \[ \boldsymbol{\mathscr{r}} \equiv \mathbf{r} - \mathbf{r}', \qquad \mathscr{r} = |\mathbf{r}-\mathbf{r}'|, \qquad \hat{\boldsymbol{\mathscr{r}}} = \frac{\mathbf{r}-\mathbf{r}'}{|\mathbf{r}-\mathbf{r}'|}. \]
+                        <p>These notes use Griffiths' script letter \(\boldsymbol{\mathscr{r}}\) throughout. If it displays oddly on your device, read it simply as \(\mathbf{r}-\mathbf{r}'\).</p>
+                    </div>
+
+                    <p><strong>What makes a vector a vector.</strong> A triple of numbers is a vector only if its components transform under a rotation of axes the same way the components of a displacement do: \(\bar{A}_i = \sum_j R_{ij}A_j\) with \(R\) an orthogonal matrix. This is why \(\nabla\) (whose components are \(\partial/\partial x_i\)) behaves as a vector, and why the cross product of two vectors is a vector under rotations (though it is a <em>pseudovector</em> under inversion; you will meet this again with \(\mathbf{B}\)).</p>
+
+                    <h3 id="va-differential">1.2 Differential calculus: gradient, divergence, curl</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (The del operator and its three uses)</p>
+                        \[ \nabla = \hat{\mathbf{x}}\frac{\partial}{\partial x} + \hat{\mathbf{y}}\frac{\partial}{\partial y} + \hat{\mathbf{z}}\frac{\partial}{\partial z} \]
+                        <ul>
+                            <li><strong>Gradient</strong> of a scalar: \(\nabla T\), a vector pointing in the direction of steepest increase of \(T\), with magnitude equal to that maximal rate. The change along a displacement is \(dT = \nabla T\cdot d\mathbf{l}\).</li>
+                            <li><strong>Divergence</strong> of a vector: \(\nabla\cdot\mathbf{v} = \partial_x v_x + \partial_y v_y + \partial_z v_z\), a scalar measuring net outflow per unit volume.</li>
+                            <li><strong>Curl</strong> of a vector: \(\nabla\times\mathbf{v}\), a vector measuring circulation per unit area (its component along \(\hat{\mathbf{n}}\) is the circulation per unit area of a small loop with normal \(\hat{\mathbf{n}}\)).</li>
+                        </ul>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Product rules</p>
+                        \[ \begin{aligned}
+                        \nabla(fg) &amp;= f\nabla g + g\nabla f \\
+                        \nabla(\mathbf{A}\cdot\mathbf{B}) &amp;= \mathbf{A}\times(\nabla\times\mathbf{B}) + \mathbf{B}\times(\nabla\times\mathbf{A}) + (\mathbf{A}\cdot\nabla)\mathbf{B} + (\mathbf{B}\cdot\nabla)\mathbf{A} \\
+                        \nabla\cdot(f\mathbf{A}) &amp;= f(\nabla\cdot\mathbf{A}) + \mathbf{A}\cdot\nabla f \\
+                        \nabla\cdot(\mathbf{A}\times\mathbf{B}) &amp;= \mathbf{B}\cdot(\nabla\times\mathbf{A}) - \mathbf{A}\cdot(\nabla\times\mathbf{B}) \\
+                        \nabla\times(f\mathbf{A}) &amp;= f(\nabla\times\mathbf{A}) - \mathbf{A}\times\nabla f \\
+                        \nabla\times(\mathbf{A}\times\mathbf{B}) &amp;= (\mathbf{B}\cdot\nabla)\mathbf{A} - (\mathbf{A}\cdot\nabla)\mathbf{B} + \mathbf{A}(\nabla\cdot\mathbf{B}) - \mathbf{B}(\nabla\cdot\mathbf{A})
+                        \end{aligned} \]
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Second derivatives)</p>
+                        <p>For twice continuously differentiable fields:</p>
+                        \[ \nabla\times(\nabla T) = \mathbf{0}, \qquad \nabla\cdot(\nabla\times\mathbf{v}) = 0, \qquad \nabla\times(\nabla\times\mathbf{v}) = \nabla(\nabla\cdot\mathbf{v}) - \nabla^2\mathbf{v}. \]
+                        <p>The other two combinations are the <strong>Laplacian</strong> \(\nabla^2 T = \nabla\cdot\nabla T\) and \(\nabla(\nabla\cdot\mathbf{v})\) (rarely useful on its own). In Cartesian coordinates \(\nabla^2\mathbf{v}\) means the Laplacian of each component; in curvilinear coordinates the last identity is the <em>definition</em> of \(\nabla^2\mathbf{v}\).</p>
+                    </div>
+
+                    <p><strong>Why the first two vanish.</strong> In index notation \([\nabla\times\nabla T]_i = \epsilon_{ijk}\partial_j\partial_k T\): an antisymmetric symbol contracted with a symmetric pair of (commuting) partial derivatives gives zero. The same argument kills \(\partial_i\epsilon_{ijk}\partial_j v_k\). These two facts are the reason scalar and vector potentials exist (Section 1.6).</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(\nabla\) is an operator, not a vector you can freely commute: \(\mathbf{A}\cdot\nabla \neq \nabla\cdot\mathbf{A}\). The first is a scalar <em>operator</em> \(A_x\partial_x + A_y\partial_y + A_z\partial_z\) waiting for something to act on; the second is a number. Likewise, when you use BAC&ndash;CAB on \(\nabla\times(\mathbf{A}\times\mathbf{B})\), the derivative must still act on both \(\mathbf{A}\) and \(\mathbf{B}\), which is why that product rule has four terms, not two.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.1 (Derivatives of the separation distance)</p>
+                        <p>Show that \(\nabla \mathscr{r} = \hat{\boldsymbol{\mathscr{r}}}\) and \(\nabla(1/\mathscr{r}) = -\hat{\boldsymbol{\mathscr{r}}}/\mathscr{r}^2\), where \(\nabla\) acts on the unprimed coordinates. What is \(\nabla'(1/\mathscr{r})\)?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Write \(\mathscr{r} = \left[(x-x')^2+(y-y')^2+(z-z')^2\right]^{1/2}\). Then</p>
+                            \[ \frac{\partial \mathscr{r}}{\partial x} = \frac{1}{2}\left[\cdots\right]^{-1/2}\cdot 2(x-x') = \frac{x-x'}{\mathscr{r}}, \]
+                            <p>and similarly for \(y, z\). Hence \(\nabla \mathscr{r} = (\mathbf{r}-\mathbf{r}')/\mathscr{r} = \hat{\boldsymbol{\mathscr{r}}}\): the distance grows fastest straight away from the source, at unit rate. By the chain rule,</p>
+                            \[ \nabla\!\left(\frac{1}{\mathscr{r}}\right) = -\frac{1}{\mathscr{r}^2}\nabla \mathscr{r} = -\frac{\hat{\boldsymbol{\mathscr{r}}}}{\mathscr{r}^2}. \]
+                            <p>Differentiating with respect to the source coordinates flips the sign of every \(\partial \mathscr{r}/\partial x'\) (because \(\mathscr{r}\) depends on \(x - x'\)), so</p>
+                            \[ \nabla'\!\left(\frac{1}{\mathscr{r}}\right) = +\frac{\hat{\boldsymbol{\mathscr{r}}}}{\mathscr{r}^2}. \]
+                            <p>This sign flip is used constantly, e.g. in deriving bound charges (Chapter 4).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="va-integral">1.3 Integral calculus and the fundamental theorems</h3>
+
+                    <p>Line integrals \(\int_\mathcal{P}\mathbf{v}\cdot d\mathbf{l}\), surface integrals (flux) \(\int_\mathcal{S}\mathbf{v}\cdot d\mathbf{a}\) with \(d\mathbf{a} = \hat{\mathbf{n}}\,da\), and volume integrals \(\int_\mathcal{V} T\,d\tau\) are the three kinds that appear. For a closed surface \(d\mathbf{a}\) points outward by convention; for an open surface bounded by a loop, the orientation of \(d\mathbf{a}\) and the sense of traversal of the loop are tied by the right-hand rule. (These notes write \(\oint_\mathcal{S}\) for an integral over a closed surface.)</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (The three fundamental theorems)</p>
+                        <p><strong>Gradients.</strong> For a path \(\mathcal{P}\) from \(\mathbf{a}\) to \(\mathbf{b}\) and differentiable \(T\):</p>
+                        \[ \int_{\mathbf{a}}^{\mathbf{b}} (\nabla T)\cdot d\mathbf{l} = T(\mathbf{b}) - T(\mathbf{a}). \]
+                        <p><strong>Divergence (Gauss/Green).</strong> For a volume \(\mathcal{V}\) with closed boundary surface \(\mathcal{S}\) and outward normal:</p>
+                        \[ \int_\mathcal{V} (\nabla\cdot\mathbf{v})\,d\tau = \oint_\mathcal{S} \mathbf{v}\cdot d\mathbf{a}. \]
+                        <p><strong>Curl (Stokes).</strong> For an open surface \(\mathcal{S}\) bounded by the closed loop \(\mathcal{P}\), oriented by the right-hand rule:</p>
+                        \[ \int_\mathcal{S} (\nabla\times\mathbf{v})\cdot d\mathbf{a} = \oint_\mathcal{P} \mathbf{v}\cdot d\mathbf{l}. \]
+                        <p>Conditions: the fields must be continuously differentiable throughout the region (this is exactly what fails for \(\hat{\mathbf{r}}/r^2\) at the origin, see Section 1.5).</p>
+                    </div>
+
+                    <p><strong>Corollaries.</strong> The line integral of a gradient is path independent and vanishes around any closed loop. The flux of a curl through a surface depends only on the boundary loop, and vanishes for any closed surface.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Integration by parts (vector form)</p>
+                        <p>Integrate \(\nabla\cdot(f\mathbf{A}) = f\nabla\cdot\mathbf{A} + \mathbf{A}\cdot\nabla f\) and use the divergence theorem:</p>
+                        \[ \int_\mathcal{V} f(\nabla\cdot\mathbf{A})\,d\tau = -\int_\mathcal{V}\mathbf{A}\cdot(\nabla f)\,d\tau + \oint_\mathcal{S} f\mathbf{A}\cdot d\mathbf{a}. \]
+                        <p>Over all space with fields that fall off fast enough, the surface term vanishes and the derivative simply moves from one factor to the other with a minus sign.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.2 (Divergence theorem on a hemisphere)</p>
+                        <p>Let \(\mathbf{v} = r\cos\theta\,\hat{\mathbf{r}}\). Verify the divergence theorem for the solid upper hemisphere \(r \le a\), \(0\le\theta\le\pi/2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Volume side.</strong> Only the radial component is nonzero, so (spherical divergence, Section 1.4)</p>
+                            \[ \nabla\cdot\mathbf{v} = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2\cdot r\cos\theta\right) = \frac{3r^2\cos\theta}{r^2} = 3\cos\theta . \]
+                            \[ \int (\nabla\cdot\mathbf{v})\,d\tau = \int_0^a r^2\,dr\int_0^{\pi/2} 3\cos\theta\sin\theta\,d\theta\int_0^{2\pi}d\phi = \frac{a^3}{3}\cdot\frac{3}{2}\cdot 2\pi = \pi a^3 . \]
+                            <p><strong>Surface side.</strong> The boundary has two pieces.</p>
+                            <p>Curved dome: \(d\mathbf{a} = a^2\sin\theta\,d\theta\,d\phi\,\hat{\mathbf{r}}\) and \(\mathbf{v}\cdot\hat{\mathbf{r}} = a\cos\theta\), so</p>
+                            \[ \int_{\text{dome}}\mathbf{v}\cdot d\mathbf{a} = a^3\int_0^{\pi/2}\cos\theta\sin\theta\,d\theta\int_0^{2\pi}d\phi = a^3\cdot\frac{1}{2}\cdot 2\pi = \pi a^3 . \]
+                            <p>Flat base (\(\theta = \pi/2\)): the outward normal is \(-\hat{\mathbf{z}}\), but \(\mathbf{v} = r\cos(\pi/2)\hat{\mathbf{r}} = \mathbf{0}\) there, so it contributes nothing. Total flux \(=\pi a^3\), matching the volume integral.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.3 (Stokes' theorem in cylindrical coordinates)</p>
+                        <p>Verify Stokes' theorem for \(\mathbf{v} = s^2\,\hat{\boldsymbol{\phi}}\) on the disk \(s\le a\) in the plane \(z = 0\), with \(d\mathbf{a}\) along \(+\hat{\mathbf{z}}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Cylindrical curl with only \(v_\phi = s^2\) (independent of \(\phi, z\)):</p>
+                            \[ \nabla\times\mathbf{v} = \frac{1}{s}\frac{\partial}{\partial s}\left(s\,v_\phi\right)\hat{\mathbf{z}} = \frac{1}{s}\frac{\partial}{\partial s}\left(s^3\right)\hat{\mathbf{z}} = 3s\,\hat{\mathbf{z}} . \]
+                            \[ \int(\nabla\times\mathbf{v})\cdot d\mathbf{a} = \int_0^{2\pi}\!\!\int_0^a 3s\cdot s\,ds\,d\phi = 2\pi a^3 . \]
+                            <p>The right-hand rule with \(+\hat{\mathbf{z}}\) means traversing the rim counter-clockwise, \(d\mathbf{l} = a\,d\phi\,\hat{\boldsymbol{\phi}}\):</p>
+                            \[ \oint \mathbf{v}\cdot d\mathbf{l} = \int_0^{2\pi} a^2\cdot a\,d\phi = 2\pi a^3 . \checkmark \]
+                        </details>
+                    </div>
+
+                    <h3 id="va-curvilinear">1.4 Curvilinear coordinates</h3>
+
+                    <p>Spherical coordinates \((r,\theta,\phi)\): \(r\) is distance from the origin, \(\theta\in[0,\pi]\) the polar angle from \(+z\), \(\phi\in[0,2\pi)\) the azimuth. Cylindrical \((s,\phi,z)\): \(s\) is distance from the \(z\)-axis. (Griffiths uses \(s\), not \(\rho\), for the cylindrical radius, to keep \(\rho\) free for charge density.)</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Unit vectors and elements</p>
+                        <p><strong>Spherical:</strong> \(x = r\sin\theta\cos\phi,\ y = r\sin\theta\sin\phi,\ z = r\cos\theta\).</p>
+                        \[ \begin{aligned}
+                        \hat{\mathbf{r}} &amp;= \sin\theta\cos\phi\,\hat{\mathbf{x}} + \sin\theta\sin\phi\,\hat{\mathbf{y}} + \cos\theta\,\hat{\mathbf{z}} \\
+                        \hat{\boldsymbol{\theta}} &amp;= \cos\theta\cos\phi\,\hat{\mathbf{x}} + \cos\theta\sin\phi\,\hat{\mathbf{y}} - \sin\theta\,\hat{\mathbf{z}} \\
+                        \hat{\boldsymbol{\phi}} &amp;= -\sin\phi\,\hat{\mathbf{x}} + \cos\phi\,\hat{\mathbf{y}}
+                        \end{aligned} \]
+                        \[ d\mathbf{l} = dr\,\hat{\mathbf{r}} + r\,d\theta\,\hat{\boldsymbol{\theta}} + r\sin\theta\,d\phi\,\hat{\boldsymbol{\phi}}, \qquad d\tau = r^2\sin\theta\,dr\,d\theta\,d\phi, \qquad d\mathbf{a}_{\text{sphere}} = r^2\sin\theta\,d\theta\,d\phi\,\hat{\mathbf{r}} . \]
+                        <p><strong>Cylindrical:</strong> \(x = s\cos\phi,\ y = s\sin\phi\); \(\hat{\mathbf{s}} = \cos\phi\,\hat{\mathbf{x}} + \sin\phi\,\hat{\mathbf{y}}\), \(\hat{\boldsymbol{\phi}} = -\sin\phi\,\hat{\mathbf{x}} + \cos\phi\,\hat{\mathbf{y}}\).</p>
+                        \[ d\mathbf{l} = ds\,\hat{\mathbf{s}} + s\,d\phi\,\hat{\boldsymbol{\phi}} + dz\,\hat{\mathbf{z}}, \qquad d\tau = s\,ds\,d\phi\,dz . \]
+                    </div>
+
+                    <p>The general pattern: if \(d\mathbf{l} = h_1du_1\,\hat{\mathbf{e}}_1 + h_2du_2\,\hat{\mathbf{e}}_2 + h_3du_3\,\hat{\mathbf{e}}_3\) with scale factors \(h_i\) (spherical: \(1, r, r\sin\theta\); cylindrical: \(1, s, 1\)), then</p>
+                    \[ \nabla f = \sum_i \frac{\hat{\mathbf{e}}_i}{h_i}\frac{\partial f}{\partial u_i}, \qquad \nabla\cdot\mathbf{v} = \frac{1}{h_1h_2h_3}\left[\frac{\partial}{\partial u_1}(h_2h_3v_1) + \frac{\partial}{\partial u_2}(h_3h_1v_2) + \frac{\partial}{\partial u_3}(h_1h_2v_3)\right], \]
+                    \[ \nabla^2 f = \frac{1}{h_1h_2h_3}\sum_i\frac{\partial}{\partial u_i}\left(\frac{h_1h_2h_3}{h_i^2}\frac{\partial f}{\partial u_i}\right). \]
+                    <p>Plugging in the scale factors reproduces the explicit formulas in the <a href="#formula-sheet">formula sheet</a>, so you only need to remember the scale factors.</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Curvilinear unit vectors depend on position. You may <em>not</em> pull \(\hat{\mathbf{r}}\) out of an integral: \(\int \hat{\mathbf{r}}\,da\) over a sphere is zero, not \(4\pi r^2\hat{\mathbf{r}}\). When integrating a vector, first resolve it into Cartesian components (whose unit vectors are constant), integrate, and then reassemble. This is the standard first step in every "field of a ring/disk/sphere" calculation.</p>
+                    </div>
+
+                    <h3 id="va-delta">1.5 The Dirac delta function</h3>
+
+                    <p>Consider \(\mathbf{v} = \hat{\mathbf{r}}/r^2\), the shape of the field of a point charge. Its divergence away from the origin is \(\frac{1}{r^2}\partial_r(r^2\cdot r^{-2}) = 0\). Yet its flux through a sphere of radius \(R\) is \(\oint (1/R^2)R^2\sin\theta\,d\theta\,d\phi = 4\pi\), independent of \(R\). The divergence theorem seems to fail: zero on the left, \(4\pi\) on the right. The resolution is that all of the divergence is concentrated at the single point \(r = 0\), where the field is not differentiable. The delta function is the bookkeeping device for that.</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Dirac delta)</p>
+                        <p>\(\delta(x)\) is defined by what it does under an integral: for any continuous \(f\),</p>
+                        \[ \int_{a}^{b} f(x)\,\delta(x - x_0)\,dx = \begin{cases} f(x_0) &amp; a \lt x_0 \lt b \\ 0 &amp; x_0 \notin [a,b] \end{cases} \]
+                        <p>Heuristically, \(\delta(x)=0\) for \(x\neq 0\), infinite at \(0\), with unit area. It is a distribution (generalized function), meaningful only inside integrals. In three dimensions \(\delta^3(\mathbf{r}) = \delta(x)\delta(y)\delta(z)\), with \(\int_{\text{all space}} f(\mathbf{r})\,\delta^3(\mathbf{r}-\mathbf{a})\,d\tau = f(\mathbf{a})\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Delta-function rules</p>
+                        \[ \delta(kx) = \frac{1}{|k|}\delta(x), \qquad \delta\big(g(x)\big) = \sum_{\text{roots } x_i}\frac{\delta(x - x_i)}{|g'(x_i)|}, \qquad x\,\delta(x) = 0, \qquad \frac{d}{dx}\theta(x) = \delta(x) \]
+                        <p>(\(\theta\) here is the Heaviside step.) Units: \(\delta(x)\) has units of 1/length, \(\delta^3(\mathbf{r})\) of 1/volume.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Divergence of the inverse-square field)</p>
+                        \[ \nabla\cdot\left(\frac{\hat{\mathbf{r}}}{r^2}\right) = 4\pi\,\delta^3(\mathbf{r}), \qquad\text{equivalently}\qquad \nabla\cdot\left(\frac{\hat{\boldsymbol{\mathscr{r}}}}{\mathscr{r}^2}\right) = 4\pi\,\delta^3(\boldsymbol{\mathscr{r}}), \qquad \nabla^2\frac{1}{\mathscr{r}} = -4\pi\,\delta^3(\boldsymbol{\mathscr{r}}). \]
+                    </div>
+
+                    <p><strong>Proof.</strong> Away from the origin the divergence is zero (computed above). For any volume containing the origin, the divergence theorem applied to a small sphere around the origin (plus the field-free remainder) gives a total of \(4\pi\). A function that vanishes everywhere except at one point and integrates to \(4\pi\) over any region containing that point is, by definition, \(4\pi\delta^3(\mathbf{r})\). Translating the origin to \(\mathbf{r}'\) gives the \(\boldsymbol{\mathscr{r}}\) version, and since \(\hat{\boldsymbol{\mathscr{r}}}/\mathscr{r}^2 = -\nabla(1/\mathscr{r})\) (Example 1.1), taking the divergence gives the Laplacian form. \(\square\)</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Going further (Jackson)</p>
+                        <p>Jackson proves \(\nabla^2(1/r) = -4\pi\delta^3(\mathbf{r})\) more carefully by regularizing: replace \(1/r\) with \(1/\sqrt{r^2+a^2}\), compute its Laplacian exactly, \(-3a^2/(r^2+a^2)^{5/2}\), show the integral of that over all space is \(-4\pi\) for every \(a\), and let \(a\to 0\). The family collapses onto the origin, which is precisely what "converges to a delta function" means. This is the right mental picture: a delta is the limit of ever-narrower, ever-taller bumps of fixed area.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 1.4 (Evaluating delta integrals)</p>
+                        <p>(a) \(\displaystyle\int_\mathcal{V}\left(r^2 + 2\,\mathbf{r}\cdot\mathbf{a}\right)\delta^3(\mathbf{r}-\mathbf{b})\,d\tau\), where \(\mathcal{V}\) is the ball of radius 2 centred at the origin, \(\mathbf{a} = (2,0,-1)\), \(\mathbf{b} = (1,1,1)\).<br>
+                        (b) \(\displaystyle\int_{-\infty}^{\infty}\cos x\;\delta(x^2-\pi^2)\,dx\).<br>
+                        (c) \(\displaystyle\int_{\text{all space}} e^{-r/\lambda}\,\nabla\cdot\left(\frac{\hat{\mathbf{r}}}{r^2}\right)d\tau\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>(a) \(|\mathbf{b}| = \sqrt{3}\approx 1.73 \lt 2\), so the spike is inside \(\mathcal{V}\). Evaluate the integrand at \(\mathbf{r} = \mathbf{b}\): \(b^2 = 3\), \(\mathbf{b}\cdot\mathbf{a} = 2 + 0 - 1 = 1\). Result: \(3 + 2(1) = 5\).</p>
+                            <p>(b) \(g(x) = x^2-\pi^2\) has roots \(x = \pm\pi\) with \(|g'(\pm\pi)| = 2\pi\). So \(\delta(x^2-\pi^2) = [\delta(x-\pi)+\delta(x+\pi)]/(2\pi)\) and</p>
+                            \[ \int\cos x\,\delta(x^2-\pi^2)\,dx = \frac{\cos\pi + \cos(-\pi)}{2\pi} = \frac{-2}{2\pi} = -\frac{1}{\pi}. \]
+                            <p>(c) The divergence is \(4\pi\delta^3(\mathbf{r})\), so the integral is \(4\pi e^{0} = 4\pi\). (A tempting wrong answer is \(0\), from computing the divergence as zero "everywhere"; another is to integrate by parts and forget the delta. Both lose the point charge.)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="va-helmholtz">1.6 The Helmholtz theorem and potentials</h3>
+
+                    <p>Maxwell's equations specify the divergence and curl of \(\mathbf{E}\) and \(\mathbf{B}\). Is that enough to determine the fields? The Helmholtz theorem says yes, with boundary conditions at infinity.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Helmholtz)</p>
+                        <p>Suppose \(\nabla\cdot\mathbf{F} = D(\mathbf{r})\) and \(\nabla\times\mathbf{F} = \mathbf{C}(\mathbf{r})\), with \(\nabla\cdot\mathbf{C} = 0\) (required for consistency), and \(D, \mathbf{C}\) go to zero faster than \(1/r^2\) as \(r\to\infty\). Then the unique field that also vanishes at infinity is</p>
+                        \[ \mathbf{F} = -\nabla U + \nabla\times\mathbf{W}, \qquad U(\mathbf{r}) = \frac{1}{4\pi}\int\frac{D(\mathbf{r}')}{\mathscr{r}}\,d\tau', \qquad \mathbf{W}(\mathbf{r}) = \frac{1}{4\pi}\int\frac{\mathbf{C}(\mathbf{r}')}{\mathscr{r}}\,d\tau'. \]
+                    </div>
+
+                    <p><strong>Why it works.</strong> \(\nabla\cdot\mathbf{F} = -\nabla^2 U = -\frac{1}{4\pi}\int D(\mathbf{r}')\nabla^2(1/\mathscr{r})\,d\tau' = \int D(\mathbf{r}')\delta^3(\mathbf{r}-\mathbf{r}')\,d\tau' = D(\mathbf{r})\). The curl works similarly using \(\nabla\times\nabla\times\mathbf{W} = \nabla(\nabla\cdot\mathbf{W}) - \nabla^2\mathbf{W}\); the \(\nabla(\nabla\cdot\mathbf{W})\) term vanishes after an integration by parts because \(\nabla'\cdot\mathbf{C} = 0\). Uniqueness: the difference of two solutions has zero divergence and curl, hence is the gradient of a harmonic function, which must vanish if it goes to zero at infinity.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Potentials)</p>
+                        <p>For a field defined on all of \(\mathbb{R}^3\) (or any simply connected region), the following are equivalent for <strong>curl-less</strong> fields: (i) \(\nabla\times\mathbf{F} = \mathbf{0}\) everywhere; (ii) \(\int_\mathbf{a}^\mathbf{b}\mathbf{F}\cdot d\mathbf{l}\) is path independent; (iii) \(\oint\mathbf{F}\cdot d\mathbf{l} = 0\) for every loop; (iv) \(\mathbf{F} = -\nabla V\) for some scalar \(V\).</p>
+                        <p>For <strong>divergence-less</strong> fields: (i) \(\nabla\cdot\mathbf{F} = 0\); (ii) \(\int\mathbf{F}\cdot d\mathbf{a}\) depends only on the boundary loop; (iii) \(\oint\mathbf{F}\cdot d\mathbf{a} = 0\) for every closed surface; (iv) \(\mathbf{F} = \nabla\times\mathbf{A}\) for some vector \(\mathbf{A}\).</p>
+                        <p>The scalar potential is unique up to an additive constant; the vector potential up to the gradient of any scalar.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>The topological condition matters. \(\mathbf{F} = \hat{\boldsymbol{\phi}}/s\) has zero curl wherever it is defined, yet \(\oint\mathbf{F}\cdot d\mathbf{l} = 2\pi\) around the \(z\)-axis. The region "all space minus the \(z\)-axis" is not simply connected, so (i) does not imply (iii). In electrostatics \(\nabla\times\mathbf{E} = 0\) holds everywhere including at charges, so this subtlety does not bite; in magnetostatics it does.</p>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Use index notation to prove \(\nabla\cdot(\mathbf{A}\times\mathbf{B}) = \mathbf{B}\cdot(\nabla\times\mathbf{A}) - \mathbf{A}\cdot(\nabla\times\mathbf{B})\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\partial_i(\epsilon_{ijk}A_jB_k) = \epsilon_{ijk}(\partial_iA_j)B_k + \epsilon_{ijk}A_j(\partial_iB_k)\). In the first term, cycle indices: \(\epsilon_{ijk} = \epsilon_{kij}\), giving \(B_k(\nabla\times\mathbf{A})_k\). In the second, \(\epsilon_{ijk} = -\epsilon_{jik}\), giving \(-A_j(\nabla\times\mathbf{B})_j\). Done.</p>
+                                </details>
+                            </li>
+                            <li>For \(\mathbf{v} = r^n\hat{\mathbf{r}}\), compute \(\nabla\cdot\mathbf{v}\) and \(\nabla\times\mathbf{v}\) for \(r\neq 0\). For which \(n\) is the divergence zero away from the origin, and what is it at the origin in that case?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\nabla\cdot\mathbf{v} = r^{-2}\partial_r(r^{n+2}) = (n+2)r^{n-1}\); the curl is zero (purely radial, depends only on \(r\)). Divergence vanishes for \(n = -2\), where it equals \(4\pi\delta^3(\mathbf{r})\). (For \(n \gt -2\) there is no delta: the flux through a small sphere, \(4\pi R^{n+2}\), goes to zero.)</p>
+                                </details>
+                            </li>
+                            <li>Let \(T = x y^2 z\). Compute \(\int\nabla T\cdot d\mathbf{l}\) from \((0,0,0)\) to \((1,2,3)\) along the straight line, and explain why you did not need to parametrize.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Fundamental theorem for gradients: \(T(1,2,3) - T(0,0,0) = 1\cdot 4\cdot 3 - 0 = 12\). Any path gives the same result.</p>
+                                </details>
+                            </li>
+                            <li>Evaluate \(\displaystyle\int_0^5 (3x^2-2)\,\delta(2x-4)\,dx\) and \(\displaystyle\int_{-1}^{1}e^{x}\,\delta(x-3)\,dx\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\delta(2x-4) = \tfrac12\delta(x-2)\), so the first is \(\tfrac12(12-2) = 5\). The second is \(0\): the spike at \(x = 3\) lies outside \([-1,1]\).</p>
+                                </details>
+                            </li>
+                            <li>(Two dimensions.) Show that \(\ln s\) is harmonic for \(s\neq 0\), and that \(\nabla^2\ln s = 2\pi\,\delta^2(\mathbf{s})\) in the plane. (This is the 2D analogue of \(\nabla^2(1/r) = -4\pi\delta^3\), and governs line charges.)
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\nabla^2\ln s = \frac1s\frac{d}{ds}\left(s\cdot\frac1s\right) = 0\) for \(s\neq0\). Flux of \(\nabla\ln s = \hat{\mathbf{s}}/s\) out of a circle of radius \(a\) is \((1/a)(2\pi a) = 2\pi\) for every \(a\), so the 2D divergence theorem forces \(\nabla^2\ln s = 2\pi\delta^2\).</p>
+                                </details>
+                            </li>
+                            <li>Show that \(\mathbf{F} = yz\,\hat{\mathbf{x}} + xz\,\hat{\mathbf{y}} + xy\,\hat{\mathbf{z}}\) is curl-less and find a scalar \(f\) with \(\mathbf{F} = \nabla f\). Is \(\mathbf{F}\) also divergence-less?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\((\nabla\times\mathbf{F})_x = \partial_y(xy) - \partial_z(xz) = x - x = 0\), and cyclically. \(f = xyz\) (plus a constant). \(\nabla\cdot\mathbf{F} = 0 + 0 + 0 = 0\), so yes: \(f\) is harmonic and \(\mathbf{F}\) is also the curl of some vector potential.</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+
+                </section>
+
+                <section id="ch-electrostatics">
+                    <h2>2. Electrostatics</h2>
+                    <p class="ref">Griffiths Ch. 2 &middot; Jackson Ch. 1</p>
+
+                    <p>Electrostatics asks: given charges that are not moving, what force do they exert on a test charge? Coulomb's law answers it for two point charges, and superposition extends it to anything. Everything else in this chapter is a reformulation of that single answer in more useful forms. The <strong>field</strong> \(\mathbf{E}\) removes the test charge from the picture. <strong>Gauss's law</strong> (\(\nabla\cdot\mathbf{E} = \rho/\epsilon_0\)) and <strong>irrotationality</strong> (\(\nabla\times\mathbf{E} = 0\)) are Coulomb's law rewritten as local differential equations; by Helmholtz they contain exactly the same information. The <strong>potential</strong> \(V\) packs the three components of \(\mathbf{E}\) into one scalar, turning the problem into Poisson's equation. Finally, conductors are the practical case: materials in which charge moves freely until the field inside is zero, which turns electrostatics into a boundary-value problem.</p>
+
+                    <h3 id="es-coulomb">2.1 Coulomb's law and the electric field</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Law (Coulomb, with superposition)</p>
+                        <p>The force on a test charge \(Q\) at \(\mathbf{r}\) due to point charges \(q_i\) at rest at \(\mathbf{r}_i'\) is</p>
+                        \[ \mathbf{F} = Q\mathbf{E}(\mathbf{r}), \qquad \mathbf{E}(\mathbf{r}) = \frac{1}{4\pi\epsilon_0}\sum_i\frac{q_i}{\mathscr{r}_i^2}\hat{\boldsymbol{\mathscr{r}}}_i, \qquad \boldsymbol{\mathscr{r}}_i = \mathbf{r}-\mathbf{r}_i', \]
+                        <p>with \(\epsilon_0 = 8.854\times10^{-12}\ \mathrm{C^2/(N\,m^2)}\) and \(1/4\pi\epsilon_0 \approx 8.99\times10^9\ \mathrm{N\,m^2/C^2}\). The field is defined as the force per unit test charge, in the limit where the test charge is too small to disturb the sources.</p>
+                    </div>
+
+                    <p>Two experimental facts are hiding here: the force between two charges is inverse-square and central, and the force due to many charges is the vector sum of the pairwise forces (<strong>superposition</strong>, which is the linearity of the field equations). Superposition is not a logical necessity; it is an empirical fact that holds extremely well classically.</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>The separation vector points <em>from the source to the field point</em>. Writing \(\mathbf{r}'-\mathbf{r}\) flips the sign of every field you compute. A sanity check: the field of a positive charge must point away from it.</p>
+                    </div>
+
+                    <h3 id="es-continuous">2.2 Continuous charge distributions</h3>
+
+                    <p>Replace \(q_i\to dq\) and the sum by an integral: \(dq = \lambda\,dl'\) (line), \(\sigma\,da'\) (surface), \(\rho\,d\tau'\) (volume).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Field of a continuous distribution</p>
+                        \[ \mathbf{E}(\mathbf{r}) = \frac{1}{4\pi\epsilon_0}\int\frac{\rho(\mathbf{r}')}{\mathscr{r}^2}\,\hat{\boldsymbol{\mathscr{r}}}\,d\tau' = \frac{1}{4\pi\epsilon_0}\int\rho(\mathbf{r}')\,\frac{\mathbf{r}-\mathbf{r}'}{|\mathbf{r}-\mathbf{r}'|^3}\,d\tau' \]
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Recipe for direct integration: (1) draw the source element \(dq\) at a generic \(\mathbf{r}'\) and the field point \(\mathbf{r}\); (2) write \(\boldsymbol{\mathscr{r}}\) in <em>Cartesian</em> components; (3) use symmetry to kill components before integrating (but justify it: pair up elements whose transverse contributions cancel); (4) integrate; (5) check a limit (far away the result must look like a point charge \(Q_{\text{tot}}/4\pi\epsilon_0 r^2\)).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.1 (On-axis field of an annulus)</p>
+                        <p>A flat annulus in the \(xy\)-plane, inner radius \(a\), outer radius \(b\), carries uniform surface charge \(\sigma\). Find \(\mathbf{E}\) at height \(z\) on the axis. Check the limits \(a\to0,\ b\to\infty\) and \(z\gg b\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Slice into thin rings of radius \(s'\), width \(ds'\): \(dq = \sigma\,2\pi s'\,ds'\). Every element of a ring is at distance \(\mathscr{r} = \sqrt{z^2+s'^2}\). Horizontal components cancel between diametrically opposite elements; the vertical component carries a factor \(\cos\alpha = z/\mathscr{r}\). So</p>
+                            \[ dE_z = \frac{1}{4\pi\epsilon_0}\frac{dq}{\mathscr{r}^2}\frac{z}{\mathscr{r}} = \frac{\sigma z}{2\epsilon_0}\frac{s'\,ds'}{(z^2+s'^2)^{3/2}} . \]
+                            <p>Integrate using \(\int s'(z^2+s'^2)^{-3/2}ds' = -(z^2+s'^2)^{-1/2}\):</p>
+                            \[ E_z = \frac{\sigma z}{2\epsilon_0}\left[\frac{1}{\sqrt{z^2+a^2}} - \frac{1}{\sqrt{z^2+b^2}}\right]. \]
+                            <p><strong>Infinite plane</strong> (\(a\to0,\ b\to\infty\)): \(E_z = \frac{\sigma z}{2\epsilon_0|z|} = \pm\frac{\sigma}{2\epsilon_0}\), constant and pointing away on both sides, as expected.</p>
+                            <p><strong>Far away</strong> (\(z\gg b\)): \((z^2+a^2)^{-1/2}\approx \frac1z\left(1-\frac{a^2}{2z^2}\right)\), and similarly for \(b\), so the bracket \(\approx (b^2-a^2)/2z^3\) and \(E_z\approx \frac{\sigma\pi(b^2-a^2)}{4\pi\epsilon_0 z^2} = \frac{Q}{4\pi\epsilon_0z^2}\). Point-charge behaviour, as required.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="es-gauss">2.3 The divergence of E: Gauss's law</h3>
+
+                    <p><strong>Derivation from Coulomb.</strong> Take the divergence of the field integral. \(\nabla\) acts only on \(\mathbf{r}\), so it passes inside the \(\mathbf{r}'\) integral and hits only the geometric factor:</p>
+                    \[ \nabla\cdot\mathbf{E} = \frac{1}{4\pi\epsilon_0}\int\rho(\mathbf{r}')\,\nabla\cdot\left(\frac{\hat{\boldsymbol{\mathscr{r}}}}{\mathscr{r}^2}\right)d\tau' = \frac{1}{4\pi\epsilon_0}\int\rho(\mathbf{r}')\,4\pi\delta^3(\mathbf{r}-\mathbf{r}')\,d\tau' = \frac{\rho(\mathbf{r})}{\epsilon_0}. \]
+                    <p>The delta-function identity of Section 1.5 does all the work: it is precisely the statement that the field of a point charge has divergence only where the charge sits. Integrating over a volume and using the divergence theorem gives the integral form.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Law (Gauss)</p>
+                        \[ \nabla\cdot\mathbf{E} = \frac{\rho}{\epsilon_0} \qquad\Longleftrightarrow\qquad \oint_\mathcal{S}\mathbf{E}\cdot d\mathbf{a} = \frac{Q_{\text{enc}}}{\epsilon_0}. \]
+                        <p>Valid for any closed surface and any charge distribution (and, unlike Coulomb's law, it remains true in electrodynamics). It is a <em>useful</em> way to find \(\mathbf{E}\) only when symmetry lets you pull \(|\mathbf{E}|\) out of the flux integral.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Only three symmetries make Gauss's law a field-finder: <strong>spherical</strong> (Gaussian sphere, \(E\cdot4\pi r^2\)), <strong>cylindrical</strong> (coaxial cylinder of length \(\ell\), \(E\cdot2\pi s\ell\); end caps carry no flux), and <strong>planar</strong> (pillbox straddling the plane, \(E\cdot 2A\) for a symmetric sheet). Before using it, argue from symmetry what direction \(\mathbf{E}\) points and what it can depend on. A finite cylinder, a cube, or a disk does <em>not</em> have enough symmetry, even though Gauss's law is still true for them.</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.2 (Sphere with linearly decreasing density)</p>
+                        <p>A sphere of radius \(R\) has \(\rho(r) = \rho_0(1 - r/R)\). Find \(\mathbf{E}\) everywhere and where its magnitude is largest.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Spherical symmetry: \(\mathbf{E} = E(r)\hat{\mathbf{r}}\). Gaussian sphere of radius \(r\lt R\):</p>
+                            \[ Q_{\text{enc}}(r) = \int_0^r\rho_0\left(1-\frac{r'}{R}\right)4\pi r'^2\,dr' = 4\pi\rho_0\left(\frac{r^3}{3} - \frac{r^4}{4R}\right). \]
+                            \[ E(r)\,4\pi r^2 = \frac{Q_{\text{enc}}}{\epsilon_0}\;\Rightarrow\; E(r) = \frac{\rho_0}{\epsilon_0}\left(\frac{r}{3} - \frac{r^2}{4R}\right),\quad r\lt R . \]
+                            <p>Total charge \(Q = 4\pi\rho_0R^3(\tfrac13-\tfrac14) = \pi\rho_0R^3/3\), so outside</p>
+                            \[ E(r) = \frac{Q}{4\pi\epsilon_0r^2} = \frac{\rho_0R^3}{12\epsilon_0r^2},\quad r\gt R . \]
+                            <p>Continuity check at \(r = R\): inside gives \(\frac{\rho_0}{\epsilon_0}\cdot\frac{R}{12}\); outside gives \(\frac{\rho_0R}{12\epsilon_0}\). Equal, as it must be with no surface charge.</p>
+                            <p>Maximum: outside, \(E\) decreases; inside, \(\frac{d}{dr}\left(\frac r3-\frac{r^2}{4R}\right) = \frac13-\frac{r}{2R} = 0\) at \(r = 2R/3\), giving \(E_{\max} = \frac{\rho_0}{\epsilon_0}\left(\frac{2R}{9}-\frac{R}{9}\right) = \frac{\rho_0R}{9\epsilon_0}\) (larger than the surface value \(\rho_0R/12\epsilon_0\)).</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.3 (Coaxial charge distribution)</p>
+                        <p>A long solid cylinder of radius \(a\) carries uniform \(\rho\). It is surrounded by a thin coaxial cylindrical shell of radius \(b\) with surface charge \(\sigma\), chosen so the whole system is neutral. Find \(\sigma\) and \(\mathbf{E}\) in all three regions.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Neutrality per length \(\ell\): \(\rho\pi a^2\ell + \sigma 2\pi b\ell = 0\Rightarrow \sigma = -\rho a^2/2b\).</p>
+                            <p>Cylindrical symmetry: \(\mathbf{E} = E(s)\hat{\mathbf{s}}\). Gaussian cylinder of radius \(s\), length \(\ell\): \(E\cdot 2\pi s\ell = Q_{\text{enc}}/\epsilon_0\).</p>
+                            <ul>
+                                <li>\(s\lt a\): \(Q_{\text{enc}} = \rho\pi s^2\ell\Rightarrow E = \dfrac{\rho s}{2\epsilon_0}\).</li>
+                                <li>\(a\lt s\lt b\): \(Q_{\text{enc}} = \rho\pi a^2\ell\Rightarrow E = \dfrac{\rho a^2}{2\epsilon_0 s}\).</li>
+                                <li>\(s\gt b\): \(Q_{\text{enc}} = 0\Rightarrow E = 0\).</li>
+                            </ul>
+                            <p>Check the jump at \(s = b\): \(0 - \frac{\rho a^2}{2\epsilon_0 b} = \sigma/\epsilon_0\) with \(\sigma = -\rho a^2/2b\). Consistent with the boundary condition of Section 2.6.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="es-curl">2.4 The curl of E</h3>
+
+                    <p>For a single point charge at the origin, \(\mathbf{E}\cdot d\mathbf{l} = \frac{q}{4\pi\epsilon_0 r^2}dr\) (only the radial part of \(d\mathbf{l}\) contributes), so</p>
+                    \[ \int_\mathbf{a}^\mathbf{b}\mathbf{E}\cdot d\mathbf{l} = \frac{q}{4\pi\epsilon_0}\left(\frac{1}{r_a} - \frac{1}{r_b}\right), \]
+                    <p>which depends only on the endpoints. Around a closed loop it is zero; by Stokes, \(\nabla\times\mathbf{E} = 0\). By superposition the result holds for any static distribution. Equivalently, \(\hat{\boldsymbol{\mathscr{r}}}/\mathscr{r}^2 = -\nabla(1/\mathscr{r})\) is a gradient, and the curl of a gradient vanishes.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Electrostatic fields are irrotational)</p>
+                        \[ \nabla\times\mathbf{E} = \mathbf{0} \qquad\Longleftrightarrow\qquad \oint\mathbf{E}\cdot d\mathbf{l} = 0 . \]
+                        <p>This holds only for <em>static</em> charges. Faraday's law replaces it by \(\nabla\times\mathbf{E} = -\partial\mathbf{B}/\partial t\) in general.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>A quick test of whether a proposed field can be electrostatic: compute its curl. \(\mathbf{E} = k(xy\,\hat{\mathbf{x}} + 2yz\,\hat{\mathbf{y}} + 3xz\,\hat{\mathbf{z}})\), for instance, has \((\nabla\times\mathbf{E})_x = k(0 - 2y)\neq0\), so no arrangement of static charges produces it.</p>
+                    </div>
+
+                    <h3 id="es-potential">2.5 The electric potential; Poisson and Laplace</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Electric potential)</p>
+                        <p>Because \(\nabla\times\mathbf{E} = 0\), the line integral of \(\mathbf{E}\) is path independent, and we may define, relative to a reference point \(\mathcal{O}\),</p>
+                        \[ V(\mathbf{r}) = -\int_\mathcal{O}^{\mathbf{r}}\mathbf{E}\cdot d\mathbf{l}, \qquad V(\mathbf{b}) - V(\mathbf{a}) = -\int_\mathbf{a}^\mathbf{b}\mathbf{E}\cdot d\mathbf{l}, \qquad \mathbf{E} = -\nabla V . \]
+                        <p>Units: volts (J/C), so \(\mathbf{E}\) is in V/m. Changing \(\mathcal{O}\) adds a constant to \(V\) and leaves \(\mathbf{E}\) unchanged. Potential differences are physical; potentials are not.</p>
+                    </div>
+
+                    <p>Substituting \(\mathbf{E} = -\nabla V\) into Gauss's law gives the central equation of electrostatics.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Equations (Poisson and Laplace)</p>
+                        \[ \nabla^2 V = -\frac{\rho}{\epsilon_0}\quad\text{(Poisson)}, \qquad \nabla^2 V = 0\ \text{ where }\rho = 0\quad\text{(Laplace)}. \]
+                        <p>The curl equation is automatically satisfied by any \(\mathbf{E} = -\nabla V\), so Poisson's equation is the <em>whole</em> content of electrostatics.</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Potential of a localized distribution</p>
+                        <p>With the reference at infinity (allowed when the charge is confined to a finite region),</p>
+                        \[ V(\mathbf{r}) = \frac{1}{4\pi\epsilon_0}\int\frac{\rho(\mathbf{r}')}{\mathscr{r}}\,d\tau' \qquad\left(\text{point charge: } V = \frac{q}{4\pi\epsilon_0\mathscr{r}}\right). \]
+                        <p>Check: \(\nabla^2V = \frac{1}{4\pi\epsilon_0}\int\rho(\mathbf{r}')\nabla^2(1/\mathscr{r})\,d\tau' = -\rho/\epsilon_0\). This is the solution of Poisson's equation that vanishes at infinity.</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>For charge distributions extending to infinity (infinite line, plane, cylinder), the integral \(\int\rho/\mathscr{r}\) diverges and you <em>cannot</em> put the reference at infinity. Pick a finite reference instead: for an infinite line charge, \(V(s) = -\frac{\lambda}{2\pi\epsilon_0}\ln(s/s_0)\), which is zero at an arbitrary radius \(s_0\).</p>
+                    </div>
+
+                    <p>The three objects \(\rho\), \(\mathbf{E}\), \(V\) are linked in a triangle: \(\rho\to\mathbf{E}\) by Coulomb's integral, \(\rho\to V\) by the potential integral, \(\mathbf{E}\to\rho\) by \(\epsilon_0\nabla\cdot\mathbf{E}\), \(V\to\rho\) by \(-\epsilon_0\nabla^2V\), \(\mathbf{E}\to V\) by a line integral, and \(V\to\mathbf{E}\) by \(-\nabla\). Computing \(V\) first (a scalar integral) and then differentiating is often far easier than computing \(\mathbf{E}\) directly, because no vector components need to be tracked.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.4 (Potential of the annulus, and E from V)</p>
+                        <p>For the annulus of Example 2.1, find \(V\) on the axis and recover \(E_z\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>With \(dq = \sigma2\pi s'\,ds'\) and \(\mathscr{r} = \sqrt{z^2+s'^2}\) (no vector bookkeeping needed):</p>
+                            \[ V(z) = \frac{1}{4\pi\epsilon_0}\int_a^b\frac{2\pi\sigma s'\,ds'}{\sqrt{z^2+s'^2}} = \frac{\sigma}{2\epsilon_0}\left[\sqrt{z^2+b^2} - \sqrt{z^2+a^2}\right]. \]
+                            <p>Then</p>
+                            \[ E_z = -\frac{\partial V}{\partial z} = -\frac{\sigma}{2\epsilon_0}\left[\frac{z}{\sqrt{z^2+b^2}} - \frac{z}{\sqrt{z^2+a^2}}\right] = \frac{\sigma z}{2\epsilon_0}\left[\frac{1}{\sqrt{z^2+a^2}} - \frac{1}{\sqrt{z^2+b^2}}\right], \]
+                            <p>which agrees with Example 2.1. (On the axis only \(E_z\) is available this way: to get \(E_s\) off axis you would need \(V\) off axis too.)</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.5 (Uniform solid sphere: V from E, then check Poisson)</p>
+                        <p>A sphere of radius \(R\) carries charge \(Q\) uniformly. Find \(V(r)\) everywhere (reference at infinity) and verify Poisson's equation inside.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Gauss gives \(E = \frac{Q}{4\pi\epsilon_0 r^2}\) outside and \(E = \frac{Qr}{4\pi\epsilon_0R^3}\) inside. Outside: \(V = -\int_\infty^r\frac{Q}{4\pi\epsilon_0r'^2}dr' = \frac{Q}{4\pi\epsilon_0r}\). Inside, the path from infinity must cross both regions:</p>
+                            \[ V(r) = -\int_\infty^R\frac{Q\,dr'}{4\pi\epsilon_0r'^2} - \int_R^r\frac{Qr'\,dr'}{4\pi\epsilon_0R^3} = \frac{Q}{4\pi\epsilon_0R} - \frac{Q(r^2-R^2)}{8\pi\epsilon_0R^3} = \frac{Q}{8\pi\epsilon_0R}\left(3 - \frac{r^2}{R^2}\right). \]
+                            <p>Poisson check (spherical Laplacian, \(\rho = 3Q/4\pi R^3\)):</p>
+                            \[ \nabla^2V = \frac{1}{r^2}\frac{d}{dr}\left(r^2\cdot\left(-\frac{Qr}{4\pi\epsilon_0R^3}\right)\right) = -\frac{3Q}{4\pi\epsilon_0R^3} = -\frac{\rho}{\epsilon_0}. \checkmark \]
+                            <p>Note \(V(0) = \tfrac32 V(R)\): the centre is at higher potential than the surface, as it must be for an outward field.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="es-boundary">2.6 Boundary conditions</h3>
+
+                    <p>Across a surface carrying charge density \(\sigma\), with \(\hat{\mathbf{n}}\) pointing from "below" to "above":</p>
+                    <ul>
+                        <li><strong>Normal component</strong> (Gauss's law on a pillbox of area \(A\) and vanishing thickness): \(E^\perp_{\text{above}}A - E^\perp_{\text{below}}A = \sigma A/\epsilon_0\).</li>
+                        <li><strong>Tangential component</strong> (\(\oint\mathbf{E}\cdot d\mathbf{l} = 0\) on a thin rectangular loop straddling the surface): the long sides give \((E^\parallel_{\text{above}} - E^\parallel_{\text{below}})\ell = 0\).</li>
+                        <li><strong>Potential</strong>: \(V_{\text{above}} - V_{\text{below}} = -\int\mathbf{E}\cdot d\mathbf{l}\) over a path of vanishing length through the surface \(\to 0\), as long as \(\mathbf{E}\) is finite.</li>
+                    </ul>
+
+                    <div class="box formula">
+                        <p class="box-label">Electrostatic boundary conditions</p>
+                        \[ \mathbf{E}_{\text{above}} - \mathbf{E}_{\text{below}} = \frac{\sigma}{\epsilon_0}\hat{\mathbf{n}}, \qquad V_{\text{above}} = V_{\text{below}}, \qquad \frac{\partial V_{\text{above}}}{\partial n} - \frac{\partial V_{\text{below}}}{\partial n} = -\frac{\sigma}{\epsilon_0}. \]
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Continuity of \(V\) fails across a <em>dipole layer</em> (two opposite sheets infinitesimally close), where \(\mathbf{E}\) is infinite inside the layer. Such layers appear in contact potentials and in the Green's-function treatment of Neumann problems; for ordinary surface charges \(V\) is continuous.</p>
+                    </div>
+
+                    <h3 id="es-energy">2.7 Work and energy</h3>
+
+                    <p>Moving a test charge \(Q\) quasi-statically from \(\mathbf{a}\) to \(\mathbf{b}\) against the field requires work \(W = Q[V(\mathbf{b}) - V(\mathbf{a})]\): potential is potential energy per unit charge. Assembling a configuration of charges brought in one at a time from infinity therefore costs</p>
+                    \[ W = \frac{1}{4\pi\epsilon_0}\sum_{i\lt j}\frac{q_iq_j}{\mathscr{r}_{ij}} = \frac12\sum_i q_i V(\mathbf{r}_i), \]
+                    <p>where \(V(\mathbf{r}_i)\) is the potential at charge \(i\) due to all the <em>other</em> charges. The factor \(\frac12\) corrects for counting each pair twice.</p>
+
+                    <p>For a continuous distribution the sum becomes \(W = \frac12\int\rho V\,d\tau\). Now eliminate \(\rho\) with Gauss's law and integrate by parts:</p>
+                    \[ W = \frac{\epsilon_0}{2}\int(\nabla\cdot\mathbf{E})V\,d\tau = \frac{\epsilon_0}{2}\left[-\int\mathbf{E}\cdot\nabla V\,d\tau + \oint_\mathcal{S}V\mathbf{E}\cdot d\mathbf{a}\right] = \frac{\epsilon_0}{2}\left[\int_\mathcal{V}E^2\,d\tau + \oint_\mathcal{S}V\mathbf{E}\cdot d\mathbf{a}\right]. \]
+                    <p>The original integral only needs to cover the region where \(\rho\neq0\), but we may enlarge \(\mathcal{V}\) freely. Take it to be all space: for a localized distribution \(V\sim1/r\), \(E\sim1/r^2\), area \(\sim r^2\), so the surface term falls off as \(1/r\) and vanishes.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Electrostatic energy</p>
+                        \[ W = \frac12\int\rho V\,d\tau = \frac{\epsilon_0}{2}\int_{\text{all space}}E^2\,d\tau, \qquad u = \frac{\epsilon_0}{2}E^2\ \ (\text{energy density, J/m}^3). \]
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake (why the two energy formulas disagree)</p>
+                        <p>\(\frac{\epsilon_0}{2}\int E^2\) is never negative, yet the point-charge sum \(\frac{1}{4\pi\epsilon_0}\sum_{i\lt j}q_iq_j/\mathscr{r}_{ij}\) can be (e.g. a \(+q,-q\) pair). The point-charge formula excludes each charge's <strong>self-energy</strong>, the work to assemble the point charge itself, which is infinite (\(\int E^2\) near a point charge diverges like \(\int dr/r^2\)). In the continuous formula \(V\) is the full potential, including the charge's own contribution, so self-energy is included. For any physically realistic continuous distribution, both are finite and agree; for point charges, use the sum and remember it measures interaction energy only. Also: energy is quadratic in the field, so it does <em>not</em> superpose: \(W_{\text{tot}} = W_1 + W_2 + \epsilon_0\int\mathbf{E}_1\cdot\mathbf{E}_2\,d\tau\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.6 (Energy of a charged spherical shell, two ways)</p>
+                        <p>A thin spherical shell of radius \(R\) carries total charge \(Q\) uniformly. Find its energy using both formulas.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Using \(\frac12\int\sigma V\,da\).</strong> On the shell \(V = Q/4\pi\epsilon_0R\), constant, so</p>
+                            \[ W = \frac12\cdot\frac{Q}{4\pi\epsilon_0R}\int\sigma\,da = \frac{Q^2}{8\pi\epsilon_0R}. \]
+                            <p><strong>Using the field.</strong> \(E = 0\) inside and \(Q/4\pi\epsilon_0r^2\) outside:</p>
+                            \[ W = \frac{\epsilon_0}{2}\int_R^\infty\left(\frac{Q}{4\pi\epsilon_0r^2}\right)^2 4\pi r^2\,dr = \frac{Q^2}{8\pi\epsilon_0}\int_R^\infty\frac{dr}{r^2} = \frac{Q^2}{8\pi\epsilon_0R}. \checkmark \]
+                            <p>Interpretation: all the energy is stored outside the shell, half of it within \(R\lt r\lt 2R\) (since \(\int_R^{2R}dr/r^2 = 1/2R\)).</p>
+                        </details>
+                    </div>
+
+                    <h3 id="es-conductors">2.8 Conductors and capacitors</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Properties of an ideal conductor in electrostatic equilibrium</p>
+                        <ol>
+                            <li>\(\mathbf{E} = 0\) inside the material (otherwise free charges would still be moving).</li>
+                            <li>\(\rho = 0\) inside (Gauss: \(\rho = \epsilon_0\nabla\cdot\mathbf{E} = 0\)); any net charge resides on the surface.</li>
+                            <li>The conductor is an equipotential: \(V(\mathbf{b}) - V(\mathbf{a}) = -\int\mathbf{E}\cdot d\mathbf{l} = 0\) along any path inside.</li>
+                            <li>Just outside, \(\mathbf{E}\) is perpendicular to the surface with \(\mathbf{E} = \frac{\sigma}{\epsilon_0}\hat{\mathbf{n}}\) (from the boundary condition with \(\mathbf{E}_{\text{below}} = 0\)); equivalently \(\sigma = -\epsilon_0\,\partial V/\partial n\).</li>
+                        </ol>
+                    </div>
+
+                    <p><strong>Induced charge and cavities.</strong> A charge \(q\) inside an empty cavity of a conductor induces \(-q\) on the cavity wall (Gauss's law on a surface inside the metal encloses zero). If the conductor is neutral, \(+q\) appears on the outer surface, distributed exactly as it would be with no cavity: the outer distribution knows nothing about where \(q\) sits in the cavity. Conversely, with no charge in the cavity, the field in the cavity is zero no matter what happens outside (a Faraday cage). The proof uses \(\oint\mathbf{E}\cdot d\mathbf{l} = 0\) on a loop running partly through the cavity and partly through the metal; it is also a corollary of the uniqueness theorem (Chapter 3).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Force on surface charge</p>
+                        <p>A surface charge feels the <em>average</em> of the fields just above and below (its own contribution is \(\pm\sigma/2\epsilon_0\) and cancels in the average):</p>
+                        \[ \mathbf{f} = \sigma\mathbf{E}_{\text{avg}} = \sigma\cdot\tfrac12(\mathbf{E}_{\text{above}}+\mathbf{E}_{\text{below}}), \qquad \text{conductor: } P = \frac{\sigma^2}{2\epsilon_0} = \frac{\epsilon_0}{2}E^2\ \text{(outward pressure)}. \]
+                    </div>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Capacitance)</p>
+                        <p>For two conductors carrying \(+Q\) and \(-Q\), the potential difference \(V = V_+ - V_-\) is proportional to \(Q\) (linearity of electrostatics). The constant</p>
+                        \[ C = \frac{Q}{V} \]
+                        <p>depends only on geometry (and, in Chapter 4, on the dielectric). Units: farads (C/V). The energy stored is \(W = \frac12 CV^2 = \frac{Q^2}{2C}\) (from \(dW = V\,dq = (q/C)dq\)).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.7 (Coaxial cable capacitance, with numbers)</p>
+                        <p>A coaxial line has inner conductor radius \(a = 0.50\) mm and outer conductor (inner surface) radius \(b = 2.0\) mm, with vacuum between. Find the capacitance per unit length and verify the energy per length \(\frac12 (C/\ell) V^2\) by integrating \(\frac{\epsilon_0}{2}E^2\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Put \(+\lambda\) on the inner conductor, \(-\lambda\) on the outer. Gauss: \(E = \lambda/(2\pi\epsilon_0s)\) for \(a\lt s\lt b\). Then</p>
+                            \[ V = -\int_b^a\frac{\lambda}{2\pi\epsilon_0s}\,ds = \frac{\lambda}{2\pi\epsilon_0}\ln\frac ba, \qquad \frac{C}{\ell} = \frac{\lambda}{V} = \frac{2\pi\epsilon_0}{\ln(b/a)}. \]
+                            <p>Numbers: \(\ln 4 = 1.386\), \(2\pi\epsilon_0 = 5.563\times10^{-11}\) F/m, so \(C/\ell = 4.01\times10^{-11}\) F/m \(\approx 40\) pF/m.</p>
+                            <p>Energy per length from the field:</p>
+                            \[ \frac{W}{\ell} = \frac{\epsilon_0}{2}\int_a^b\left(\frac{\lambda}{2\pi\epsilon_0s}\right)^2 2\pi s\,ds = \frac{\lambda^2}{4\pi\epsilon_0}\ln\frac ba = \frac12\cdot\frac{2\pi\epsilon_0}{\ln(b/a)}\cdot\left(\frac{\lambda\ln(b/a)}{2\pi\epsilon_0}\right)^2 = \frac12\frac{C}{\ell}V^2 . \checkmark \]
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 2.8 (Off-centre charge in a conducting shell)</p>
+                        <p>A neutral conducting spherical shell has inner radius \(a\) and outer radius \(b\). A point charge \(q\) sits in the cavity at distance \(d\lt a\) from the centre. Find the induced charges, the field outside, and the potential of the shell.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>A Gaussian surface inside the metal encloses zero charge (since \(\mathbf{E} = 0\) there), so the cavity wall carries total \(-q\). Its distribution is non-uniform (denser near the charge), precisely such that the field of \(q\) plus wall charge vanishes in the metal and beyond. Neutrality puts \(+q\) on the outer surface.</p>
+                            <p>The outer charge sees a conductor with no field inside it and no knowledge of the cavity, so by symmetry (and uniqueness) it spreads <em>uniformly</em>: \(\sigma_b = q/4\pi b^2\). Outside, \(\mathbf{E} = \frac{q}{4\pi\epsilon_0r^2}\hat{\mathbf{r}}\), centred on the sphere's centre, not on the charge. The shell's potential is that of the outer surface: \(V = q/4\pi\epsilon_0 b\). The position \(d\) appears nowhere outside the cavity.</p>
+                        </details>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>A charge \(+q\) sits at the origin and \(-4q\) at \(x = d\). Find the point(s) on the \(x\)-axis where \(\mathbf{E} = 0\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Between the charges both fields point toward \(+x\), so no zero there. To the right of \(-4q\) the larger charge always dominates. To the left (\(x = -r\)): \(q/r^2 = 4q/(r+d)^2\Rightarrow r+d = 2r\Rightarrow r = d\). Answer: \(x = -d\).</p>
+                                </details>
+                            </li>
+                            <li>An infinite slab \(-w\lt z\lt w\) has \(\rho = \rho_0 z^2/w^2\). Find \(\mathbf{E}\) inside and outside.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>By symmetry \(\mathbf{E} = E(z)\hat{\mathbf{z}}\), odd in \(z\). Pillbox from \(-z\) to \(z\): \(2EA = \frac{A}{\epsilon_0}\int_{-z}^{z}\rho_0z'^2/w^2\,dz' = \frac{2A\rho_0z^3}{3\epsilon_0w^2}\). So \(E = \frac{\rho_0z^3}{3\epsilon_0w^2}\) inside, and \(E = \pm\frac{\rho_0w}{3\epsilon_0}\) for \(z\gtrless\pm w\) (pointing away from the slab).</p>
+                                </details>
+                            </li>
+                            <li>Three charges \(q,\ q,\ -q\) sit at the corners of an equilateral triangle of side \(a\). How much work did it take to assemble them? Is the answer's sign sensible?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Three pairs: \(W = \frac{1}{4\pi\epsilon_0a}(q\cdot q + q(-q) + q(-q)) = -\frac{q^2}{4\pi\epsilon_0a}\). Negative: the configuration is bound; you would have to supply \(q^2/4\pi\epsilon_0a\) to pull it apart. (Self-energies are excluded.)</p>
+                                </details>
+                            </li>
+                            <li>The potential \(V(r) = A\,e^{-r/\lambda}/r\) describes a screened point charge. Find \(\mathbf{E}\) and \(\rho\) (do not forget the origin), and the total charge.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\mathbf{E} = -V'\hat{\mathbf{r}} = A\,e^{-r/\lambda}\left(\frac{1}{r^2} + \frac{1}{\lambda r}\right)\hat{\mathbf{r}}\). Using \(\nabla^2(fg)\) with \(f = e^{-r/\lambda}\), \(g = 1/r\): \(\nabla^2V = A\left[\frac{e^{-r/\lambda}}{\lambda^2r} - 4\pi\delta^3(\mathbf{r})\right]\), so \(\rho = \epsilon_0A\left[4\pi\delta^3(\mathbf{r}) - \frac{e^{-r/\lambda}}{\lambda^2r}\right]\): a point charge \(4\pi\epsilon_0A\) wrapped in a negative cloud. Cloud total: \(-\frac{\epsilon_0A}{\lambda^2}\int_0^\infty\frac{e^{-r/\lambda}}{r}4\pi r^2dr = -4\pi\epsilon_0A\). Net charge zero, consistent with \(E\) falling off faster than \(1/r^2\).</p>
+                                </details>
+                            </li>
+                            <li>A conducting sphere of radius \(R\) carries charge \(Q\). Find the outward electrostatic pressure on its surface and the total force with which the northern hemisphere is pushed away from the southern one.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\sigma = Q/4\pi R^2\), \(P = \sigma^2/2\epsilon_0 = Q^2/(32\pi^2\epsilon_0R^4)\). The net force on the hemisphere is along \(\hat{\mathbf{z}}\): \(F = \int P\cos\theta\,da = P\cdot\pi R^2\) (projected area), so \(F = Q^2/(32\pi\epsilon_0R^2)\).</p>
+                                </details>
+                            </li>
+                            <li>Two concentric conducting spherical shells, radii \(a\lt b\), form a capacitor. Find \(C\), and show it reduces to the parallel-plate result \(\epsilon_0A/d\) when \(b - a = d\ll a\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(V = \frac{Q}{4\pi\epsilon_0}\left(\frac1a - \frac1b\right) = \frac{Q(b-a)}{4\pi\epsilon_0ab}\), so \(C = \frac{4\pi\epsilon_0ab}{b-a}\). With \(b\approx a\), \(ab\approx a^2\) and \(C\approx\epsilon_0(4\pi a^2)/d = \epsilon_0A/d\).</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-techniques">
+                    <h2>3. Special techniques</h2>
+                    <p class="ref">Griffiths Ch. 3 &middot; Jackson Ch. 1&ndash;3</p>
+
+                    <p>Coulomb's integral solves electrostatics only when you know where every charge is. Usually you do not: you know that some conductors are held at given potentials, or carry given total charges, and the surface charge arranges itself in whatever way it must. The unknown is then the potential in the empty space between conductors, where it satisfies <strong>Laplace's equation</strong>, subject to boundary conditions. This chapter is a toolbox for that boundary-value problem. The <strong>uniqueness theorems</strong> are what make the toolbox legitimate: if you find <em>any</em> function that satisfies Laplace's equation and the boundary conditions, by guessing (images), by separation of variables, or by series, it is <em>the</em> answer. The <strong>multipole expansion</strong> answers a different question: what does a complicated, localized distribution look like from far away?</p>
+
+                    <h3 id="st-laplace">3.1 Laplace's equation and harmonic functions</h3>
+
+                    <p>Solutions of \(\nabla^2V = 0\) are called <strong>harmonic</strong>. The single property that captures them is averaging.</p>
+                    <ul>
+                        <li><strong>1D:</strong> \(V'' = 0\Rightarrow V = mx + b\). Then \(V(x) = \frac12[V(x+a)+V(x-a)]\): each point is the average of its neighbours.</li>
+                        <li><strong>2D:</strong> \(V(\mathbf{x})\) equals its average around any circle centred at \(\mathbf{x}\) (inside the charge-free region).</li>
+                        <li><strong>3D:</strong> \(V(\mathbf{r})\) equals its average over any sphere centred at \(\mathbf{r}\).</li>
+                    </ul>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Mean value property and its consequences)</p>
+                        <p>If \(\nabla^2V = 0\) throughout a ball of radius \(R\) centred at \(\mathbf{r}_0\), then</p>
+                        \[ V(\mathbf{r}_0) = \frac{1}{4\pi R^2}\oint_{\text{sphere}}V\,da . \]
+                        <p>Consequently a harmonic function has <strong>no local maxima or minima</strong> in the interior of its domain; its extreme values occur on the boundary. In particular (<strong>Earnshaw's theorem</strong>), a charge cannot be held in stable equilibrium by electrostatic forces alone in a charge-free region.</p>
+                    </div>
+
+                    <p><strong>Proof.</strong> Let \(\bar V(R)\) be the average over the sphere of radius \(R\): \(\bar V(R) = \frac{1}{4\pi}\oint V(\mathbf{r}_0 + R\hat{\mathbf{n}})\,d\Omega\). Differentiate under the integral: \(\bar V'(R) = \frac{1}{4\pi}\oint\frac{\partial V}{\partial n}d\Omega = \frac{1}{4\pi R^2}\oint\nabla V\cdot d\mathbf{a} = \frac{1}{4\pi R^2}\int\nabla^2V\,d\tau = 0\). So \(\bar V\) is independent of \(R\) and equals its limit as \(R\to0\), which is \(V(\mathbf{r}_0)\). If \(V\) had a strict interior maximum at \(\mathbf{r}_0\), a small sphere around it would have average strictly less than \(V(\mathbf{r}_0)\), a contradiction. \(\square\)</p>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>The averaging property is the basis of the <strong>relaxation method</strong> (an ECE-friendly numerical scheme): on a grid, repeatedly replace each interior value by the average of its neighbours while holding boundary values fixed. It converges to the solution of Laplace's equation, and it is a perfectly good way to sanity-check an analytic answer.</p>
+                    </div>
+
+                    <h3 id="st-uniqueness">3.2 Uniqueness theorems</h3>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (First uniqueness theorem)</p>
+                        <p>In a volume \(\mathcal{V}\), the solution of Poisson's equation \(\nabla^2V = -\rho/\epsilon_0\) is uniquely determined if \(\rho\) is given throughout \(\mathcal{V}\) and \(V\) is specified on the entire boundary \(\mathcal{S}\) (Dirichlet conditions). If instead the normal derivative \(\partial V/\partial n\) is specified on \(\mathcal{S}\) (Neumann conditions), \(V\) is unique up to an additive constant.</p>
+                    </div>
+
+                    <p><strong>Proof.</strong> Suppose \(V_1\) and \(V_2\) both work, and let \(V_3 = V_1 - V_2\). Then \(\nabla^2V_3 = 0\) in \(\mathcal{V}\), and on \(\mathcal{S}\) either \(V_3 = 0\) (Dirichlet) or \(\partial V_3/\partial n = 0\) (Neumann). Use the identity \(\nabla\cdot(V_3\nabla V_3) = |\nabla V_3|^2 + V_3\nabla^2V_3\) and the divergence theorem:</p>
+                    \[ \int_\mathcal{V}|\nabla V_3|^2\,d\tau = \oint_\mathcal{S}V_3\frac{\partial V_3}{\partial n}\,da = 0 . \]
+                    <p>The integrand on the left is non-negative, so \(\nabla V_3 = 0\) everywhere: \(V_3\) is constant. Dirichlet data force that constant to be zero. (For Dirichlet data alone one can also argue: \(V_3\) is harmonic and zero on the boundary, and harmonic functions take their extremes on the boundary, so \(V_3\equiv0\).) \(\square\)</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Second uniqueness theorem)</p>
+                        <p>In a volume \(\mathcal{V}\) surrounded by conductors (and possibly bounded at infinity), the electric field is uniquely determined if the charge density \(\rho\) in \(\mathcal{V}\) and the <em>total charge on each conductor</em> are given.</p>
+                    </div>
+
+                    <p><strong>Proof sketch.</strong> Let \(\mathbf{E}_3 = \mathbf{E}_1 - \mathbf{E}_2\) with potential \(V_3\). In the gap, \(\nabla\cdot\mathbf{E}_3 = 0\); on each conductor surface \(V_3\) is a constant (both solutions make each conductor an equipotential), and \(\oint\mathbf{E}_3\cdot d\mathbf{a} = 0\) around each conductor (both solutions give it the same charge). Then</p>
+                    \[ \int_\mathcal{V}E_3^2\,d\tau = -\int_\mathcal{V}\nabla\cdot(V_3\mathbf{E}_3)\,d\tau = -\sum_{\text{conductors}}V_3^{(k)}\oint_k\mathbf{E}_3\cdot d\mathbf{a} - (\text{outer surface}) = 0, \]
+                    <p>using \(\nabla\cdot(V_3\mathbf{E}_3) = \nabla V_3\cdot\mathbf{E}_3 + V_3\nabla\cdot\mathbf{E}_3 = -E_3^2\), constancy of \(V_3\) on each conductor, and either a grounded outer boundary or decay at infinity. Hence \(\mathbf{E}_3 = 0\). \(\square\)</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>You may specify \(V\) <em>or</em> \(\partial V/\partial n\) at each point of the boundary, but not both everywhere (Cauchy data over-determine an elliptic equation, and generally no solution exists). Mixed conditions, \(V\) on some parts and \(\partial V/\partial n\) on others, are fine. Also, uniqueness requires the boundary to be <em>closed</em>; at infinity the closing condition is usually \(V\to0\) (or a prescribed asymptotic form, such as \(-E_0z\)).</p>
+                    </div>
+
+                    <h3 id="st-images">3.3 The method of images</h3>
+
+                    <p>Idea: replace the conductor by fictitious charges placed <em>outside</em> the region of interest, chosen so that the boundary conditions are reproduced. In the region of interest the image configuration has the same charges and the same boundary values, so by the first uniqueness theorem it has the same potential there. The images are meaningless in the region they occupy (the real field there is that of the conductor's interior, often zero).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Point charge above a grounded plane</p>
+                        <p>Charge \(q\) at \((0,0,d)\), grounded conductor filling \(z\lt0\). Image: \(-q\) at \((0,0,-d)\). For \(z\ge0\):</p>
+                        \[ V(x,y,z) = \frac{q}{4\pi\epsilon_0}\left[\frac{1}{\sqrt{x^2+y^2+(z-d)^2}} - \frac{1}{\sqrt{x^2+y^2+(z+d)^2}}\right], \]
+                        \[ \sigma = -\epsilon_0\frac{\partial V}{\partial z}\bigg|_{z=0} = -\frac{qd}{2\pi(x^2+y^2+d^2)^{3/2}}, \qquad \mathbf{F} = -\frac{q^2}{4\pi\epsilon_0(2d)^2}\hat{\mathbf{z}}. \]
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>The <em>force</em> on \(q\) is correctly given by the image, but the <em>energy</em> is not that of the two-charge system. The field \(\frac{\epsilon_0}{2}\int E^2\) of the real problem occupies only \(z\gt0\), half the space the image pair's field fills, so \(W = -\frac{q^2}{4\pi\epsilon_0(4d)}\), half of \(-\frac{q^2}{4\pi\epsilon_0(2d)}\). Check by direct work: \(W = \int_\infty^d\frac{q^2}{4\pi\epsilon_0(2z)^2}dz = -\frac{q^2}{16\pi\epsilon_0d}\). The image moves as you move \(q\), which is why the naive formula fails.</p>
+                    </div>
+
+                    <p><strong>Derivation: grounded sphere.</strong> A grounded conducting sphere of radius \(R\) is centred at the origin; a charge \(q\) sits on the \(z\)-axis at distance \(a\gt R\). By symmetry try a single image \(q'\) on the axis at distance \(b\lt R\). Take a point on the sphere at polar angle \(\theta\). Its distances to \(q\) and \(q'\) are</p>
+                    \[ \mathscr{r}^2 = R^2 + a^2 - 2Ra\cos\theta, \qquad \mathscr{r}'^2 = R^2 + b^2 - 2Rb\cos\theta . \]
+                    <p>We need \(q/\mathscr{r} + q'/\mathscr{r}' = 0\) for every \(\theta\), i.e. \(\mathscr{r}'/\mathscr{r}\) must be a constant. Try \(b = R^2/a\):</p>
+                    \[ \mathscr{r}'^2 = R^2 + \frac{R^4}{a^2} - \frac{2R^3}{a}\cos\theta = \frac{R^2}{a^2}\left(a^2 + R^2 - 2aR\cos\theta\right) = \frac{R^2}{a^2}\mathscr{r}^2 . \]
+                    <p>So \(\mathscr{r}' = (R/a)\mathscr{r}\), and \(V = 0\) on the sphere provided \(q' = -qR/a\).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Image in a grounded sphere</p>
+                        \[ q' = -\frac{R}{a}\,q \quad\text{at}\quad b = \frac{R^2}{a}, \qquad \mathbf{F}_{\text{on }q} = -\frac{1}{4\pi\epsilon_0}\frac{q^2Ra}{(a^2-R^2)^2}\hat{\mathbf{z}}\ \ (\text{attractive}). \]
+                        <p>Total induced charge \(= q'\). For an <em>isolated neutral</em> sphere add a second image \(+qR/a\) at the centre (keeps the surface an equipotential and restores zero net charge); for a sphere held at \(V_0\) add \(4\pi\epsilon_0RV_0\) at the centre.</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Going further (Jackson)</p>
+                        <p>Jackson pushes the sphere images further: (i) the induced density works out to \(\sigma(\gamma) = -\frac{q}{4\pi R^2}\frac{R}{a}\frac{1 - R^2/a^2}{(1 + R^2/a^2 - 2(R/a)\cos\gamma)^{3/2}}\), sharply peaked toward the charge; (ii) a conducting sphere in a <em>uniform</em> field can be obtained from images by placing charges \(\pm Q\) at \(z = \mp L\), letting \(L\to\infty\) with \(2Q/(4\pi\epsilon_0L^2) = E_0\) fixed; the two images then merge into a dipole \(4\pi\epsilon_0R^3E_0\) at the centre, reproducing Example 3.4 below; (iii) the sphere image solution, read as a function of both \(q\)'s position and the field point, is the Dirichlet Green's function for the sphere (Section 3.7).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.1 (Induced charge under a point charge)</p>
+                        <p>A charge \(q\) is at height \(d\) above a grounded plane. (a) Show the total induced charge is \(-q\). (b) What fraction of it lies within a disk of radius \(d\) directly below the charge?</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Using polar coordinates \(s\) in the plane, \(\sigma = -\frac{qd}{2\pi(s^2+d^2)^{3/2}}\).</p>
+                            <p>(a) \(Q_{\text{ind}} = \int_0^\infty\sigma\,2\pi s\,ds = -qd\int_0^\infty\frac{s\,ds}{(s^2+d^2)^{3/2}} = -qd\left[\frac{-1}{\sqrt{s^2+d^2}}\right]_0^\infty = -qd\cdot\frac1d = -q\).</p>
+                            <p>(b) Up to radius \(\rho\): \(Q(\rho) = -qd\left[\frac1d - \frac{1}{\sqrt{\rho^2+d^2}}\right] = -q\left[1 - \frac{d}{\sqrt{\rho^2+d^2}}\right]\). At \(\rho = d\): \(-q(1 - 1/\sqrt2) = -0.293q\). Only about 29% sits under the disk; the distribution has a long \(1/s^3\) tail.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.2 (Charge outside a grounded sphere, numbers)</p>
+                        <p>A grounded conducting sphere has radius \(R = 10\) cm. A charge \(q = +5.0\) nC is placed \(a = 30\) cm from its centre. Find the image charge and its location, the force on \(q\), and the potential at the point on the line of centres \(5\) cm outside the sphere's surface, on the side facing \(q\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Image: \(q' = -qR/a = -(5.0)(10/30) = -1.67\) nC at \(b = R^2/a = 100/30 = 3.33\) cm from the centre, toward \(q\).</p>
+                            <p>Force (attractive):</p>
+                            \[ F = \frac{1}{4\pi\epsilon_0}\frac{q^2Ra}{(a^2-R^2)^2} = (8.99\times10^9)\frac{(5\times10^{-9})^2(0.10)(0.30)}{(0.09-0.01)^2} = (8.99\times10^9)\frac{7.5\times10^{-19}}{6.4\times10^{-3}} \approx 1.05\ \mu\text{N}. \]
+                            <p>Field point at \(z = 15\) cm: distance to \(q\) is \(15\) cm, to \(q'\) is \(15 - 3.33 = 11.67\) cm.</p>
+                            \[ V = 8.99\times10^9\left(\frac{5\times10^{-9}}{0.15} - \frac{1.667\times10^{-9}}{0.1167}\right) = 8.99\times10^9\left(3.333 - 1.429\right)\times10^{-8} \approx 171\ \text{V}. \]
+                            <p>Sanity check: without the sphere \(V\) would be \(300\) V; the induced negative charge lowers it, and it must drop to \(0\) at the surface.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="st-cartesian">3.4 Separation of variables: Cartesian coordinates</h3>
+
+                    <p>When the boundaries are coordinate surfaces of some system, try a product solution. In Cartesian coordinates, \(V = X(x)Y(y)Z(z)\) turns \(\nabla^2V = 0\) into</p>
+                    \[ \frac{X''}{X} + \frac{Y''}{Y} + \frac{Z''}{Z} = 0 . \]
+                    <p>Each term depends on a different variable, so each must be a constant, with the three constants summing to zero. At least one is positive (exponential/hyperbolic behaviour) and at least one negative (oscillatory) unless all vanish. Choose signs to fit the boundary conditions: directions with two homogeneous (zero) boundary conditions get the oscillatory sines; the remaining direction gets exponentials or sinh/cosh.</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Method (Separation of variables, recipe)</p>
+                        <ol>
+                            <li>Separate and solve the ODEs, keeping all solutions.</li>
+                            <li>Impose the <em>homogeneous</em> boundary conditions; this quantizes the separation constants (e.g. \(k = n\pi/a\)).</li>
+                            <li>Superpose all allowed modes: \(V = \sum_nC_n(\ldots)\).</li>
+                            <li>Impose the one <em>inhomogeneous</em> condition with Fourier's trick: multiply by a mode and integrate, using orthogonality \(\int_0^a\sin\frac{n\pi x}{a}\sin\frac{m\pi x}{a}dx = \frac a2\delta_{nm}\).</li>
+                        </ol>
+                        <p>If several faces carry nonzero potential, solve one face at a time and superpose (linearity).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.3 (Rectangular pipe with one live wall)</p>
+                        <p>A long rectangular pipe occupies \(0\lt x\lt a\), \(0\lt y\lt b\), infinite in \(z\). The walls \(x = 0\), \(x = a\), \(y = 0\) are grounded; the wall \(y = b\) is held at constant \(V_0\) (insulated at the corners). Find \(V(x,y)\). Then, for a square pipe, find \(V\) at the centre without summing the series.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>No \(z\)-dependence, so \(X''/X = -Y''/Y = -k^2\). The two homogeneous conditions in \(x\) select \(X = \sin(n\pi x/a)\), \(k = n\pi/a\). Then \(Y'' = k^2Y\) with \(Y(0) = 0\) gives \(Y = \sinh(n\pi y/a)\). General solution:</p>
+                            \[ V(x,y) = \sum_{n=1}^\infty C_n\sin\frac{n\pi x}{a}\sinh\frac{n\pi y}{a}. \]
+                            <p>At \(y = b\): \(V_0 = \sum C_n\sinh\frac{n\pi b}{a}\sin\frac{n\pi x}{a}\). Multiply by \(\sin(m\pi x/a)\) and integrate over \([0,a]\):</p>
+                            \[ C_m\sinh\frac{m\pi b}{a}\cdot\frac a2 = V_0\int_0^a\sin\frac{m\pi x}{a}dx = \frac{V_0a}{m\pi}(1-\cos m\pi) = \begin{cases}\frac{2V_0a}{m\pi} &amp; m\text{ odd}\\ 0 &amp; m\text{ even}\end{cases} \]
+                            \[ V(x,y) = \frac{4V_0}{\pi}\sum_{n\ \text{odd}}\frac1n\,\frac{\sinh(n\pi y/a)}{\sinh(n\pi b/a)}\sin\frac{n\pi x}{a}. \]
+                            <p><strong>Centre of a square pipe.</strong> Imagine all four walls at \(V_0\): then \(V = V_0\) everywhere inside. That configuration is the superposition of four problems like this one (one live wall each), and by the square's symmetry each contributes equally at the centre. So the centre value is \(V_0/4\). (Check: the \(n = 1\) term gives \(\frac{4}{\pi}\frac{\sinh(\pi/2)}{\sinh\pi}V_0 = 0.2537V_0\); \(n = 3\) gives \(-0.0038V_0\); the sum converges to \(0.2500V_0\).)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="st-spherical">3.5 Separation of variables: spherical coordinates</h3>
+
+                    <p>With azimuthal symmetry (\(V\) independent of \(\phi\)), Laplace's equation reads</p>
+                    \[ \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2\frac{\partial V}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial\theta}\left(\sin\theta\frac{\partial V}{\partial\theta}\right) = 0 . \]
+                    <p>Put \(V = R(r)\Theta(\theta)\), multiply by \(r^2/(R\Theta)\):</p>
+                    \[ \frac1R\frac{d}{dr}\left(r^2\frac{dR}{dr}\right) = \ell(\ell+1) = -\frac{1}{\Theta\sin\theta}\frac{d}{d\theta}\left(\sin\theta\frac{d\Theta}{d\theta}\right). \]
+                    <p>The radial equation has solutions \(r^\ell\) and \(r^{-(\ell+1)}\) (try \(r^p\): \(p(p+1) = \ell(\ell+1)\)). The angular equation, with \(x = \cos\theta\), is Legendre's equation; it has a solution regular at both poles \(\theta = 0,\pi\) only if \(\ell\) is a non-negative integer, and that solution is the Legendre polynomial \(P_\ell(\cos\theta)\). (The second solutions \(Q_\ell\) blow up on the \(z\)-axis and are discarded unless the axis is excluded.)</p>
+
+                    <div class="box formula">
+                        <p class="box-label">General axisymmetric solution and Legendre facts</p>
+                        \[ V(r,\theta) = \sum_{\ell=0}^\infty\left(A_\ell r^\ell + \frac{B_\ell}{r^{\ell+1}}\right)P_\ell(\cos\theta) \]
+                        \[ P_\ell(x) = \frac{1}{2^\ell\ell!}\frac{d^\ell}{dx^\ell}(x^2-1)^\ell\ \ (\text{Rodrigues}), \qquad \int_0^\pi P_\ell(\cos\theta)P_{\ell'}(\cos\theta)\sin\theta\,d\theta = \frac{2}{2\ell+1}\delta_{\ell\ell'} . \]
+                        \[ P_0 = 1,\quad P_1 = x,\quad P_2 = \tfrac12(3x^2-1),\quad P_3 = \tfrac12(5x^3-3x),\quad P_4 = \tfrac18(35x^4-30x^2+3);\qquad P_\ell(1) = 1,\ P_\ell(-x) = (-1)^\ell P_\ell(x). \]
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Study tip</p>
+                        <p>Interior problems (region contains the origin) need \(B_\ell = 0\); exterior problems (region extends to infinity with \(V\to0\)) need \(A_\ell = 0\). When the boundary data is a polynomial in \(\cos\theta\), do not integrate: rewrite it in Legendre polynomials by inspection, starting from the highest power. E.g. \(\cos^2\theta = \tfrac13P_0 + \tfrac23P_2\), \(\cos^3\theta = \tfrac35P_1 + \tfrac25P_3\).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.4 (Conducting sphere in a uniform field)</p>
+                        <p>An uncharged conducting sphere of radius \(R\) is placed in an initially uniform field \(\mathbf{E}_0 = E_0\hat{\mathbf{z}}\). Find the potential outside, the induced surface charge, and the induced dipole moment.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p><strong>Boundary conditions.</strong> By symmetry the equatorial plane can be set at \(V = 0\); the sphere is an equipotential lying in that plane, so \(V(R,\theta) = 0\). Far away the field is undisturbed: \(V\to -E_0z = -E_0r\cos\theta\) as \(r\to\infty\).</p>
+                            <p><strong>Match.</strong> The far condition fixes the growing terms: \(A_1 = -E_0\), all other \(A_\ell = 0\). On the sphere,</p>
+                            \[ 0 = \sum_\ell\left(A_\ell R^\ell + \frac{B_\ell}{R^{\ell+1}}\right)P_\ell(\cos\theta)\ \ \forall\theta \;\Rightarrow\; B_\ell = -A_\ell R^{2\ell+1}. \]
+                            <p>So \(B_1 = E_0R^3\) and all other \(B_\ell = 0\) (in particular \(B_0 = 0\), consistent with zero net charge).</p>
+                            \[ V(r,\theta) = -E_0\left(r - \frac{R^3}{r^2}\right)\cos\theta, \qquad r\ge R . \]
+                            <p><strong>Surface charge.</strong></p>
+                            \[ \sigma = -\epsilon_0\frac{\partial V}{\partial r}\bigg|_{r=R} = \epsilon_0E_0\left(1 + \frac{2R^3}{R^3}\right)\cos\theta = 3\epsilon_0E_0\cos\theta . \]
+                            <p>Positive on the "downstream" (\(+z\)) hemisphere, negative upstream; total zero. The second term in \(V\) is exactly a dipole \(\frac{p\cos\theta}{4\pi\epsilon_0r^2}\) with</p>
+                            \[ \mathbf{p} = 4\pi\epsilon_0R^3\mathbf{E}_0 , \]
+                            <p>so the sphere's polarizability is \(\alpha = 4\pi\epsilon_0R^3\) (Chapter 4). Note the field at the poles is \(3E_0\): conductors concentrate field lines.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.5 (Sphere with prescribed surface potential)</p>
+                        <p>The potential on a spherical surface of radius \(R\) (no other charges) is \(V_0\cos^2\theta\). Find \(V\) inside and outside, and the surface charge density on the sphere.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Expand: \(\cos^2\theta = \tfrac13 + \tfrac23P_2(\cos\theta)\) (check: \(\tfrac23\cdot\tfrac12(3\cos^2\theta - 1) = \cos^2\theta - \tfrac13\)). Match term by term with \(r^\ell\) inside and \(r^{-(\ell+1)}\) outside:</p>
+                            \[ V_{\text{in}} = V_0\left[\frac13 + \frac23\frac{r^2}{R^2}P_2(\cos\theta)\right], \qquad V_{\text{out}} = V_0\left[\frac{R}{3r} + \frac23\frac{R^3}{r^3}P_2(\cos\theta)\right]. \]
+                            <p>Surface charge from the jump in \(\partial V/\partial r\): \(\sigma = -\epsilon_0\left(\partial_rV_{\text{out}} - \partial_rV_{\text{in}}\right)_{r=R}\). For a term \(c_\ell V_0P_\ell\) the inner derivative is \(\ell c_\ell V_0/R\) and the outer is \(-(\ell+1)c_\ell V_0/R\), so each term contributes \((2\ell+1)c_\ell\epsilon_0V_0/R\):</p>
+                            \[ \sigma(\theta) = \frac{\epsilon_0V_0}{R}\left[\frac13 + \frac{10}{3}P_2(\cos\theta)\right]. \]
+                            <p>Check: total charge \(=4\pi R^2\cdot\frac{\epsilon_0V_0}{3R} = \frac{4\pi\epsilon_0RV_0}{3}\), which matches the monopole part of \(V_{\text{out}}\), \(\frac{Q}{4\pi\epsilon_0r} = \frac{V_0R}{3r}\). \(\checkmark\)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="st-multipole">3.6 The multipole expansion</h3>
+
+                    <p>Far from a localized distribution, its potential is dominated by the total charge; if that vanishes, by the dipole moment; and so on. To make this precise, expand \(1/\mathscr{r}\) for \(r\gt r'\). With \(\alpha\) the angle between \(\mathbf{r}\) and \(\mathbf{r}'\), \(\mathscr{r}^2 = r^2 + r'^2 - 2rr'\cos\alpha\), and the generating function of the Legendre polynomials gives</p>
+                    \[ \frac{1}{\mathscr{r}} = \frac1r\left[1 + \left(\frac{r'}{r}\right)^2 - 2\frac{r'}{r}\cos\alpha\right]^{-1/2} = \sum_{\ell=0}^\infty\frac{r'^\ell}{r^{\ell+1}}P_\ell(\cos\alpha). \]
+
+                    <div class="box formula">
+                        <p class="box-label">Multipole expansion</p>
+                        \[ V(\mathbf{r}) = \frac{1}{4\pi\epsilon_0}\sum_{\ell=0}^\infty\frac{1}{r^{\ell+1}}\int(r')^\ell P_\ell(\cos\alpha)\,\rho(\mathbf{r}')\,d\tau' = \frac{1}{4\pi\epsilon_0}\left[\frac{Q}{r} + \frac{\mathbf{p}\cdot\hat{\mathbf{r}}}{r^2} + \frac{1}{2r^3}\sum_{i,j}Q_{ij}\hat r_i\hat r_j + \cdots\right] \]
+                        \[ Q = \int\rho\,d\tau', \qquad \mathbf{p} = \int\mathbf{r}'\rho(\mathbf{r}')\,d\tau', \qquad Q_{ij} = \int\left(3r_i'r_j' - r'^2\delta_{ij}\right)\rho(\mathbf{r}')\,d\tau' . \]
+                        <p>For point charges, \(\mathbf{p} = \sum q_i\mathbf{r}_i'\). The quadrupole tensor is symmetric and traceless (Jackson's convention; some books omit the factor 3 or the trace term, so check definitions).</p>
+                    </div>
+
+                    <p><strong>Derivation of the dipole term.</strong> The \(\ell = 1\) term is \(\frac{1}{4\pi\epsilon_0r^2}\int r'\cos\alpha\,\rho\,d\tau'\). Since \(r'\cos\alpha = \hat{\mathbf{r}}\cdot\mathbf{r}'\) and \(\hat{\mathbf{r}}\) does not depend on the integration variable, it comes outside: \(\frac{1}{4\pi\epsilon_0r^2}\hat{\mathbf{r}}\cdot\int\mathbf{r}'\rho\,d\tau' = \frac{\mathbf{p}\cdot\hat{\mathbf{r}}}{4\pi\epsilon_0r^2}\). The \(\ell = 2\) term likewise uses \(r'^2P_2(\cos\alpha) = \frac12[3(\hat{\mathbf{r}}\cdot\mathbf{r}')^2 - r'^2]\).</p>
+
+                    <div class="box formula">
+                        <p class="box-label">The dipole field</p>
+                        <p>For \(\mathbf{p} = p\hat{\mathbf{z}}\) at the origin:</p>
+                        \[ V_{\text{dip}} = \frac{p\cos\theta}{4\pi\epsilon_0r^2}, \qquad \mathbf{E}_{\text{dip}} = \frac{p}{4\pi\epsilon_0r^3}\left(2\cos\theta\,\hat{\mathbf{r}} + \sin\theta\,\hat{\boldsymbol{\theta}}\right) = \frac{1}{4\pi\epsilon_0r^3}\left[3(\mathbf{p}\cdot\hat{\mathbf{r}})\hat{\mathbf{r}} - \mathbf{p}\right]. \]
+                        <p>A dipole in an external field: torque \(\mathbf{N} = \mathbf{p}\times\mathbf{E}\), force \(\mathbf{F} = (\mathbf{p}\cdot\nabla)\mathbf{E}\), energy \(U = -\mathbf{p}\cdot\mathbf{E}\).</p>
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>Only the <em>lowest</em> non-vanishing moment is independent of the choice of origin. Shifting the origin by \(\mathbf{a}\) changes \(\mathbf{p}\to\mathbf{p} - Q\mathbf{a}\), so for a neutral system \(\mathbf{p}\) is intrinsic, but a lone point charge displaced from the origin has a "dipole moment" that is purely an artefact of the coordinates. Also, \(\mathbf{p}\cdot\hat{\mathbf{r}}/r^2\) is exact for a <em>pure</em> (point) dipole only; a physical dipole of separation \(d\) has higher multipoles that matter when \(r\) is not \(\gg d\).</p>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Going further (Jackson)</p>
+                        <p>The point-dipole field as written is correct for \(r\neq0\), but integrating it over a small sphere around the dipole gives \(-\frac{\mathbf{p}}{3\epsilon_0}\), not zero. The full distributional field is \(\mathbf{E}_{\text{dip}} = \frac{1}{4\pi\epsilon_0}\frac{3(\mathbf{p}\cdot\hat{\mathbf{r}})\hat{\mathbf{r}} - \mathbf{p}}{r^3} - \frac{\mathbf{p}}{3\epsilon_0}\delta^3(\mathbf{r})\). The contact term matters for averages of fields over volumes (the Clausius&ndash;Mossotti derivation, and, in the magnetic analogue, the hyperfine splitting of hydrogen).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.6 (Linear quadrupole)</p>
+                        <p>Charges \(+q\) at \(z = \pm a\) and \(-2q\) at the origin. Find the leading term of \(V\) far away, both from the Legendre form and from \(Q_{ij}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Monopole: \(q + q - 2q = 0\). Dipole: \(\mathbf{p} = qa\hat{\mathbf{z}} - qa\hat{\mathbf{z}} + 0 = \mathbf{0}\). Quadrupole, Legendre form: for a charge on the \(z\)-axis at \(\pm a\), \(\cos\alpha = \pm\cos\theta\) and \(P_2(-x) = P_2(x)\), so each contributes \(qa^2P_2(\cos\theta)\); the origin charge has \(r' = 0\).</p>
+                            \[ V\approx\frac{1}{4\pi\epsilon_0}\frac{2qa^2}{r^3}P_2(\cos\theta) = \frac{qa^2}{4\pi\epsilon_0r^3}(3\cos^2\theta - 1). \]
+                            <p>Tensor form: \(Q_{zz} = \sum q_k(3z_k^2 - r_k^2) = 2q(3a^2 - a^2) = 4qa^2\), \(Q_{xx} = Q_{yy} = 2q(0 - a^2) = -2qa^2\), off-diagonals zero (traceless \(\checkmark\)). Then \(\sum Q_{ij}\hat r_i\hat r_j = 4qa^2\cos^2\theta - 2qa^2\sin^2\theta = 2qa^2(3\cos^2\theta - 1)\), and \(\frac{1}{2r^3}\) times this reproduces the same \(V\). Falls off as \(1/r^3\), with a four-lobed angular pattern.</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.7 (Origin dependence of the dipole moment)</p>
+                        <p>A point charge \(q\) sits at \((0,0,d)\) and \(-q\) at the origin. Compute \(\mathbf{p}\) about the origin and about the point \((0,0,5d)\). Repeat for the system \(\{q \text{ at } (0,0,d),\ q \text{ at origin}\}\).</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Neutral pair: about the origin \(\mathbf{p} = qd\hat{\mathbf{z}}\). About \((0,0,5d)\), positions become \((0,0,-4d)\) and \((0,0,-5d)\): \(\mathbf{p} = q(-4d) + (-q)(-5d) = qd\) along \(\hat{\mathbf{z}}\). Same, since \(Q = 0\).</p>
+                            <p>Charged pair (\(Q = 2q\)): about the origin \(\mathbf{p} = qd\hat{\mathbf{z}}\); about \((0,0,5d)\), \(\mathbf{p} = q(-4d) + q(-5d) = -9qd\hat{\mathbf{z}}\). Consistent with \(\mathbf{p}\to\mathbf{p} - Q\mathbf{a} = qd - 2q(5d) = -9qd\). About the centre of charge \((0,0,d/2)\) the dipole moment vanishes: that is the natural origin for a charged system.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="st-green">3.7 Green's functions and spherical harmonics (Jackson)</h3>
+
+                    <div class="box tip">
+                        <p class="box-label">Going further (Jackson)</p>
+                        <p>This section summarizes the formal machinery of Jackson Ch. 1&ndash;3. Griffiths does not develop it, but it is the standard graduate tool and the bridge to PDE methods used in every later course.</p>
+                    </div>
+
+                    <p><strong>Green's theorem.</strong> Applying the divergence theorem to \(\phi\nabla\psi - \psi\nabla\phi\) gives Green's second identity:</p>
+                    \[ \int_\mathcal{V}\left(\phi\nabla^2\psi - \psi\nabla^2\phi\right)d\tau = \oint_\mathcal{S}\left(\phi\frac{\partial\psi}{\partial n} - \psi\frac{\partial\phi}{\partial n}\right)da . \]
+                    <p>Let \(\phi = V\) (so \(\nabla'^2V = -\rho/\epsilon_0\)) and \(\psi = G(\mathbf{r},\mathbf{r}')\), any function with \(\nabla'^2G = -4\pi\delta^3(\mathbf{r}-\mathbf{r}')\), i.e. \(G = 1/\mathscr{r} + F\) with \(\nabla'^2F = 0\) in \(\mathcal{V}\). Then</p>
+                    \[ V(\mathbf{r}) = \frac{1}{4\pi\epsilon_0}\int_\mathcal{V}\rho(\mathbf{r}')G(\mathbf{r},\mathbf{r}')\,d\tau' + \frac{1}{4\pi}\oint_\mathcal{S}\left[G\frac{\partial V}{\partial n'} - V\frac{\partial G}{\partial n'}\right]da' . \]
+                    <p>The freedom in \(F\) (the field of charges outside \(\mathcal{V}\), i.e. images) is used to eliminate whichever surface term is not known:</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Dirichlet and Neumann Green's functions</p>
+                        <p><strong>Dirichlet</strong> (\(V\) given on \(\mathcal{S}\)): choose \(G_D = 0\) for \(\mathbf{r}'\) on \(\mathcal{S}\):</p>
+                        \[ V(\mathbf{r}) = \frac{1}{4\pi\epsilon_0}\int_\mathcal{V}\rho\,G_D\,d\tau' - \frac{1}{4\pi}\oint_\mathcal{S}V\frac{\partial G_D}{\partial n'}\,da' . \]
+                        <p><strong>Neumann</strong> (\(\partial V/\partial n\) given): \(\partial G_N/\partial n'\) cannot vanish (Gauss's law forces \(\oint\partial G/\partial n' = -4\pi\)), so choose \(\partial G_N/\partial n' = -4\pi/S\):</p>
+                        \[ V(\mathbf{r}) = \langle V\rangle_\mathcal{S} + \frac{1}{4\pi\epsilon_0}\int_\mathcal{V}\rho\,G_N\,d\tau' + \frac{1}{4\pi}\oint_\mathcal{S}\frac{\partial V}{\partial n'}G_N\,da' . \]
+                        <p>Here \(\hat{\mathbf{n}}'\) is the outward normal of \(\mathcal{V}\). \(G_D\) is symmetric, \(G_D(\mathbf{r},\mathbf{r}') = G_D(\mathbf{r}',\mathbf{r})\) (reciprocity).</p>
+                    </div>
+
+                    <p><strong>Physical meaning.</strong> \(G_D(\mathbf{r},\mathbf{r}')/4\pi\epsilon_0\) is the potential at \(\mathbf{r}\) of a unit point charge at \(\mathbf{r}'\) in the presence of the grounded boundary. Every image solution is therefore a Green's function. For the half-space \(z\gt0\): \(G_D = \frac{1}{|\mathbf{r}-\mathbf{r}'|} - \frac{1}{|\mathbf{r}-\mathbf{r}''|}\), \(\mathbf{r}'' = (x',y',-z')\). For the outside of a sphere: \(G_D = \frac{1}{|\mathbf{r}-\mathbf{r}'|} - \frac{R/r'}{|\mathbf{r} - (R^2/r'^2)\mathbf{r}'|}\).</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 3.8 (Poisson integral for a plane)</p>
+                        <p>The potential on the plane \(z = 0\) is a given function \(V(x',y',0)\); there are no charges in \(z\gt0\) and \(V\to0\) at infinity. Use the half-space Green's function to write \(V\) for \(z\gt0\). Then evaluate it for \(V = V_0\) inside the disk \(x'^2+y'^2\lt a^2\) and \(0\) outside, on the axis.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Let \(u^2 = (x-x')^2 + (y-y')^2\). Then \(G_D = [u^2 + (z-z')^2]^{-1/2} - [u^2 + (z+z')^2]^{-1/2}\). The outward normal of the region \(z\gt0\) on the plane is \(-\hat{\mathbf{z}}\), so \(\partial G_D/\partial n' = -\partial G_D/\partial z'\) at \(z' = 0\):</p>
+                            \[ \frac{\partial G_D}{\partial z'}\bigg|_{z'=0} = \frac{z}{(u^2+z^2)^{3/2}} + \frac{z}{(u^2+z^2)^{3/2}} = \frac{2z}{(u^2+z^2)^{3/2}}. \]
+                            <p>With \(\rho = 0\), \(V = -\frac{1}{4\pi}\int V\cdot\left(-\frac{2z}{(u^2+z^2)^{3/2}}\right)da'\):</p>
+                            \[ V(x,y,z) = \frac{z}{2\pi}\int\!\!\int\frac{V(x',y',0)\,dx'\,dy'}{\left[(x-x')^2+(y-y')^2+z^2\right]^{3/2}}. \]
+                            <p>Disk, on axis (\(u = s'\)): \(V(0,0,z) = \frac{z}{2\pi}V_0\int_0^a\frac{2\pi s'\,ds'}{(s'^2+z^2)^{3/2}} = V_0\left(1 - \frac{z}{\sqrt{z^2+a^2}}\right)\). Checks: \(V\to V_0\) as \(z\to0^+\), and \(V\approx V_0a^2/2z^2\) far away (a dipole-like falloff, as befits a potential patch on a grounded plane).</p>
+                        </details>
+                    </div>
+
+                    <p><strong>Spherical harmonics.</strong> Without azimuthal symmetry, separation in spherical coordinates gives \(V = \sum_{\ell,m}\left(A_{\ell m}r^\ell + B_{\ell m}r^{-(\ell+1)}\right)Y_{\ell m}(\theta,\phi)\), with \(Y_{\ell m}\propto P_\ell^m(\cos\theta)e^{im\phi}\) (\(|m|\le\ell\)) orthonormal over the sphere: \(\int Y^*_{\ell'm'}Y_{\ell m}\,d\Omega = \delta_{\ell\ell'}\delta_{mm'}\). The key expansion (addition theorem) is</p>
+                    \[ \frac{1}{|\mathbf{r}-\mathbf{r}'|} = 4\pi\sum_{\ell=0}^\infty\sum_{m=-\ell}^{\ell}\frac{1}{2\ell+1}\frac{r_{\lt}^\ell}{r_{\gt}^{\ell+1}}Y^*_{\ell m}(\theta',\phi')Y_{\ell m}(\theta,\phi), \]
+                    <p>where \(r_{\lt}\) (\(r_{\gt}\)) is the smaller (larger) of \(r, r'\). Summing over \(m\) recovers the Legendre form with \(P_\ell(\cos\alpha)\). Outside a localized distribution this gives the spherical multipole moments \(q_{\ell m} = \int Y^*_{\ell m}(\theta',\phi')r'^\ell\rho(\mathbf{r}')\,d\tau'\) and \(V = \frac{1}{\epsilon_0}\sum_{\ell m}\frac{q_{\ell m}}{2\ell+1}\frac{Y_{\ell m}(\theta,\phi)}{r^{\ell+1}}\). The \(2\ell+1\) numbers \(q_{\ell m}\) at each \(\ell\) carry the same information as the Cartesian tensors (1 monopole, 3 dipole, 5 independent quadrupole components).</p>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Two grounded conducting half-planes meet at a right angle along the \(z\)-axis, occupying \(x = 0, y\ge0\) and \(y = 0, x\ge0\). A charge \(q\) sits at \((d,d,0)\). Find the image charges and the force on \(q\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Images: \(-q\) at \((-d,d,0)\), \(-q\) at \((d,-d,0)\), \(+q\) at \((-d,-d,0)\). Forces: each \(-q\) image attracts with \(\frac{q^2}{4\pi\epsilon_0(2d)^2}\) along \(-\hat{\mathbf{x}}\) and \(-\hat{\mathbf{y}}\) respectively; the \(+q\) repels with \(\frac{q^2}{4\pi\epsilon_0(8d^2)}\) along \((\hat{\mathbf{x}}+\hat{\mathbf{y}})/\sqrt2\). Net: \(\mathbf{F} = \frac{q^2}{16\pi\epsilon_0d^2}\left(\frac{1}{2\sqrt2} - 1\right)(\hat{\mathbf{x}}+\hat{\mathbf{y}})\), magnitude \(\frac{q^2(2\sqrt2-1)}{32\pi\epsilon_0d^2}\), toward the corner.</p>
+                                </details>
+                            </li>
+                            <li>A charge \(q\) is a distance \(a\) from the centre of an <em>isolated, neutral</em> conducting sphere of radius \(R\lt a\). Find the force on \(q\). Is it ever repulsive?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Images \(-qR/a\) at \(R^2/a\) and \(+qR/a\) at the centre. \(F = \frac{q^2R}{4\pi\epsilon_0a}\left[\frac{1}{a^2} - \frac{a^2}{(a^2-R^2)^2}\right]\) (positive = repulsive). Since \(a^2\gt a^2 - R^2\), \(\frac{a^2}{(a^2-R^2)^2}\gt\frac{1}{a^2}\), so the force is always attractive; for \(a\gg R\) it falls as \(-2q^2R^3/(4\pi\epsilon_0a^5)\) (charge attracting its own induced dipole).</p>
+                                </details>
+                            </li>
+                            <li>A semi-infinite slot \(0\lt x\lt a\), \(y\gt0\) has grounded sides \(x = 0\), \(x = a\); the bottom \(y = 0\) is held at \(V_0\,x(a-x)/a^2\); \(V\to0\) as \(y\to\infty\). Find \(V(x,y)\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(V = \sum C_n\sin(n\pi x/a)e^{-n\pi y/a}\) (decaying exponential for \(y\to\infty\)). \(C_n = \frac2a\int_0^a\frac{V_0x(a-x)}{a^2}\sin\frac{n\pi x}{a}dx\). Using \(\int_0^ax(a-x)\sin\frac{n\pi x}{a}dx = \frac{2a^3}{(n\pi)^3}(1-\cos n\pi)\): \(C_n = \frac{8V_0}{n^3\pi^3}\) for odd \(n\), zero for even. The \(1/n^3\) makes the series converge fast: the \(n = 1\) term alone is within 4% at \(y = 0\), \(x = a/2\).</p>
+                                </details>
+                            </li>
+                            <li>A spherical shell of radius \(R\) carries \(\sigma(\theta) = \sigma_0P_2(\cos\theta)\). Find \(V\) inside and outside. What are the monopole and dipole moments?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Try \(V_{\text{in}} = Ar^2P_2\), \(V_{\text{out}} = AR^5r^{-3}P_2\) (continuous at \(R\)). Jump: \(\sigma = \epsilon_0[3AR + 2AR]P_2 = 5\epsilon_0ARP_2\Rightarrow A = \sigma_0/5\epsilon_0R\). So \(V_{\text{in}} = \frac{\sigma_0r^2}{5\epsilon_0R}P_2(\cos\theta)\), \(V_{\text{out}} = \frac{\sigma_0R^4}{5\epsilon_0r^3}P_2(\cos\theta)\). \(Q = 0\), \(\mathbf{p} = 0\) by orthogonality: it is a pure quadrupole outside.</p>
+                                </details>
+                            </li>
+                            <li>A ring of radius \(R\) in the \(xy\)-plane, centred at the origin, carries line charge \(\lambda = \lambda_0\sin\phi\). Find its monopole and dipole moments and the leading far-field potential.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(Q = \int_0^{2\pi}\lambda_0\sin\phi\,R\,d\phi = 0\). \(\mathbf{p} = \int R(\cos\phi,\sin\phi,0)\lambda_0\sin\phi\,R\,d\phi = \lambda_0R^2(0,\pi,0) = \pi\lambda_0R^2\hat{\mathbf{y}}\). \(V\approx\frac{\pi\lambda_0R^2\sin\theta\sin\phi}{4\pi\epsilon_0r^2} = \frac{\lambda_0R^2\sin\theta\sin\phi}{4\epsilon_0r^2}\).</p>
+                                </details>
+                            </li>
+                            <li>(Jackson-style.) Show that the half-space Green's function \(G_D\) of Section 3.7 vanishes when \(\mathbf{r}'\) is on the plane, and that \(G_D(\mathbf{r},\mathbf{r}') = G_D(\mathbf{r}',\mathbf{r})\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>At \(z' = 0\), \((z-z')^2 = (z+z')^2 = z^2\), so the two terms cancel. Symmetry: both \(|\mathbf{r}-\mathbf{r}'|\) and \([(x-x')^2 + (y-y')^2 + (z+z')^2]^{1/2}\) are unchanged under swapping primed and unprimed coordinates.</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="ch-matter">
+                    <h2>4. Electric fields in matter</h2>
+                    <p class="ref">Griffiths Ch. 4 &middot; Jackson Ch. 4</p>
+
+                    <p>In a conductor, charges move freely and kill the internal field. In an insulator (a <strong>dielectric</strong>) charges are bound to their atoms or molecules and can only shift slightly, but each shift creates a tiny dipole, and \(10^{28}\) tiny dipoles per cubic metre add up to a macroscopic field that partly opposes the applied one. The program of this chapter is bookkeeping: describe the dipoles by a smooth density \(\mathbf{P}\), show that their field is exactly that of certain <strong>bound charges</strong> (\(\rho_b = -\nabla\cdot\mathbf{P}\), \(\sigma_b = \mathbf{P}\cdot\hat{\mathbf{n}}\)), and then hide the bound charge inside a new field \(\mathbf{D}\) whose sources are only the free charges you control. For the large class of <strong>linear</strong> materials, \(\mathbf{P}\propto\mathbf{E}\), and every result of Chapters 2&ndash;3 carries over with \(\epsilon_0\to\epsilon\), with care at interfaces.</p>
+
+                    <h3 id="fm-polarization">4.1 Polarization: induced and permanent dipoles</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Atomic polarizability)</p>
+                        <p>A neutral atom in a modest field \(\mathbf{E}\) acquires an induced dipole moment proportional to the field:</p>
+                        \[ \mathbf{p} = \alpha\mathbf{E}. \]
+                        <p>\(\alpha\) is the <strong>atomic polarizability</strong>; \(\alpha/4\pi\epsilon_0\) has units of volume and is of order the atomic volume (\(\sim10^{-30}\ \mathrm{m^3}\)). For a molecule, the response may depend on direction and \(\alpha\) becomes a symmetric tensor: \(p_i = \sum_j\alpha_{ij}E_j\).</p>
+                    </div>
+
+                    <p><strong>A crude model.</strong> Treat the atom as a point nucleus \(+q\) inside a uniformly charged spherical electron cloud of radius \(a\) and charge \(-q\). In a field \(\mathbf{E}\) the nucleus shifts by \(d\) relative to the cloud's centre until the cloud's internal field at the nucleus, \(\frac{1}{4\pi\epsilon_0}\frac{qd}{a^3}\) (Gauss's law inside a uniform ball), balances \(E\). Then \(p = qd = 4\pi\epsilon_0a^3E\), i.e.</p>
+                    \[ \alpha_{\text{model}} = 4\pi\epsilon_0a^3 = 3\epsilon_0\,(\text{atomic volume}). \]
+                    <p>This is right to within a factor of a few for simple atoms, which is all one can ask of it. Note that the conducting sphere of Example 3.4 has exactly the same \(\alpha\).</p>
+
+                    <p><strong>Polar molecules.</strong> Molecules such as H\(_2\)O carry a permanent dipole \(\mathbf{p}_0\). In a uniform field the forces on the two ends cancel but the torque \(\mathbf{N} = \mathbf{p}\times\mathbf{E}\) rotates the dipole toward \(\mathbf{E}\), lowering its energy \(U = -\mathbf{p}\cdot\mathbf{E}\). In a non-uniform field there is also a net force \(\mathbf{F} = (\mathbf{p}\cdot\nabla)\mathbf{E}\). Thermal agitation fights the alignment; for \(p_0E\ll k_BT\) the Boltzmann average gives \(\langle\mathbf{p}\rangle = \frac{p_0^2}{3k_BT}\mathbf{E}\), an effective "orientational polarizability" that is typically much larger than the induced one at room temperature and falls as \(1/T\) (Debye).</p>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Polarization)</p>
+                        <p>The <strong>polarization</strong> \(\mathbf{P}\) is the dipole moment per unit volume of the material, averaged over a region large compared with molecular spacing but small compared with the scale of macroscopic variation. Units: C/m\(^2\). A small volume \(d\tau'\) contributes dipole moment \(\mathbf{P}\,d\tau'\).</p>
+                    </div>
+
+                    <h3 id="fm-bound">4.2 Bound charges and the field of a polarized object</h3>
+
+                    <p><strong>Derivation.</strong> Each element \(d\tau'\) is a dipole \(\mathbf{P}\,d\tau'\), with potential \(\frac{1}{4\pi\epsilon_0}\frac{\mathbf{P}\cdot\hat{\boldsymbol{\mathscr{r}}}}{\mathscr{r}^2}d\tau'\). Using \(\hat{\boldsymbol{\mathscr{r}}}/\mathscr{r}^2 = \nabla'(1/\mathscr{r})\) (Example 1.1) and the product rule \(\nabla'\cdot(\mathbf{P}/\mathscr{r}) = \mathbf{P}\cdot\nabla'(1/\mathscr{r}) + (\nabla'\cdot\mathbf{P})/\mathscr{r}\):</p>
+                    \[ V(\mathbf{r}) = \frac{1}{4\pi\epsilon_0}\int_\mathcal{V}\mathbf{P}\cdot\nabla'\!\left(\frac1{\mathscr{r}}\right)d\tau' = \frac{1}{4\pi\epsilon_0}\left[\oint_\mathcal{S}\frac{\mathbf{P}\cdot d\mathbf{a}'}{\mathscr{r}} - \int_\mathcal{V}\frac{\nabla'\cdot\mathbf{P}}{\mathscr{r}}\,d\tau'\right]. \]
+                    <p>The two terms have exactly the form of the potential of a surface charge and a volume charge.</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Bound charges</p>
+                        \[ \sigma_b = \mathbf{P}\cdot\hat{\mathbf{n}}, \qquad \rho_b = -\nabla\cdot\mathbf{P}, \qquad V = \frac{1}{4\pi\epsilon_0}\oint_\mathcal{S}\frac{\sigma_b}{\mathscr{r}}\,da' + \frac{1}{4\pi\epsilon_0}\int_\mathcal{V}\frac{\rho_b}{\mathscr{r}}\,d\tau' . \]
+                        <p>For a neutral object the total bound charge is zero: \(\oint\mathbf{P}\cdot d\mathbf{a} - \int\nabla\cdot\mathbf{P}\,d\tau = 0\) by the divergence theorem.</p>
+                    </div>
+
+                    <p><strong>Physical picture.</strong> The bound charges are real accumulations of charge, not a mathematical trick. Line up dipoles head to tail: inside, each head cancels the neighbouring tail, but at the ends a layer of uncancelled charge remains (\(\sigma_b\)). If the polarization is non-uniform, more charge is pushed out of a region than into it, leaving a net volume charge (\(\rho_b\), with the minus sign because charge flows out where \(\mathbf{P}\) diverges).</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>The derivation used the exact dipole potential, valid far from the dipole, yet we then apply the result <em>inside</em> the material, where the microscopic field is wildly fluctuating. What we compute inside is the <strong>macroscopic</strong> field, the average over regions containing many molecules. Griffiths and Jackson both justify this; the short version is that the average over a sphere of the field of the charges inside it is exactly reproduced by the bound-charge formula. Never use the macroscopic \(\mathbf{E}\) for the field felt by an individual molecule without correction (see Clausius&ndash;Mossotti, Section 4.7).</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.1 (Uniformly polarized sphere)</p>
+                        <p>A sphere of radius \(R\) has uniform polarization \(\mathbf{P} = P\hat{\mathbf{z}}\). Find the field inside and outside.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Bound charges: \(\rho_b = -\nabla\cdot\mathbf{P} = 0\); \(\sigma_b = \mathbf{P}\cdot\hat{\mathbf{r}} = P\cos\theta = PP_1(\cos\theta)\).</p>
+                            <p>Laplace in both regions with an \(\ell = 1\) source, so try \(V_{\text{in}} = Ar\cos\theta\), \(V_{\text{out}} = AR^3\cos\theta/r^2\) (continuous at \(R\)). The jump condition \(-\partial_rV_{\text{out}} + \partial_rV_{\text{in}} = \sigma_b/\epsilon_0\) at \(r = R\) gives \(2A + A = P/\epsilon_0\), so \(A = P/3\epsilon_0\).</p>
+                            \[ V_{\text{in}} = \frac{P}{3\epsilon_0}r\cos\theta = \frac{P}{3\epsilon_0}z\;\Rightarrow\;\mathbf{E}_{\text{in}} = -\frac{\mathbf{P}}{3\epsilon_0}\ \ (\text{uniform}), \qquad V_{\text{out}} = \frac{PR^3\cos\theta}{3\epsilon_0r^2} = \frac{\mathbf{p}\cdot\hat{\mathbf{r}}}{4\pi\epsilon_0r^2},\ \ \mathbf{p} = \frac43\pi R^3\mathbf{P}. \]
+                            <p>Outside: exactly the field of a point dipole equal to the total dipole moment. Inside: uniform and opposite to \(\mathbf{P}\) (the "depolarizing field").</p>
+                        </details>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.2 (Non-uniform radial polarization)</p>
+                        <p>A sphere of radius \(R\) has \(\mathbf{P} = P_0(r/R)^2\hat{\mathbf{r}}\) and no free charge. Find the bound charges, check that they total zero, and find \(\mathbf{E}\) everywhere.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            \[ \rho_b = -\frac{1}{r^2}\frac{d}{dr}\left(r^2\cdot\frac{P_0r^2}{R^2}\right) = -\frac{4P_0r}{R^2}, \qquad \sigma_b = \mathbf{P}(R)\cdot\hat{\mathbf{r}} = P_0 . \]
+                            <p>Total: \(\int_0^R-\frac{4P_0r}{R^2}4\pi r^2\,dr = -\frac{16\pi P_0}{R^2}\cdot\frac{R^4}{4} = -4\pi P_0R^2\), plus \(4\pi R^2P_0\) on the surface: zero. \(\checkmark\)</p>
+                            <p>Gauss inside: \(Q_{\text{enc}}(r) = -\frac{16\pi P_0}{R^2}\frac{r^4}{4} = -\frac{4\pi P_0r^4}{R^2}\), so \(E = \frac{Q_{\text{enc}}}{4\pi\epsilon_0r^2} = -\frac{P_0r^2}{\epsilon_0R^2}\), i.e. \(\mathbf{E} = -\mathbf{P}/\epsilon_0\). Outside, zero net charge and spherical symmetry give \(\mathbf{E} = 0\). (Section 4.3 shows why: here \(\mathbf{D} = 0\) everywhere.)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="fm-displacement">4.3 The electric displacement and Gauss's law in matter</h3>
+
+                    <p>Split the total charge into bound and free: \(\rho = \rho_b + \rho_f\). Gauss's law reads \(\epsilon_0\nabla\cdot\mathbf{E} = \rho_f - \nabla\cdot\mathbf{P}\), i.e. \(\nabla\cdot(\epsilon_0\mathbf{E} + \mathbf{P}) = \rho_f\).</p>
+
+                    <div class="box thm">
+                        <p class="box-label">Law (Gauss's law for D)</p>
+                        \[ \mathbf{D}\equiv\epsilon_0\mathbf{E} + \mathbf{P}, \qquad \nabla\cdot\mathbf{D} = \rho_f, \qquad \oint\mathbf{D}\cdot d\mathbf{a} = Q_{f,\text{enc}} . \]
+                    </div>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>\(\mathbf{D}\) is <em>not</em> "the field of the free charges". Its curl is \(\nabla\times\mathbf{D} = \nabla\times\mathbf{P}\), which need not vanish, so \(\mathbf{D}\) is not determined by \(\rho_f\) alone and there is no Coulomb law for \(\mathbf{D}\). Gauss's law for \(\mathbf{D}\) is a shortcut only when symmetry (spherical, cylindrical, planar) holds for the <em>whole</em> configuration, dielectric included. A uniformly polarized bar electret has \(\rho_f = 0\) everywhere yet \(\mathbf{D}\neq0\).</p>
+                    </div>
+
+                    <div class="box formula">
+                        <p class="box-label">Boundary conditions with dielectrics</p>
+                        \[ D^\perp_{\text{above}} - D^\perp_{\text{below}} = \sigma_f, \qquad \mathbf{E}^\parallel_{\text{above}} = \mathbf{E}^\parallel_{\text{below}}, \qquad \mathbf{D}^\parallel_{\text{above}} - \mathbf{D}^\parallel_{\text{below}} = \mathbf{P}^\parallel_{\text{above}} - \mathbf{P}^\parallel_{\text{below}} . \]
+                        <p>In terms of potentials for linear media: \(V\) continuous and \(\epsilon_{\text{above}}\frac{\partial V_{\text{above}}}{\partial n} - \epsilon_{\text{below}}\frac{\partial V_{\text{below}}}{\partial n} = -\sigma_f\).</p>
+                    </div>
+
+                    <h3 id="fm-linear">4.4 Linear dielectrics</h3>
+
+                    <div class="box def">
+                        <p class="box-label">Definition (Linear isotropic dielectric)</p>
+                        \[ \mathbf{P} = \epsilon_0\chi_e\mathbf{E}, \qquad \mathbf{D} = \epsilon\mathbf{E}, \qquad \epsilon = \epsilon_0(1 + \chi_e), \qquad \epsilon_r = \frac{\epsilon}{\epsilon_0} = 1 + \chi_e . \]
+                        <p>\(\chi_e\) is the electric susceptibility (dimensionless), \(\epsilon\) the permittivity, \(\epsilon_r\) the relative permittivity or dielectric constant. Typical values: air \(1.0005\), glass \(4\)&ndash;\(10\), water \(80\). Here \(\mathbf{E}\) is the <em>total</em> field, including that of the polarization itself, which is what makes problems self-consistent rather than trivial.</p>
+                    </div>
+
+                    <div class="box thm">
+                        <p class="box-label">Theorem (Homogeneous linear dielectric)</p>
+                        <p>In a homogeneous linear dielectric, \(\rho_b = -\nabla\cdot\left(\epsilon_0\chi_e\frac{\mathbf{D}}{\epsilon}\right) = -\frac{\chi_e}{1+\chi_e}\rho_f\): bound volume charge appears only where there is free charge. If the dielectric fills all the space where the field is nonzero (or the boundaries are equipotentials), \(\nabla\times\mathbf{D} = 0\) and \(\mathbf{D}\) equals the vacuum field of the free charges, so</p>
+                        \[ \mathbf{E} = \frac{1}{\epsilon_r}\mathbf{E}_{\text{vac}}, \qquad C = \epsilon_rC_{\text{vac}} . \]
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.3 (Layered parallel-plate capacitor, numbers)</p>
+                        <p>Plates of area \(A = 100\ \mathrm{cm^2}\) are \(2.0\) mm apart. A \(1.0\) mm glass layer (\(\epsilon_r = 4.0\)) lies on one plate; the other \(1.0\) mm is air. With \(100\) V applied, find \(C\), the fields in each layer, the voltage across each, and the bound surface charge on the glass.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>The free charge \(\pm\sigma_f\) on the plates gives (planar symmetry, Gauss for \(\mathbf{D}\)) \(D = \sigma_f\) in both layers. Then \(E_{\text{glass}} = \sigma_f/4\epsilon_0\), \(E_{\text{air}} = \sigma_f/\epsilon_0\), and</p>
+                            \[ V = \frac{\sigma_f}{\epsilon_0}\left(\frac{d_1}{\epsilon_{r}} + d_2\right)\;\Rightarrow\; C = \frac{\epsilon_0A}{d_1/\epsilon_r + d_2} = \frac{(8.854\times10^{-12})(0.010)}{0.25\times10^{-3} + 1.0\times10^{-3}} = 70.8\ \text{pF}. \]
+                            <p>(Two capacitors in series.) Then \(\sigma_f = CV/A = (70.8\times10^{-12})(100)/0.010 = 7.08\times10^{-7}\ \mathrm{C/m^2}\).</p>
+                            <ul>
+                                <li>\(E_{\text{air}} = \sigma_f/\epsilon_0 = 8.0\times10^4\) V/m, voltage \(80\) V.</li>
+                                <li>\(E_{\text{glass}} = 2.0\times10^4\) V/m, voltage \(20\) V.</li>
+                            </ul>
+                            <p>Bound charge: \(P = D - \epsilon_0E_{\text{glass}} = \sigma_f(1 - 1/4) = 5.31\times10^{-7}\ \mathrm{C/m^2}\), so \(\sigma_b = \mp5.31\times10^{-7}\ \mathrm{C/m^2}\) on the glass faces (negative on the face touching the positive plate). Engineering lesson: the thin air gap takes 80% of the voltage, and it is the air that breaks down first.</p>
+                        </details>
+                    </div>
+
+                    <h3 id="fm-bvp">4.5 Boundary-value problems with dielectrics</h3>
+
+                    <p>In each region of a piecewise-homogeneous linear dielectric with no free volume charge, \(\rho_b = 0\) and \(V\) satisfies Laplace's equation. All the bound charge sits on interfaces. So the techniques of Chapter 3 apply unchanged, with the conditions of Section 4.3 at each interface.</p>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.4 (Dielectric sphere in a uniform field)</p>
+                        <p>A sphere of radius \(R\) and dielectric constant \(\epsilon_r\) is placed in a uniform field \(E_0\hat{\mathbf{z}}\). Find the field inside, the polarization, and the induced dipole moment.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>Conditions: \(V_{\text{in}}\) finite at the origin; \(V_{\text{out}}\to-E_0r\cos\theta\); at \(r = R\): \(V_{\text{in}} = V_{\text{out}}\) and \(\epsilon_r\partial_rV_{\text{in}} = \partial_rV_{\text{out}}\) (no free charge). Only \(\ell = 1\) is driven, so</p>
+                            \[ V_{\text{in}} = Ar\cos\theta, \qquad V_{\text{out}} = \left(-E_0r + \frac{B}{r^2}\right)\cos\theta . \]
+                            <p>Continuity: \(AR = -E_0R + B/R^2\Rightarrow B = (A + E_0)R^3\). Normal \(D\): \(\epsilon_rA = -E_0 - 2B/R^3 = -E_0 - 2(A + E_0)\). Hence \(A(\epsilon_r + 2) = -3E_0\):</p>
+                            \[ \mathbf{E}_{\text{in}} = -\nabla(Az) = \frac{3}{\epsilon_r + 2}E_0\hat{\mathbf{z}}, \qquad \mathbf{P} = \epsilon_0(\epsilon_r - 1)\mathbf{E}_{\text{in}} = 3\epsilon_0\frac{\epsilon_r - 1}{\epsilon_r + 2}\mathbf{E}_0 . \]
+                            <p>All other \(\ell\) have homogeneous conditions and vanish. The field inside is uniform and weaker than \(E_0\). The outside correction is \(B\cos\theta/r^2\) with \(B = \frac{\epsilon_r - 1}{\epsilon_r + 2}E_0R^3\), a dipole</p>
+                            \[ \mathbf{p} = 4\pi\epsilon_0\frac{\epsilon_r - 1}{\epsilon_r + 2}R^3\mathbf{E}_0 = \frac43\pi R^3\mathbf{P}. \]
+                            <p>Checks: \(\epsilon_r = 1\) gives no disturbance; \(\epsilon_r\to\infty\) gives \(\mathbf{E}_{\text{in}} = 0\) and \(\mathbf{p} = 4\pi\epsilon_0R^3\mathbf{E}_0\), the conducting sphere. Self-consistency with Example 4.1: inside, \(\mathbf{E}_0 - \mathbf{P}/3\epsilon_0 = \mathbf{E}_0\left(1 - \frac{\epsilon_r-1}{\epsilon_r+2}\right) = \frac{3\mathbf{E}_0}{\epsilon_r+2}\). \(\checkmark\)</p>
+                        </details>
+                    </div>
+
+                    <div class="box tip">
+                        <p class="box-label">Going further (Jackson)</p>
+                        <p>Images also work at a <em>plane</em> dielectric interface. A charge \(q\) in medium \(\epsilon_1\) (\(z\gt0\)) a distance \(d\) from the plane boundary with medium \(\epsilon_2\) (\(z\lt0\)): in region 1 the potential is that of \(q\) plus an image \(q' = -\frac{\epsilon_2 - \epsilon_1}{\epsilon_2 + \epsilon_1}q\) at \(z = -d\) (both with \(1/4\pi\epsilon_1\)); in region 2 it is that of a single charge \(q'' = \frac{2\epsilon_2}{\epsilon_2 + \epsilon_1}q\) at the real charge's position (with \(1/4\pi\epsilon_2\)). Derive it by matching \(V\) and \(D^\perp\) on the plane: \(q - q' = q''\) and \((q + q')/\epsilon_1 = q''/\epsilon_2\). The limit \(\epsilon_2\to\infty\) recovers the grounded-conductor image. The charge is attracted toward a denser medium (\(\epsilon_2\gt\epsilon_1\)) and repelled from a less dense one.</p>
+                    </div>
+
+                    <h3 id="fm-energy">4.6 Energy and forces in dielectric systems</h3>
+
+                    <p>Bring in free charge \(\delta\rho_f\) quasi-statically. The work is \(\delta W = \int\delta\rho_f\,V\,d\tau = \int(\nabla\cdot\delta\mathbf{D})V\,d\tau = \int\delta\mathbf{D}\cdot\mathbf{E}\,d\tau\) (integrate by parts; surface term vanishes at infinity). For a linear medium, \(\delta\mathbf{D}\cdot\mathbf{E} = \epsilon\,\delta\mathbf{E}\cdot\mathbf{E} = \frac12\delta(\mathbf{D}\cdot\mathbf{E})\), so building up from zero gives:</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Energy in linear dielectrics</p>
+                        \[ W = \frac12\int\mathbf{D}\cdot\mathbf{E}\,d\tau = \frac12\int\rho_fV\,d\tau, \qquad \text{capacitor: } W = \frac12CV^2 = \frac{Q^2}{2C}. \]
+                        <p>Compared with \(\frac{\epsilon_0}{2}\int E^2\), the extra \(\frac12\int\mathbf{P}\cdot\mathbf{E}\) is the energy stored in stretching or rotating the molecular "springs". \(W\) is the work <em>you</em> do on the free charges; it includes that internal energy.</p>
+                    </div>
+
+                    <p><strong>Forces.</strong> Dielectrics are pulled into regions of strong field (the fringing field near a capacitor's edge does the pulling). Rather than computing fringing fields, use energy. If a coordinate \(x\) is displaced by \(dx\) with the capacitor <em>isolated</em> (fixed \(Q\)), the mechanical work comes from the stored energy: \(F = -\frac{dW}{dx}\big|_Q\). With \(W = Q^2/2C\),</p>
+                    \[ F = \frac{Q^2}{2C^2}\frac{dC}{dx} = \frac12V^2\frac{dC}{dx}. \]
+                    <p>The same answer holds at fixed \(V\) (the force at a given configuration cannot depend on whether a battery is attached); there the battery supplies \(V^2dC\), half of which goes into field energy and half into mechanical work, so \(F = +\frac{dW}{dx}\big|_V\).</p>
+
+                    <div class="box warn">
+                        <p class="box-label">Common mistake</p>
+                        <p>At constant voltage, the stored energy <em>increases</em> as the dielectric is pulled in, and it is tempting to conclude \(F = -dW/dx\) points outward. The battery's work must be included. Always ask: what is held fixed, and who supplies the energy?</p>
+                    </div>
+
+                    <div class="example">
+                        <p class="box-label">Example 4.5 (Dielectric liquid rising between plates)</p>
+                        <p>Two vertical parallel plates of width \(w\), separation \(d\), dip into an oil of dielectric constant \(\epsilon_r\) and density \(\rho_m\). A voltage \(V\) is applied. How high does the oil rise? Evaluate for \(\epsilon_r = 2.5\), \(\rho_m = 900\ \mathrm{kg/m^3}\), \(V = 5.0\) kV, \(d = 2.0\) mm.</p>
+                        <details class="solution">
+                            <summary>Show solution</summary>
+                            <p>With the liquid at height \(h\) inside a capacitor of total height \(\ell\), the two portions are in parallel (ignoring fringing):</p>
+                            \[ C(h) = \frac{\epsilon_0w}{d}\left[\epsilon_rh + (\ell - h)\right], \qquad \frac{dC}{dh} = \frac{\epsilon_0\chi_ew}{d}. \]
+                            <p>Upward force: \(F = \frac12V^2\frac{dC}{dh} = \frac{\epsilon_0\chi_ewV^2}{2d}\), independent of \(h\). Equilibrium with the weight of the raised column, \(\rho_mg(hwd)\):</p>
+                            \[ h = \frac{\epsilon_0\chi_eV^2}{2\rho_mgd^2}. \]
+                            <p>Numbers: \(\chi_e = 1.5\). Numerator \(\epsilon_0\chi_eV^2/2 = (8.854\times10^{-12})(1.5)(2.5\times10^7)/2 = 1.66\times10^{-4}\ \mathrm{N}\). Denominator \(\rho_mgd^2 = 900\cdot9.81\cdot4.0\times10^{-6} = 3.53\times10^{-2}\ \mathrm{N/m}\). So \(h\approx4.7\) mm. (The field here is \(2.5\) MV/m, comfortably below the breakdown strength of typical transformer oil.)</p>
+                        </details>
+                    </div>
+
+                    <h3 id="fm-cm">4.7 Microscopic connection: the Clausius&ndash;Mossotti relation</h3>
+
+                    <p>How does the macroscopic \(\epsilon_r\) relate to the molecular \(\alpha\)? The naive guess \(\mathbf{P} = N\alpha\mathbf{E}\) (with \(N\) molecules per volume) gives \(\chi_e = N\alpha/\epsilon_0\), fine for dilute gases. In a dense medium, though, the field acting on a molecule is not the macroscopic \(\mathbf{E}\), because \(\mathbf{E}\) includes the molecule's own field, averaged in a way the molecule itself does not feel.</p>
+                    <p>Carve out a small sphere around the molecule. The macroscopic field is the field from outside the sphere plus the average field of the polarized sphere, which is \(-\mathbf{P}/3\epsilon_0\) (Example 4.1). The molecule actually feels the outside field plus the field of its real near neighbours, which vanishes by symmetry for a cubic lattice or an isotropic fluid. Therefore the <strong>local (Lorentz) field</strong> is</p>
+                    \[ \mathbf{E}_{\text{local}} = \mathbf{E} + \frac{\mathbf{P}}{3\epsilon_0}. \]
+                    <p>Setting \(\mathbf{P} = N\alpha\mathbf{E}_{\text{local}}\) and \(\mathbf{P} = \epsilon_0(\epsilon_r - 1)\mathbf{E}\) and solving:</p>
+
+                    <div class="box formula">
+                        <p class="box-label">Clausius&ndash;Mossotti relation</p>
+                        \[ \frac{N\alpha}{3\epsilon_0} = \frac{\epsilon_r - 1}{\epsilon_r + 2} \qquad\Longleftrightarrow\qquad \chi_e = \frac{N\alpha/\epsilon_0}{1 - N\alpha/3\epsilon_0}. \]
+                        <p>For polar molecules replace \(\alpha\to\alpha + p_0^2/3k_BT\) (Langevin&ndash;Debye). The relation is good for gases and non-polar liquids, and fails for strongly polar liquids like water where neighbours are correlated.</p>
+                    </div>
+
+                    <div class="practice">
+                        <h4>Practice problems</h4>
+                        <ol>
+                            <li>Using the uniform-cloud model with \(a = 0.50\times10^{-10}\) m, how far apart are the nucleus and the cloud centre of a hydrogen-like atom in a field of \(1.0\times10^6\) V/m? Compare with \(a\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(d = \alpha E/e = 4\pi\epsilon_0a^3E/e = (1.11\times10^{-10})(1.25\times10^{-31})(10^6)/(1.60\times10^{-19})\approx8.7\times10^{-17}\) m, about \(2\times10^{-6}a\). Linear response is an excellent approximation at laboratory fields.</p>
+                                </details>
+                            </li>
+                            <li>A short cylinder (radius \(a\), length \(L\)) is uniformly polarized along its axis, \(\mathbf{P} = P\hat{\mathbf{z}}\). Find the bound charges. Estimate the field at the centre for \(L\gg a\) and for \(L\ll a\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\rho_b = 0\); \(\sigma_b = \pm P\) on the top/bottom faces, \(0\) on the curved side. Long rod: two small, distant disks; field at the centre \(\approx 2\cdot\frac{P\pi a^2}{4\pi\epsilon_0(L/2)^2}\to0\) (pointing along \(-\hat{\mathbf{z}}\)). Thin disk: like a parallel-plate capacitor, \(\mathbf{E}\approx-\mathbf{P}/\epsilon_0\). (The sphere, with \(-\mathbf{P}/3\epsilon_0\), is in between.)</p>
+                                </details>
+                            </li>
+                            <li>A free point charge \(q\) sits at the centre of a sphere of radius \(R\) made of linear dielectric \(\epsilon_r\). Find \(\mathbf{D}\), \(\mathbf{E}\) and \(\mathbf{P}\) everywhere, and all bound charges.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Spherical symmetry: \(\mathbf{D} = \frac{q}{4\pi r^2}\hat{\mathbf{r}}\) everywhere. \(\mathbf{E} = \frac{q}{4\pi\epsilon_0\epsilon_rr^2}\hat{\mathbf{r}}\) inside, \(\frac{q}{4\pi\epsilon_0r^2}\hat{\mathbf{r}}\) outside. \(\mathbf{P} = \frac{(\epsilon_r-1)q}{4\pi\epsilon_rr^2}\hat{\mathbf{r}}\) inside. \(\rho_b = 0\) for \(r\gt0\), but a bound point charge \(-\frac{\epsilon_r-1}{\epsilon_r}q\) screens \(q\) at the centre; \(\sigma_b = \frac{(\epsilon_r-1)q}{4\pi\epsilon_rR^2}\) on the surface. Bound total zero.</p>
+                                </details>
+                            </li>
+                            <li>A coaxial cable (radii \(a\lt b\)) is filled with two dielectrics, each occupying one half-cylinder (\(0\lt\phi\lt\pi\): \(\epsilon_1\); \(\pi\lt\phi\lt2\pi\): \(\epsilon_2\)). Find the capacitance per length.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Guess \(\mathbf{E} = \frac{A}{s}\hat{\mathbf{s}}\) in both halves: it is tangential to the flat interfaces and continuous, so it satisfies all boundary conditions (uniqueness). \(V = A\ln(b/a)\). Free charge per length on the inner conductor: \(\lambda = \pi\epsilon_1A + \pi\epsilon_2A\) (from \(D^\perp = \sigma_f\) in each half). \(C/\ell = \frac{\pi(\epsilon_1+\epsilon_2)}{\ln(b/a)}\): two capacitors in parallel. \(\mathbf{D}\) differs between halves; \(\mathbf{E}\) does not.</p>
+                                </details>
+                            </li>
+                            <li>For the dielectric sphere of Example 4.4, find the bound surface charge density. Show that it approaches the conductor's induced charge as \(\epsilon_r\to\infty\).
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(\sigma_b = \mathbf{P}\cdot\hat{\mathbf{r}} = 3\epsilon_0\frac{\epsilon_r-1}{\epsilon_r+2}E_0\cos\theta\) (and \(\rho_b = 0\), \(\mathbf{P}\) uniform). As \(\epsilon_r\to\infty\) the fraction \(\to1\), giving \(3\epsilon_0E_0\cos\theta\), the result of Example 3.4.</p>
+                                </details>
+                            </li>
+                            <li>Argon at STP has \(N = 2.69\times10^{25}\ \mathrm{m^{-3}}\) and \(\alpha/4\pi\epsilon_0 = 1.64\times10^{-30}\ \mathrm{m^3}\). Estimate \(\epsilon_r\). Does Clausius&ndash;Mossotti change the answer noticeably?
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>\(N\alpha/\epsilon_0 = 4\pi(2.69\times10^{25})(1.64\times10^{-30}) = 5.54\times10^{-4}\), so \(\epsilon_r\approx1.000554\). Clausius&ndash;Mossotti changes \(\chi_e\) by a factor \(1/(1 - 1.85\times10^{-4})\): utterly negligible for a gas. (Measured: about \(1.00052\).)</p>
+                                </details>
+                            </li>
+                            <li>An isolated parallel-plate capacitor with charge \(Q\) and vacuum capacitance \(C_0\) is completely filled with a slab of dielectric \(\epsilon_r\). By what factor does the stored energy change, and where did the energy go? Repeat if the capacitor stays connected to a battery.
+                                <details class="solution">
+                                    <summary>Answer</summary>
+                                    <p>Fixed \(Q\): \(W = Q^2/2C\) drops by \(1/\epsilon_r\); the difference was done as mechanical work on the slab (it is pulled in). Fixed \(V\): \(W = \frac12CV^2\) grows by \(\epsilon_r\); the battery supplies \(Q_{\text{extra}}V = (\epsilon_r-1)C_0V^2\), half of which is stored and half of which is the mechanical work on the slab.</p>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="formula-sheet">
+                    <h2>Formula sheet</h2>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Vector identities</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Triple products</td><td>\(\mathbf{A}\cdot(\mathbf{B}\times\mathbf{C}) = \mathbf{B}\cdot(\mathbf{C}\times\mathbf{A})\); \(\ \mathbf{A}\times(\mathbf{B}\times\mathbf{C}) = \mathbf{B}(\mathbf{A}\cdot\mathbf{C}) - \mathbf{C}(\mathbf{A}\cdot\mathbf{B})\)</td></tr>
+                                <tr><td>Levi-Civita</td><td>\(\epsilon_{ijk}\epsilon_{imn} = \delta_{jm}\delta_{kn} - \delta_{jn}\delta_{km}\)</td></tr>
+                                <tr><td>Product rules</td><td>\(\nabla\cdot(f\mathbf{A}) = f\nabla\cdot\mathbf{A} + \mathbf{A}\cdot\nabla f\); \(\ \nabla\times(f\mathbf{A}) = f\nabla\times\mathbf{A} - \mathbf{A}\times\nabla f\)</td></tr>
+                                <tr><td></td><td>\(\nabla\cdot(\mathbf{A}\times\mathbf{B}) = \mathbf{B}\cdot(\nabla\times\mathbf{A}) - \mathbf{A}\cdot(\nabla\times\mathbf{B})\)</td></tr>
+                                <tr><td></td><td>\(\nabla(\mathbf{A}\cdot\mathbf{B}) = \mathbf{A}\times(\nabla\times\mathbf{B}) + \mathbf{B}\times(\nabla\times\mathbf{A}) + (\mathbf{A}\cdot\nabla)\mathbf{B} + (\mathbf{B}\cdot\nabla)\mathbf{A}\)</td></tr>
+                                <tr><td></td><td>\(\nabla\times(\mathbf{A}\times\mathbf{B}) = (\mathbf{B}\cdot\nabla)\mathbf{A} - (\mathbf{A}\cdot\nabla)\mathbf{B} + \mathbf{A}(\nabla\cdot\mathbf{B}) - \mathbf{B}(\nabla\cdot\mathbf{A})\)</td></tr>
+                                <tr><td>Second derivatives</td><td>\(\nabla\times\nabla f = 0\); \(\ \nabla\cdot(\nabla\times\mathbf{A}) = 0\); \(\ \nabla\times(\nabla\times\mathbf{A}) = \nabla(\nabla\cdot\mathbf{A}) - \nabla^2\mathbf{A}\)</td></tr>
+                                <tr><td>Fundamental theorems</td><td>\(\int_\mathbf{a}^\mathbf{b}\nabla f\cdot d\mathbf{l} = f(\mathbf{b}) - f(\mathbf{a})\); \(\ \int_\mathcal{V}\nabla\cdot\mathbf{A}\,d\tau = \oint_\mathcal{S}\mathbf{A}\cdot d\mathbf{a}\); \(\ \int_\mathcal{S}(\nabla\times\mathbf{A})\cdot d\mathbf{a} = \oint_\mathcal{P}\mathbf{A}\cdot d\mathbf{l}\)</td></tr>
+                                <tr><td>Delta function</td><td>\(\nabla\cdot(\hat{\boldsymbol{\mathscr{r}}}/\mathscr{r}^2) = 4\pi\delta^3(\boldsymbol{\mathscr{r}})\); \(\ \nabla^2(1/\mathscr{r}) = -4\pi\delta^3(\boldsymbol{\mathscr{r}})\); \(\ \delta(kx) = \delta(x)/|k|\)</td></tr>
+                                <tr><td>Separation vector</td><td>\(\nabla(1/\mathscr{r}) = -\hat{\boldsymbol{\mathscr{r}}}/\mathscr{r}^2\); \(\ \nabla'(1/\mathscr{r}) = +\hat{\boldsymbol{\mathscr{r}}}/\mathscr{r}^2\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Spherical \((r,\theta,\phi)\)</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Elements</td><td>\(d\mathbf{l} = dr\,\hat{\mathbf{r}} + r\,d\theta\,\hat{\boldsymbol{\theta}} + r\sin\theta\,d\phi\,\hat{\boldsymbol{\phi}}\); \(\ d\tau = r^2\sin\theta\,dr\,d\theta\,d\phi\)</td></tr>
+                                <tr><td>Gradient</td><td>\(\nabla f = \dfrac{\partial f}{\partial r}\hat{\mathbf{r}} + \dfrac1r\dfrac{\partial f}{\partial\theta}\hat{\boldsymbol{\theta}} + \dfrac{1}{r\sin\theta}\dfrac{\partial f}{\partial\phi}\hat{\boldsymbol{\phi}}\)</td></tr>
+                                <tr><td>Divergence</td><td>\(\nabla\cdot\mathbf{v} = \dfrac{1}{r^2}\dfrac{\partial}{\partial r}(r^2v_r) + \dfrac{1}{r\sin\theta}\dfrac{\partial}{\partial\theta}(\sin\theta\,v_\theta) + \dfrac{1}{r\sin\theta}\dfrac{\partial v_\phi}{\partial\phi}\)</td></tr>
+                                <tr><td>Curl</td><td>\(\nabla\times\mathbf{v} = \dfrac{1}{r\sin\theta}\left[\dfrac{\partial}{\partial\theta}(\sin\theta\,v_\phi) - \dfrac{\partial v_\theta}{\partial\phi}\right]\hat{\mathbf{r}} + \dfrac1r\left[\dfrac{1}{\sin\theta}\dfrac{\partial v_r}{\partial\phi} - \dfrac{\partial}{\partial r}(rv_\phi)\right]\hat{\boldsymbol{\theta}} + \dfrac1r\left[\dfrac{\partial}{\partial r}(rv_\theta) - \dfrac{\partial v_r}{\partial\theta}\right]\hat{\boldsymbol{\phi}}\)</td></tr>
+                                <tr><td>Laplacian</td><td>\(\nabla^2f = \dfrac{1}{r^2}\dfrac{\partial}{\partial r}\left(r^2\dfrac{\partial f}{\partial r}\right) + \dfrac{1}{r^2\sin\theta}\dfrac{\partial}{\partial\theta}\left(\sin\theta\dfrac{\partial f}{\partial\theta}\right) + \dfrac{1}{r^2\sin^2\theta}\dfrac{\partial^2f}{\partial\phi^2}\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Cylindrical \((s,\phi,z)\)</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Elements</td><td>\(d\mathbf{l} = ds\,\hat{\mathbf{s}} + s\,d\phi\,\hat{\boldsymbol{\phi}} + dz\,\hat{\mathbf{z}}\); \(\ d\tau = s\,ds\,d\phi\,dz\)</td></tr>
+                                <tr><td>Gradient</td><td>\(\nabla f = \dfrac{\partial f}{\partial s}\hat{\mathbf{s}} + \dfrac1s\dfrac{\partial f}{\partial\phi}\hat{\boldsymbol{\phi}} + \dfrac{\partial f}{\partial z}\hat{\mathbf{z}}\)</td></tr>
+                                <tr><td>Divergence</td><td>\(\nabla\cdot\mathbf{v} = \dfrac1s\dfrac{\partial}{\partial s}(sv_s) + \dfrac1s\dfrac{\partial v_\phi}{\partial\phi} + \dfrac{\partial v_z}{\partial z}\)</td></tr>
+                                <tr><td>Curl</td><td>\(\nabla\times\mathbf{v} = \left[\dfrac1s\dfrac{\partial v_z}{\partial\phi} - \dfrac{\partial v_\phi}{\partial z}\right]\hat{\mathbf{s}} + \left[\dfrac{\partial v_s}{\partial z} - \dfrac{\partial v_z}{\partial s}\right]\hat{\boldsymbol{\phi}} + \dfrac1s\left[\dfrac{\partial}{\partial s}(sv_\phi) - \dfrac{\partial v_s}{\partial\phi}\right]\hat{\mathbf{z}}\)</td></tr>
+                                <tr><td>Laplacian</td><td>\(\nabla^2f = \dfrac1s\dfrac{\partial}{\partial s}\left(s\dfrac{\partial f}{\partial s}\right) + \dfrac{1}{s^2}\dfrac{\partial^2f}{\partial\phi^2} + \dfrac{\partial^2f}{\partial z^2}\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Electrostatics</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Field and potential</td><td>\(\mathbf{E} = \dfrac{1}{4\pi\epsilon_0}\displaystyle\int\dfrac{\rho\,\hat{\boldsymbol{\mathscr{r}}}}{\mathscr{r}^2}d\tau'\); \(\ V = \dfrac{1}{4\pi\epsilon_0}\displaystyle\int\dfrac{\rho}{\mathscr{r}}d\tau'\); \(\ \mathbf{E} = -\nabla V\)</td></tr>
+                                <tr><td>Field equations</td><td>\(\nabla\cdot\mathbf{E} = \rho/\epsilon_0\); \(\ \nabla\times\mathbf{E} = 0\); \(\ \nabla^2V = -\rho/\epsilon_0\)</td></tr>
+                                <tr><td>Boundary conditions (vacuum)</td><td>\(\mathbf{E}_{\text{above}} - \mathbf{E}_{\text{below}} = (\sigma/\epsilon_0)\hat{\mathbf{n}}\); \(\ V\) continuous; \(\ \partial_nV_{\text{above}} - \partial_nV_{\text{below}} = -\sigma/\epsilon_0\)</td></tr>
+                                <tr><td>Boundary conditions (matter)</td><td>\(D^\perp_{\text{above}} - D^\perp_{\text{below}} = \sigma_f\); \(\ \mathbf{E}^\parallel\) continuous; \(\ \epsilon_{\text{above}}\partial_nV_{\text{above}} - \epsilon_{\text{below}}\partial_nV_{\text{below}} = -\sigma_f\)</td></tr>
+                                <tr><td>Conductor surface</td><td>\(\mathbf{E} = (\sigma/\epsilon_0)\hat{\mathbf{n}}\); \(\ \sigma = -\epsilon_0\,\partial V/\partial n\); \(\ P = \sigma^2/2\epsilon_0\)</td></tr>
+                                <tr><td>Energy</td><td>\(W = \tfrac12\sum q_iV(\mathbf{r}_i)\); \(\ W = \tfrac12\int\rho V\,d\tau = \tfrac{\epsilon_0}{2}\int E^2\,d\tau\); in matter \(W = \tfrac12\int\mathbf{D}\cdot\mathbf{E}\,d\tau\)</td></tr>
+                                <tr><td>Capacitors</td><td>\(C = Q/V\); \(\ W = \tfrac12CV^2\); parallel plate \(\epsilon A/d\); coax \(2\pi\epsilon\ell/\ln(b/a)\); spheres \(4\pi\epsilon ab/(b-a)\)</td></tr>
+                                <tr><td>Force on dielectric</td><td>\(F = -\left.\dfrac{dW}{dx}\right|_Q = \tfrac12V^2\dfrac{dC}{dx}\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Laplace &amp; Legendre</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Legendre polynomials</td><td>\(P_0 = 1\), \(P_1 = x\), \(P_2 = \tfrac12(3x^2-1)\), \(P_3 = \tfrac12(5x^3-3x)\), \(P_4 = \tfrac18(35x^4-30x^2+3)\)</td></tr>
+                                <tr><td>Orthogonality</td><td>\(\displaystyle\int_{-1}^1P_\ell(x)P_{\ell'}(x)\,dx = \frac{2}{2\ell+1}\delta_{\ell\ell'}\)</td></tr>
+                                <tr><td>Axisymmetric solution</td><td>\(V = \sum_\ell\left(A_\ell r^\ell + B_\ell r^{-(\ell+1)}\right)P_\ell(\cos\theta)\)</td></tr>
+                                <tr><td>Cartesian modes</td><td>\(\sin(kx)\,\sinh(ky)\) or \(\sin(kx)\,e^{-ky}\); \(\ \int_0^a\sin\frac{n\pi x}{a}\sin\frac{m\pi x}{a}dx = \frac a2\delta_{nm}\)</td></tr>
+                                <tr><td>Images</td><td>Plane: \(-q\) at mirror point. Grounded sphere: \(q' = -qR/a\) at \(b = R^2/a\)</td></tr>
+                                <tr><td>Sphere in uniform field</td><td>Conductor: \(V = -E_0(r - R^3/r^2)\cos\theta\), \(\sigma = 3\epsilon_0E_0\cos\theta\). Dielectric: \(\mathbf{E}_{\text{in}} = \frac{3}{\epsilon_r+2}\mathbf{E}_0\)</td></tr>
+                                <tr><td>Green's function (Dirichlet)</td><td>\(V = \frac{1}{4\pi\epsilon_0}\int\rho G_D\,d\tau' - \frac{1}{4\pi}\oint V\,\frac{\partial G_D}{\partial n'}da'\), \(\ G_D = 0\) on \(\mathcal{S}\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Multipoles &amp; dipoles</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Generating expansion</td><td>\(\dfrac{1}{\mathscr{r}} = \displaystyle\sum_\ell\dfrac{r'^\ell}{r^{\ell+1}}P_\ell(\cos\alpha)\quad(r\gt r')\)</td></tr>
+                                <tr><td>Expansion</td><td>\(V = \dfrac{1}{4\pi\epsilon_0}\left[\dfrac Qr + \dfrac{\mathbf{p}\cdot\hat{\mathbf{r}}}{r^2} + \dfrac{1}{2r^3}\displaystyle\sum_{ij}Q_{ij}\hat r_i\hat r_j + \cdots\right]\)</td></tr>
+                                <tr><td>Moments</td><td>\(\mathbf{p} = \int\mathbf{r}'\rho\,d\tau'\); \(\ Q_{ij} = \int(3r_i'r_j' - r'^2\delta_{ij})\rho\,d\tau'\)</td></tr>
+                                <tr><td>Dipole field</td><td>\(\mathbf{E} = \dfrac{p}{4\pi\epsilon_0r^3}(2\cos\theta\,\hat{\mathbf{r}} + \sin\theta\,\hat{\boldsymbol{\theta}}) = \dfrac{3(\mathbf{p}\cdot\hat{\mathbf{r}})\hat{\mathbf{r}} - \mathbf{p}}{4\pi\epsilon_0r^3}\)</td></tr>
+                                <tr><td>Dipole in a field</td><td>\(\mathbf{N} = \mathbf{p}\times\mathbf{E}\); \(\ \mathbf{F} = (\mathbf{p}\cdot\nabla)\mathbf{E}\); \(\ U = -\mathbf{p}\cdot\mathbf{E}\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Dielectrics</th><th>Formula</th></tr></thead>
+                            <tbody>
+                                <tr><td>Bound charges</td><td>\(\sigma_b = \mathbf{P}\cdot\hat{\mathbf{n}}\); \(\ \rho_b = -\nabla\cdot\mathbf{P}\)</td></tr>
+                                <tr><td>Displacement</td><td>\(\mathbf{D} = \epsilon_0\mathbf{E} + \mathbf{P}\); \(\ \nabla\cdot\mathbf{D} = \rho_f\); \(\ \nabla\times\mathbf{D} = \nabla\times\mathbf{P}\)</td></tr>
+                                <tr><td>Linear media</td><td>\(\mathbf{P} = \epsilon_0\chi_e\mathbf{E}\); \(\ \mathbf{D} = \epsilon\mathbf{E}\); \(\ \epsilon = \epsilon_0\epsilon_r = \epsilon_0(1+\chi_e)\)</td></tr>
+                                <tr><td>Uniformly polarized sphere</td><td>\(\mathbf{E}_{\text{in}} = -\mathbf{P}/3\epsilon_0\); outside: dipole \(\mathbf{p} = \tfrac43\pi R^3\mathbf{P}\)</td></tr>
+                                <tr><td>Polarizability</td><td>\(\mathbf{p} = \alpha\mathbf{E}\); Clausius&ndash;Mossotti \(\dfrac{N\alpha}{3\epsilon_0} = \dfrac{\epsilon_r-1}{\epsilon_r+2}\)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 Jack Geisler</p>
+        </div>
+    </footer>
+
 </body>
-<footer>
-    <nav>
-        <form>
-            <input type="button" value="Back" onclick="history.back()">
-        </form>
-    </nav>
-</footer>
+
 </html>
