@@ -925,9 +925,57 @@ footer,
 
 .footer-inner {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-block: 22px;
+    gap: 18px;
+    padding-block: 28px 22px;
+}
+
+.footer-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 40px;
+    text-align: center;
+}
+
+.footer-links li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.footer-links a {
+    color: var(--cream-50);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+}
+
+.footer-links span {
+    font-size: 0.8rem;
+    color: var(--cream-200);
+    opacity: 0.75;
+}
+
+.footer-inner .copyright {
+    width: 100%;
+    padding-top: 16px;
+    border-top: 1px solid rgba(237, 227, 204, 0.15);
+    text-align: center;
+    font-size: 0.82rem;
+    opacity: 0.8;
 }
 
 footer p {
